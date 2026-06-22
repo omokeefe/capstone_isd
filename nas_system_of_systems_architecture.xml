@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ArchitectureModel name="National Airspace System as a System-of-Systems" version="0.1" modelingLanguage="SysML-inspired XML" purpose="Develop a SysML-based System-of-Systems architecture of the National Airspace System that models aircraft, airspace resources, air traffic management organizations, operational boundaries, and information exchanges.">
+  <ModelIntent>
+    <Statement>Represent the National Airspace System as a system-of-systems organized around authority, responsibility, lifecycle boundaries, operational interfaces, information ownership, and shared airspace resources.</Statement>
+    <Statement>Model how strategic objectives propagate through airspace management, controllers, aircraft operations, flight deck decision making, aircraft systems, and vehicle dynamics.</Statement>
+    <Statement>Demonstrate how advanced decision-support capabilities can be integrated into the architecture through representative optimization services.</Statement>
+  </ModelIntent>
+
+  <ArchitecturePrinciples>
+    <Principle id="P001" name="Boundary Justification">
+      <Description>Boundaries shall correspond to clear authority, responsibility, lifecycle, regulatory, or information-ownership boundaries rather than only conceptual categories.</Description>
+    </Principle>
+    <Principle id="P002" name="Airspace as Shared Resource">
+      <Description>Airspace shall be modeled as a constrained, managed, shared resource used by multiple airspace users and controlled by responsible authorities.</Description>
+    </Principle>
+    <Principle id="P003" name="Intent Propagation">
+      <Description>The architecture shall represent how strategic objectives become operational constraints, clearances, flight deck decisions, FMS intent, guidance commands, and aircraft motion.</Description>
+    </Principle>
+    <Principle id="P004" name="Decision Support as Service">
+      <Description>Optimization and decision-support capabilities shall be modeled as services that integrate with operational domains rather than as the entire system of interest.</Description>
+    </Principle>
+  </ArchitecturePrinciples>
+
+  <StakeholderAssessmentFramework name="PESTLE">
+    <Category name="Political"/>
+    <Category name="Economic"/>
+    <Category name="Social"/>
+    <Category name="Technical"/>
+    <Category name="Legal"/>
+    <Category name="Environmental"/>
+  </StakeholderAssessmentFramework>
+
+  <SystemOfInterest id="SOI-NAS" name="National Airspace System">
+    <Description>A distributed system-of-systems composed of airspace users, aircraft, airspace resources, airports, air navigation service providers, regulatory bodies, information services, infrastructure, and decision-support capabilities.</Description>
+  </SystemOfInterest>
+
+  <TopLevelDomains>
+    <Domain id="D-GOV" name="Governance Domain" boundaryBasis="regulatory authority; policy responsibility; certification authority">
+      <Description>Defines rules, allocates authorities, certifies systems, investigates incidents, and governs NAS evolution.</Description>
+      <Elements>
+        <Element id="GOV-FAA" name="FAA" type="RegulatoryAuthority"/>
+        <Element id="GOV-DOD" name="Department of Defense" type="GovernmentAuthority"/>
+        <Element id="GOV-DHS" name="Department of Homeland Security" type="GovernmentAuthority"/>
+        <Element id="GOV-NTSB" name="NTSB" type="InvestigationAuthority"/>
+        <Element id="GOV-EASA" name="EASA" type="ForeignRegulatoryAuthority"/>
+        <Element id="GOV-ICAO" name="ICAO" type="InternationalStandardsBody"/>
+        <Element id="GOV-Airlines" name="Airlines" type="IndustryStakeholder"/>
+        <Element id="GOV-AirportAuthorities" name="Airport Authorities" type="LocalAuthority"/>
+        <Element id="GOV-Labor" name="Labor Organizations" type="StakeholderOrganization"/>
+      </Elements>
+      <Activities>
+        <Activity id="ACT-GOV-001" name="Define Regulations"/>
+        <Activity id="ACT-GOV-002" name="Define Procedures"/>
+        <Activity id="ACT-GOV-003" name="Allocate Airspace"/>
+        <Activity id="ACT-GOV-004" name="Certify Systems"/>
+        <Activity id="ACT-GOV-005" name="Investigate Incidents"/>
+      </Activities>
+    </Domain>
+
+    <Domain id="D-AIRSPACE-RESOURCE" name="Airspace Resource Domain" boundaryBasis="geographic limits; altitude limits; controlling authority; entry conditions; separation rules">
+      <Description>Represents airspace volumes as managed resources with constraints, rules, and authorities.</Description>
+      <Resources>
+        <AirspaceResource id="AS-Surface" name="Surface Areas"/>
+        <AirspaceResource id="AS-Terminal" name="Terminal Airspace"/>
+        <AirspaceResource id="AS-Enroute" name="Enroute Airspace"/>
+        <AirspaceResource id="AS-Oceanic" name="Oceanic Airspace"/>
+        <AirspaceResource id="AS-SUA" name="Special Use Airspace"/>
+        <AirspaceResource id="AS-Dynamic" name="Dynamic Airspace"/>
+      </Resources>
+      <AirspaceClasses>
+        <AirspaceClass id="AS-Class-A" name="Class A"/>
+        <AirspaceClass id="AS-Class-B" name="Class B"/>
+        <AirspaceClass id="AS-Class-C" name="Class C"/>
+        <AirspaceClass id="AS-Class-D" name="Class D"/>
+        <AirspaceClass id="AS-Class-E" name="Class E"/>
+      </AirspaceClasses>
+      <SpecialUseAirspace>
+        <AirspaceType id="AS-MOA" name="Military Operations Area"/>
+        <AirspaceType id="AS-Restricted" name="Restricted Area"/>
+        <AirspaceType id="AS-Warning" name="Warning Area"/>
+      </SpecialUseAirspace>
+      <OperationalSectors>
+        <Sector id="AS-TRACON" name="TRACON Sector"/>
+        <Sector id="AS-ARTCC" name="ARTCC Sector"/>
+      </OperationalSectors>
+      <CommonProperties>
+        <Property name="owner"/>
+        <Property name="controllingAuthority"/>
+        <Property name="verticalLimits"/>
+        <Property name="lateralLimits"/>
+        <Property name="entryConditions"/>
+        <Property name="separationStandards"/>
+        <Property name="communicationsRequirements"/>
+      </CommonProperties>
+    </Domain>
+
+    <Domain id="D-AIRSPACE-MGMT" name="Airspace Management Domain" boundaryBasis="operational control responsibility; sector responsibility; traffic management authority">
+      <Description>Responsible for safe and efficient use of airspace resources.</Description>
+      <Organizations>
+        <Organization id="ATM-Tower" name="Tower"/>
+        <Organization id="ATM-TRACON" name="TRACON"/>
+        <Organization id="ATM-ARTCC" name="ARTCC"/>
+        <Organization id="ATM-TFM" name="Traffic Flow Management"/>
+        <Organization id="ATM-MilitaryCoord" name="Military Airspace Coordination"/>
+      </Organizations>
+      <ControlFunctions>
+        <ControlFunction id="CTRL-Ramp" name="Ramp Control"/>
+        <ControlFunction id="CTRL-Ground" name="Ground Control"/>
+        <ControlFunction id="CTRL-Local" name="Local Control"/>
+        <ControlFunction id="CTRL-Departure" name="Departure Control"/>
+        <ControlFunction id="CTRL-Arrival" name="Arrival Control"/>
+        <ControlFunction id="CTRL-Enroute" name="Enroute Control"/>
+      </ControlFunctions>
+      <ControllerClasses>
+        <ControllerClass id="AGT-EnrouteController" name="Enroute Controller"/>
+        <ControllerClass id="AGT-ApproachController" name="Approach Controller"/>
+        <ControllerClass id="AGT-DepartureController" name="Departure Controller"/>
+        <ControllerClass id="AGT-GroundController" name="Ground Controller"/>
+        <ControllerClass id="AGT-RampController" name="Ramp Controller"/>
+      </ControllerClasses>
+      <Activities>
+        <Activity id="ACT-ATM-001" name="Monitor Traffic"/>
+        <Activity id="ACT-ATM-002" name="Detect Conflict"/>
+        <Activity id="ACT-ATM-003" name="Issue Clearance"/>
+        <Activity id="ACT-ATM-004" name="Coordinate Handoff"/>
+        <Activity id="ACT-ATM-005" name="Manage Flow"/>
+        <Activity id="ACT-ATM-006" name="Implement Flow Restrictions"/>
+        <Activity id="ACT-ATM-007" name="Sector Operations"/>
+        <Activity id="ACT-ATM-008" name="Time-Based Flow Management" abbreviation="TBFM"/>
+      </Activities>
+    </Domain>
+
+    <Domain id="D-FLIGHT-OPS" name="Flight Operations Domain" boundaryBasis="operator responsibility; flight planning authority; operational control; mission ownership">
+      <Description>Plans, monitors, and modifies flights or missions across civil, military, business, general aviation, and UAS operations.</Description>
+      <AirspaceUsers>
+        <AirspaceUser id="USER-Airlines" name="Airlines">
+          <Roles>
+            <Role id="ROLE-AirlinePilot" name="Pilots"/>
+            <Role id="ROLE-AirlineMissionPlanner" name="Mission Planners"/>
+            <Role id="ROLE-AirlineDispatcher" name="Dispatchers"/>
+            <Role id="ROLE-AirlineFinance" name="Financiers"/>
+          </Roles>
+        </AirspaceUser>
+        <AirspaceUser id="USER-Military" name="Military"/>
+        <AirspaceUser id="USER-BusinessAviation" name="Business Aviation"/>
+        <AirspaceUser id="USER-GeneralAviation" name="General Aviation"/>
+        <AirspaceUser id="USER-UAS" name="UAS"/>
+      </AirspaceUsers>
+      <Organizations>
+        <Organization id="OPS-AOC" name="Airline Operations Center"/>
+        <Organization id="OPS-MOC" name="Military Operations Center"/>
+        <Organization id="OPS-BusinessFlightDepartment" name="Business Flight Department"/>
+        <Organization id="OPS-UASOperator" name="UAS Operator"/>
+      </Organizations>
+      <Agents>
+        <Agent id="AGT-Pilot" name="Pilot"/>
+        <Agent id="AGT-Dispatcher" name="AOC Dispatcher"/>
+        <Agent id="AGT-MissionPlanner" name="Mission Planner"/>
+        <Agent id="AGT-LoadPlanner" name="Load Planner"/>
+        <Agent id="AGT-FlightFollower" name="Flight Follower"/>
+        <Agent id="AGT-OperationsManager" name="Operations Manager"/>
+      </Agents>
+      <Activities>
+        <Activity id="ACT-OPS-001" name="Flight Planning"/>
+        <Activity id="ACT-OPS-002" name="Fuel Planning"/>
+        <Activity id="ACT-OPS-003" name="Weather Assessment"/>
+        <Activity id="ACT-OPS-004" name="Mission Planning"/>
+        <Activity id="ACT-OPS-005" name="Route Selection"/>
+        <Activity id="ACT-OPS-006" name="Flight Monitoring"/>
+        <Activity id="ACT-OPS-007" name="Diversion Planning"/>
+        <Activity id="ACT-OPS-008" name="Advise on Route Modifications"/>
+        <Activity id="ACT-OPS-009" name="Ensure Clear of Weather"/>
+      </Activities>
+    </Domain>
+
+    <Domain id="D-AIRPORT" name="Airport Operations Domain" boundaryBasis="airport authority; surface movement responsibility; local resource management; ground service lifecycle">
+      <Description>Represents airport-side resources, services, and operational processes from gate through runway operations.</Description>
+      <Resources>
+        <Resource id="APT-Gate" name="Gate"/>
+        <Resource id="APT-Ramp" name="Ramp"/>
+        <Resource id="APT-Taxiway" name="Taxiway"/>
+        <Resource id="APT-Runway" name="Runway"/>
+        <Resource id="APT-Terminal" name="Terminal"/>
+        <Resource id="APT-FuelFarm" name="Fuel Farm"/>
+        <Resource id="APT-Deicing" name="Deicing Facilities"/>
+      </Resources>
+      <Functions>
+        <Function id="APT-PassengerProcessing" name="Passenger Processing"/>
+        <Function id="APT-GroundHandling" name="Ground Handling"/>
+        <Function id="APT-FuelServices" name="Fuel Services"/>
+        <Function id="APT-Catering" name="Catering"/>
+        <Function id="APT-CargoOps" name="Cargo Operations"/>
+        <Function id="APT-GateManagement" name="Gate Management"/>
+        <Function id="APT-SurfaceManagement" name="Surface Management"/>
+        <Function id="APT-RunwayOps" name="Runway Operations"/>
+        <Function id="APT-EmergencyServices" name="Airport Emergency Services"/>
+        <Function id="APT-Departures" name="Departures"/>
+        <Function id="APT-Arrivals" name="Arrivals"/>
+      </Functions>
+      <Systems>
+        <System id="APT-ASMGCS" name="Advanced Surface Movement Guidance and Control System" abbreviation="A-SMGCS"/>
+        <System id="APT-ASDEX" name="Airport Surface Detection Equipment Model X" abbreviation="ASDE-X"/>
+        <System id="APT-AMAN" name="Arrival Manager" abbreviation="AMAN"/>
+        <System id="APT-XMAN" name="Extended Arrival Manager" abbreviation="XMAN"/>
+        <System id="APT-DMAN" name="Departure Manager" abbreviation="DMAN"/>
+        <System id="APT-ACDM" name="Airport Collaborative Decision Making" abbreviation="A-CDM"/>
+      </Systems>
+      <ConsumedOrHandledObjects>
+        <Object id="APT-Fuel" name="Fuel"/>
+        <Object id="APT-Food" name="Food"/>
+        <Object id="APT-Passengers" name="Passengers"/>
+      </ConsumedOrHandledObjects>
+    </Domain>
+
+    <Domain id="D-AIRCRAFT" name="Aircraft Systems Domain" boundaryBasis="aircraft certification boundary; onboard system lifecycle; crew-aircraft responsibility boundary">
+      <Description>Represents aircraft, onboard systems, crew functions, mission systems, and vehicle dynamics.</Description>
+      <AircraftComposition>
+        <Subsystem id="AC-Crew" name="Flight Crew"/>
+        <Subsystem id="AC-FMS" name="Flight Management System"/>
+        <Subsystem id="AC-Guidance" name="Guidance System"/>
+        <Subsystem id="AC-Navigation" name="Navigation System"/>
+        <Subsystem id="AC-Propulsion" name="Propulsion System"/>
+        <Subsystem id="AC-Airframe" name="Airframe"/>
+        <Subsystem id="AC-Communications" name="Communications"/>
+        <Subsystem id="AC-Surveillance" name="Surveillance"/>
+        <Subsystem id="AC-MissionSystem" name="Mission System"/>
+      </AircraftComposition>
+      <AirVehicleSubsystems>
+        <Subsystem id="AC-LandingGear" name="Landing Gear"/>
+        <Subsystem id="AC-FlightControls" name="Flight Controls"/>
+        <Subsystem id="AC-Hydraulics" name="Hydraulics"/>
+        <Subsystem id="AC-Electrical" name="Electrical"/>
+        <Subsystem id="AC-ECS" name="Environmental Control System"/>
+        <Subsystem id="AC-FuelSystem" name="Fuel System"/>
+      </AirVehicleSubsystems>
+      <NavigationAndGuidance>
+        <Subsystem id="AC-GNSS" name="GNSS"/>
+        <Subsystem id="AC-INS" name="INS"/>
+        <Subsystem id="AC-RadioNav" name="Radio Navigation"/>
+        <Subsystem id="AC-Autopilot" name="Autopilot"/>
+        <Subsystem id="AC-Autothrottle" name="Autothrottle"/>
+      </NavigationAndGuidance>
+      <OnboardSurveillance>
+        <Subsystem id="AC-ADSB" name="ADS-B"/>
+        <Subsystem id="AC-ModeS" name="Mode S"/>
+        <Subsystem id="AC-TCAS" name="TCAS"/>
+        <Subsystem id="AC-WeatherRadar" name="Weather Radar"/>
+        <Subsystem id="AC-EOIR" name="EO/IR Sensors"/>
+      </OnboardSurveillance>
+      <VehicleDynamics>
+        <Model id="VD-PointMass" name="Point-Mass Aircraft Model"/>
+        <Model id="VD-ThreeDOF" name="3DOF Aircraft Model"/>
+        <Model id="VD-SixDOF" name="6DOF Aircraft Model"/>
+        <State id="VD-Latitude" name="Latitude"/>
+        <State id="VD-Longitude" name="Longitude"/>
+        <State id="VD-Altitude" name="Altitude"/>
+        <State id="VD-Speed" name="Speed"/>
+        <State id="VD-Heading" name="Heading"/>
+      </VehicleDynamics>
+    </Domain>
+
+    <Domain id="D-INFO" name="Information Services Domain" boundaryBasis="information service ownership; data exchange; communication/surveillance/navigation service responsibility">
+      <Description>Provides communications, surveillance, navigation, weather, aeronautical information, and flight data services.</Description>
+      <Services>
+        <Service id="INFO-Communications" name="Communications"/>
+        <Service id="INFO-Surveillance" name="Surveillance"/>
+        <Service id="INFO-Navigation" name="Navigation"/>
+        <Service id="INFO-Weather" name="Weather"/>
+        <Service id="INFO-AeronauticalInformation" name="Aeronautical Information"/>
+        <Service id="INFO-FlightData" name="Flight Data Services"/>
+      </Services>
+      <CommunicationMethods>
+        <Method id="COM-VoiceVHF" name="Voice VHF"/>
+        <Method id="COM-CPDLC" name="Controller Pilot Data Link Communications" abbreviation="CPDLC"/>
+        <Method id="COM-ADSB" name="Automatic Dependent Surveillance-Broadcast" abbreviation="ADS-B"/>
+        <Method id="COM-ModeS" name="Mode S"/>
+        <Method id="COM-ACARS" name="Aircraft Communications Addressing and Reporting System" abbreviation="ACARS"/>
+        <Method id="COM-SWIM" name="System Wide Information Management" abbreviation="SWIM"/>
+        <Method id="COM-SATCOM" name="Satellite Communications"/>
+        <Method id="COM-TDL" name="Military Tactical Datalinks"/>
+      </CommunicationMethods>
+      <CommunicationMetaModel>
+        <Element id="COM-Sender" name="Sender"/>
+        <Element id="COM-Message" name="Message"/>
+        <Element id="COM-Transport" name="Transport"/>
+        <Element id="COM-Receiver" name="Receiver"/>
+      </CommunicationMetaModel>
+      <WeatherProducts>
+        <Product id="WX-METAR" name="METAR"/>
+        <Product id="WX-TAF" name="TAF"/>
+        <Product id="WX-PIREP" name="PIREP"/>
+        <Product id="WX-SIGMET" name="SIGMET"/>
+        <Product id="WX-ConvectiveForecast" name="Convective Forecast"/>
+        <Product id="WX-WindsAloft" name="Winds Aloft"/>
+      </WeatherProducts>
+      <AeronauticalInformation>
+        <InformationType id="AIM-Procedures" name="Procedures"/>
+        <InformationType id="AIM-Charts" name="Charts"/>
+        <InformationType id="AIM-NOTAMs" name="NOTAMs"/>
+        <InformationType id="AIM-AirspaceDefinitions" name="Airspace Definitions"/>
+        <InformationType id="AIM-AirportData" name="Airport Data"/>
+      </AeronauticalInformation>
+    </Domain>
+
+    <Domain id="D-DECISION" name="Decision Support Domain" boundaryBasis="analytic service boundary; automation responsibility; advisory versus control authority">
+      <Description>Provides strategic, tactical, predictive, optimization, and automation services to support NAS decision making.</Description>
+      <CapabilityAreas>
+        <CapabilityArea id="DS-StrategicPlanning" name="Strategic Planning"/>
+        <CapabilityArea id="DS-TacticalPlanning" name="Tactical Planning"/>
+        <CapabilityArea id="DS-PredictiveAnalytics" name="Predictive Analytics"/>
+        <CapabilityArea id="DS-Optimization" name="Optimization"/>
+        <CapabilityArea id="DS-Automation" name="Automation"/>
+      </CapabilityAreas>
+      <OptimizationServices>
+        <OptimizationService id="OPT-Trajectory" name="Trajectory Optimization"/>
+        <OptimizationService id="OPT-ArrivalSequencing" name="Arrival Sequencing"/>
+        <OptimizationService id="OPT-DepartureSequencing" name="Departure Sequencing"/>
+        <OptimizationService id="OPT-ConflictDetection" name="Conflict Detection"/>
+        <OptimizationService id="OPT-ConflictResolution" name="Conflict Resolution"/>
+        <OptimizationService id="OPT-FlowOptimization" name="Flow Optimization"/>
+        <OptimizationService id="OPT-FuelOptimization" name="Fuel Optimization"/>
+        <OptimizationService id="OPT-WeatherAvoidance" name="Weather Avoidance"/>
+        <OptimizationService id="OPT-AerialRefueling" name="Aerial Refueling Planning"/>
+        <OptimizationService id="OPT-MissionPlanning" name="Mission Planning"/>
+        <OptimizationService id="OPT-Rendezvous" name="Optimal Rendezvous" representativeExample="true"/>
+      </OptimizationServices>
+    </Domain>
+  </TopLevelDomains>
+
+  <CrossCuttingInformationObjects>
+    <InformationObject id="IO-StrategicObjective" name="Strategic Objective"/>
+    <InformationObject id="IO-MissionObjective" name="Mission Objective"/>
+    <InformationObject id="IO-MissionPlan" name="Mission Plan"/>
+    <InformationObject id="IO-FlightPlan" name="Flight Plan"/>
+    <InformationObject id="IO-TrajectoryIntent" name="Trajectory Intent"/>
+    <InformationObject id="IO-Clearance" name="Clearance"/>
+    <InformationObject id="IO-Restriction" name="Restriction"/>
+    <InformationObject id="IO-AirspaceReservation" name="Airspace Reservation"/>
+    <InformationObject id="IO-WeatherProduct" name="Weather Product"/>
+    <InformationObject id="IO-SurveillanceTrack" name="Surveillance Track"/>
+    <InformationObject id="IO-AircraftState" name="Aircraft State"/>
+    <InformationObject id="IO-FuelStatus" name="Fuel Status"/>
+    <InformationObject id="IO-RunwayAssignment" name="Runway Assignment"/>
+    <InformationObject id="IO-ArrivalSequence" name="Arrival Sequence"/>
+    <InformationObject id="IO-ConflictAlert" name="Conflict Alert"/>
+    <InformationObject id="IO-FMSIntent" name="FMS Intent"/>
+    <InformationObject id="IO-GuidanceCommand" name="Guidance Command"/>
+  </CrossCuttingInformationObjects>
+
+  <IntentPropagationThread id="THREAD-IntentToTrajectory" name="Intent-to-Trajectory Architecture">
+    <Step order="1" sourceDomain="D-GOV" output="IO-StrategicObjective" name="Define Strategic Objective"/>
+    <Step order="2" sourceDomain="D-FLIGHT-OPS" input="IO-StrategicObjective" output="IO-MissionPlan" name="Develop Mission or Flight Plan"/>
+    <Step order="3" sourceDomain="D-FLIGHT-OPS" input="IO-MissionPlan" output="IO-FlightPlan" name="File or Negotiate Flight Plan"/>
+    <Step order="4" sourceDomain="D-AIRSPACE-MGMT" input="IO-FlightPlan" output="IO-Restriction" name="Apply ATC and Flow Constraints"/>
+    <Step order="5" sourceDomain="D-AIRSPACE-MGMT" input="IO-Restriction" output="IO-Clearance" name="Issue Clearance"/>
+    <Step order="6" sourceDomain="D-AIRCRAFT" input="IO-Clearance" output="IO-FMSIntent" name="Modify Flight Deck and FMS Intent"/>
+    <Step order="7" sourceDomain="D-AIRCRAFT" input="IO-FMSIntent" output="IO-GuidanceCommand" name="Generate Guidance Commands"/>
+    <Step order="8" sourceDomain="D-AIRCRAFT" input="IO-GuidanceCommand" output="IO-AircraftState" name="Produce Aircraft Motion"/>
+  </IntentPropagationThread>
+
+  <ActivityResponsibilityTransitions id="ACTIVITY-FlightLifecycle" name="Flight Lifecycle Authority Transition">
+    <Transition order="1" from="Ramp" to="Ground"/>
+    <Transition order="2" from="Ground" to="Tower"/>
+    <Transition order="3" from="Tower" to="Departure"/>
+    <Transition order="4" from="Departure" to="Enroute"/>
+    <Transition order="5" from="Enroute" to="Arrival"/>
+    <Transition order="6" from="Arrival" to="Tower"/>
+    <Transition order="7" from="Tower" to="Ground"/>
+    <Transition order="8" from="Ground" to="Ramp"/>
+  </ActivityResponsibilityTransitions>
+
+  <SuggestedProjectStructure name="NAS Root Model">
+    <Project id="PRJ-AircraftArchitecture" name="Aircraft Architecture Model" primaryDomain="D-AIRCRAFT"/>
+    <Project id="PRJ-AirportOperations" name="Airport Operations Model" primaryDomain="D-AIRPORT"/>
+    <Project id="PRJ-AirTrafficServices" name="Air Traffic Services Model" primaryDomain="D-AIRSPACE-MGMT"/>
+    <Project id="PRJ-Communications" name="Communications Model" primaryDomain="D-INFO"/>
+    <Project id="PRJ-Navigation" name="Navigation Model" primaryDomain="D-INFO"/>
+    <Project id="PRJ-Surveillance" name="Surveillance Model" primaryDomain="D-INFO"/>
+    <Project id="PRJ-Regulatory" name="Regulatory Model" primaryDomain="D-GOV"/>
+    <Project id="PRJ-OptimizationServices" name="Optimization Services Model" primaryDomain="D-DECISION"/>
+  </SuggestedProjectStructure>
+
+  <RepresentativeUseCase id="UC-OPT-Rendezvous" name="Integrate Representative Optimization Service">
+    <Description>Demonstrate how an optimization service, such as optimal rendezvous or trajectory optimization, receives objectives, constraints, aircraft state, airspace constraints, weather data, and operational rules, then produces advisory intent for human or automated decision processes.</Description>
+    <ParticipatingDomains>
+      <DomainRef ref="D-DECISION"/>
+      <DomainRef ref="D-FLIGHT-OPS"/>
+      <DomainRef ref="D-AIRSPACE-MGMT"/>
+      <DomainRef ref="D-AIRSPACE-RESOURCE"/>
+      <DomainRef ref="D-AIRCRAFT"/>
+      <DomainRef ref="D-INFO"/>
+    </ParticipatingDomains>
+    <Inputs>
+      <Input ref="IO-StrategicObjective"/>
+      <Input ref="IO-MissionObjective"/>
+      <Input ref="IO-AircraftState"/>
+      <Input ref="IO-FuelStatus"/>
+      <Input ref="IO-WeatherProduct"/>
+      <Input ref="IO-Restriction"/>
+      <Input ref="IO-AirspaceReservation"/>
+    </Inputs>
+    <Outputs>
+      <Output ref="IO-TrajectoryIntent"/>
+      <Output ref="IO-MissionPlan"/>
+      <Output ref="IO-FMSIntent"/>
+    </Outputs>
+  </RepresentativeUseCase>
+</ArchitectureModel>
