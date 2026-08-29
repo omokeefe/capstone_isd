@@ -29,6 +29,7 @@ assistant/
 │   ├── literature-review-session.md
 │   ├── update-architecture.md
 │   ├── objective-ontology-pass.md
+│   ├── compile-report.md        build report/main.tex -> report/main.pdf, self-fix common errors
 │   └── session-wrap-up.md
 ├── tasks/
 │   ├── task-board.md             cross-session focus state (not the full checklist)
@@ -48,9 +49,9 @@ see that folder's README.
   start of every session. Thin skill wrappers in `.claude/skills/` map the workflows
   below to slash commands (`/session-bootstrap`, `/process-references`,
   `/annotate-source`, `/literature-review`, `/update-architecture`,
-  `/objective-ontology-pass`, `/session-wrap-up`) for convenience — but the underlying
-  `workflows/*.md` files are the actual instructions, and work with or without those
-  wrappers.
+  `/objective-ontology-pass`, `/compile-report`, `/session-wrap-up`) for convenience —
+  but the underlying `workflows/*.md` files are the actual instructions, and work with or
+  without those wrappers.
 - **ChatGPT / Copilot / anything else**: at the start of a session, paste in (or upload)
   `memory/project-brief.md`, `memory/glossary.md`, and whichever `workflows/*.md` file
   matches the task. At the end, ask the tool to draft an update to the relevant memory
