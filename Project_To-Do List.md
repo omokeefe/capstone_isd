@@ -1,8 +1,21 @@
 # NAS System-of-Systems Capstone — Project To-Do List
 
+**Target ECD (Expected Completion Date) tags** below are sourced from the Project
+Milestones & ECD table in `prework/ISD 503 Submittal.pdf`. Where one proposal milestone
+covers several checklist bullets, the date is attached to each; where a bullet is more
+granular than the proposal's milestone, the milestone's date is used as a shared target
+for the whole group. Three sections have **no corresponding milestone** in the submittal
+and are marked "(unscheduled)" rather than given a fabricated date: §6 (Alternative
+Decompositions), §9 (Myopic Optimization), §14 (Capstone Demonstration). Also note the
+submittal schedules the Literature Review milestone (2026-11-17) *after* most of the
+architecture milestones (2026-09-07 through 2026-11-03) — later than this list's own
+§2-§4-before-§5-§10 ordering assumes; not reconciled here, flagged for the user to decide
+whether literature work should in practice run continuously in the background rather than
+front-loaded.
+
 ## 1. Establish Research Framework
 
-- [ ] Finalize project research questions
+- [ ] Finalize project research questions *(ECD 2026-09-07 — "PESTLE Analysis & System Definition")*
   - [ ] How should the NAS be decomposed into constituent systems and Systems-of-Systems?
   - [ ] Where do authority, responsibility, ownership, and lifecycle boundaries occur?
   - [ ] How does operational intent propagate from enterprise objectives to physical aircraft behavior?
@@ -10,7 +23,7 @@
   - [ ] When does subsystem optimization produce undesirable System-of-Systems outcomes?
   - [ ] How can an MBSE architecture support analysis of those tradeoffs?
 
-- [ ] Define initial System of Interest (SOI)
+- [ ] Define initial System of Interest (SOI) *(initial pass ECD 2026-09-07; formal boundary write-up ECD 2026-11-13 — "Systems-of-Interest Definition," metric "Clear boundaries & exclusions")*
   - [ ] Define what is explicitly included.
   - [ ] Define what is explicitly excluded.
   - [ ] Define level(s) of abstraction.
@@ -18,7 +31,7 @@
   - [ ] Establish criteria for creating a stakeholder/actor boundary.
   - [ ] Document assumptions and unresolved boundary questions.
 
-- [ ] Create research evidence/source register
+- [ ] Create research evidence/source register *(feeds ECD 2026-11-17 "Literature Review" milestone — see §2 note)*
   - [ ] Source
   - [ ] Publication type
   - [ ] NAS lifecycle phase addressed
@@ -29,13 +42,17 @@
   - [ ] Relevant SysML artifact(s)
   - [ ] Confidence / limitations
 
-- [ ] Establish project milestone timeline
-  - [ ] Revisit the timeline from the 503 Proposal submittal (`prework/ISD 503 Submittal.pdf`).
-  - [ ] Map major sections (§1-§16 of this list) to target completion dates.
+- [ ] Establish project milestone timeline *(done 2026-08-29 — dates below sourced from `prework/ISD 503 Submittal.pdf`)*
+  - [x] Revisit the timeline from the 503 Proposal submittal (`prework/ISD 503 Submittal.pdf`).
+  - [x] Map major sections (§1-§16 of this list) to target completion dates.
   - [ ] Identify milestone checkpoints for interim review(s).
 
 
 # 2. Literature Review — Airline Planning and Operations
+
+*(§2-§4 collectively target ECD 2026-11-17 — "Literature Review" milestone, deliverable
+"Annotated Bibliography," metric "10-20 papers categorized." See the top-of-file note on
+this date's sequencing relative to §5-§10.)*
 
 ## Airline Schedule Planning: A Review and Future Directions — Eltoukhy, Chan & Chung
 
@@ -309,6 +326,9 @@
 
 # 5. Construct the Nominal-Flight ConOps
 
+*(ECD 2026-11-08 — "Operational Scenarios" milestone, deliverable "ConOps document,"
+metric "1-3 representative scenarios.")*
+
 - [ ] Develop nominal commercial-flight ConOps
 
 ### Strategic / Commercial Planning
@@ -375,6 +395,10 @@
 
 # 6. Explore Alternative System Decompositions
 
+*(unscheduled — no corresponding milestone in `prework/ISD 503 Submittal.pdf`. Logically
+sits between "Draft Architecture" (2026-11-03) and the SOI/system-definition work; pick a
+working target in that window if a firmer date is needed.)*
+
 - [ ] Develop organization/authority-based decomposition.
 - [ ] Develop lifecycle/process-based decomposition.
 - [ ] Develop physical-system decomposition.
@@ -398,8 +422,8 @@
 
 # 7. Stakeholder and Responsibility Analysis
 
-- [ ] Complete PESTLE stakeholder discovery.
-- [ ] Create stakeholder register.
+- [ ] Complete PESTLE stakeholder discovery. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition")*
+- [ ] Create stakeholder register. *(ECD 2026-09-07)*
 - [ ] Identify each stakeholder's:
   - [ ] Needs.
   - [ ] Goals.
@@ -410,15 +434,19 @@
   - [ ] Information needs.
   - [ ] Measures of value.
 
-- [ ] Develop RACCI matrix around operational decisions.
-- [ ] Identify responsibility transitions.
-- [ ] Identify authority transitions.
-- [ ] Identify ambiguous/shared authority.
-- [ ] Identify where decision authority differs from computational responsibility.
-- [ ] Identify where execution responsibility differs from decision authority.
+- [ ] Develop RACCI matrix around operational decisions. *(ECD 2026-09-10 — "Authority & Responsibility Models," metric "All decisions assigned")*
+- [ ] Identify responsibility transitions. *(ECD 2026-09-10)*
+- [ ] Identify authority transitions. *(ECD 2026-09-10)*
+- [ ] Identify ambiguous/shared authority. *(ECD 2026-09-10)*
+- [ ] Identify where decision authority differs from computational responsibility. *(ECD 2026-09-10)*
+- [ ] Identify where execution responsibility differs from decision authority. *(ECD 2026-09-10)*
 
 
 # 8. Develop Objective / Cost / Value Ontology
+
+*(ECD 2026-10-17 — "Measures of Effectiveness" milestone, deliverable "MOE/MOP
+hierarchy," metric "Quantifiable metrics defined." Applies to the whole section; the
+"Classify objectives as..." bullet below is this milestone's most literal match.)*
 
 - [ ] Define what "optimal" means for each major stakeholder.
 
@@ -494,6 +522,11 @@
 
 # 9. Analyze Myopic Optimization
 
+*(unscheduled — no corresponding milestone in `prework/ISD 503 Submittal.pdf`. Likely
+needs to land between "Measures of Effectiveness" (2026-10-17) and "Optimization
+Prototype" (2026-11-21) to feed the optimization work; pick a working target in that
+window if a firmer date is needed.)*
+
 - [ ] Define "local optimum" within the SoS context.
 - [ ] Define candidate System-of-Systems measures of value.
 - [ ] Identify examples where optimizing one subsystem may degrade another.
@@ -521,26 +554,31 @@
 
 # 10. Build the SysML Architecture
 
-- [ ] Create NAS context diagram.
-- [ ] Create package/model organization.
-- [ ] Create stakeholder model.
-- [ ] Create system BDDs.
-- [ ] Create operational IBDs.
-- [ ] Create information-object model.
-- [ ] Create interface/item-flow model.
-- [ ] Create nominal-flight activity diagram.
-- [ ] Create responsibility swimlanes.
-- [ ] Create critical sequence diagrams.
-- [ ] Create requirements model.
-- [ ] Trace stakeholder needs → objectives.
-- [ ] Trace objectives → requirements.
-- [ ] Trace requirements → systems.
-- [ ] Trace systems → activities.
-- [ ] Trace activities → information exchanges.
-- [ ] Trace decisions → resulting aircraft behavior.
+- [ ] Create NAS context diagram. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition," deliverable "Context diagram")*
+- [ ] Create package/model organization. *(ECD 2026-11-03 — "Draft Architecture," deliverable "BDDs & package structure")*
+- [ ] Create stakeholder model. *(ECD 2026-09-07, deliverable "stakeholder map")*
+- [ ] Create system BDDs. *(ECD 2026-11-03)*
+- [ ] Create operational IBDs. *(ECD 2026-10-25 — "Internal Block Diagrams," metric "Critical interfaces connected")*
+- [ ] Create information-object model. *(ECD 2026-10-29 — "Interface Definition," deliverable "ICD")*
+- [ ] Create interface/item-flow model. *(ECD 2026-10-29)*
+- [ ] Create nominal-flight activity diagram. *(ECD 2026-10-01 — "Activity Diagrams," metric "Scenario walkthrough")*
+- [ ] Create responsibility swimlanes. *(ECD 2026-09-10 — "Authority & Responsibility Models")*
+- [ ] Create critical sequence diagrams. *(ECD 2026-09-22 — "Sequence Diagrams," metric "Message completeness")*
+- [ ] Create requirements model. *(ECD 2026-10-20 — "Requirements Definition," metric "Trace to stakeholders")*
+- [ ] Trace stakeholder needs → objectives. *(ECD 2026-10-12 — "Requirement Traceability," metric "Complete allocation")*
+- [ ] Trace objectives → requirements. *(ECD 2026-10-12)*
+- [ ] Trace requirements → systems. *(ECD 2026-10-12)*
+- [ ] Trace systems → activities. *(ECD 2026-10-12)*
+- [ ] Trace activities → information exchanges. *(ECD 2026-10-12)*
+- [ ] Trace decisions → resulting aircraft behavior. *(ECD 2026-11-24 — "Integration of MBSE Architecture," metric "End-to-end scenario")*
 
 
 # 11. Define Optimization Study
+
+*(ECD 2026-11-21 — "Optimization Prototype" milestone, deliverable "Working code," metric
+"Unit test cases." The submittal bundles study definition and implementation into one
+milestone; this section's definition work should be substantially done before that date
+so there's a study left to implement — see §12.)*
 
 - [ ] Select a tractable representative operational scenario.
 - [ ] Define participating systems/stakeholders.
@@ -562,6 +600,11 @@
 
 # 12. Implement Simulation / Analysis Capability
 
+*(ECD 2026-11-21 — "Optimization Prototype" milestone. See the §11-§12 scope note in
+`assistant/memory/open-questions.md` — the full experiment-matrix/Pareto/sensitivity
+scope below is unlikely to all fit before this date; consider narrowing to one scenario
+and one weight sweep for the prototype, per that note.)*
+
 - [ ] Develop minimum viable simulation.
 - [ ] Validate constituent models independently.
 - [ ] Establish baseline scenario.
@@ -577,6 +620,9 @@
 
 # 13. Connect Simulation Back to MBSE
 
+*(ECD 2026-11-24 — "Integration of MBSE Architecture" milestone, deliverable
+"Traceability links," metric "End-to-end scenario.")*
+
 - [ ] Trace simulation entities to SysML blocks.
 - [ ] Trace decision variables to system properties/actions.
 - [ ] Trace optimization objectives to stakeholder goals.
@@ -588,6 +634,10 @@
 
 
 # 14. Capstone Demonstration
+
+*(unscheduled — no corresponding milestone in `prework/ISD 503 Submittal.pdf`. Falls
+naturally between "Integration of MBSE Architecture" (2026-11-24) and "Final Paper"
+(2026-12-18); pick a working target in that window if a firmer date is needed.)*
 
 - [ ] Select representative optimization result.
 - [ ] Show initial operational state.
@@ -604,6 +654,11 @@
 
 
 # 15. Verification and Final Analysis
+
+*(ECD 2026-12-26 — "Final Baseline & Draft Paper" milestone, deliverable "Versioned model
+& draft paper," metric "Draft." This is the last milestone in the table, dated after
+"Paper Submittal" (2026-12-20) — worth confirming with your advisor whether that ordering
+is intentional, e.g. a post-submission archival/versioning step.)*
 
 - [ ] Verify architecture against nominal-flight ConOps.
 - [ ] Verify architecture against additional off-nominal scenarios.
@@ -624,6 +679,10 @@ Ordered to match the report structure in `report/main.tex` (built from
 during the 2026-08-29 report-outline session to close gaps where the 503
 template expects content this list didn't previously have an explicit home
 for — see `report/README.md` for the full section-to-plan mapping.
+
+*(ECD 2026-12-18 — "Final Paper" milestone, deliverable "Thesis/Paper," metric
+"Revisions" — target for a complete draft of everything below. ECD 2026-12-20 —
+"Paper Submittal" milestone, metric "Official" — hard deadline for final submission.)*
 
 - [ ] Executive summary. (new)
 - [ ] Introduction and motivation.

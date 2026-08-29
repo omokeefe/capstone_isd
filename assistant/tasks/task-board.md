@@ -47,6 +47,13 @@ SOI boundary, research questions, and source register are still being stood up. 
   MBSE component-level case studies rated 2/5 (engine inlet, graph-database technique,
   design-ontology preprint) — worth a decision once literature-review sessions start.
 
+## Backlog / ideas
+
+- Extract today's `assistant/` additions (personas, `session-tagup`, the journal) into a
+  reusable `project-ai-interaction/` template folder for other projects — see
+  `assistant/journal/2026-08-29.md` ("Idea / TODO" entry, 17:48) for the full writeup and
+  open design questions. Not started; no target date.
+
 ## Next session priority
 
 Work `Project_To-Do List.md` §1 to closure (finalize research questions, define the SOI

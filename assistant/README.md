@@ -30,10 +30,17 @@ assistant/
 │   ├── update-architecture.md
 │   ├── objective-ontology-pass.md
 │   ├── compile-report.md        build report/main.tex -> report/main.pdf, self-fix common errors
+│   ├── session-tagup.md         quick start-of-session status + advice ritual (see below)
 │   └── session-wrap-up.md
+├── personas/             <- optional voices to adopt for a task, tool-agnostic
+│   ├── professor.md              hyper-critical SME advisor/tutor for content critique
+│   ├── project-manager.md        schedule/status tracking against Project_To-Do List.md ECDs
+│   └── technical-editor.md       writing/structure review of report and submission drafts
+├── journal/              <- informal, append-as-you-go daily notebook (see its README)
+│   └── YYYY-MM-DD.md              tag-ups, findings, ideas — one file per calendar day
 ├── tasks/
 │   ├── task-board.md             cross-session focus state (not the full checklist)
-│   └── sessions/                 one dated log file per work session, append-only
+│   └── sessions/                 one formal dated log file per work session, append-only
 └── templates/
     ├── source-annotation-template.md
     ├── reference-summary-template.md
@@ -49,9 +56,14 @@ see that folder's README.
   start of every session. Thin skill wrappers in `.claude/skills/` map the workflows
   below to slash commands (`/session-bootstrap`, `/process-references`,
   `/annotate-source`, `/literature-review`, `/update-architecture`,
-  `/objective-ontology-pass`, `/compile-report`, `/session-wrap-up`) for convenience —
-  but the underlying `workflows/*.md` files are the actual instructions, and work with or
-  without those wrappers.
+  `/objective-ontology-pass`, `/compile-report`, `/session-tagup`, `/session-wrap-up`)
+  for convenience — but the underlying `workflows/*.md` files are the actual
+  instructions, and work with or without those wrappers. `personas/*.md` are wrapped the
+  same way (`/persona-professor`, `/persona-pm`, `/persona-editor`) but can also just be
+  asked for by name in conversation ("as the professor, review this"). `/session-tagup`
+  is a good default first command in a new session — a quick PM status check plus a
+  brief professor's note, ahead of the fuller `/session-bootstrap` context reload if
+  deeper context turns out to be needed.
 - **ChatGPT / Copilot / anything else**: at the start of a session, paste in (or upload)
   `memory/project-brief.md`, `memory/glossary.md`, and whichever `workflows/*.md` file
   matches the task. At the end, ask the tool to draft an update to the relevant memory
