@@ -216,3 +216,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# LaTeX build artifacts (report/main.tex compiles via LaTeX Workshop with
+# auxDir pointed at report/build_artifacts/ — only the PDF should land in
+# report/ itself). Kept as a path-scoped rule plus generic extensions in
+# case anyone compiles a different .tex file without the auxDir split.
+report/build_artifacts/
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.toc
+*.synctex.gz

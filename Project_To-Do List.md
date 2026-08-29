@@ -29,6 +29,11 @@
   - [ ] Relevant SysML artifact(s)
   - [ ] Confidence / limitations
 
+- [ ] Establish project milestone timeline
+  - [ ] Revisit the timeline from the 503 Proposal submittal (`prework/ISD 503 Submittal.pdf`).
+  - [ ] Map major sections (§1-§16 of this list) to target completion dates.
+  - [ ] Identify milestone checkpoints for interim review(s).
+
 
 # 2. Literature Review — Airline Planning and Operations
 
@@ -614,9 +619,21 @@
 
 # 16. Paper / Final Deliverables
 
+Ordered to match the report structure in `report/main.tex` (built from
+`prework/503_ReportTemplate_v26.docx`). Items marked "(new)" were added
+during the 2026-08-29 report-outline session to close gaps where the 503
+template expects content this list didn't previously have an explicit home
+for — see `report/README.md` for the full section-to-plan mapping.
+
+- [ ] Executive summary. (new)
 - [ ] Introduction and motivation.
+- [ ] Project scope (in/out of scope, boundaries). (new)
+- [ ] Stakeholder overview (summary of PESTLE/stakeholder register for report body). (new)
+- [ ] Project deliverables and success metrics. (new)
+- [ ] Project timeline / milestone schedule. (new — see §1 "Establish project milestone timeline")
 - [ ] Literature review.
 - [ ] Research gap.
+- [ ] Assumptions and methodology. (new)
 - [ ] System-of-Systems definition.
 - [ ] ConOps.
 - [ ] Alternative decomposition discussion.
@@ -631,5 +648,8 @@
 - [ ] Results.
 - [ ] Multi-stakeholder tradeoff analysis.
 - [ ] Architecture evaluation.
+- [ ] Recommendations. (new)
+- [ ] Impact / quantified benefits (operational, financial-where-applicable). (new — see scope flag in `report/sections/06_impact_financial_benefits.tex`)
 - [ ] Limitations.
 - [ ] Conclusions and future work.
+- [ ] Appendices (detailed stakeholder register, RACCI matrix, source register, full diagram set). (new)

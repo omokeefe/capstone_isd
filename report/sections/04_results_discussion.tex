@@ -1,0 +1,54 @@
+\section{Results and Discussion}
+\label{sec:results}
+
+\plantodo{S5}{Present the nominal-flight ConOps (strategic/commercial
+planning through day-of-operations, turnaround, flight execution, and
+postflight/continuation) as the operational backbone the architecture
+models. Summarize; put the full activity breakdown in
+Appendix~\ref{app:conops}.}
+
+\plantodo{S8}{Present the stakeholder objective/cost/value ontology:
+what "optimal" means per stakeholder (airline, passenger, ATC/ANSP,
+airport, flight crew, environmental/societal, military), and the
+classification of each objective as hard constraint, optimization
+objective, cost/penalty, MOE, or MOP. Highlight conflicting vs. aligned
+objectives and objectives with externalized costs.}
+
+\plantodo{S9}{Present the myopic-optimization analysis: the definition of
+"local optimum" in the SoS context, candidate SoS measures of value, and
+the documented conflicts (decision maker, decision variable, local
+objective/constraints, affected stakeholders, externalized costs, SoS
+consequence). See the flagged scope note below.}
+
+\textbf{Scope note (flag, not a TODO to resolve silently):} Project\_To-Do
+List.md S9 catalogs eight candidate local-vs-SoS conflicts, each with eight
+documented attributes (64 cells). A 15--40 page report body cannot carry
+all eight in full; plan to present 2--4 illustrative conflicts in the main
+body (favoring whichever one becomes the S11--S14 demonstration scenario)
+and move the remaining catalog entries to Appendix~\ref{app:myopic}.
+
+\plantodo{S10}{Present the SysML architecture: context diagram, package
+structure, stakeholder model, BDDs, IBDs, information-object model,
+interface/item-flow model, nominal-flight activity diagram, responsibility
+swimlanes, and requirements model with traceability. Embed the most
+illustrative diagrams here; move the full diagram set to
+Appendix~\ref{app:architecture}.}
+
+\plantodo{S12, S13}{Present the optimization/simulation results: the
+baseline scenario, single-stakeholder vs. balanced/SoS optimization
+outcomes, and how simulation entities/decisions/objectives/constraints
+trace back to SysML blocks, properties, goals, and requirements. Show how
+the architecture exposes impacts a standalone optimizer would omit (S13's
+key point).}
+
+\textbf{Scope note:} Project\_To-Do List.md S12 as written (Pareto fronts,
+full objective-weight sweeps, sensitivity analysis, tipping-point
+identification across the whole experiment matrix) reads as a full
+optimization research study layered on top of the architecture work. Per
+this project's own working assumption ("not an optimization paper";
+optimization is a capability inside the architecture, not the whole
+subject) and the 15--40 page report constraint, consider scoping S12's
+demonstration to one representative scenario with a single weight sweep
+and one Pareto-style comparison, rather than the full matrix -- see the
+note added to \texttt{assistant/memory/open-questions.md} under
+"Optimization study scope (S11)."

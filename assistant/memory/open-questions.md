@@ -44,3 +44,13 @@ questions linger.
 - [ ] Which "tractable representative operational scenario" will actually be used for
   the multi-objective optimization demonstration? Not yet chosen — depends on how far
   the architecture and stakeholder-objective work (§7–§8) get first.
+- [ ] §12 as written (full experiment matrix, Pareto fronts, sensitivity analysis,
+  tipping-point identification) reads as a full optimization research study, which sits
+  in tension with the project's own working assumption that optimization should stay a
+  bounded capability inside the architecture, not the whole subject (README.md "Working
+  Assumptions"; CLAUDE.md's "not an optimization paper" guidance), and with the report's
+  15–40 page length cap (`prework/503_ReportTemplate_v26.docx`). Flagged 2026-08-29 while
+  building `report/` — recommend scoping the §11–§14 demonstration to one representative
+  scenario with a single weight sweep and one Pareto-style comparison, with any broader
+  sweep/sensitivity work kept as an appendix or future-work item rather than the main
+  narrative. Not yet decided; revisit once §7–§8 are further along.
