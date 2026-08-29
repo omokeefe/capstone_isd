@@ -1121,3 +1121,335 @@ This is probably your strongest capstone narrative.
 My recommendation: make Diagram 8 the capstone center of gravity, with Diagrams 1–6 as supporting views.
 
 
+==================================================================================================
+==================================================================================================
+A PESTLE analysis is a good way to ensure you don't overlook entire classes of stakeholders.
+
+# Step 1 – Identify Stakeholder Classes
+
+## Political Stakeholders
+
+These stakeholders shape aviation policy, national priorities, and public investment.
+
+| Stakeholder                               | Interest                                  |
+| ----------------------------------------- | ----------------------------------------- |
+| Federal Aviation Administration           | Safe and efficient airspace               |
+| National Transportation Safety Board      | Prevent accidents                         |
+| Department of Transportation              | National transportation policy            |
+| Department of Defense                     | National security and airspace access     |
+| International Civil Aviation Organization | International standards                   |
+| Congress and legislatures                 | Economic growth and public accountability |
+| State and local governments               | Airports, jobs, and noise concerns        |
+
+---
+
+## Economic Stakeholders
+
+| Stakeholder                        | Interest                                    |
+| ---------------------------------- | ------------------------------------------- |
+| Delta Air Lines and other airlines | Profitability                               |
+| Cargo operators                    | Throughput and reliability                  |
+| Aircraft manufacturers             | Product competitiveness                     |
+| Engine manufacturers               | Product performance and aftermarket revenue |
+| Airports                           | Revenue and capacity                        |
+| Investors and shareholders         | Return on investment                        |
+| Insurers                           | Risk reduction                              |
+| Labor unions                       | Compensation and job security               |
+| Fuel suppliers                     | Fuel demand                                 |
+| Passengers                         | Affordable travel                           |
+
+---
+
+## Social Stakeholders
+
+| Stakeholder                       | Interest                             |
+| --------------------------------- | ------------------------------------ |
+| Passengers                        | Safety and convenience               |
+| Flight crews                      | Workload and quality of life         |
+| Cabin crews                       | Safety and operational effectiveness |
+| Local communities                 | Noise and environmental impacts      |
+| Families of passengers            | Safety                               |
+| Disability advocacy organizations | Accessibility                        |
+| Tourism industry                  | Mobility and economic activity       |
+| Business travelers                | Schedule reliability                 |
+
+---
+
+## Technical Stakeholders
+
+| Stakeholder                  | Interest                      |
+| ---------------------------- | ----------------------------- |
+| Aircraft systems engineers   | System performance            |
+| Software developers          | Correct implementation        |
+| Maintenance personnel        | Maintainability               |
+| Air traffic controllers      | Predictable aircraft behavior |
+| Dispatchers                  | Operational optimization      |
+| Avionics suppliers           | System integration            |
+| Researchers and universities | Innovation                    |
+| Certification engineers      | Verification evidence         |
+
+---
+
+## Legal Stakeholders
+
+| Stakeholder                        | Interest                   |
+| ---------------------------------- | -------------------------- |
+| Certification authorities          | Regulatory compliance      |
+| Courts                             | Liability resolution       |
+| Aviation lawyers                   | Compliance and risk        |
+| Labor regulators                   | Worker protections         |
+| Privacy regulators                 | Passenger data protection  |
+| International treaty organizations | Harmonization of standards |
+
+---
+
+## Environmental Stakeholders
+
+| Stakeholder                         | Interest                 |
+| ----------------------------------- | ------------------------ |
+| Environmental advocacy groups       | Reduced emissions        |
+| Local communities                   | Reduced noise            |
+| Climate organizations               | Decarbonization          |
+| Airport authorities                 | Sustainable operations   |
+| Future generations (societal proxy) | Long-term sustainability |
+| Governments                         | Emissions targets        |
+
+---
+
+# Step 2 – Derive Enterprise Objectives
+
+Once stakeholders are identified, you can synthesize higher-level enterprise objectives.
+
+I usually end up with something like this.
+
+# Safety
+
+**Stakeholders**
+
+* Regulators
+* Passengers
+* Crew
+* Communities
+* Insurers
+
+**Enterprise Objective**
+
+> Minimize the probability and severity of accidents and incidents.
+
+---
+
+# Mobility
+
+**Stakeholders**
+
+* Passengers
+* Airlines
+* Governments
+* Airports
+
+**Enterprise Objective**
+
+> Provide safe, accessible, and efficient transportation.
+
+---
+
+# Economic Efficiency
+
+**Stakeholders**
+
+* Airlines
+* Investors
+* Airports
+* Manufacturers
+
+**Enterprise Objective**
+
+> Maximize lifecycle economic value while minimizing operating costs.
+
+---
+
+# Operational Efficiency
+
+**Stakeholders**
+
+* Airlines
+* Dispatchers
+* ATC
+* Passengers
+
+**Enterprise Objective**
+
+> Maximize capacity, predictability, and schedule adherence.
+
+---
+
+# Environmental Sustainability
+
+**Stakeholders**
+
+* Governments
+* Communities
+* Environmental organizations
+
+**Enterprise Objective**
+
+> Minimize environmental impacts and resource consumption.
+
+---
+
+# Security and Resilience
+
+**Stakeholders**
+
+* Governments
+* Defense organizations
+* Airlines
+
+**Enterprise Objective**
+
+> Maintain continuity of operations against hazards and threats.
+
+---
+
+# Human Well-Being
+
+**Stakeholders**
+
+* Passengers
+* Crew
+* Labor organizations
+
+**Enterprise Objective**
+
+> Improve safety, comfort, accessibility, and workload.
+
+---
+
+# Regulatory Compliance
+
+**Stakeholders**
+
+* Certification authorities
+* Governments
+* Courts
+
+**Enterprise Objective**
+
+> Demonstrate compliance with all applicable regulations and standards.
+
+---
+
+# Technological Evolution
+
+**Stakeholders**
+
+* Manufacturers
+* Researchers
+* Operators
+
+**Enterprise Objective**
+
+> Enable future capability growth and integration of new technologies.
+
+---
+
+# Step 3 – Construct the Objective Hierarchy
+
+I would model the hierarchy like this:
+
+```text
+National Air Transportation System
+│
+├── Safety
+├── Mobility
+├── Economic Efficiency
+├── Operational Efficiency
+├── Environmental Sustainability
+├── Security & Resilience
+├── Human Well-Being
+├── Regulatory Compliance
+└── Technological Evolution
+```
+
+---
+
+# Step 4 – Flow Down to the Aircraft
+
+For example:
+
+```text
+Economic Efficiency
+        ↓
+Minimize Airline Operating Cost
+        ↓
+Minimize Fuel Burn
+        ↓
+Optimize Trajectory
+        ↓
+Flight Management System Guidance
+        ↓
+Autopilot Commands
+        ↓
+Control Surface Deflections
+        ↓
+Aircraft Motion
+```
+
+or
+
+```text
+Human Well-Being
+        ↓
+Reduce Pilot Workload
+        ↓
+Automate Routine Tasks
+        ↓
+Auto-Flight Control System
+        ↓
+Flight Director Commands
+        ↓
+Aircraft Behavior
+```
+
+---
+
+# For your capstone
+
+Your aerial-refueling optimization problem could be traced through something like:
+
+```text
+National Security
+        ↓
+Mission Effectiveness
+        ↓
+Maximize Sortie Generation
+        ↓
+Minimize Refueling Delay
+        ↓
+Optimize Rendezvous Geometry
+        ↓
+Generate Guidance Commands
+        ↓
+Aircraft Trajectories
+```
+
+or, in the commercial domain:
+
+```text
+Operational Efficiency
+        ↓
+Minimize Delay
+        ↓
+Minimize Fuel Burn
+        ↓
+Optimize Trajectories
+        ↓
+Flight Management Guidance
+        ↓
+Aircraft Dynamics
+```
+
+This type of objective hierarchy is precisely what makes an MBSE architecture compelling: it demonstrates how enterprise objectives propagate all the way down to the physics of the vehicle.
+
+
+# 8/29/2026 Planning

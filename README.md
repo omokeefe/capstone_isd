@@ -2,6 +2,8 @@
 
 This repository holds the working material for an ISD systems engineering and design capstone centered on the National Airspace System as a System of Systems. The project explores how operational intent moves through aviation stakeholders, airspace resources, aircraft systems, and decision-support services, with an emphasis on MBSE artifacts rather than a purely mathematical optimization problem.
 
+If you're picking this project up with an AI assistant (Claude, ChatGPT, Copilot, or otherwise), start at [assistant/README.md](assistant/README.md) instead — it's the living memory/workflow/task-state system that keeps sessions coherent across time, and it links back here.
+
 The original idea in this workspace started with rendezvous and trajectory optimization. After stepping back, the stronger capstone direction became broader and more systems-oriented: model the airspace ecosystem itself, from individual aircraft and onboard systems up through air traffic management, airspace boundaries, and the information exchanges that connect them. That framing better supports architecture, interfaces, responsibilities, traceability, and operational concepts, which are the core strengths of an ISD capstone.
 
 ## What This Repository Is For
