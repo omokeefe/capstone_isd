@@ -46,3 +46,22 @@ Then, in order:
   hand-edit the XML export casually — treat Cameo as the source of truth and the XML as a
   generated artifact, per
   [assistant/workflows/update-architecture.md](assistant/workflows/update-architecture.md).
+
+## Scope and safety boundaries
+
+- **Stay inside this repository (`c:\repos\capstone_isd`).** Do not read, write, move,
+  or delete files anywhere else on the machine unless the user gives an explicit,
+  specific instruction naming that path in the current conversation. Don't wander into
+  sibling repos, home-directory dotfiles, or system locations "to check something."
+- **Treat `git commit` and `git push` as requiring fresh, explicit approval every time.**
+  A prior approval to commit or push does not carry over to later changes in the same
+  session — confirm scope again before each one. Never `--force` push, never push to
+  `main` without being asked, and never use `--no-verify` or similar hook-skipping flags.
+- **Treat file/branch deletion, `git reset --hard`, `git clean`, and any bulk overwrite
+  as high-caution actions**, even inside this repo. Prefer a reversible move/rename or a
+  stash over deleting, and always run `git status` first to check for uncommitted work
+  before anything that could discard it.
+- **Never run destructive or system-altering commands outside the project directory** —
+  no deleting/moving files elsewhere on disk, no touching other repos, no modifying
+  global git config, shell profiles, or OS settings — even if a task seems to call for
+  it. If something outside this repo's scope seems necessary, stop and ask first.
