@@ -7,12 +7,15 @@ enterprise objectives down to aircraft trajectory and behavior.
 
 ## Start here
 
-Read [assistant/README.md](assistant/README.md) first. It explains the AI-collaboration
-scaffold in this repo — memory, workflows, and task state — and how to use it. That
-scaffold is model-agnostic (works with Claude, ChatGPT, Copilot, etc.); this file is the
-Claude Code-specific entry point into it.
+Read [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) first — a one-page dashboard (objective,
+current state, decisions, open questions, people/systems, source links, next actions)
+that links out to the file that owns each detail. Then read
+[assistant/README.md](assistant/README.md), which explains the AI-collaboration scaffold
+in this repo — memory, workflows, and task state — and how to use it. That scaffold is
+model-agnostic (works with Claude, ChatGPT, Copilot, etc.); this file is the Claude
+Code-specific entry point into it.
 
-Then, in order:
+Then, as needed:
 
 1. [README.md](README.md) — project purpose, scope, and current architectural direction.
 2. [assistant/memory/project-brief.md](assistant/memory/project-brief.md) — the living

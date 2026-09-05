@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-08-29
-**Files in `references/` at last sweep:** 20 of 20 processed
+**Last full sweep:** 2026-09-04
+**Files in `references/` at last sweep:** 30 of 30 processed
 
 Rating scale (be honest — a register where everything is a 4 or 5 is not useful):
 
@@ -52,9 +52,21 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | de Neufville_Engineering Systems.pdf | `bartolomei2012esmdm` (duplicate/earlier draft — see flag) | 1 | [de-neufville-conference-draft-of-bartolomei2012esmdm.md](../../references/summaries/de-neufville-conference-draft-of-bartolomei2012esmdm.md) | 2026-08-29 |
 | delaurentis-2012-understanding-transportation-as-a-system-of-systems-design-problem.pdf | `delaurentis2005sosTransportation` (year corrected — see flag) | 5 | [delaurentis2005sosTransportation.md](../../references/summaries/delaurentis2005sosTransportation.md) | 2026-08-29 |
 | eurocontrol-specification-for-acdm.pdf | `eurocontrolACDMSpec` | 5 | [eurocontrolACDMSpec.md](../../references/summaries/eurocontrolACDMSpec.md) | 2026-08-29 |
+| A Predictive Services Architecture for Efficient Airspace Operations.pdf | `romanideoliveira2026predictiveservices` | 4 | [4 - romanideoliveira2026predictiveservices.md](../../references/summaries/4%20-%20romanideoliveira2026predictiveservices.md) | 2026-09-04 |
+| AI- and Ontology-Based Enhancements to FMEA for Advanced Systems Engineering - Current Developments and Future Directions.pdf | `younus2026fmeaOntology` | 3 | [3 - younus2026fmeaOntology.md](../../references/summaries/3%20-%20younus2026fmeaOntology.md) | 2026-09-04 |
+| Harnessing Digital Twin Technology for Enhanced Aircraft Turnaround Efficiency.pdf | `lu2025digitalTwinTurnaround` | 2 | [2 - lu2025digitalTwinTurnaround.md](../../references/summaries/2%20-%20lu2025digitalTwinTurnaround.md) | 2026-09-04 |
+| Knowledge-Based Aerospace Engineering A Systematic Literature Review.pdf | `wittenborg2025kbeAerospace` | 2 | [2 - wittenborg2025kbeAerospace.md](../../references/summaries/2%20-%20wittenborg2025kbeAerospace.md) | 2026-09-04 |
+| Personal knowledge management the foundation of organisational knowledge management.pdf | `jain2011pkm` | 1 | [1 - jain2011pkm.md](../../references/summaries/1%20-%20jain2011pkm.md) | 2026-09-04 |
+| Review of Optimization Problems, Models and Methods for Airline Disruption Management from 2010 to 2024,.pdf | `hu2024disruptionOptReview` | 3 | [3 - hu2024disruptionOptReview.md](../../references/summaries/3%20-%20hu2024disruptionOptReview.md) | 2026-09-04 |
+| System-of-systems safety for low-altitude aviation transportation.pdf | `yao2026loAltitudeSoSSafety` | 4 | [4 - yao2026loAltitudeSoSSafety.md](../../references/summaries/4%20-%20yao2026loAltitudeSoSSafety.md) | 2026-09-04 |
+| The Aircraft Recovery Problem A Systematic Literature Review.pdf | `santana2023arpReview` | 4 | [4 - santana2023arpReview.md](../../references/summaries/4%20-%20santana2023arpReview.md) | 2026-09-04 |
+| Urban Air Mobility as a System of Systems An LLM-Enhanced Holonic Approach.pdf | `sadik2025holonicUAM` | 3 | [3 - sadik2025holonicUAM.md](../../references/summaries/3%20-%20sadik2025holonicUAM.md) | 2026-09-04 |
+| Proactive Aircraft Turnaround Buffer Optimization Integrating Machine Learning and Scenario Analysis.pdf | `kontodimou2026turnaroundBuffer` | 3 | [3 - kontodimou2026turnaroundBuffer.md](../../references/summaries/3%20-%20kontodimou2026turnaroundBuffer.md) | 2026-09-04 |
 
-**Distribution:** eight 5s, five 4s, two 3s, four 2s, one 1, zero 0s — 20 files, but only 18
-distinct works (two exact-duplicate pairs, see Flags below).
+**Distribution:** eight 5s, eight 4s, six 3s, six 2s, two 1s, zero 0s — 30 files, but only
+28 distinct works (the two exact-duplicate pairs from the 2026-08-29 sweep, see Flags
+below; no duplicates found among the ten files added 2026-09-04, though several overlap
+topically with existing sources — see the new Flags entry below).
 
 ### Flags raised by this sweep
 
@@ -80,6 +92,43 @@ distinct works (two exact-duplicate pairs, see Flags below).
     (year 2005). Bib entry uses the verified 2005 date.
 - Also fixed a **stray trailing `}`** at the end of the previous `references.bib` (a
   syntax error left over from an earlier edit).
+
+### Flags raised by the 2026-09-04 sweep (10 new files)
+
+- **No exact duplicates** among the ten new files, but several overlap topically with
+  existing or other new sources — treated as complementary, not redundant, per each
+  summary's Flags section:
+  - `hu2024disruptionOptReview` (2010-2024 optimization-methods review) and
+    `santana2023arpReview` (aircraft-recovery-specific SLR) both extend/complement
+    `hassanDisruptionReview` rather than duplicating it — different scope/framing/cutoff.
+  - `sadik2025holonicUAM` (holonic + LLM architecture) and `yao2026loAltitudeSoSSafety`
+    (safety-literature review) both cover UAM/low-altitude airspace as an SoS but from
+    different angles (architecture/coordination vs. safety) — not duplicative of each
+    other or of `sinharoy2024ontologyUAM` (ontology-driven MBSE approach to the same
+    general topic).
+  - `lu2025digitalTwinTurnaround` (robotics/digital-twin automation) and
+    `kontodimou2026turnaroundBuffer` (ML + stochastic-MILP buffer optimization) both
+    address turnaround efficiency but via distinct methods — complementary additions to
+    §3 alongside `schultz2017turnaround`.
+- **`younus2026fmeaOntology`** cites the same Lu et al. design-ontology work as
+  `luDesignOntologyMBSE2020` but with a different venue/year (*IEEE Systems Journal*,
+  2022, vs. the registered arXiv 2020 entry) — worth reconciling which is the
+  authoritative citation.
+- **`yao2026loAltitudeSoSSafety`** cites a DeLaurentis 2005 SoS-taxonomy paper ("A
+  Taxonomy-Based Perspective for Systems-of-Systems Design Methods," IEEE SMC 2005) that
+  may be a *different* work from the PDF registered as `delaurentis2005sosTransportation`
+  — flagged in `references.bib` and `assistant/memory/open-questions.md` for
+  confirmation.
+- **`jain2011pkm`** (Personal Knowledge Management) rated 1/5 — off-topic for this
+  register (library/information-science survey, zero aerospace/MBSE content). Flagged for
+  a user decision on whether to keep it in `references/` at all, per its summary file.
+- **Filename correction:** the file on disk named "roactive Aircraft Turnaround Buffer
+  Optimization..." (truncated) was renamed to "Proactive Aircraft Turnaround Buffer
+  Optimization Integrating Machine Learning and Scenario Analysis.pdf" to match the
+  verified title (`kontodimou2026turnaroundBuffer`).
+- **DOI not confirmed on the pages read** for `sadik2025holonicUAM` (IEEE Xplore document
+  ID found, not the DOI string) and `wittenborg2025kbeAerospace` (arXiv preprint, no DOI
+  exists yet) — verify before final citation.
 
 ## Annotation status (by `Project_To-Do List.md` section)
 
@@ -115,6 +164,8 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | eurocontrol-specification-for-acdm.pdf | `eurocontrolACDMSpec` | EUROCONTROL spec | not started |
 | — (no PDF yet) | `eurocontrolACDMManual` (A-CDM Implementation Manual) | EUROCONTROL manual | not started |
 | — (no PDF yet) | `loadControl2026` (Automated Load Control and W&B Validation) | journal/technical article | not started |
+| Harnessing Digital Twin Technology for Enhanced Aircraft Turnaround Efficiency.pdf | `lu2025digitalTwinTurnaround` | journal article | not started |
+| Proactive Aircraft Turnaround Buffer Optimization Integrating Machine Learning and Scenario Analysis.pdf | `kontodimou2026turnaroundBuffer` | journal article | not started |
 
 ### OCC, dispatch & flight execution (to-do §4)
 
@@ -123,6 +174,8 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | Airline Disruption Management A Literature Review.pdf | `hassanDisruptionReview` | journal review | not started |
 | Irregular airline operations a review of the state-of-the-practice in airline operations control centers.pdf | `clarke1998irregular` | journal review | not started |
 | Workload Balancing for Flight Dispatchers.pdf | `dispatcherWorkload2025` | journal article | not started |
+| Review of Optimization Problems, Models and Methods for Airline Disruption Management from 2010 to 2024,.pdf | `hu2024disruptionOptReview` | journal review | not started |
+| The Aircraft Recovery Problem A Systematic Literature Review.pdf | `santana2023arpReview` | journal review | not started |
 | — (nominal ATC/IFR flight execution) | none yet | FAA source(s) TBD | not started — need to identify specific FAA/AIM references per to-do §4 |
 
 ### MBSE methodology & systems-architecture references (not yet tied to a to-do §; background/methods reading)
@@ -141,6 +194,17 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | NAS-Infrastructure-Roadmaps-v20.pdf | `faaNasInfrastructureRoadmaps2025` | FAA/government roadmap document | not started |
 | FAA_data_standards_initiative_systems_engineering_base_for_air_traffic_modernization.pdf | `mitreFAADataStandards` | conference paper (IEEE/MITRE) | not started |
 | 2026_SciTech_Lupp_et_al_REACT_Database.pdf | `lupp2026reactMbseMdo` | conference paper (AIAA SciTech) | not started |
+| A Predictive Services Architecture for Efficient Airspace Operations.pdf | `romanideoliveira2026predictiveservices` | conference paper (IEEE ICNS) | not started |
+| AI- and Ontology-Based Enhancements to FMEA for Advanced Systems Engineering - Current Developments and Future Directions.pdf | `younus2026fmeaOntology` | journal review | not started |
+| Knowledge-Based Aerospace Engineering A Systematic Literature Review.pdf | `wittenborg2025kbeAerospace` | arXiv preprint | not started |
+| System-of-systems safety for low-altitude aviation transportation.pdf | `yao2026loAltitudeSoSSafety` | journal review | not started |
+| Urban Air Mobility as a System of Systems An LLM-Enhanced Holonic Approach.pdf | `sadik2025holonicUAM` | conference paper (IEEE SOSE) | not started |
+
+### Off-topic / process background (not tied to any to-do §; flagged for a keep-or-remove decision)
+
+| Source (file) | Bib key | Type | Status |
+|---|---|---|---|
+| Personal knowledge management the foundation of organisational knowledge management.pdf | `jain2011pkm` | journal article | not started — rated 1/5, off-topic for this register (library/information science, no aerospace/MBSE content); see Flags above for the keep-or-remove decision |
 
 ## Housekeeping
 

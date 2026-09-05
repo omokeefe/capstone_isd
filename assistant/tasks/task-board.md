@@ -14,6 +14,15 @@ SOI boundary, research questions, and source register are still being stood up. 
 
 ## Active
 
+- Extracted `prework/Air Transport System Architecture.pdf` into
+  `assistant/memory/candidate-systems-inventory.md` (systems/tree) and
+  `assistant/memory/interface-exchange-draft.md` (AMS-centered exchange hub) — both
+  draft, both flagged as reconstructed from PDF text extraction rather than a verified
+  visual trace; feeds §6/§10 architecture work and the Turnaround phase of
+  `conops-scenarios.md`. Not yet reconciled with the architecture or Cameo model.
+- Begin ConOps scenario exploration (`assistant/memory/conops-scenarios.md`, new
+  2026-08-30) — scaffold created, used deliberately to work §1 (SOI boundary, research
+  questions) and §5 (ConOps) together; candidate scenarios seeded, none drafted yet.
 - Stand up the AI-collaboration scaffold (`assistant/`) — done this session, see
   `assistant/tasks/sessions/2026-08-29-bootstrap-assistant-scaffold.md`.
 - Full reference-processing sweep — done this session, see

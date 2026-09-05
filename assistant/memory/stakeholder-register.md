@@ -128,3 +128,7 @@ For each stakeholder above: needs, goals, responsibilities, authorities, resourc
 constraints, information needs, measures of value — not yet captured. Also not yet
 built: the RACCI matrix, responsibility/authority transitions, and cases of ambiguous or
 shared authority. Track progress on this in `assistant/tasks/task-board.md`.
+
+For the subset of rows above that actually participate in ConOps scenarios, that "still
+open" detail is being worked persona-by-persona in [[stakeholder-personas]] rather than
+row-by-row here — check there before duplicating a row's detail.

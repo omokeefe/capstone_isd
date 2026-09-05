@@ -25,7 +25,11 @@ different AI tool's, or a human's) doesn't have to reconstruct what happened.
    - Source annotated? -> `assistant/memory/source-register.md`
 4. Confirm `Project_To-Do List.md` checkboxes reflect reality — don't leave a box
    unchecked if the work is genuinely done, and don't check one off for partial work.
-5. If working in git, review the diff before it's committed (or ask the user to) —
+5. If step 3 changed the current phase, a decision, an open question, next actions, or
+   people/systems involved, check whether `PROJECT_CONTEXT.md`'s corresponding bullet is
+   now stale and update it — it should stay a short, current pointer, not drift from the
+   files it links to.
+6. If working in git, review the diff before it's committed (or ask the user to) —
    memory/task files are content, not code, but they still deserve a real look before
    being saved, same as any other change.
 

@@ -1,5 +1,9 @@
 # Assistant System — How This Repo Works With an AI Collaborator
 
+See [../PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md) for a one-page dashboard (objective,
+current state, decisions, open questions, people/systems, source links, next actions)
+that links into the files below — read it first for a fast orientation.
+
 This folder is a portable "research-assistant brain" for the capstone. It exists because
 a project like this runs across dozens of AI sessions, possibly across different tools
 (Claude Code, ChatGPT, Copilot, a plain browser chat), over months. Without an explicit
