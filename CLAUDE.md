@@ -7,48 +7,56 @@ enterprise objectives down to aircraft trajectory and behavior.
 
 ## Start here
 
-Read [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) first — a one-page dashboard (objective,
-current state, decisions, open questions, people/systems, source links, next actions)
-that links out to the file that owns each detail. Then read
-[assistant/README.md](assistant/README.md), which explains the AI-collaboration scaffold
-in this repo — memory, workflows, and task state — and how to use it. That scaffold is
-model-agnostic (works with Claude, ChatGPT, Copilot, etc.); this file is the Claude
-Code-specific entry point into it.
+Read [_system/workspace-map.md](_system/workspace-map.md) first — a short, current map
+of how this repository is organized (control / operational / knowledge / evidence /
+decision layers, what lives where) that links out to the file that owns each detail.
+Then read [projects/nas-sos-capstone/index.md](projects/nas-sos-capstone/index.md), the
+one active project's dashboard (objective, current state, decisions, open questions,
+people/systems, source links, next actions). Both are model-agnostic (work with Claude,
+ChatGPT, Copilot, etc.); this file is the Claude Code-specific entry point into them.
 
 Then, as needed:
 
 1. [README.md](README.md) — project purpose, scope, and current architectural direction.
-2. [assistant/memory/project-brief.md](assistant/memory/project-brief.md) — the living
-   summary of where the project stands (more current than README.md if they ever diverge).
-3. [Project_To-Do List.md](Project_To-Do%20List.md) — the canonical, checkbox-based work
-   plan (16 sections, research → architecture → optimization → deliverables).
-4. [assistant/tasks/task-board.md](assistant/tasks/task-board.md) — cross-session focus
-   state: what's active right now, what's blocked, what's next.
+2. [projects/nas-sos-capstone/to-do-list.md](projects/nas-sos-capstone/to-do-list.md) —
+   the canonical, checkbox-based work plan (16 sections, research → architecture →
+   optimization → deliverables).
+3. [projects/nas-sos-capstone/task-board.md](projects/nas-sos-capstone/task-board.md) —
+   cross-session focus state: what's active right now, what's blocked, what's next.
+4. [_system/note-types.md](_system/note-types.md) and
+   [_system/conventions.md](_system/conventions.md) — what kind of note goes where, and
+   the naming/linking rules, if a task involves adding new content rather than just
+   reading it.
 
 ## Working agreements
 
-- **`Project_To-Do List.md` is the single source of truth for task checkboxes.** Check
+- **`to-do-list.md` is the single source of truth for task checkboxes.** Check
   items off there directly as work completes. Do not recreate or fork the task list
-  elsewhere — `assistant/tasks/task-board.md` only tracks cross-session *focus*, not the
-  full checklist.
+  elsewhere — `task-board.md` only tracks cross-session *focus*, not the full checklist.
 - **Log every substantive session.** Before ending a session, write a short entry to
-  `assistant/tasks/sessions/` per
-  [assistant/workflows/session-wrap-up.md](assistant/workflows/session-wrap-up.md).
-- **Update memory when facts change**, not just when asked. If a session changes the
-  system boundary, resolves an open question, or makes an architectural decision, update
-  the relevant file under `assistant/memory/` and log it in `decisions-log.md`.
+  `projects/nas-sos-capstone/sessions/` per
+  [workflows/session-wrap-up.md](workflows/session-wrap-up.md).
+- **Update knowledge/evidence/decision files when facts change**, not just when asked. If
+  a session changes the system boundary, resolves an open question, or makes an
+  architectural decision, update the relevant file under `knowledge/` or `evidence/` and
+  log it in [decisions/decisions-log.md](decisions/decisions-log.md).
 - **This is a systems-engineering capstone, not an optimization paper.** Optimization and
   decision-support work should stay framed as capabilities inside the architecture, per
   the "Working Assumptions" in [README.md](README.md). If a task starts pulling toward a
   pure math/optimization deep-dive, flag the drift instead of just continuing.
-- **Citations live in [references/references.bib](references/references.bib)**; source
-  PDFs live in `references/`. When adding a new source, add both the PDF and a bib entry,
-  and register it in `assistant/memory/source-register.md`.
-- **SysML/Cameo model work** lives in `cameo_models/`; the architecture's XML export is
-  [nas_system_of_systems_architecture.xml](nas_system_of_systems_architecture.xml). Don't
-  hand-edit the XML export casually — treat Cameo as the source of truth and the XML as a
-  generated artifact, per
-  [assistant/workflows/update-architecture.md](assistant/workflows/update-architecture.md).
+- **Citations live in [evidence/sources/references.bib](evidence/sources/references.bib)**;
+  source PDFs live in `evidence/sources/`. When adding a new source, add both the PDF and
+  a bib entry, and register it in
+  [evidence/source-register.md](evidence/source-register.md).
+- **SysML/Cameo model work** lives in `projects/nas-sos-capstone/cameo_models/`; the
+  architecture's XML export is
+  `projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml` (currently a
+  draft; promote it once real Cameo modeling starts). Don't hand-edit the XML export
+  casually — treat Cameo as the source of truth and the XML as a generated artifact, per
+  [workflows/update-architecture.md](workflows/update-architecture.md).
+- **Quick, untriaged notes go in `inbox/`, not straight into knowledge/evidence.** Triage
+  them per [workflows/process-inbox.md](workflows/process-inbox.md) before treating
+  anything in there as settled fact.
 
 ## Scope and safety boundaries
 

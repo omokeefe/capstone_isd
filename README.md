@@ -2,7 +2,7 @@
 
 This repository holds the working material for an ISD systems engineering and design capstone centered on the National Airspace System as a System of Systems. The project explores how operational intent moves through aviation stakeholders, airspace resources, aircraft systems, and decision-support services, with an emphasis on MBSE artifacts rather than a purely mathematical optimization problem.
 
-If you're picking this project up with an AI assistant (Claude, ChatGPT, Copilot, or otherwise), start at [assistant/README.md](assistant/README.md) instead — it's the living memory/workflow/task-state system that keeps sessions coherent across time, and it links back here.
+If you're picking this project up with an AI assistant (Claude, ChatGPT, Copilot, or otherwise), start at [_system/workspace-map.md](_system/workspace-map.md) instead — it's the living memory/workflow/task-state system that keeps sessions coherent across time, and it links back here.
 
 The original idea in this workspace started with rendezvous and trajectory optimization. After stepping back, the stronger capstone direction became broader and more systems-oriented: model the airspace ecosystem itself, from individual aircraft and onboard systems up through air traffic management, airspace boundaries, and the information exchanges that connect them. That framing better supports architecture, interfaces, responsibilities, traceability, and operational concepts, which are the core strengths of an ISD capstone.
 
@@ -42,18 +42,18 @@ That idea gives the capstone a coherent center of gravity and keeps it from turn
 
 ## Repository Contents
 
-- [nas_system_of_systems_architecture.xml](nas_system_of_systems_architecture.xml) contains the architecture content exported as XML.
-- [cameo_models/](cameo_models/) is where Cameo/SysML model work can be organized.
-- [prework/gpt_convos.md](prework/gpt_convos.md) captures the two source conversations that shaped the capstone direction and package structure.
-- [ACM_diagram.pdf](ACM_diagram.pdf) is a supporting artifact from the earlier optimization-oriented framing.
+- [projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml](projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml) contains a draft of the architecture content exported as XML, ahead of a real Cameo export.
+- [projects/nas-sos-capstone/cameo_models/](projects/nas-sos-capstone/cameo_models/) is where Cameo/SysML model work can be organized.
+- [projects/nas-sos-capstone/prework/gpt_convos.md](projects/nas-sos-capstone/prework/gpt_convos.md) captures the two source conversations that shaped the capstone direction and package structure.
+- [projects/nas-sos-capstone/prework/ACM_diagram.pdf](projects/nas-sos-capstone/prework/ACM_diagram.pdf) is a supporting artifact from the earlier optimization-oriented framing.
 
 ## How To Read This Project
 
 If you are new to the capstone, start with the high-level story first:
 
 1. Read this README to understand the purpose and scope.
-2. Review [prework/gpt_convos.md](prework/gpt_convos.md) to see how the architecture direction evolved.
-3. Open [nas_system_of_systems_architecture.xml](nas_system_of_systems_architecture.xml) for the structured architecture content.
+2. Review [projects/nas-sos-capstone/prework/gpt_convos.md](projects/nas-sos-capstone/prework/gpt_convos.md) to see how the architecture direction evolved.
+3. Open [projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml](projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml) for the structured architecture content.
 4. Use the Cameo model workspace to map the architecture into SysML packages, diagrams, and traceability.
 
 ## Working Assumptions
@@ -69,12 +69,12 @@ The project is trending toward a reference architecture for how airspace intent 
 
 If the model is successful, it will let a reviewer follow one clear chain from a mission or operational goal down to aircraft-level execution and back up to the managing authorities and services that constrain it.
 
-## Suggested Next Steps
+## Current Status and Next Steps
 
-1. Turn the XML architecture into a visible Cameo package structure.
-2. Define the top-level operational domains and cross-cutting information objects.
-3. Build one or two representative activity diagrams around trajectory intent and responsibility handoffs.
-4. Add requirements and verification links once the architecture skeleton is stable.
+This README stays evergreen — purpose, scope, and direction, not a status snapshot. For
+what's actually being worked right now and what comes next, see
+[projects/nas-sos-capstone/index.md](projects/nas-sos-capstone/index.md)'s "Current
+state" and "Next actions" sections, which are kept current at every session wrap-up.
 
 ## Notes
 

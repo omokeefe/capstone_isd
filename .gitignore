@@ -217,11 +217,15 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
+# Ephemeral working files (e.g. handwritten-annotation image crops from
+# tools/extract_pdf_annotations.py --include-handwritten) -- not committed.
+.tmp/
+
 # LaTeX build artifacts (report/main.tex compiles via LaTeX Workshop with
 # auxDir pointed at report/build_artifacts/ — only the PDF should land in
 # report/ itself). Kept as a path-scoped rule plus generic extensions in
 # case anyone compiles a different .tex file without the auxDir split.
-report/build_artifacts/
+projects/nas-sos-capstone/report/build_artifacts/
 *.aux
 *.bbl
 *.bcf

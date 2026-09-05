@@ -1,0 +1,32 @@
+\section{Assumptions and Methodology}
+\label{sec:methodology}
+
+\plantodo{S1}{State the working assumptions carried through the project --
+see README.md "Working Assumptions" and
+\texttt{projects/nas-sos-capstone/index.md} "Working assumptions (guardrails)"
+(e.g., emphasis on structure/behavior/interfaces/traceability rather than
+optimization math; decision-support/optimization treated as a capability
+inside the architecture, not the whole subject).}
+
+\plantodo{S6}{Describe the methodology for exploring and comparing
+alternative system decompositions (organization/authority-based,
+lifecycle/process-based, physical-system, information-flow,
+decision-authority, intent-to-trajectory) and the criteria used to evaluate
+them (what each exposes/obscures, where boundaries are ambiguous, which
+best supports optimization-impact analysis).}
+
+\plantodo{S10}{Describe the MBSE methodology used to build the architecture
+in Cameo: package organization, diagram types produced (BDD, IBD,
+activity, sequence, requirements), and the traceability approach
+(stakeholder needs -> objectives -> requirements -> systems -> activities ->
+information exchanges -> aircraft behavior). Note per
+\texttt{workflows/update-architecture.md} that Cameo is the
+source of truth and the XML export is a generated artifact.}
+
+\plantodo{S11}{Describe the optimization-study methodology: scenario
+selection criteria, system-state and decision-variable definitions,
+constraint definitions, the multi-objective formulation
+$J = w_1 J_1 + w_2 J_2 + \dots + w_n J_n$, normalization approach for
+objectives with different units/scales, and the stakeholder weighting
+scheme. This section should be detailed enough that the scenario and
+formulation could be reproduced.}
