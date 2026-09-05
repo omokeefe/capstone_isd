@@ -39,6 +39,21 @@ questions linger.
 - [ ] `yan2008integrated`'s bib entry is explicitly flagged "verify authors, volume,
   issue, pages, and DOI" — needs bibliographic confirmation, not just a PDF.
 
+## Reference-register housekeeping (2026-09-04 sweep)
+
+- [ ] `jain2011pkm` ("Personal Knowledge Management: The Foundation of Organisational
+  Knowledge Management") rated 1/5 — off-topic for this register (library/information
+  science, zero aerospace/MBSE content). Decide whether to keep it in `references/` or
+  remove it. See [[source-register]].
+- [ ] `yao2026loAltitudeSoSSafety` cites a DeLaurentis 2005 SoS-taxonomy paper ("A
+  Taxonomy-Based Perspective for Systems-of-Systems Design Methods," IEEE SMC 2005) that
+  may be a *different* work from the PDF registered as `delaurentis2005sosTransportation`
+  ("Understanding Transportation as a System-of-Systems Design Problem," AIAA 2005-123).
+  Confirm which paper the registered PDF actually is before citing either.
+- [ ] `younus2026fmeaOntology` cites the same Lu et al. design-ontology work as
+  `luDesignOntologyMBSE2020` but gives its venue/year as *IEEE Systems Journal*, 2022,
+  vs. the registered arXiv 2020 entry — reconcile which is the authoritative citation.
+
 ## Optimization study scope (§11)
 
 - [ ] Which "tractable representative operational scenario" will actually be used for
