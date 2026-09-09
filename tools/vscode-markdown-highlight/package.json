@@ -1,0 +1,17 @@
+{
+  "name": "markdown-highlight-mark",
+  "displayName": "Markdown ==Highlight==",
+  "description": "Renders ==highlighted text== as a yellow-background span in the built-in Markdown preview.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "contributes": {
+    "markdown.markdownItPlugins": true
+  }
+}

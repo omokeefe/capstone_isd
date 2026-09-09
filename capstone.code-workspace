@@ -6,6 +6,9 @@
 	],
 	"settings": {
 		"latex-workshop.latex.outDir": "%DIR%",
-		"latex-workshop.latex.auxDir": "%DIR%/build_artifacts"
+		"latex-workshop.latex.auxDir": "%DIR%/build_artifacts",
+		"markdown.copyFiles.destination": {
+			"**/*.md": "${documentWorkspaceFolder}/attachments/"
+		}
 	}
 }

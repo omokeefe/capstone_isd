@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-09-04
-**Files in `evidence/sources/` at last sweep:** 30 of 30 processed
+**Last full sweep:** 2026-09-05
+**Files in `evidence/sources/` at last sweep:** 32 of 32 processed
 
 Rating scale (be honest — a register where everything is a 4 or 5 is not useful):
 
@@ -61,9 +61,13 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | The Aircraft Recovery Problem A Systematic Literature Review.pdf | `santana2023arpReview` | 4 | [4 - santana2023arpReview.md](literature-notes/summaries/4%20-%20santana2023arpReview.md) | 2026-09-04 |
 | Urban Air Mobility as a System of Systems An LLM-Enhanced Holonic Approach.pdf | `sadik2025holonicUAM` | 3 | [3 - sadik2025holonicUAM.md](literature-notes/summaries/3%20-%20sadik2025holonicUAM.md) | 2026-09-04 |
 | Proactive Aircraft Turnaround Buffer Optimization Integrating Machine Learning and Scenario Analysis.pdf | `kontodimou2026turnaroundBuffer` | 3 | [3 - kontodimou2026turnaroundBuffer.md](literature-notes/summaries/3%20-%20kontodimou2026turnaroundBuffer.md) | 2026-09-04 |
+| 51.Model-BasedSystemsEngineeringSupportingArchitectureModelingofAirTrafficManagementSystemandModelVerifyingBasedonSMT.pdf | `liu2025mbseAtmSmt` | 4 | [4 - liu2025mbseAtmSmt.md](literature-notes/summaries/4%20-%20liu2025mbseAtmSmt.md) | 2026-09-05 |
+| mudumba-et-al-2022-model-based-systems-engineering-approach-for-simulating-uml-5-uam-operations.pdf | `mudumba2022mbseUml5uam` | 3 | [3 - mudumba2022mbseUml5uam.md](literature-notes/summaries/3%20-%20mudumba2022mbseUml5uam.md) | 2026-09-05 |
+| PritiJainpaperaspublishedliasa_v77_n1_a2.pdf | `jain2011pkm` (duplicate PDF — see flag) | 1 | [1 - jain2011pkm.md](literature-notes/summaries/1%20-%20jain2011pkm.md) | 2026-09-05 |
 
-**Distribution:** eight 5s, eight 4s, six 3s, five 2s, two 1s, zero 0s — 29 files, 28
-distinct works (one remaining draft/published pair, see Flags below; the exact-duplicate
+**Distribution:** eight 5s, nine 4s, seven 3s, five 2s, three 1s, zero 0s — 32 files, 30
+distinct works (one remaining draft/published pair, see Flags below, plus the new
+`jain2011pkm` duplicate PDF pair found 2026-09-05; the exact-duplicate
 `jagtap2025mbseEngineInlet` PDF pair was resolved during the 2026-09-05 PKM reorg — one
 copy removed). No duplicates found among the ten files added 2026-09-04, though several
 overlap topically with existing sources — see the Flags entry below.
@@ -93,6 +97,25 @@ overlap topically with existing sources — see the Flags entry below.
     (year 2005). Bib entry uses the verified 2005 date.
 - Also fixed a **stray trailing `}`** at the end of the previous `references.bib` (a
   syntax error left over from an earlier edit).
+
+### Flags raised by this sweep (2026-09-05, 3 new files)
+
+- **Exact-duplicate PDF found:** `PritiJainpaperaspublishedliasa_v77_n1_a2.pdf` is the
+  same paper as the already-registered `jain2011pkm`
+  (`Personal knowledge management the foundation of organisational knowledge
+  management.pdf`) — identical title, author, journal, volume/issue/pages (SA Jnl Libs &
+  Info Sci, 77(1), 1-14). No new bib entry or summary written; the new file is just noted
+  in the ledger row above. **Recommend a user decision** on which copy to keep (or remove
+  both, given the existing 1/5 off-topic rating) — same pattern as the resolved
+  `jagtap2025mbseEngineInlet` duplicate pair, not resolved automatically.
+- **Two new MBSE-methodology papers added, no duplicates:** `liu2025mbseAtmSmt` (ATM
+  architecture modeling + SMT-based requirements verification, KSEM 2024/Springer) and
+  `mudumba2022mbseUml5uam` (SysML modeling of UAM Maturity Level 5 operations, AIAA 2022,
+  Purdue/DeLaurentis group). Neither overlaps with an existing source; `mudumba2022mbseUml5uam`
+  extends the existing UAM-as-SoS cluster (`sinharoy2024ontologyUAM`, `sadik2025holonicUAM`,
+  `yao2026loAltitudeSoSSafety`) from a state-machine/activity-diagram angle rather than
+  duplicating it, and its own reference list independently confirms
+  `delaurentis2005sosTransportation`'s title and DOI as already registered.
 
 ### Flags raised by the 2026-09-04 sweep (10 new files)
 
@@ -199,12 +222,15 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | Knowledge-Based Aerospace Engineering A Systematic Literature Review.pdf | `wittenborg2025kbeAerospace` | arXiv preprint | not started |
 | System-of-systems safety for low-altitude aviation transportation.pdf | `yao2026loAltitudeSoSSafety` | journal review | annotated — see [yao2026loAltitudeSoSSafety.md](literature-notes/annotations/yao2026loAltitudeSoSSafety.md) |
 | Urban Air Mobility as a System of Systems An LLM-Enhanced Holonic Approach.pdf | `sadik2025holonicUAM` | conference paper (IEEE SOSE) | not started |
+| 51.Model-BasedSystemsEngineeringSupportingArchitectureModelingofAirTrafficManagementSystemandModelVerifyingBasedonSMT.pdf | `liu2025mbseAtmSmt` | conference paper (KSEM/Springer) | not started |
+| mudumba-et-al-2022-model-based-systems-engineering-approach-for-simulating-uml-5-uam-operations.pdf | `mudumba2022mbseUml5uam` | conference paper (AIAA) | not started |
 
 ### Off-topic / process background (not tied to any to-do §; flagged for a keep-or-remove decision)
 
 | Source (file) | Bib key | Type | Status |
 |---|---|---|---|
 | Personal knowledge management the foundation of organisational knowledge management.pdf | `jain2011pkm` | journal article | not started — rated 1/5, off-topic for this register (library/information science, no aerospace/MBSE content); see Flags above for the keep-or-remove decision |
+| PritiJainpaperaspublishedliasa_v77_n1_a2.pdf | `jain2011pkm` (duplicate) | journal article | n/a — duplicate PDF of the row above, found 2026-09-05; see Flags above |
 
 ## Housekeeping
 

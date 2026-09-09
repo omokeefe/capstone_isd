@@ -20,7 +20,8 @@ atomized — see `_system/maintenance.md` for when that would change.
 ## Model note
 
 `knowledge/models/*.md` (stakeholder-register, stakeholder-personas,
-candidate-systems-inventory, conops-scenarios, interface-exchange-draft). A durable,
+stakeholder-objective-ontology, candidate-systems-inventory, conops-scenarios,
+interface-exchange-draft). A durable,
 structured representation of some part of the problem (stakeholders, candidate systems,
 scenarios, interfaces) that architecture work draws on directly.
 

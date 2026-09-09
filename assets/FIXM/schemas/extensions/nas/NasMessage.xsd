@@ -1,0 +1,1333 @@
+<?xml  version='1.0' encoding='utf-8' ?>
+<xs:schema targetNamespace="http://www.fixm.aero/ext/nas/4.4" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:nas="http://www.fixm.aero/ext/nas/4.4" xmlns:msg="http://www.fixm.aero/app/msg/1.1" xmlns:fb="http://www.fixm.aero/base/4.3" elementFormDefault="qualified" version="4.4.0">
+	<xs:annotation>
+		<xs:documentation>The NasMessage package contains NAS specific extensions to the FIXM BasicMessage application package.  It includes NAS-specific metadata and makes use of basic message's MessageCollection for bundling information about multiple flights into one message.
+
+=========================================== 
+Copyright (c) 2025 US Federal Aviation Administration (FAA)
+=========================================== 
+All rights reserved. 
+          
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: 
+	- Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer.
+	- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the disclaimer in the documentation and/or other materials provided with the distribution.
+	- The name of US FAA or the names of its contributors may not be used to endorse or promote products derived from this specification without specific prior written permission.
+          
+DISCLAIMER 
+          
+THIS SPECIFICATION IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+          
+========================================== 
+Editorial note: this license is an instance of the BSD license template as provided by the Open Source Initiative: 
+http://www.opensource.org/licenses/bsd-license.php 
+          
+The authoritative reference for FIXM is www.FIXM.aero. 
+          
+Details on the US FAA: http://www.faa.gov/</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://www.fixm.aero/base/4.3" schemaLocation="../../core/base/Base.xsd"/>
+	<xs:import namespace="http://www.fixm.aero/app/msg/1.1" schemaLocation="../../applications/basicmessage/BasicMessage.xsd"/>
+	<xs:include schemaLocation="NasMeasures.xsd"/>
+	<xs:simpleType name="ActivatedIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates if the Special Purpose Indicator (SPI) has been activated. A transponder can be configured to provide this signal to aid in distinguishing between non-discretes.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ACTIVATED">
+				<xs:annotation>
+					<xs:documentation>SPI activated.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOT_ACTIVATED">
+				<xs:annotation>
+					<xs:documentation>SPI not activated.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AddressQualifierType">
+		<xs:annotation>
+			<xs:documentation>Address Qualifier from CAT033 report.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ADSBICAO">
+				<xs:annotation>
+					<xs:documentation>ADS-B target with ICAO address</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ADSBSA">
+				<xs:annotation>
+					<xs:documentation>ADS-B target with self-assigned address</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BEACON">
+				<xs:annotation>
+					<xs:documentation>Fixed beacon</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TISBICAO">
+				<xs:annotation>
+					<xs:documentation>TIS-B target with ICAO address</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TISBTFI">
+				<xs:annotation>
+					<xs:documentation>TIS-B target with track file id</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VEHICLE">
+				<xs:annotation>
+					<xs:documentation>Surface vehicle</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AdsbTrackIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates if Automatic Dependent Surveillance - Broadcast (ADS-B) contributed to track position.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ADSB">
+				<xs:annotation>
+					<xs:documentation>ADS-B contributed to track position.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOT_ADSB">
+				<xs:annotation>
+					<xs:documentation>ADS-B did not contribute to track position.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AdsbValidationStatusType">
+		<xs:annotation>
+			<xs:documentation>SBS ADSB Lat/Lon validation status based on comparison with other sensor data.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INVALID">
+				<xs:annotation>
+					<xs:documentation>ADS-B report determined to be invalid</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RESERVED">
+				<xs:annotation>
+					<xs:documentation>Reserved</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UNKNOWN">
+				<xs:annotation>
+					<xs:documentation>Validation status unknown</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VALID">
+				<xs:annotation>
+					<xs:documentation>ADS-B report determined to be valid</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AlertFilterIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Alert filter indicator</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FILTERED">
+				<xs:annotation>
+					<xs:documentation>Filtered; Don't Highlight on Display</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HIGHLIGHT">
+				<xs:annotation>
+					<xs:documentation>Filtered; Highlight on Display</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UNFILTERED">
+				<xs:annotation>
+					<xs:documentation>Not Filtered</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AppliedindicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates whether or not ADS-B differential correction has been applied.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="APPLIED">
+				<xs:annotation>
+					<xs:documentation>ADS-B differential correction applied.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOT_APPLIED">
+				<xs:annotation>
+					<xs:documentation>ADS-B differential correction not applied.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AsdexSystemModeType">
+		<xs:annotation>
+			<xs:documentation>Basic state of the Airport Surface Detection Equipment Model X (ASDE-X) or Airport Surface Surveillance Capability (ASSC) subsystem.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MAINTENANCE">
+				<xs:annotation>
+					<xs:documentation>Indicates the system is in maintenance mode.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OPERATIONAL">
+				<xs:annotation>
+					<xs:documentation>Indicates the system is in operational mode.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CorruptIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates if replies were corrupted.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CORRUPTED"/>
+			<xs:enumeration value="NOT_CORRUPTED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DownlinkFormatType">
+		<xs:annotation>
+			<xs:documentation>Downlink format of a mode S data block.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DF0">
+				<xs:annotation>
+					<xs:documentation>Short air to air surveillance</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DF11">
+				<xs:annotation>
+					<xs:documentation>All-Call reply containing aircraft address</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DF17">
+				<xs:annotation>
+					<xs:documentation>Extended squitter</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DF18">
+				<xs:annotation>
+					<xs:documentation>TIS-B</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DF4">
+				<xs:annotation>
+					<xs:documentation>Surveillance, altitude reply</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DF5">
+				<xs:annotation>
+					<xs:documentation>Surveillance, Mode A identity reply</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EramWarningTypeType">
+		<xs:annotation>
+			<xs:documentation>ERAM warning types.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AMD_FREQUENCY">
+				<xs:annotation>
+					<xs:documentation>This enumerated value indicates a violation of the cool-down period before sending another amendment request.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MERGE_ANGLE">
+				<xs:annotation>
+					<xs:documentation>This enumerated value indicates a merge angle warning.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MODIFIED_FLT_DATA">
+				<xs:annotation>
+					<xs:documentation>This enumerated value indicates a warning the flight contains modified data that has not been displayed yet.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DATA_COMM">
+				<xs:annotation>
+					<xs:documentation>This enumerated value indicates a warning the flight contains DataComm warnings.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FilteredIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates whether the Taxiway Arrival Alert Filtered bit is set to true due to an MLAT critical fault.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FILTERED">
+				<xs:annotation>
+					<xs:documentation>Filtered bit is set to true.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOT_FILTERED">
+				<xs:annotation>
+					<xs:documentation>Filtered bit is set to false.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FrozenTrackIndicatorType">
+		<xs:annotation>
+			<xs:documentation>For a frozen track, the radar returns have been interrupted and the position symbol and data label are frozen on the situation display at the last reported position.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FROZEN">
+				<xs:annotation>
+					<xs:documentation>The track is frozen.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOT_FROZEN">
+				<xs:annotation>
+					<xs:documentation>The track is not frozen.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FusedHeightSourceType">
+		<xs:annotation>
+			<xs:documentation>This field indicates the fused height source.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ADSB">
+				<xs:annotation>
+					<xs:documentation>ADS-B height only</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GROUND">
+				<xs:annotation>
+					<xs:documentation>On-ground height only</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MODEC">
+				<xs:annotation>
+					<xs:documentation>Mode C height only</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MULTILAT">
+				<xs:annotation>
+					<xs:documentation>3D multilateration height only</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MULTIPLE">
+				<xs:annotation>
+					<xs:documentation>Multiple height sources</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NONE">
+				<xs:annotation>
+					<xs:documentation>No source</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="FusedIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates if a particular source was fused in the creation of this message.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FUSED">
+				<xs:annotation>
+					<xs:documentation>Fused bit was set.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOT_FUSED">
+				<xs:annotation>
+					<xs:documentation>Fused bit was not set.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GpsMlatAgreementIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates if the GPS position is more than 100 feet from the multilaterated position indicator.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GREATER_THAN_100_FEET">
+				<xs:annotation>
+					<xs:documentation>The GPS position is more than 100 feet from the multilaterated position indicator.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OK">
+				<xs:annotation>
+					<xs:documentation>The GPS position is not more than 100 feet from the multilaterated position indicator.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="GroundBitSetIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates if ground bit is set.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NOT_SET">
+				<xs:annotation>
+					<xs:documentation>Ground bit not set.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SET">
+				<xs:annotation>
+					<xs:documentation>Ground bit set.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MostReliableHeightType">
+		<xs:annotation>
+			<xs:documentation>Indicates if the reported altitude is 'barometric' from aircraft sensors or 'geometric' from multilateration.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="BAROMETRIC">
+				<xs:annotation>
+					<xs:documentation>Barometric (Mode C) Altitude</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GEOMETRIC">
+				<xs:annotation>
+					<xs:documentation>Geometric Altitude</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MultilaterationTypeType">
+		<xs:annotation>
+			<xs:documentation>Indicates the type of multilateration.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ATCRBS">
+				<xs:annotation>
+					<xs:documentation>ATCRBS multilateration</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MODE_S_OR_UAT">
+				<xs:annotation>
+					<xs:documentation>Mode S or UAT multilateration</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NewTrackIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates if this is a new track.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NEW">
+				<xs:annotation>
+					<xs:documentation>This is a new track.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NOT_NEW">
+				<xs:annotation>
+					<xs:documentation>This is not a new track.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PseudoTrackIndicatorType">
+		<xs:annotation>
+			<xs:documentation>A pseudo track is maintained and displayed based on flight plan information received from NAS rather than radar returns.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NOT_PSEUDO">
+				<xs:annotation>
+					<xs:documentation>This is not a pseudo track.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PSEUDO">
+				<xs:annotation>
+					<xs:documentation>This is a pseudo track.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReferenceIndicatorType">
+		<xs:annotation>
+			<xs:documentation>Indicates if this is a reference transmitter report.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NOT_REFERENCE">
+				<xs:annotation>
+					<xs:documentation>This is not a reference transmitter report.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REFERENCE">
+				<xs:annotation>
+					<xs:documentation>This is a reference transmitter report.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SensitivityType">
+		<xs:annotation>
+			<xs:documentation>Sensitivity of the message.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="fb:CharacterStringType">
+			<xs:pattern value="[A-Z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatusBitIndicatorsType">
+		<xs:annotation>
+			<xs:documentation>A list of ASDE-X status bit indicators.  Each type of indicator can have a value of 0, 1, or R (to indicate representation of the indicator was removed entirely since the previous message - used to support STDDS delta encoding).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="A9S_0">
+				<xs:annotation>
+					<xs:documentation>ASR9 source not fused</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="A9S_1">
+				<xs:annotation>
+					<xs:documentation>ASR9 source fused</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="A9S_R">
+				<xs:annotation>
+					<xs:documentation>A9S indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AA_0">
+				<xs:annotation>
+					<xs:documentation>No SBS target association with track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AA_1">
+				<xs:annotation>
+					<xs:documentation>SBS target associated with track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AA_R">
+				<xs:annotation>
+					<xs:documentation>AA indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AP_0">
+				<xs:annotation>
+					<xs:documentation>Coast in apron indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AP_1">
+				<xs:annotation>
+					<xs:documentation>Coast in apron indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AP_R">
+				<xs:annotation>
+					<xs:documentation>AP indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AQ_0">
+				<xs:annotation>
+					<xs:documentation>Coast association question indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AQ_1">
+				<xs:annotation>
+					<xs:documentation>Coast association question indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AQ_R">
+				<xs:annotation>
+					<xs:documentation>AQ indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AS_0">
+				<xs:annotation>
+					<xs:documentation>ADSB source fused is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AS_1">
+				<xs:annotation>
+					<xs:documentation>ADSB source fused is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="AS_R">
+				<xs:annotation>
+					<xs:documentation>AS indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DA_0">
+				<xs:annotation>
+					<xs:documentation>Duplicate discrete Mode A indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DA_1">
+				<xs:annotation>
+					<xs:documentation>Duplicate discrete Mode A indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DA_R">
+				<xs:annotation>
+					<xs:documentation>DA indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DF_0">
+				<xs:annotation>
+					<xs:documentation>Duplicate flight id indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DF_1">
+				<xs:annotation>
+					<xs:documentation>Duplicate flight id indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DF_R">
+				<xs:annotation>
+					<xs:documentation>DF indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DI_0">
+				<xs:annotation>
+					<xs:documentation>Do not display on ASDE-X DP</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DI_1">
+				<xs:annotation>
+					<xs:documentation>Display on ASDE-X DP</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="DI_R">
+				<xs:annotation>
+					<xs:documentation>DI indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LS_0">
+				<xs:annotation>
+					<xs:documentation> Coast lost sensor support indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LS_1">
+				<xs:annotation>
+					<xs:documentation> Coast lost sensor support indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LS_R">
+				<xs:annotation>
+					<xs:documentation>LS indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LV_0">
+				<xs:annotation>
+					<xs:documentation>Local vehicle association is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LV_1">
+				<xs:annotation>
+					<xs:documentation>Local vehicle association is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LV_R">
+				<xs:annotation>
+					<xs:documentation>LV indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="M3C_0">
+				<xs:annotation>
+					<xs:documentation>Indicates the Mode 3/A Code has not changed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="M3C_1">
+				<xs:annotation>
+					<xs:documentation>Indicates the Mode 3/A Code has changed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="M3C_R">
+				<xs:annotation>
+					<xs:documentation>M3C indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MON_0">
+				<xs:annotation>
+					<xs:documentation>Multisensor or Coasted Track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MON_1">
+				<xs:annotation>
+					<xs:documentation>Monosensor Track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MON_R">
+				<xs:annotation>
+					<xs:documentation>MON indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MS_0">
+				<xs:annotation>
+					<xs:documentation>Mode S source fused is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MS_1">
+				<xs:annotation>
+					<xs:documentation>Mode S source fused is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MS_R">
+				<xs:annotation>
+					<xs:documentation>MS indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NC_0">
+				<xs:annotation>
+					<xs:documentation>Multipath non-cooperative target indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NC_1">
+				<xs:annotation>
+					<xs:documentation>Multipath non-cooperative target indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NC_R">
+				<xs:annotation>
+					<xs:documentation>NC indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OP_0">
+				<xs:annotation>
+					<xs:documentation>Coast in oscillation period indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OP_1">
+				<xs:annotation>
+					<xs:documentation>Coast in oscillation period indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OP_R">
+				<xs:annotation>
+					<xs:documentation>OP indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RT_0">
+				<xs:annotation>
+					<xs:documentation>Reference transmitter track is false - display only in maintenance state</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RT_1">
+				<xs:annotation>
+					<xs:documentation>Reference transmitter track is true - display only in maintenance state</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RT_R">
+				<xs:annotation>
+					<xs:documentation>RT indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="S1_0">
+				<xs:annotation>
+					<xs:documentation>SBS 1090ES ADSB source was not fused for this track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="S1_1">
+				<xs:annotation>
+					<xs:documentation>SBS 1090ES ADSB source was fused for this track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="S1_R">
+				<xs:annotation>
+					<xs:documentation>S1 indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SI_0">
+				<xs:annotation>
+					<xs:documentation>Safety logic processing has not been inhibited on the track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SI_1">
+				<xs:annotation>
+					<xs:documentation>Safety logic processing has been inhibited on the track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SI_R">
+				<xs:annotation>
+					<xs:documentation>SI indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SIM_0">
+				<xs:annotation>
+					<xs:documentation>The track is from live data</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SIM_1">
+				<xs:annotation>
+					<xs:documentation>The data is in engineering playback mode</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SIM_R">
+				<xs:annotation>
+					<xs:documentation>SIM indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SS_0">
+				<xs:annotation>
+					<xs:documentation>SMR source fused is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SS_1">
+				<xs:annotation>
+					<xs:documentation>SMR source fused is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SS_R">
+				<xs:annotation>
+					<xs:documentation>SS indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ST_0">
+				<xs:annotation>
+					<xs:documentation>Suspended track indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ST_1">
+				<xs:annotation>
+					<xs:documentation>Suspended track indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ST_R">
+				<xs:annotation>
+					<xs:documentation>ST indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SU_0">
+				<xs:annotation>
+					<xs:documentation>Track not fused with SBS UAT ADSB data</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SU_1">
+				<xs:annotation>
+					<xs:documentation>Track fused with SBS UAT ADSB data</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SU_R">
+				<xs:annotation>
+					<xs:documentation>SU indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TC_0">
+				<xs:annotation>
+					<xs:documentation>Manual/automatic tag conflict indicator is false</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TC_1">
+				<xs:annotation>
+					<xs:documentation>Manual/automatic tag conflict indicator is true</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TC_R">
+				<xs:annotation>
+					<xs:documentation>TC indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TSE_0">
+				<xs:annotation>
+					<xs:documentation>This is not the last message for the track (track service does not end)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TSE_1">
+				<xs:annotation>
+					<xs:documentation>This is the last message for the track (track service ends)</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="TSE_R">
+				<xs:annotation>
+					<xs:documentation>TSE indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="U_0">
+				<xs:annotation>
+					<xs:documentation>Indicates this is not a UAT plot</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="U_1">
+				<xs:annotation>
+					<xs:documentation>Indicates this is a UAT plot</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="U_R">
+				<xs:annotation>
+					<xs:documentation>U indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UA_0">
+				<xs:annotation>
+					<xs:documentation>UAT MLAT source was not fused for this track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UA_1">
+				<xs:annotation>
+					<xs:documentation>UAT MLAT source was fused for this track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UA_R">
+				<xs:annotation>
+					<xs:documentation>UA indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="X_0">
+				<xs:annotation>
+					<xs:documentation>ATCRBS X bit is not present</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="X_1">
+				<xs:annotation>
+					<xs:documentation>ATCRBS X bit is present</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="X_R">
+				<xs:annotation>
+					<xs:documentation>X indicator removed</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatusBitIndicatorsListType">
+		<xs:annotation>
+			<xs:documentation>Helper simpleType to allow for enumerated lists in FIXM.</xs:documentation>
+		</xs:annotation>
+		<xs:list itemType="nas:StatusBitIndicatorsType"/>
+	</xs:simpleType>
+	<xs:simpleType name="TrackAssociationConfidenceType">
+		<xs:annotation>
+			<xs:documentation>Signals level of confidence in plot to track association process.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="HIGH"/>
+			<xs:enumeration value="LOW"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TrackStatusType">
+		<xs:annotation>
+			<xs:documentation>Indicates if a track is new or confirmed.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CONFIRMED">
+				<xs:annotation>
+					<xs:documentation>Confirmed track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="NEW">
+				<xs:annotation>
+					<xs:documentation>New track</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AsdexConfidenceType">
+		<xs:annotation>
+			<xs:documentation>Confidence of the  ASDE-X position accuracy. 	</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="navigationIntegrityCategory" type="fb:CountType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Navigation Integrity Category
+
+0: equal to 20 NM or Unknown
+1: less than 20 NM
+2: less than 8 NM
+3: less than 4 NM
+4: less than 2 NM
+5: less than 1 NM
+6: less than 0.6 NM
+7: less than 0.2 NM
+8: less than 0.1 NM
+9: less than 75  m
+10: less than 25 m
+11: less than 7.5 m</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="positionNavigationAccuracyCategory" type="fb:CountType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Navigation Accuracy Category for Position.
+
+0: equal to 10 NM
+1: less than 10 NM
+2: less than 4 NM
+3: less than 2 NM
+4: less than 1 NM
+5: less than 0.5 NM
+6: less than 0.3 NM
+7: less than 0.1 NM
+8: less than 0.05 NM
+9: less than 30 m
+10: less than 10 m
+11: less than 3 m</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sourceIntegrityLevel" type="fb:CountType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Source integrity level - probability of exceeding NIC Containment Radius
+
+0: Unknown
+1: less than 10-3
+2: less than 10-5
+3: less than 10-7</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="trackAssociationConfidence" type="nas:TrackAssociationConfidenceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Signals level of confidence in plot to track association process.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AsdexProvenanceType">
+		<xs:annotation>
+			<xs:documentation>A collection of information about the source of the data contained in this message and the settings of the Airport Surface Detection Equipment Model X (ASDE-X) system used to create the message.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="adsbDifferentialCorrection" type="nas:AppliedindicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates whether or not ADS-B differential correction has been applied.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="adsbLatLonValidationStatus" type="nas:AdsbValidationStatusType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>SBS ADSB Lat/Lon validation status based on comparison with other sensor data.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="alertFilterIndicator" type="nas:AlertFilterIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Alert filter indicator</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="atcrbsSourceFused" type="nas:FusedIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if the Air Traffic Control Radar Beacon System (ATCRBS) data was fused for this message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="downlinkFormat" type="nas:DownlinkFormatType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Downlink format of a mode S data block.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fusedHeightSource" type="nas:FusedHeightSourceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>This field indicates the fused height source.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="geometricDilutionOfPrecision" type="nas:GeometricDilutionOfPrecisionType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Specifies the error propagation as a mathematical effect of navigation satellite geometry on positional measurement precision.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="gpsMlatAgreement" type="nas:GpsMlatAgreementIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if the GPS position is more than 100 feet from the multilaterated position indicator.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="groundBitSet" type="nas:GroundBitSetIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if ground bit is set.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mostReliableHeight" type="nas:MostReliableHeightType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if the reported altitude is 'barometric' from aircraft sensors or 'geometric' from multilateration.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="multilaterationType" type="nas:MultilaterationTypeType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates the type of multilateration.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="referenceTransmitterReport" type="nas:ReferenceIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if this is a reference transmitter report.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="repliesCorrupted" type="nas:CorruptIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if replies were corrupted.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sbs1090AddressQualifier" type="nas:AddressQualifierType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Address Qualifier from CAT033 report (if S1 bit is set).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sbs1090LinkVersion" type="fb:CountType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Mode S Extended Squitter Transponder (1090ES) link version.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="specialPurposeIndicator" type="nas:ActivatedIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if the Special Purpose Indicator (SPI) has been activated. A transponder can be configured to provide this signal to aid in distinguishing between non-discretes.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="statusBitIndicators" type="nas:StatusBitIndicatorsListType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>A list of ASDE-X status bit indicators.  Each type of indicator can have a value of 0, 1, or R (to indicate representation of the indicator was removed entirely since the previous message - used to support STDDS delta encoding).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="systemMode" type="nas:AsdexSystemModeType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Basic state of the ASDE-X or ASSC subsystem.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="taxiwayArrivalAlertFiltered" type="nas:FilteredIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates whether the Taxiway Arrival Alert Filtered bit is set to true due to an MLAT critical fault.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="trackQuality" type="fb:CountType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicator of track quality measured between 0 and 100, inclusive.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="trackStatus" type="nas:TrackStatusType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if a track is new or confirmed.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="uatAddressQualifier" type="nas:AddressQualifierType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Address Qualifier from CAT033 report (if SU bit is set).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="uatLinkVersion" type="fb:CountType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Universal Access Transceiver (UAT) link version.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EramResponseChoiceType">
+		<xs:annotation>
+			<xs:documentation>Container for error or warning messages from ERAM regarding an amendment request.</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="errorResponse" type="fb:CharacterStringType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Error response.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="warningResponse" type="nas:EramWarningResponseType" minOccurs="1" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Warning response from ERAM.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="EramWarningResponseType">
+		<xs:annotation>
+			<xs:documentation>Warning response from ERAM.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="message" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Warning Message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="nas:EramWarningTypeType" minOccurs="0" maxOccurs="10" nillable="true">
+				<xs:annotation>
+					<xs:documentation>ERAM warning type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GeometricDilutionOfPrecisionType">
+		<xs:annotation>
+			<xs:documentation>Specifies the error propagation as a mathematical effect of navigation satellite geometry on positional measurement precision.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="xxCovariance" type="nas:NasDistanceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The xx covariance that is used to calculate the Geometric Dilution of Precision (GDOP), which reflects how errors in the measurement affect the state estimation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="xyCovariance" type="nas:AreaType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The xy covariance that is used to calculate the Geometric Dilution of Precision (GDOP), which reflects how errors in the measurement affect the state estimation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="yyCovariance" type="nas:NasDistanceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The yy covariance that is used to calculate the Geometric Dilution of Precision (GDOP), which reflects how errors in the measurement affect the state estimation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zzCovariance" type="nas:AreaType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The zz covariance that is used to calculate the Geometric Dilution of Precision (GDOP), which reflects how errors in the measurement affect the state estimation.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MessageMetadataType">
+		<xs:annotation>
+			<xs:documentation>The MessageMetadata provides information about the message including its trigger, provenance, sensitivity, and various other header/metadata fields that are more related to the message itself (or the system generating the message) than to the flight the message is about.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="asdexConfidence" type="nas:AsdexConfidenceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Confidence of the ASDE-X system regarding the position accuracy.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="asdexProvenance" type="nas:AsdexProvenanceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>A collection of information about the source of the information contained in this message and the settings of the Airport Surface Detection Equipment Model X (ASDE-X) system used to create the message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="eramMessageTimeAndSequenceNumber" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Message time and sequence number where dddddd (the first six digits) is UTC (hhmmss); dddd (the last four digits) is the sequence number of the message (range 0000-9999). The sequence number is initialized to 0000 when ATM IPOP is initialized. The sequence number is incremented each time a message is sent. It will be reset to 0000 after sending a message with sequence number 9999.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="eramResponse" type="nas:EramResponseChoiceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Error or warning messages from ERAM regarding an amendment request.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="provenance" type="nas:MessageProvenanceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Message provenance data. Can be used by system to describe details involved in sending the message including source, center and system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sensitivity" type="nas:SensitivityType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Sensitivity of the message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sensitivityReason" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Reason for the message sensitivity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="sequenceNumber" type="fb:CountType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Used to ensure message order is maintained regardless of delivery mechanism.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="taisTrackProvenance" type="nas:TaisTrackProvenanceType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Information about the track reports provided byTAIS.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="trigger" type="nas:TriggerType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Container for Message Trigger information such as the type of trigger and timestamp.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MessageProvenanceType">
+		<xs:annotation>
+			<xs:documentation>Message provenance data. Can be used to describe details involved in sending the message including the airport, center, system, and/or TRACON that produced the data contained in the message and the time at which it was produced.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="airport" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The airport that produced the data contained in the Message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="center" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The ATC center (or FIR) that produced the data contained in the Message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="source" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The source that produced the data contained in the Message, if the source is not an ATC facility.
+While this field has no formal definition, it might take values such as:
+
+- an Airline Operations Center (AOC) 
+- a Traffic Flow center  
+- an international data provider  </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="system" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The name of the system that generated the data contained in the Message</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="timestamp" type="fb:DateTimeUtcHighPrecisionType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The time at which the provenance information was recorded.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tracon" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>The TRACON that produced the data contained in the Message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NasMessageType">
+		<xs:annotation>
+			<xs:documentation>NAS-specific extensions to Message information.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="msg:MessageExtensionType">
+				<xs:sequence>
+					<xs:element name="metadata" type="nas:MessageMetadataType" minOccurs="0" maxOccurs="1" nillable="true">
+						<xs:annotation>
+							<xs:documentation>The MessageMetadata provides information about the message including its trigger, provenance, sensitivity, and various other header/metadata fields that are more related to the message itself (or the system generating the message) than to the flight the message is about.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="NasMessageCollectionType">
+		<xs:annotation>
+			<xs:documentation>NAS-specific extensions to MessageCollection information.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="msg:MessageCollectionExtensionType">
+				<xs:sequence>
+					<xs:element name="metadata" type="nas:MessageMetadataType" minOccurs="0" maxOccurs="1" nillable="true">
+						<xs:annotation>
+							<xs:documentation>The MessageMetadata provides information about the message including its trigger, provenance, sensitivity, and various other header/metadata fields that are more related to the message itself (or the system generating the message) than to the flight the message is about.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TaisTrackProvenanceType">
+		<xs:annotation>
+			<xs:documentation>Information about the track reports provided by the Terminal Automation Information Service (TAIS).</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="adsbTrack" type="nas:AdsbTrackIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if ADS-B contributed to track position.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="frozenTrack" type="nas:FrozenTrackIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if the track is frozen (the radar returns have been interrupted and the position symbol and data label are frozen on the situation display at the last reported position.)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="newTrack" type="nas:NewTrackIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if this is a new track.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pseudoTrack" type="nas:PseudoTrackIndicatorType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Indicates if this is a pseudo track (a pseudo track is maintained and displayed based on flight plan information received from NAS rather than radar returns).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TriggerType">
+		<xs:annotation>
+			<xs:documentation>Container for Message Trigger information such as the type of trigger and timestamp.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="timestamp" type="fb:DateTimeUtcHighPrecisionType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Trigger timestamp</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="triggerType" type="fb:CharacterStringType" minOccurs="0" maxOccurs="1" nillable="true">
+				<xs:annotation>
+					<xs:documentation>Describes the message trigger type.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -18,9 +18,11 @@ list gets worked, following
 | National Transportation Safety Board | Prevent accidents |
 | Department of Transportation | National transportation policy |
 | Department of Defense | National security and airspace access |
-| International Civil Aviation Organization | International standards |
+| International Civil Aviation Organization (ICAO) | International standards |
 | Congress and legislatures | Economic growth and public accountability |
+
 | State and local governments | Airports, jobs, and noise concerns |
+| SMilitaries| ANavigable|airspace & resources w/priority 
 
 ### Economic
 
@@ -28,10 +30,12 @@ list gets worked, following
 |---|---|
 | Airlines (e.g. Delta) | Profitability |
 | Cargo operators | Throughput and reliability |
+| Adjacent Airspace Users | Throughput and eliability |
 | Aircraft manufacturers | Product competitiveness |
 | Engine manufacturers | Product performance and aftermarket revenue |
 | Airports | Revenue and capacity |
 | Investors and shareholders | Return on investment |
+| Leasors | Return conditions |
 | Insurers | Risk reduction |
 | Labor unions | Compensation and job security |
 | Fuel suppliers | Fuel demand |
@@ -48,9 +52,11 @@ list gets worked, following
 | Families of passengers | Safety |
 | Disability advocacy organizations | Accessibility |
 | Tourism industry | Mobility and economic activity |
-| Business travelers | Schedule reliability |
+|
+ Business travelers | Schedule reliability |
 
-### Technical
+
+| BTrainers|& Educators  SRegulatory|Stability & Standard Definitions ### Technical
 
 | Stakeholder | Interest |
 |---|---|
@@ -115,12 +121,14 @@ Auto-Flight Control System -> Flight Director Commands -> Aircraft Behavior
 
 ## Reconciling with the §8 stakeholder-objective ontology
 
-`to-do-list.md` §8 organizes objectives by a different, narrower stakeholder set
-(Airline, Passenger, ATC/ANSP, Airport, Flight Crew, Environmental/Societal, Military).
-That set is a *subset* of the PESTLE inventory above, chosen because those are the actors
-who actually sit inside the trajectory-intent chain and make tradeoffs against each
-other. When doing the §8 pass, map each of those seven back to the PESTLE stakeholders
-above rather than treating them as a separate, disconnected list.
+`to-do-list.md` §8 organizes objectives by a different, narrower stakeholder set(Airline, Passenger, ATC/ANSP, Airport, Flight Crew, Environmental/Societal, Military).
+That set is a *subset* of the PESTLE inventory above, ==chosen because those are the actorswho actually sit inside the trajectory-intent chain and make tradeoffs against eachother==. When doing the §8 pass, map each of those seven back to the PESTLE stakeholders above rather than treating them as a separate, disconnected list.
+
+The worked §8 pass — objective, classification, MOP, MOE, trajectory-decision impact,
+and abstraction-level comment for each of the seven categories, plus a
+conflicts/alignments/externalities/timescales synthesis — lives in
+[[stakeholder-objective-ontology]] rather than here, to avoid duplicating that much
+detail across two files.
 
 ## Still open (per to-do §7)
 

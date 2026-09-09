@@ -67,6 +67,8 @@ information-flow, and decision-authority decompositions before committing.
 Latest first — full rationale and history in
 [[decisions-log]] (`../../decisions/decisions-log.md`):
 
+- **D-004** — Questions the project will answer: External optimization analyses will evaluate how changes in decision scope, information, objective functions, and planning horizon propagate across stakeholder-specific measures of performance and effectiveness.
+- **D-003** — The project will employ SysML in Cameo as its primary systems-modeling language. A decision-centric modeling method, informed by MagicGrid and selected UAF/DoDAF concepts, will represent stakeholder concerns, operational activities, constituent systems, decision authority, information availability, and quantitative performance relationships.
 - **D-002** — Domain decomposition (Governance, Airspace Management, Airspace Resources,
   Flight Operations, Airport Operations, Aircraft Systems, Information Services,
   Infrastructure, Decision Support) built around authority/responsibility/information

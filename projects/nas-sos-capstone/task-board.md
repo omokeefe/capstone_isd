@@ -4,17 +4,28 @@ _Cross-session focus state only. The full task checklist lives in
 `to-do-list.md` — don't duplicate it here. Update this file per
 `../../workflows/session-wrap-up.md` at the end of each session._
 
-**Last updated:** 2026-09-04 (paths updated 2026-09-05 during the PKM reorg; no content
-changed otherwise)
+**Last updated:** 2026-09-06 (§8 stakeholder-objective-ontology pass)
 
 ## Current phase
 
-`to-do-list.md` §1 ("Establish Research Framework") is the active section — the
-SOI boundary, research questions, and source register are still being stood up. Sections
-§2-§16 are not yet started.
+`to-do-list.md` §1 ("Establish Research Framework") is still the primary active
+section — the SOI boundary and research questions are still unresolved. §8 (Objective /
+Cost / Value Ontology) is now fully drafted out of sequence (see below); §2-§7, §9-§16
+otherwise not yet started.
 
 ## Active
 
+- Drafted the full §8 pass in
+  `../../knowledge/models/stakeholder-objective-ontology.md` — objective,
+  classification, MOP, MOE, trajectory-decision impact, and abstraction comment for all
+  seven §8 stakeholder categories, plus a cross-category conflicts/alignments/
+  externalities/timescales synthesis. See
+  `sessions/2026-09-06-stakeholder-objective-ontology.md`. Flags Military and
+  Environmental/Societal as the least-grounded categories (no persona, no literature yet)
+  — revisit once §2-§4 annotation reaches relevant sources. Named a front-runner §11
+  optimization-study candidate (airline fuel cost vs. ATC/ANSP sector workload) and a
+  `knowledge/claims/` candidate (CO2 vs. contrail/non-CO2 climate effects, an
+  intra-stakeholder conflict).
 - Processed 10 new references added to `../../evidence/sources/` — full triage (bib +
   summary + 0-5 rating) on all 10, plus deep annotation and a cross-source synthesis pass
   on the three highest scorers (`romanideoliveira2026predictiveservices`,

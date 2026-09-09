@@ -448,76 +448,76 @@ working target in that window if a firmer date is needed.)*
 hierarchy," metric "Quantifiable metrics defined." Applies to the whole section; the
 "Classify objectives as..." bullet below is this milestone's most literal match.)*
 
-- [ ] Define what "optimal" means for each major stakeholder.
+- [x] Define what "optimal" means for each major stakeholder. *(see [[stakeholder-objective-ontology]])*
 
 ### Airline
-- [ ] Fuel cost.
-- [ ] Crew cost.
-- [ ] Aircraft utilization.
-- [ ] Maintenance.
-- [ ] Schedule integrity.
-- [ ] Passenger connections.
-- [ ] Delay cost.
-- [ ] Revenue.
-- [ ] Dispatch reliability.
+- [x] Fuel cost.
+- [x] Crew cost.
+- [x] Aircraft utilization.
+- [x] Maintenance.
+- [x] Schedule integrity.
+- [x] Passenger connections.
+- [x] Delay cost.
+- [x] Revenue.
+- [x] Dispatch reliability.
 
 ### Passenger
-- [ ] Ticket price.
-- [ ] Travel time.
-- [ ] Connection reliability.
-- [ ] Schedule convenience.
-- [ ] Comfort.
-- [ ] Disruption risk.
+- [x] Ticket price.
+- [x] Travel time.
+- [x] Connection reliability.
+- [x] Schedule convenience.
+- [x] Comfort.
+- [x] Disruption risk.
 
 ### ATC / ANSP
-- [ ] Safety/separation.
-- [ ] Sector workload.
-- [ ] Capacity.
-- [ ] Predictability.
-- [ ] Delay.
-- [ ] Traffic complexity.
+- [x] Safety/separation.
+- [x] Sector workload.
+- [x] Capacity.
+- [x] Predictability.
+- [x] Delay.
+- [x] Traffic complexity.
 
 ### Airport
-- [ ] Gate utilization.
-- [ ] Runway utilization.
-- [ ] Surface congestion.
-- [ ] Turnaround performance.
-- [ ] Passenger throughput.
+- [x] Gate utilization.
+- [x] Runway utilization.
+- [x] Surface congestion.
+- [x] Turnaround performance.
+- [x] Passenger throughput.
 
 ### Flight Crew
-- [ ] Safety.
-- [ ] Workload.
-- [ ] Procedural compliance.
-- [ ] Schedule/duty constraints.
-- [ ] Operational flexibility.
+- [x] Safety.
+- [x] Workload.
+- [x] Procedural compliance.
+- [x] Schedule/duty constraints.
+- [x] Operational flexibility.
 
 ### Environmental / Societal
-- [ ] CO2.
-- [ ] NOx.
-- [ ] Contrail/climate effects.
-- [ ] Noise.
-- [ ] Local air quality.
-- [ ] Community impacts.
+- [x] CO2.
+- [x] NOx.
+- [x] Contrail/climate effects.
+- [x] Noise.
+- [x] Local air quality.
+- [x] Community impacts.
 
 ### Military
-- [ ] Mission effectiveness.
-- [ ] Mission timing.
-- [ ] Fuel availability.
-- [ ] Airspace access.
-- [ ] Operational security.
-- [ ] Resilience.
+- [x] Mission effectiveness.
+- [x] Mission timing.
+- [x] Fuel availability.
+- [x] Airspace access.
+- [x] Operational security.
+- [x] Resilience.
 
-- [ ] Classify objectives as:
-  - [ ] Hard constraint.
-  - [ ] Optimization objective.
-  - [ ] Cost/penalty.
-  - [ ] Measure of effectiveness.
-  - [ ] Measure of performance.
+- [x] Classify objectives as:
+  - [x] Hard constraint.
+  - [x] Optimization objective.
+  - [x] Cost/penalty.
+  - [x] Measure of effectiveness.
+  - [x] Measure of performance.
 
-- [ ] Identify conflicting objectives.
-- [ ] Identify aligned objectives.
-- [ ] Identify objectives whose costs are externalized onto another stakeholder.
-- [ ] Identify objectives operating on different timescales.
+- [x] Identify conflicting objectives.
+- [x] Identify aligned objectives.
+- [x] Identify objectives whose costs are externalized onto another stakeholder.
+- [x] Identify objectives operating on different timescales.
 
 
 # 9. Analyze Myopic Optimization
