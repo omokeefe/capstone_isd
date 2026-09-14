@@ -36,6 +36,17 @@ or conversation — don't let definitions live only in someone's head or a singl
 - **IASMS** — In-Time Aviation Safety Management System; an evolution of traditional
   Safety Management Systems (SMS) toward continuous, real-time safety monitoring. See
   `yao2026loAltitudeSoSSafety`.
+- **TBO** — Trajectory-Based Operations; the ATM operational paradigm in which flight
+  trajectories (not just clearances) are the primary object shared and managed across
+  ATM systems — closely related to this project's "trajectory-intent" framing. See
+  `great2020d21tboConcept` and `sesarju2025masterPlan` in [[source-register]].
+- **CPG** — Cyber-Physical Gap; the difference between a physical entity's actual state
+  and its state as perceived/represented by a cybernetic agent (e.g., an aircraft's true
+  position/route vs. ATC's tracked/expected position/route). See
+  `mordecai2018cyberPhysicalGapAtc` in [[source-register]].
+- **KARMA** — Kombination of ARchitecture Model specificAtion; a semantic MBSE modeling
+  language (paired with the GOPPRR metamodel) used by `lu2022karmaRoadmap` and
+  `liu2025mbseAtmSmt` for ATM architecture modeling and formal verification.
 
 ## Airspace / ATC
 
@@ -60,6 +71,9 @@ or conversation — don't let definitions live only in someone's head or a singl
   [[candidate-systems-inventory]].
 - **SWIM** — System Wide Information Management (shared information-exchange
   infrastructure across ATC/ANSP systems — see [[candidate-systems-inventory]]).
+- **FIXM** — Flight Information Exchange Model; a joint FAA/EUROCONTROL/ICAO logical data
+  standard for exchanging flight information across ATM systems, with FAA-specific "US
+  Extension" fields. See `faaFixmUsExtension2024` in [[source-register]].
 - **EASA / CAAC** — European Union Aviation Safety Agency / Civil Aviation Administration
   of China (regulator analogues to the FAA, named in [[candidate-systems-inventory]] as
   examples of a generic "Regulatory System" pattern).

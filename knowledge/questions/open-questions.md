@@ -54,6 +54,20 @@ delete it from here — don't let answered questions linger.
   `luDesignOntologyMBSE2020` but gives its venue/year as *IEEE Systems Journal*, 2022,
   vs. the registered arXiv 2020 entry — reconcile which is the authoritative citation.
 
+## Reference-register housekeeping (2026-09-13 sweep, 18 new files)
+
+- [ ] `faaFixmUsExtension2024`'s exact release year for FIXM US Extension v4.4.0 is not
+  stated in the document itself — verify against fixm.aero before citing precisely. See
+  [[source-register]].
+- [ ] Three GreAT (Greener Air Traffic Operations, EU-China H2020) project deliverables
+  were added and rated highly relevant to §6/§10 architecture work but only skimmed on
+  this triage pass — `great2020d21tboConcept` (TBO concept baseline, rated 5),
+  `great2021d22operationalArch` (MBSE-derived operational + system architecture, rated
+  5), and `great2021d51avionicsArch` (avionics architecture, rated 4). Prioritize a
+  deeper read/annotation pass on `great2021d22operationalArch` in particular once §6/§10
+  is actively worked — it is a rare real-world precedent for deriving ATM architecture
+  from an operational concept via MBSE. See [[source-register]].
+
 ## Optimization study scope (§11)
 
 - [ ] Which "tractable representative operational scenario" will actually be used for

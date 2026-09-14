@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-09-05
-**Files in `evidence/sources/` at last sweep:** 32 of 32 processed
+**Last full sweep:** 2026-09-13
+**Files in `evidence/sources/` at last sweep:** 52 of 52 processed
 
 Rating scale (be honest — a register where everything is a 4 or 5 is not useful):
 
@@ -64,13 +64,101 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | 51.Model-BasedSystemsEngineeringSupportingArchitectureModelingofAirTrafficManagementSystemandModelVerifyingBasedonSMT.pdf | `liu2025mbseAtmSmt` | 4 | [4 - liu2025mbseAtmSmt.md](literature-notes/summaries/4%20-%20liu2025mbseAtmSmt.md) | 2026-09-05 |
 | mudumba-et-al-2022-model-based-systems-engineering-approach-for-simulating-uml-5-uam-operations.pdf | `mudumba2022mbseUml5uam` | 3 | [3 - mudumba2022mbseUml5uam.md](literature-notes/summaries/3%20-%20mudumba2022mbseUml5uam.md) | 2026-09-05 |
 | PritiJainpaperaspublishedliasa_v77_n1_a2.pdf | `jain2011pkm` (duplicate PDF — see flag) | 1 | [1 - jain2011pkm.md](literature-notes/summaries/1%20-%20jain2011pkm.md) | 2026-09-05 |
+| Article Modeling and Analysis of Unmanned Aerial Vehicle System Leveraging Systems Modeling Language (SysML).pdf | `hossain2022uavSysml` | 2 | [2 - hossain2022uavSysml.md](literature-notes/summaries/2%20-%20hossain2022uavSysml.md) | 2026-09-13 |
+| Conceptual Modeling of Cyber-Physical Gaps in Air Traffic Control.pdf | `mordecai2018cyberPhysicalGapAtc` | 4 | [4 - mordecai2018cyberPhysicalGapAtc.md](literature-notes/summaries/4%20-%20mordecai2018cyberPhysicalGapAtc.md) | 2026-09-13 |
+| Creating Executable Agent-Based Models Using SysML.pdf | `maheshwari2015sysmlAbmAtc` | 3 | [3 - maheshwari2015sysmlAbmAtc.md](literature-notes/summaries/3%20-%20maheshwari2015sysmlAbmAtc.md) | 2026-09-13 |
+| FIXM_US_Extension_v4.4.0_Logical_Model_Diagrams.pdf | `faaFixmUsExtension2024` | 4 | [4 - faaFixmUsExtension2024.md](literature-notes/summaries/4%20-%20faaFixmUsExtension2024.md) | 2026-09-13 |
+| Flight Control System Modeling with SysML to Support Validation, Qualification and Certification.pdf | `mhenni2016fcsSysml` | 2 | [2 - mhenni2016fcsSysml.md](literature-notes/summaries/2%20-%20mhenni2016fcsSysml.md) | 2026-09-13 |
+| Formal modeling of a complex adaptive air traffic control system.pdf | `jarrar2018formalAtcEventB` | 3 | [3 - jarrar2018formalAtcEventB.md](literature-notes/summaries/3%20-%20jarrar2018formalAtcEventB.md) | 2026-09-13 |
+| GREAT_D2.1_Concept_VF - Good Content.pdf | `great2020d21tboConcept` | 5 | [5 - great2020d21tboConcept.md](literature-notes/summaries/5%20-%20great2020d21tboConcept.md) | 2026-09-13 |
+| GREAT_D2.2_Modelling_operational_system_architecture_VF - Good Content.pdf | `great2021d22operationalArch` | 5 | [5 - great2021d22operationalArch.md](literature-notes/summaries/5%20-%20great2021d22operationalArch.md) | 2026-09-13 |
+| GreAT_D5.1-ATM-avionic-system-architecture-development_VF.pdf | `great2021d51avionicsArch` | 4 | [4 - great2021d51avionicsArch.md](literature-notes/summaries/4%20-%20great2021d51avionicsArch.md) | 2026-09-13 |
+| INCOSE International Symp - 2018 - Chami - Towards Solving MBSE Adoption Challenges  The D3 MBSE Adoption Toolbox.pdf | `chami2018d3MbseAdoption` | 2 | [2 - chami2018d3MbseAdoption.md](literature-notes/summaries/2%20-%20chami2018d3MbseAdoption.md) | 2026-09-13 |
+| INCOSEInternationalSymp-2022-Lu-SemanticModelbasedSystemsEngineeringbasedonKARMAAResearchandPractice.pdf | `lu2022karmaRoadmap` | 3 | [3 - lu2022karmaRoadmap.md](literature-notes/summaries/3%20-%20lu2022karmaRoadmap.md) | 2026-09-13 |
+| INSIGHT - 2020 - McDermott - AI4SE and SE4AI  A Research Roadmap.pdf | `mcdermott2020ai4seSe4ai` | 2 | [2 - mcdermott2020ai4seSe4ai.md](literature-notes/summaries/2%20-%20mcdermott2020ai4seSe4ai.md) | 2026-09-13 |
+| Model-Driven Requirements Engineering - Synchronising Models in an Air Traffic Management Case Study.pdf | `maiden2004rescueDman` | 4 | [4 - maiden2004rescueDman.md](literature-notes/summaries/4%20-%20maiden2004rescueDman.md) | 2026-09-13 |
+| Modelling Traffic Scenarios for Realistic Air Traffic Control Environment Testing.pdf | `axholt2004atcScenarios` | 2 | [2 - axholt2004atcScenarios.md](literature-notes/summaries/2%20-%20axholt2004atcScenarios.md) | 2026-09-13 |
+| SESAR Master Plan 2025.pdf | `sesarju2025masterPlan` | 5 | [5 - sesarju2025masterPlan.md](literature-notes/summaries/5%20-%20sesarju2025masterPlan.md) | 2026-09-13 |
+| SESAR_eATM_ATM_Capabilities.xlsx | `sesarju2025eatmCapabilities` | 3 | [3 - sesarju2025eatmCapabilities.md](literature-notes/summaries/3%20-%20sesarju2025eatmCapabilities.md) | 2026-09-13 |
+| Towards a Comparative Analysis of Meta-Metamodels (Kern, Hummel, Kuhne).pdf | `kern2011metametamodels` | 2 | [2 - kern2011metametamodels.md](literature-notes/summaries/2%20-%20kern2011metametamodels.md) | 2026-09-13 |
+| Understanding the Implications for Airports of Distributed Air Transportation Using a System-of-Systems Approach.pdf | `delaurentis2008airportsSos` | 4 | [4 - delaurentis2008airportsSos.md](literature-notes/summaries/4%20-%20delaurentis2008airportsSos.md) | 2026-09-13 |
+| Tese_Doutoramento_AntonioCastro_18Julho2013.pdf | `castro2013aoccMasThesis` | 5 | [5 - castro2013aoccMasThesis.md](literature-notes/summaries/5%20-%20castro2013aoccMasThesis.md) | 2026-09-13 |
+| Evaluation of a Multi-Agent System approach to airline disruption management.pdf | `bouarfa2018masDisruption` | 4 | [4 - bouarfa2018masDisruption.md](literature-notes/summaries/4%20-%20bouarfa2018masDisruption.md) | 2026-09-13 |
 
-**Distribution:** eight 5s, nine 4s, seven 3s, five 2s, three 1s, zero 0s — 32 files, 30
-distinct works (one remaining draft/published pair, see Flags below, plus the new
-`jain2011pkm` duplicate PDF pair found 2026-09-05; the exact-duplicate
-`jagtap2025mbseEngineInlet` PDF pair was resolved during the 2026-09-05 PKM reorg — one
-copy removed). No duplicates found among the ten files added 2026-09-04, though several
-overlap topically with existing sources — see the Flags entry below.
+**Distribution:** thirteen 5s, sixteen 4s, eleven 3s, eleven 2s, three 1s, zero 0s — 52 files, 50
+distinct works (one remaining draft/published pair, see Flags below, plus the `jain2011pkm`
+duplicate PDF pair found 2026-09-05; the exact-duplicate `jagtap2025mbseEngineInlet` PDF pair
+was resolved during the 2026-09-05 PKM reorg — one copy removed). No exact duplicates found
+among the 18 files added 2026-09-13, though several overlap topically with existing sources —
+see the Flags entry below. Two more files (a PhD thesis and its companion journal paper) were
+added and processed later the same day — see the follow-up flags note below.
+
+### Flags raised by this sweep (2026-09-13, 18 new files)
+
+- **No exact duplicates.** All 18 files are distinct works from the 32 already in the register.
+- **Three GreAT (Greener Air Traffic Operations, EU-China H2020, Grant 875154) project
+  deliverables added** — `great2020d21tboConcept` (D2.1, TBO concept baseline), 
+  `great2021d22operationalArch` (D2.2, MBSE-derived operational + system architecture), and
+  `great2021d51avionicsArch` (D5.1, avionics-level functional architecture). Confirmed
+  complementary volumes of one project's concept -> architecture -> avionics progression, not
+  duplicates of one another. `great2021d22operationalArch` (rated 5) is arguably the single most
+  directly useful new source in this batch for the capstone's core architecture work (§6, §10) —
+  a rare real-world precedent for deriving ATM system architecture from an operational concept via
+  MBSE.
+- **`sesarju2025masterPlan`** (SESAR European ATM Master Plan, 2025 edition) is flagged, per the
+  task instructions, as a **topical parallel** (not a duplicate) to the already-registered
+  `faaNasInfrastructureRoadmaps2025` — the European and US counterparts of the same kind of
+  national/regional ATM roadmap document; natural to cite as a comparative pair.
+- **`sesarju2025eatmCapabilities`** (the SESAR eATM capability-model .xlsx) is a structured-data
+  extraction from the public ATM Master Plan website, not an authored publication — flagged as
+  such in its bib `note` and summary. It complements `sesarju2025masterPlan` as its structured-data
+  counterpart.
+- **`lu2022karmaRoadmap`** (INCOSE 2022, general KARMA-methodology research roadmap) is flagged as
+  a companion/precursor to the already-registered `liu2025mbseAtmSmt` (KARMA applied to ATM
+  architecture modeling, KSEM 2024/Springer) — same KARMA language, overlapping Jinzhi Lu
+  authorship, but a distinct paper (general methodology vs. ATM-domain application), not a
+  duplicate.
+- **`delaurentis2008airportsSos`** (2008 journal article on airports under distributed/on-demand
+  air transportation, using an SoS approach) is flagged as a **same-author, different-paper**
+  relationship to the already-registered `delaurentis2005sosTransportation` (2005 AIAA conference
+  paper on general SoS-for-transportation taxonomy) — extends rather than duplicates that source;
+  worth citing as a pair.
+- **`mcdermott2020ai4seSe4ai`** shares co-author Dan DeLaurentis with
+  `delaurentis2005sosTransportation`, `mudumba2022mbseUml5uam`, and `maheshwari2015sysmlAbmAtc`,
+  but is a distinct, broader SERC research-roadmap paper (no ATM-specific content) — not a
+  duplicate of any of those.
+- **One bibliographic detail flagged as unconfirmed:** `faaFixmUsExtension2024`'s exact release
+  year is not stated in the document itself (no title-page byline or date); inferred as ~2024 from
+  FIXM's known v4.3.0 (2023) release cadence — **verify against fixm.aero before citing precisely.**
+  Similarly, `maiden2004rescueDman` and `kern2011metametamodels` had their year/venue confirmed via
+  web search rather than the PDF text itself (neither showed a visible masthead/header on the pages
+  captured) — both confirmed against independent sources (City Research Online; ACM Digital
+  Library) with reasonable confidence.
+- **No files rated 0 or 1 in this batch.** Lowest ratings were six 2s (`hossain2022uavSysml`,
+  `mhenni2016fcsSysml`, `chami2018d3MbseAdoption`, `mcdermott2020ai4seSe4ai`,
+  `axholt2004atcScenarios`, `kern2011metametamodels`) — all methodologically sound but tangential
+  to the NAS-as-SoS/trajectory-intent storyline (vehicle/component-level MBSE case studies,
+  organizational-adoption process papers, or pure modeling-theory background); none flagged as
+  candidates for removal.
+
+### Flags raised by the follow-up 2026-09-13 sweep (2 new files)
+
+- **No duplicates; the two files are a matched pair, not independent sources.**
+  `castro2013aoccMasThesis` (António Castro's 2013 FEUP PhD thesis) originates MASDIMA, a
+  distributed Multi-Agent System for AOC disruption management, plus the GQN negotiation
+  protocol and the PORTO AOSE methodology. `bouarfa2018masDisruption` (Bouarfa, Müller & Blom,
+  *Journal of Air Transport Management* 2018) is a later TU Delft benchmark/evaluation of that
+  same MASDIMA policy against human-team AOC coordination policies. Cite together.
+- **`castro2013aoccMasThesis` rated 5/5** — the strongest new source found since the 18-file
+  sweep earlier today: a real, implemented distributed-agent decomposition of AOC disruption
+  management with explicit per-stakeholder (aircraft/crew/passenger) utility functions, directly
+  useful for both the architecture-decomposition work (§6, §10) and the
+  objective/cost-ontology and myopic-optimization-conflict analysis (§7-9). Only skimmed (front
+  matter) on this triage pass — flagged as a priority candidate for a full
+  `annotate-source.md` deep-read.
+- No bibliographic ambiguity — both sources had complete author/venue/DOI (or thesis
+  institution) metadata directly on the pages read.
+- No files rated 0-1 in this follow-up batch.
 
 ### Flags raised by this sweep
 
@@ -200,6 +288,8 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | Workload Balancing for Flight Dispatchers.pdf | `dispatcherWorkload2025` | journal article | not started |
 | Review of Optimization Problems, Models and Methods for Airline Disruption Management from 2010 to 2024,.pdf | `hu2024disruptionOptReview` | journal review | not started |
 | The Aircraft Recovery Problem A Systematic Literature Review.pdf | `santana2023arpReview` | journal review | annotated — see [santana2023arpReview.md](literature-notes/annotations/santana2023arpReview.md) |
+| Tese_Doutoramento_AntonioCastro_18Julho2013.pdf | `castro2013aoccMasThesis` | PhD thesis | not started — high priority given 5/5 rating; see [5 - castro2013aoccMasThesis.md](literature-notes/summaries/5%20-%20castro2013aoccMasThesis.md) |
+| Evaluation of a Multi-Agent System approach to airline disruption management.pdf | `bouarfa2018masDisruption` | journal article | not started |
 | — (nominal ATC/IFR flight execution) | none yet | FAA source(s) TBD | not started — need to identify specific FAA/AIM references per to-do §4 |
 
 ### MBSE methodology & systems-architecture references (not yet tied to a to-do §; background/methods reading)
@@ -224,6 +314,24 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | Urban Air Mobility as a System of Systems An LLM-Enhanced Holonic Approach.pdf | `sadik2025holonicUAM` | conference paper (IEEE SOSE) | not started |
 | 51.Model-BasedSystemsEngineeringSupportingArchitectureModelingofAirTrafficManagementSystemandModelVerifyingBasedonSMT.pdf | `liu2025mbseAtmSmt` | conference paper (KSEM/Springer) | not started |
 | mudumba-et-al-2022-model-based-systems-engineering-approach-for-simulating-uml-5-uam-operations.pdf | `mudumba2022mbseUml5uam` | conference paper (AIAA) | not started |
+| Article Modeling and Analysis of Unmanned Aerial Vehicle System Leveraging Systems Modeling Language (SysML).pdf | `hossain2022uavSysml` | journal article (MDPI Systems) | not started |
+| Conceptual Modeling of Cyber-Physical Gaps in Air Traffic Control.pdf | `mordecai2018cyberPhysicalGapAtc` | conference paper (Procedia CS) | not started — likely relevant to trajectory-intent framing |
+| Creating Executable Agent-Based Models Using SysML.pdf | `maheshwari2015sysmlAbmAtc` | conference paper (INCOSE) | not started |
+| FIXM_US_Extension_v4.4.0_Logical_Model_Diagrams.pdf | `faaFixmUsExtension2024` | FAA data-standard diagram export | not started — candidate reference for §6/§10 data-model work |
+| Flight Control System Modeling with SysML to Support Validation, Qualification and Certification.pdf | `mhenni2016fcsSysml` | conference paper (IFAC) | not started |
+| Formal modeling of a complex adaptive air traffic control system.pdf | `jarrar2018formalAtcEventB` | journal article | not started |
+| GREAT_D2.1_Concept_VF - Good Content.pdf | `great2020d21tboConcept` | EU-China project deliverable (GreAT) | not started — likely directly relevant to trajectory-intent/ConOps framing |
+| GREAT_D2.2_Modelling_operational_system_architecture_VF - Good Content.pdf | `great2021d22operationalArch` | EU-China project deliverable (GreAT) | not started — priority candidate for §6/§10 architecture work |
+| GreAT_D5.1-ATM-avionic-system-architecture-development_VF.pdf | `great2021d51avionicsArch` | EU-China project deliverable (GreAT) | not started |
+| INCOSE International Symp - 2018 - Chami - Towards Solving MBSE Adoption Challenges  The D3 MBSE Adoption Toolbox.pdf | `chami2018d3MbseAdoption` | conference paper (INCOSE) | not started |
+| INCOSEInternationalSymp-2022-Lu-SemanticModelbasedSystemsEngineeringbasedonKARMAAResearchandPractice.pdf | `lu2022karmaRoadmap` | conference paper (INCOSE) | not started |
+| INSIGHT - 2020 - McDermott - AI4SE and SE4AI  A Research Roadmap.pdf | `mcdermott2020ai4seSe4ai` | journal article (INSIGHT) | not started |
+| Model-Driven Requirements Engineering - Synchronising Models in an Air Traffic Management Case Study.pdf | `maiden2004rescueDman` | conference paper (CAiSE) | not started — likely relevant to §7-§9 stakeholder/goal ontology methodology |
+| Modelling Traffic Scenarios for Realistic Air Traffic Control Environment Testing.pdf | `axholt2004atcScenarios` | master's thesis | not started |
+| SESAR Master Plan 2025.pdf | `sesarju2025masterPlan` | SESAR JU roadmap document | not started — priority candidate, European counterpart to faaNasInfrastructureRoadmaps2025 |
+| SESAR_eATM_ATM_Capabilities.xlsx | `sesarju2025eatmCapabilities` | extracted capability taxonomy (data) | not started |
+| Towards a Comparative Analysis of Meta-Metamodels (Kern, Hummel, Kuhne).pdf | `kern2011metametamodels` | workshop paper (DSM'11/SPLASH) | not started |
+| Understanding the Implications for Airports of Distributed Air Transportation Using a System-of-Systems Approach.pdf | `delaurentis2008airportsSos` | journal article | not started — likely relevant to §6 (decomposition), extends delaurentis2005sosTransportation |
 
 ### Off-topic / process background (not tied to any to-do §; flagged for a keep-or-remove decision)
 

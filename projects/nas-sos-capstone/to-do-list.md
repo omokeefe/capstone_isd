@@ -422,8 +422,8 @@ working target in that window if a firmer date is needed.)*
 
 # 7. Stakeholder and Responsibility Analysis
 
-- [ ] Complete PESTLE stakeholder discovery. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition")*
-- [ ] Create stakeholder register. *(ECD 2026-09-07)*
+- [x] Complete PESTLE stakeholder discovery. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition")*
+- [x] Create stakeholder register. *(ECD 2026-09-07)*
 - [ ] Identify each stakeholder's:
   - [ ] Needs.
   - [ ] Goals.
