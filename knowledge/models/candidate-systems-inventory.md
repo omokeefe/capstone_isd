@@ -57,8 +57,7 @@ Systems · Information Services · Infrastructure · Decision Support). Grouping
   US-specific; relevant if the project wants to note NAS is a US instance of a more
   general pattern)
 - **ICAO**
-- Flight Information Regions: Lower FIR, Upper FIR ("Optional; Highest Altitudes" — noted
-  on the source as a qualifier, not fully explained)
+- Flight Information Regions: Lower FIR, Upper FIR
 
 ### Airspace Management
 - Air Traffic Control System (top-level node)
@@ -93,7 +92,7 @@ Systems · Information Services · Infrastructure · Decision Support). Grouping
 - Fuel Distribution System
   - Fuel Transfer System
   - Tanks & Cavities
-  - Fuel Quantity Processing System (**FQPS**)
+
 - Airport Management System (**AMS**) — this is also the hub of the interface diagram;
   see [[interface-exchange-draft]]
 - Ground Handling, Customs and Immigration, Security Services, Parking and Transportation
@@ -116,7 +115,7 @@ Systems · Information Services · Infrastructure · Decision Support). Grouping
   - Primary FCS
   - Reversionary FCS
 - Pitot-Static System
-- Fuel System
+- Fuel System (tanks, fuel transfer system, fuel quantity processing system, fire retardant system, etc.)
 - Navigation, Guidance, Surveillance Systems, Radar (aircraft-side instruments —
   **(inferred grouping)**: could equally be read as avionics sub-nodes of Flight
   Management/Flight Control rather than siblings; verify against the diagram)

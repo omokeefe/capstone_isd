@@ -23,7 +23,7 @@ front-loaded.
   - [ ] When does subsystem optimization produce undesirable System-of-Systems outcomes?
   - [ ] How can an MBSE architecture support analysis of those tradeoffs?
 
-- [ ] Define initial System of Interest (SOI) *(initial pass ECD 2026-09-07; formal boundary write-up ECD 2026-11-13 — "Systems-of-Interest Definition," metric "Clear boundaries & exclusions")*
+- [ ] Define initial System of Interest (SOI)*
   - [ ] Define what is explicitly included.
   - [ ] Define what is explicitly excluded.
   - [ ] Define level(s) of abstraction.
@@ -31,12 +31,12 @@ front-loaded.
   - [ ] Establish criteria for creating a stakeholder/actor boundary.
   - [ ] Document assumptions and unresolved boundary questions.
 
-- [ ] Create research evidence/source register *(feeds ECD 2026-11-17 "Literature Review" milestone — see §2 note)*
-  - [ ] Source
-  - [ ] Publication type
+- [x] Create research evidence/source register *(feeds ECD 2026-11-17 "Literature Review" milestone — see §2 note)*
+  - [x] Source
+  - [x] Publication type
   - [ ] NAS lifecycle phase addressed
-  - [ ] Systems addressed
-  - [ ] Stakeholders addressed
+  - [x] Systems addressed
+  - [x] Stakeholders addressed
   - [ ] Architectural evidence extracted
   - [ ] Optimization/objective evidence extracted
   - [ ] Relevant SysML artifact(s)
