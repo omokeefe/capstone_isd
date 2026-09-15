@@ -47,6 +47,42 @@ front-loaded.
   - [x] Map major sections (§1-§16 of this list) to target completion dates.
   - [ ] Identify milestone checkpoints for interim review(s).
 
+- [ ] Submit Interim Report #1 (Introduction and Current State + References) *(ECD
+  2026-09-20 — course syllabus deliverable, not in the 503 Submittal ECD table;
+  unscheduled there like §6/§9/§14)*. `report/sections/02_introduction.tex` currently
+  holds an AI-drafted synthesis of all six required subsections (2026-09-14) that does
+  **not** count as done — see `task-board.md` and session log
+  `sessions/2026-09-14-interim-report-1-scope-correction.md`. Closing this item means
+  actually doing the following, not just editing prose:
+  - [ ] Ratify the SOI boundary (resolves the "Define initial System of Interest"
+    bullet above and `knowledge/questions/open-questions.md` §1) — the draft Scope
+    subsection proposes one (Part 121 scheduled service; military at the SUA-access
+    interface only), but it's a proposal to evaluate, not a decision. In particular,
+    resolve the self-contradiction on cargo carriers (Part 121 covers scheduled cargo
+    too — decide affirmatively whether cargo ops are in scope and why) before
+    ratifying.
+  - [ ] Once the SOI is ratified, close "Finalize project research questions" above and
+    log the boundary decision in `decisions/decisions-log.md`.
+  - [ ] Rewrite all six subsections (Overview, Current State/Literature Review,
+    Stakeholders, Scope, Project Deliverables, Project Timing) in own judgment/words.
+  - [ ] Fix the literature-review section's annotation-coverage claim — it currently
+    overstates deep-annotated sources; check the real count against
+    `evidence/source-register.md`'s own annotation-status tables before restating it.
+  - [ ] Spot-check every citation sourced to a skimmed-only reference (per that
+    source's own "Processing metadata" in `evidence/literature-notes/summaries/`)
+    against the actual paper before repeating its claim as settled fact — flagged
+    examples: `castro2013aoccMasThesis` (MASDIMA architecture detail),
+    `great2020d21tboConcept`/`great2021d22operationalArch`, `hu2024disruptionOptReview`.
+  - [ ] Replace or explicitly caveat the 1998-dollar disruption-cost figures
+    (`clarke1998irregular`) used to motivate the problem statement.
+  - [ ] Decide (don't default to the draft's phrasing) on the §11 optimization-study
+    candidate scenario referenced in the Project Deliverables subsection.
+  - [ ] Resolve a LaTeX-to-Word conversion approach (no pandoc/LibreOffice found
+    installed as of 2026-09-14) and produce the Word copy.
+  - [ ] Email the Word copy to faculty adviser Mark Petrotta (mpetrott@umich.edu).
+  - [ ] Complete Progress Status Update #1 (Canvas); upload the report there too
+    unless it's deemed confidential.
+
 
 # 2. Literature Review — Airline Planning and Operations
 
@@ -421,6 +457,11 @@ working target in that window if a firmer date is needed.)*
 
 
 # 7. Stakeholder and Responsibility Analysis
+
+*(RACCI/authority-transition bullets below missed their 2026-09-10 ECD, still
+unstarted as of 2026-09-14 — PM check-in recommends deferring them until after
+Interim Report #1 ships 2026-09-20 rather than attempting both at once; see
+`task-board.md`.)*
 
 - [x] Complete PESTLE stakeholder discovery. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition")*
 - [x] Create stakeholder register. *(ECD 2026-09-07)*
