@@ -1,6 +1,6 @@
 # Understanding Transportation as a System-of-Systems Design Problem
 
-- **File:** `references/delaurentis-2012-understanding-transportation-as-a-system-of-systems-design-problem.pdf` (filename year is wrong — see flag)
+- **File:** `references/delaurentis-2005-understanding-transportation-as-a-system-of-systems-design-problem.pdf` (filename year is wrong — see flag)
 - **Bib key:** `delaurentis2005sosTransportation`
 - **Authors:** DeLaurentis, Daniel A. (Purdue University)
 - **Year:** 2005
@@ -43,7 +43,7 @@ aviation-adjacent domains.
 ## Flags
 
 **Year mismatch in filename:** the source filename reads
-"delaurentis-2012-understanding-transportation-as-a-system-of-systems-design-problem.pdf,"
+"delaurentis-2005-understanding-transportation-as-a-system-of-systems-design-problem.pdf,"
 but the paper itself is **AIAA 2005-123**, presented 10-13 January 2005 — there is no 2012
 version evident from the pages read. The bib key and `references.bib` entry use the
 verified 2005 date; worth double-checking there isn't a separate, later DeLaurentis

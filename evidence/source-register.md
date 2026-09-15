@@ -62,7 +62,7 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | Workload Balancing for Flight Dispatchers.pdf | `dispatcherWorkload2025` | 5 | [dispatcherWorkload2025.md](literature-notes/summaries/dispatcherWorkload2025.md) | 2026-08-29 |
 | an-approach-for-system-analysis-with-model-based-systems-engineering-and-graph-data-engineering.pdf | `schummer2022mbseGraphAnalysis` | 2 | [schummer2022mbseGraphAnalysis.md](literature-notes/summaries/schummer2022mbseGraphAnalysis.md) | 2026-08-29 |
 | de Neufville_Engineering Systems.pdf | `bartolomei2012esmdm` (duplicate/earlier draft — see flag) | 1 | [de-neufville-conference-draft-of-bartolomei2012esmdm.md](literature-notes/summaries/de-neufville-conference-draft-of-bartolomei2012esmdm.md) | 2026-08-29 |
-| delaurentis-2012-understanding-transportation-as-a-system-of-systems-design-problem.pdf | `delaurentis2005sosTransportation` (year corrected — see flag) | 5 | [delaurentis2005sosTransportation.md](literature-notes/summaries/delaurentis2005sosTransportation.md) | 2026-08-29 |
+| delaurentis-2005-understanding-transportation-as-a-system-of-systems-design-problem.pdf | `delaurentis2005sosTransportation` (year corrected — see flag) | 5 | [delaurentis2005sosTransportation.md](literature-notes/summaries/delaurentis2005sosTransportation.md) | 2026-08-29 |
 | eurocontrol-specification-for-acdm.pdf | `eurocontrolACDMSpec` | 5 | [eurocontrolACDMSpec.md](literature-notes/summaries/eurocontrolACDMSpec.md) | 2026-08-29 |
 | A Predictive Services Architecture for Efficient Airspace Operations.pdf | `romanideoliveira2026predictiveservices` | 4 | [4 - romanideoliveira2026predictiveservices.md](literature-notes/summaries/4%20-%20romanideoliveira2026predictiveservices.md) | 2026-09-04 |
 | AI- and Ontology-Based Enhancements to FMEA for Advanced Systems Engineering - Current Developments and Future Directions.pdf | `younus2026fmeaOntology` | 3 | [3 - younus2026fmeaOntology.md](literature-notes/summaries/3%20-%20younus2026fmeaOntology.md) | 2026-09-04 |
@@ -194,7 +194,7 @@ added and processed later the same day — see the follow-up flags note below.
     files; still a candidate for consolidation if a user decision is made later.
 - **Two filename/version mismatches** worth double-checking against the source:
   - `NAS-Infrastructure-Roadmaps-v20.pdf`'s title page reads "v19.1," not v20.
-  - `delaurentis-2012-...pdf`'s filename says 2012; the paper itself is AIAA 2005-123
+  - `delaurentis-2005-...pdf`'s filename says 2012; the paper itself is AIAA 2005-123
     (year 2005). Bib entry uses the verified 2005 date.
 - Also fixed a **stray trailing `}`** at the end of the previous `references.bib` (a
   syntax error left over from an earlier edit).
@@ -245,8 +245,9 @@ added and processed later the same day — see the follow-up flags note below.
   — flagged in `evidence/sources/references.bib` and
   `knowledge/questions/open-questions.md` for confirmation.
 - **`jain2011pkm`** (Personal Knowledge Management) rated 1/5 — off-topic for this
-  register (library/information-science survey, zero aerospace/MBSE content). Flagged for
-  a user decision on whether to keep it in `evidence/sources/` at all, per its summary file.
+  register (library/information-science survey, zero aerospace/MBSE content). Resolved
+  2026-09-14: kept in `evidence/sources/` — relevant for personal PKM practice tied to
+  project execution, even though off-topic for the NAS/MBSE literature itself.
 - **Filename correction:** the file on disk named "roactive Aircraft Turnaround Buffer
   Optimization..." (truncated) was renamed to "Proactive Aircraft Turnaround Buffer
   Optimization Integrating Machine Learning and Scenario Analysis.pdf" to match the
@@ -316,7 +317,7 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | an-approach-for-system-analysis-with-model-based-systems-engineering-and-graph-data-engineering.pdf | `schummer2022mbseGraphAnalysis` | journal article | not started |
 | Systems Engineering - 2011 - Bartolomei - Engineering Systems Multiple-Domain Matrix.pdf | `bartolomei2012esmdm` | journal article | not started |
 | de Neufville_Engineering Systems.pdf | `bartolomei2012esmdm` | conference manuscript draft | not started — confirmed earlier draft of the row above, not a distinct de Neufville-authored work |
-| delaurentis-2012-understanding-transportation-as-a-system-of-systems-design-problem.pdf | `delaurentis2005sosTransportation` | conference paper (AIAA) | not started — likely directly relevant to §6 (decomposition); year corrected from filename's "2012" to verified 2005 |
+| delaurentis-2005-understanding-transportation-as-a-system-of-systems-design-problem.pdf | `delaurentis2005sosTransportation` | conference paper (AIAA) | not started — likely directly relevant to §6 (decomposition); year corrected from filename's "2012" to verified 2005 |
 | NAS-Infrastructure-Roadmaps-v20.pdf | `faaNasInfrastructureRoadmaps2025` | FAA/government roadmap document | not started |
 | FAA_data_standards_initiative_systems_engineering_base_for_air_traffic_modernization.pdf | `mitreFAADataStandards` | conference paper (IEEE/MITRE) | not started |
 | 2026_SciTech_Lupp_et_al_REACT_Database.pdf | `lupp2026reactMbseMdo` | conference paper (AIAA SciTech) | not started |

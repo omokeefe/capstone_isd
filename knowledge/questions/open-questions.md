@@ -7,83 +7,49 @@ delete it from here — don't let answered questions linger.
 
 ## System boundary (to-do-list.md §1 "Define initial System of Interest")
 
-- [ ] What is explicitly **included** in the SOI? (Working draft in `index.md`
-  names 9 candidate domains — not yet ratified as a boundary.)
-- [ ] What is explicitly **excluded**? (E.g., is general aviation in scope? Military
-  airspace operations beyond their role as a PESTLE/objective stakeholder? International
-  airspace outside US NAS?)
-- [ ] What level(s) of abstraction will the model operate at? (Enterprise-level policy
-  down to control-surface deflection is an enormous range — the trajectory-intent chain
-  in `index.md` spans all of it conceptually, but the model itself likely can't
-  render every level in equal detail.)
+- [x] Included/excluded scope has a working draft: `index.md` names 9 candidate domains;
+  general aviation, military airspace (beyond its PESTLE/objective stakeholder role), and
+  international airspace are provisionally excluded. Not yet ratified as a formal
+  boundary.
+- [ ] What level(s) of abstraction will the model operate at? (Enterprise policy down to
+  control-surface deflection is an enormous range — the trajectory-intent chain in
+  `index.md` spans it conceptually, but the model can't render every level in equal
+  detail.)
 - [ ] What criteria decide where a *system* boundary is drawn (vs. just listing
   components)?
 - [ ] What criteria decide where a *stakeholder/actor* boundary is drawn?
 
 ## Decomposition choice (§6)
 
-- [ ] Is the "domains built around authority/responsibility/information ownership"
-  decomposition ([[decisions-log]] D-002) the final one, or will the project retain
-  multiple parallel viewpoints (organization-based, lifecycle-based, physical,
-  information-flow, decision-authority) as §6 suggests might be the right call?
+- [ ] Is the authority/responsibility/information-ownership decomposition
+  ([[decisions-log]] D-002) final, or will the project retain multiple parallel
+  viewpoints (organization-based, lifecycle-based, physical, information-flow,
+  decision-authority) as §6 suggests?
 
 ## Literature gaps
 
-- [ ] Eight sources tracked in [[source-register]] never had a PDF collected
-  (`yan2008integrated`, `timetableFleetPassengerChoice`, `crewSchedulingReview`,
-  `aircraftMaintenanceRoutingReview`, `turnaroundCDM`, `garg2024integrated`,
-  `loadControl2026`, `eurocontrolACDMManual`). Their placeholder `references.bib`
-  entries were removed 2026-09-14 (bibliography cleanup, so the report's reference
-  list reflects only sources actually collected) — track down PDFs and confirm
-  bibliographic metadata (`yan2008integrated` in particular was flagged "verify
-  authors, volume, issue, pages, and DOI") before re-adding bib entries and starting
-  their "read and annotate" checklist items.
-- [ ] Nominal ATC/IFR flight-execution research (to-do §4) hasn't identified specific FAA
-  source documents yet (AIM? 7110.65? specific advisory circulars?).
+- [ ] Nominal ATC/IFR flight-execution research (§4) hasn't identified specific FAA
+  source documents yet (AIM? 7110.65? advisory circulars?).
 
-## Reference-register housekeeping (2026-09-04 sweep)
+## Reference-register housekeeping
 
-- [ ] `jain2011pkm` ("Personal Knowledge Management: The Foundation of Organisational
-  Knowledge Management") rated 1/5 — off-topic for this register (library/information
-  science, zero aerospace/MBSE content). Decide whether to keep it in
-  `evidence/sources/` or remove it. See [[source-register]].
 - [ ] `yao2026loAltitudeSoSSafety` cites a DeLaurentis 2005 SoS-taxonomy paper ("A
   Taxonomy-Based Perspective for Systems-of-Systems Design Methods," IEEE SMC 2005) that
-  may be a *different* work from the PDF registered as `delaurentis2005sosTransportation`
-  ("Understanding Transportation as a System-of-Systems Design Problem," AIAA 2005-123).
-  Confirm which paper the registered PDF actually is before citing either.
+  may differ from the PDF registered as `delaurentis2005sosTransportation`
+  ("Understanding Transportation as a System-of-Systems Design Problem," AIAA 2005-123) —
+  confirm which paper `yao2026` actually cites. See [[source-register]].
 - [ ] `younus2026fmeaOntology` cites the same Lu et al. design-ontology work as
-  `luDesignOntologyMBSE2020` but gives its venue/year as *IEEE Systems Journal*, 2022,
-  vs. the registered arXiv 2020 entry — reconcile which is the authoritative citation.
-
-## Reference-register housekeeping (2026-09-13 sweep, 18 new files)
-
-- [ ] `faaFixmUsExtension2024`'s exact release year for FIXM US Extension v4.4.0 is not
-  stated in the document itself — verify against fixm.aero before citing precisely. See
+  `luDesignOntologyMBSE2020` but gives its venue/year as *IEEE Systems Journal*, 2022, vs.
+  the registered arXiv 2020 preprint — reconcile which is authoritative.
+- [ ] `faaFixmUsExtension2024`'s exact release year for FIXM US Extension v4.4.0 isn't
+  stated in-document — verify against fixm.aero before citing precisely. See
   [[source-register]].
-- [ ] Three GreAT (Greener Air Traffic Operations, EU-China H2020) project deliverables
-  were added and rated highly relevant to §6/§10 architecture work but only skimmed on
-  this triage pass — `great2020d21tboConcept` (TBO concept baseline, rated 5),
-  `great2021d22operationalArch` (MBSE-derived operational + system architecture, rated
-  5), and `great2021d51avionicsArch` (avionics architecture, rated 4). Prioritize a
-  deeper read/annotation pass on `great2021d22operationalArch` in particular once §6/§10
-  is actively worked — it is a rare real-world precedent for deriving ATM architecture
-  from an operational concept via MBSE. See [[source-register]].
 
 ## Optimization study scope (§11)
 
-- [ ] Which "tractable representative operational scenario" will actually be used for
-  the multi-objective optimization demonstration? Not yet chosen — depends on how far
-  the architecture and stakeholder-objective work (§7–§8) get first.
 - [ ] §12 as written (full experiment matrix, Pareto fronts, sensitivity analysis,
-  tipping-point identification) reads as a full optimization research study, which sits
-  in tension with the project's own working assumption that optimization should stay a
-  bounded capability inside the architecture, not the whole subject (README.md "Working
-  Assumptions"; CLAUDE.md's "not an optimization paper" guidance), and with the report's
-  15–40 page length cap
-  (`projects/nas-sos-capstone/prework/503_ReportTemplate_v26.docx`). Flagged 2026-08-29
-  while building `projects/nas-sos-capstone/report/` — recommend scoping the §11–§14
-  demonstration to one representative
-  scenario with a single weight sweep and one Pareto-style comparison, with any broader
-  sweep/sensitivity work kept as an appendix or future-work item rather than the main
-  narrative. Not yet decided; revisit once §7–§8 are further along.
+  tipping-point identification) reads as a full optimization study — in tension with the
+  "not an optimization paper" guardrail (README.md, CLAUDE.md) and the report's 15–40
+  page cap. Recommend scoping §11–§14 to one representative scenario, a single weight
+  sweep, and one Pareto-style comparison, with broader sweep/sensitivity work kept as
+  future work. Not yet decided; revisit once §7–§8 progress.

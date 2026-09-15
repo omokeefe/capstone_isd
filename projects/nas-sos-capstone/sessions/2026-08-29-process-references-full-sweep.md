@@ -37,7 +37,7 @@ PDF, a written summary, or a relevance rating yet.
   paper published in 2012 as the Bartolomei "Engineering Systems Multiple-Domain Matrix"
   journal article). Recommend the user delete one file from each pair.
 - **Two filename/version mismatches**: `NAS-Infrastructure-Roadmaps-v20.pdf`'s title page
-  says v19.1; `delaurentis-2012-...pdf`'s actual paper is AIAA 2005-123 (year 2005, not
+  says v19.1; `delaurentis-2005-...pdf`'s actual paper is AIAA 2005-123 (year 2005, not
   2012).
 - Rating distribution: eight 5s (core), five 4s, two 3s, four 2s, one 1, zero 0s. The 5s
   are `eltoukhy2017airline`, `hassanDisruptionReview`, `schultz2017turnaround`,
