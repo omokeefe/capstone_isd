@@ -58,6 +58,16 @@ analysis (§7-9) this capstone is built around, not just background reading.
 - Companion to `bouarfa2018masDisruption` — read together, not duplicative (thesis =
   the method's origin; journal paper = a later third-party benchmark of it).
 
+## Highlighted passages
+
+_Digital highlights/underlines/comments the user marked up in the PDF, extracted 2026-09-14 via `tools/extract_pdf_annotations.py`. Ink/handwritten annotations (0 found) not extracted -- not requested._
+
+**Page 33**
+- **Highlight:** "The problem we are trying to solve is that of Disruption Management in Airline Operations Control, i.e., to manage unexpected events that might affect flights, causing departure or arrival delays, minimizing delays and the costs involved. Airline companies spend time and money in creating optimal operational plans to maximize the revenue. However, at the day of operation, the unpredictable events (bad weather, aircraft malfunctions and crew absenteeism, for example) might change completely that operational plan and, consequently, the revenue objectives behind it (Clausen et al., 2010). To deal with this problem, airline companies have a special department called Airline Opera- tions Control Center (AOCC) that includes teams of human experts"
+
+**Page 34**
+- **Highlight:** "we have observed and studied the AOCC of TAP Portugal"
+
 ## Processing metadata
 
 - **Read depth:** skimmed (front matter only — pages 1-15 of a much longer thesis)

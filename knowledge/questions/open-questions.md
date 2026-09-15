@@ -29,15 +29,17 @@ delete it from here — don't let answered questions linger.
 
 ## Literature gaps
 
-- [ ] Several `references.bib` entries have no PDF yet ( `yan2008integrated`,
-  `timetableFleetPassengerChoice`, `crewSchedulingReview`,
+- [ ] Eight sources tracked in [[source-register]] never had a PDF collected
+  (`yan2008integrated`, `timetableFleetPassengerChoice`, `crewSchedulingReview`,
   `aircraftMaintenanceRoutingReview`, `turnaroundCDM`, `garg2024integrated`,
-  `loadControl2026`, `eurocontrolACDMManual` — see [[source-register]]). Track down PDFs
-  or confirm access before their "read and annotate" checklist items can start.
+  `loadControl2026`, `eurocontrolACDMManual`). Their placeholder `references.bib`
+  entries were removed 2026-09-14 (bibliography cleanup, so the report's reference
+  list reflects only sources actually collected) — track down PDFs and confirm
+  bibliographic metadata (`yan2008integrated` in particular was flagged "verify
+  authors, volume, issue, pages, and DOI") before re-adding bib entries and starting
+  their "read and annotate" checklist items.
 - [ ] Nominal ATC/IFR flight-execution research (to-do §4) hasn't identified specific FAA
   source documents yet (AIM? 7110.65? specific advisory circulars?).
-- [ ] `yan2008integrated`'s bib entry is explicitly flagged "verify authors, volume,
-  issue, pages, and DOI" — needs bibliographic confirmation, not just a PDF.
 
 ## Reference-register housekeeping (2026-09-04 sweep)
 

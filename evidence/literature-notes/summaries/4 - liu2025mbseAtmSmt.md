@@ -56,6 +56,41 @@ None — single-author-team conference paper, no apparent duplicate elsewhere in
 register, all bibliographic fields confirmed directly from the PDF (title page + DOI
 badge).
 
+## Highlighted passages
+
+_Digital highlights/underlines/comments the user marked up in the PDF, extracted 2026-09-14 via `tools/extract_pdf_annotations.py`. Ink/handwritten annotations (6 found) not extracted -- not requested._
+
+**Page 1**
+- **Highlight:** "modeling language KARMA"
+- **Highlight:** "modeling tool Airdraw,"
+- **Highlight:** "GOPPRR method"
+- **Highlight:** "tested using the SMT checker in the modeling tool"
+
+**Page 2**
+- **Highlight:** "the relevant indexes and properties of the existing air traffic control system need to be optimized and modified for the supersonic passenger aircraft."
+- **Highlight:** "establishing a system modeling of the ATM system to form a model library."
+- **Highlight:** "(1) Metamodel designing based on GOPPRR method"
+- **Highlight:** "UAF methodology for formalizing the model library."
+- **Highlight:** "First, the functions of ATM identified by ICAO through files are expressed through a graphical system model"
+- **Highlight:** "The model captures all the functions mentioned on ICAO annex of the ATM system"
+- **Highlight:** "optimization of radar cabin layout are presented"
+
+**Page 5**
+- **Highlight:** "The M1 layer is"
+- **Highlight:** "model compositions and connections"
+- **Highlight:** "The M0 layer consists of 6 meta-meta models t"
+- **Highlight:** "graphs, objects, relationships, roles, points and property."
+- **Highlight:** "M2 is the model layer,"
+- **Highlight:** "It is an abstract expression of a cer- tain viewpoint in the real world"
+- **Highlight:** "For example, the requirements diagram is used to represent certain design requirements of the system during modelling"
+- **Highlight:** "M3 represents a certain viewpoint in the real world, that is, expressing the system’s concerns from a certain system perspective"
+- **Highlight:** "the architectural modeling was completed with the following specific missions"
+
+**Page 6**
+- **Highlight:** "create a methodological model view."
+- **Highlight:** "conforms to the standard ATM architecture model"
+- **Highlight:** "A model of the architecture of part of the ATM system specially designed for supersonic passenger aircraft was completed"
+
 ## Processing metadata
 
 - **Read depth:** Skimmed (abstract, intro, problem statement, conclusion; figures/tables

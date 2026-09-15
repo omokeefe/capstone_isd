@@ -19,6 +19,19 @@ This file tracks references at two different depths — keep them straight:
 **Last full sweep:** 2026-09-13
 **Files in `evidence/sources/` at last sweep:** 52 of 52 processed
 
+**PDF highlight extraction (2026-09-14):** ran `tools/extract_pdf_annotations.py` (skill
+`extract-pdf-annotations`) against all 51 PDFs in `evidence/sources/`. **15 of 51 PDFs had
+digital highlights/underlines/comments** in their annotation layer; all 15 were merged
+into a `## Highlighted passages` section in that source's summary note (36 PDFs had no
+digital markup at all). Several of the 15 also carry handwritten/ink annotations, which
+were counted but not extracted (not requested; see `workflows/extract-pdf-annotations.md`
+for how to opt in later). Sources with highlights merged: `liu2025mbseAtmSmt`,
+`luDesignOntologyMBSE2020`, `sinharoy2024ontologyUAM`, `chami2018d3MbseAdoption`,
+`mcdermott2020ai4seSe4ai`, `clarke1998irregular`, `maiden2004rescueDman`,
+`kontodimou2026turnaroundBuffer`, `hu2024disruptionOptReview`, `bartolomei2012esmdm`,
+`castro2013aoccMasThesis`, `santana2023arpReview`, `sadik2025holonicUAM`,
+`dispatcherWorkload2025`, `delaurentis2005sosTransportation`.
+
 Rating scale (be honest — a register where everything is a 4 or 5 is not useful):
 
 | Rating | Meaning |
@@ -261,21 +274,21 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | Airline Schedule Planning A Review and Future Directions.pdf | `eltoukhy2017airline` | journal review | not started |
 | Airline_scheduling_optimizatio.pdf | `xu2024airlineSchedOpt` | journal review | not started |
 | Airline Schedule Planning Integrated Models and Algorithms for Schedule Design and Fleet Assignment.pdf | `lohatepanont2004airline` | journal article | not started |
-| — (no PDF yet) | `yan2008integrated` (Integrated Airline Scheduling) | journal article | not started — bib entry flagged "verify authors/volume/DOI" |
-| — (no PDF yet) | `timetableFleetPassengerChoice` (timetable/fleet assignment + passenger choice) | journal article | not started |
-| — (no PDF yet) | `crewSchedulingReview` (Airline Crew Scheduling: Models, Algorithms, Data Sets) | journal review | not started |
-| — (no PDF yet) | `aircraftMaintenanceRoutingReview` | journal review | not started |
-| — (no PDF yet) | `garg2024integrated` (Integrated Airline Planning) | journal article | not started |
+| — (no PDF yet) | `yan2008integrated` (Integrated Airline Scheduling) | journal article | not started — bib entry removed from `references.bib` 2026-09-14 (never had a PDF; author/volume/DOI were also unverified); re-add once a PDF is found and metadata confirmed |
+| — (no PDF yet) | `timetableFleetPassengerChoice` (timetable/fleet assignment + passenger choice) | journal article | not started — bib entry removed 2026-09-14, no PDF ever collected |
+| — (no PDF yet) | `crewSchedulingReview` (Airline Crew Scheduling: Models, Algorithms, Data Sets) | journal review | not started — bib entry removed 2026-09-14, no PDF ever collected |
+| — (no PDF yet) | `aircraftMaintenanceRoutingReview` | journal review | not started — bib entry removed 2026-09-14, no PDF ever collected |
+| — (no PDF yet) | `garg2024integrated` (Integrated Airline Planning) | journal article | not started — bib entry removed 2026-09-14, no PDF ever collected |
 
 ### Turnaround & day-of-operations (to-do §3)
 
 | Source (file) | Bib key | Type | Status |
 |---|---|---|---|
 | A review of aircraft turnaround operations and simulations.pdf | `schultz2017turnaround` | journal review | not started |
-| — (no PDF yet) | `turnaroundCDM` (Managing Turnaround Performance through CDM) | journal article | not started |
+| — (no PDF yet) | `turnaroundCDM` (Managing Turnaround Performance through CDM) | journal article | not started — bib entry removed 2026-09-14, no PDF ever collected |
 | eurocontrol-specification-for-acdm.pdf | `eurocontrolACDMSpec` | EUROCONTROL spec | not started |
-| — (no PDF yet) | `eurocontrolACDMManual` (A-CDM Implementation Manual) | EUROCONTROL manual | not started |
-| — (no PDF yet) | `loadControl2026` (Automated Load Control and W&B Validation) | journal/technical article | not started |
+| — (no PDF yet) | `eurocontrolACDMManual` (A-CDM Implementation Manual) | EUROCONTROL manual | not started — bib entry removed 2026-09-14, no PDF ever collected |
+| — (no PDF yet) | `loadControl2026` (Automated Load Control and W&B Validation) | journal/technical article | not started — bib entry removed 2026-09-14, no PDF ever collected |
 | Harnessing Digital Twin Technology for Enhanced Aircraft Turnaround Efficiency.pdf | `lu2025digitalTwinTurnaround` | journal article | not started |
 | Proactive Aircraft Turnaround Buffer Optimization Integrating Machine Learning and Scenario Analysis.pdf | `kontodimou2026turnaroundBuffer` | journal article | not started |
 

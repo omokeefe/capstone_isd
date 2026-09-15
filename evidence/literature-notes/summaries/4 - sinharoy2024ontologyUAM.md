@@ -43,6 +43,20 @@ domain; not core only because UAM isn't the NAS itself.
 None significant — DOI not confirmed on the pages read (ICAS proceedings don't always
 carry one), low-severity gap.
 
+## Highlighted passages
+
+_Digital highlights/underlines/comments the user marked up in the PDF, extracted 2026-09-14 via `tools/extract_pdf_annotations.py`. Ink/handwritten annotations (23 found) not extracted -- not requested._
+
+**Page 2**
+- **Highlight:** "Ontology provides a structured framework for organizing knowledge within specific domain"
+- **Highlight:** "defines classes, properties, and relationships, fostering standardized communication among distinct modelers and stakeholders"
+- **Highlight:** "facilitates semantic interoperability,"
+- **Highlight:** "When applied to model-based systems engineering (MBSE), ontology can enrich system model- ing by providing context and consistency. It can help create comprehensive models that accurately depict elements and their behaviors within complex systems."
+- **Highlight:** "ontology can delineate operational components, regulations, vehicle characteristics, and other pertinent factors"
+
+**Page 3**
+- **Highlight:** "System architecture is the conceptual definition of the structure, components, modules, interfaces, behaviors, and data for a system to satisfy its specified requirements"
+
 ## Processing metadata
 
 - **Read depth:** skimmed (pages 1-2, abstract + intro + ontology section)

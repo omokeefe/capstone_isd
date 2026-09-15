@@ -69,6 +69,37 @@ the same authors' earlier general (non-UAM) paper, arXiv:2501.07992 ("LLM-enhanc
 architecture for ad-hoc scalable SoS") — flagged as a possible future addition, not
 registered.
 
+## Highlighted passages
+
+_Digital highlights/underlines/comments the user marked up in the PDF, extracted 2026-09-14 via `tools/extract_pdf_annotations.py`. Ink/handwritten annotations (0 found) not extracted -- not requested._
+
+**Page 1**
+- **Highlight:** "1 May 2025"
+- **Highlight:** "presents an intelligent holonic architecture that incorporates Large Language Model (LLM) to manage the com- plexities of UAM"
+- **Highlight:** "Holons function semi-autonomously, allowing for real-time coordination among air taxis, ground transport, and vertiports. LLMs process natural language inputs, generate adaptive plans, and manage disruptions such as weather changes or airspace closures"
+- **Highlight:** "The architectural requirements of UAM are fundamentally shaped by its SoS nature [9], [10]"
+- **Highlight:** ". Table I contrasts traditional systems with SoS, highlighting key differences in autonomy, interoperability, diversity, and emergent behaviors [11]."
+
+**Page 2**
+- **Highlight:** "Emergent Behaviors: Managing unpredictable system phenomena, such as demand-driven resource allocation, adaptive route planning, and congestion resolution, that cannot be anticipated or controlled by centralized mech- anisms"
+
+**Page 3**
+- **Highlight:** "Holonic architecture"
+- **Highlight:** "recursive hierarchy of mediator-based coordi- nation, forming dynamic holarchies where high-level nodes fo- cus on strategic goals while lower-level holons handle tactical operations"
+
+**Page 5**
+- **Highlight:** "A passenger"
+- **Highlight:** "requests a ride from point X to point Y"
+- **Highlight:** "Su- pervisor Holon (S-SoS) receives this request and collaborates with its two subordinate supervisors: Scooter Supervisor"
+- **Highlight:** "AirTaxi Supervisor (S-CS2)"
+- **Highlight:** "Planner Holon generates a trip structure"
+- **Highlight:** "Each LLM-powered holon independently handles mission- critical
+tasks—translating
+passenger
+requests
+into airspace-compliant routes, negotiating landing slots with vertiports, and replanning for battery constraints— without central bottlenecks"
+- **Highlight:** "Holons continuously integrate live operational data via LLM prompts, including sudden no-fly zones, vertiport congestion alerts, or traffic pattern shifts"
+
 ## Processing metadata
 
 - **Read depth:** Fully read (all 7 pages)

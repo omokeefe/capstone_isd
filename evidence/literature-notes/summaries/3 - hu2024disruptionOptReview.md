@@ -52,6 +52,20 @@ thematic overlap across all three disruption-management sources in this batch â€
 noting so a future pass doesn't over-cite all three redundantly. All bib fields confirmed
 directly from the PDF.
 
+## Highlighted passages
+
+_Digital highlights/underlines/comments the user marked up in the PDF, extracted 2026-09-14 via `tools/extract_pdf_annotations.py`. Ink/handwritten annotations (0 found) not extracted -- not requested._
+
+**Page 11**
+- **Highlight:** "More studies have started to focus on multiple-objective programming to formulate the aircraft recovery problem"
+- **Highlight:** "As an airline is more concerned with recovery time efficiency than with the optimality of the recovery solution, it is more attractive to obtain a satisfactory recovery solution in a short CPU time than to obtain a near-optimal solution over a long time for real applications in the airline industry. Therefore, heuristics have often been applied in recent years for solving aircraft recovery problems"
+- **Highlight:** "Another common assumption in the airline recovery liter- ature is that the flight delay cost is a linear function of delay time. This is slightly inconsistent with airline recovery practice since flight delay costs tend to be a nonlinear function of delay time[44]."
+- **Highlight:** "Airport capacity and aircraft dynamic fuel costs"
+
+**Page 14**
+- **Highlight:** "The large number of studies is a benefit of the 2009 ROADEF Challenge. Approximately six papers tested their algo- rithms using instances from the challenge."
+- **Highlight:** "Competition has greatly promoted the development of the research field"
+
 ## Processing metadata
 
 - **Read depth:** Skimmed (title page, abstract, intro, "previous research and

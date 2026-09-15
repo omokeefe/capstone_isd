@@ -74,6 +74,11 @@
 \input{sections/06_impact_financial_benefits}
 \input{sections/07_summary_conclusions}
 
+% No section body yet contains \cite{} (still plantodo placeholders), so
+% \nocite{*} forces the full evidence/sources/references.bib register to
+% print now; remove it once the literature-review sections cite sources
+% inline and the list should instead reflect only what's actually cited.
+\nocite{*}
 \printbibliography[title={8.0 References}]
 
 \input{sections/08_appendices}

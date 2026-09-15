@@ -50,6 +50,17 @@ Bibliographic year/venue were not visible on the PDF's captured pages (no explic
 info shown); confirmed via web search against City University London's institutional repository
 (City Research Online) as CAiSE 2004, LNCS 3084. No duplicates found in the register.
 
+## Highlighted passages
+
+_Digital highlights/underlines/comments the user marked up in the PDF, extracted 2026-09-14 via `tools/extract_pdf_annotations.py`. Ink/handwritten annotations (6 found) not extracted -- not requested._
+
+**Page 2**
+- **Highlight:** "g and task analysis from human-computer interaction are two
+Safety-critical socio-technical systems such as ATM demand obvious examples. Safety-critical socio-technical systems such as ATM demand
+rigorous analyses of controller work, software systems that support this controller rigorous analyses of controller work, software systems that support this controller
+work, and the complex interactions between the controllers, the air traffic and the work, and the com
+software systems."
+
 ## Processing metadata
 
 - **Read depth:** fully read (8 pages, through Section 4)

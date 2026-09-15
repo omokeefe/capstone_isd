@@ -63,6 +63,15 @@ automation, this one is pre-operational predictive-prescriptive planning; the pa
 introduction explicitly contrasts itself against the digital-twin/automation literature on
 exactly this basis. All bib fields confirmed directly from the PDF.
 
+## Highlighted passages
+
+_Digital highlights/underlines/comments the user marked up in the PDF, extracted 2026-09-14 via `tools/extract_pdf_annotations.py`. Ink/handwritten annotations (0 found) not extracted -- not requested._
+
+**Page 1**
+- **Highlight:** "This study proposes a learning-enhanced optimization framework for proactive aircraft
+cation that integrates data-driven delay predictions into planning decisions. Flight-level turnaround buffer allocation that integrates data-driven delay predictions into planning decisions.
+turnaround risk is estimated using an Extreme Gradient Boosting (XGBoost) regression model tra"
+
 ## Processing metadata
 
 - **Read depth:** Fully read (all 10 pages)
