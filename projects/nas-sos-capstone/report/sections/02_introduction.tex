@@ -1,4 +1,3 @@
-% !TEX root = ../main.tex
 \section{Introduction and Current State}
 \label{sec:introduction}
 
@@ -18,7 +17,7 @@ While this reference is from 2005, it is still relevant today. The NAS is a comp
 
 Airline companies invest significant time and money in constructing operational plans that maximize revenue; however, on the day of operation, unpredictable events -- bad weather, aircraft malfunctions, crew absenteeism -- can substantially alter that plan and the revenue objectives behind it~\textcite{castro2013aoccMasThesis}. To manage this, airlines maintain an Airline Operations Control Center (AOCC), a department of experts specialized in disruption management across aircraft, crew, and passenger recovery. The AOCC monitors operations and makes real-time decisions -- re-routing flights, rescheduling crews, rebooking passengers -- intended to minimize the impact of a disruption on the airline's schedule and revenue objectives.
 
-The literature does not converge on a single, standardized definition of the "cost" the AOCC is minimizing, and the values it does quantify do not always hold up under scrutiny. Delay cost is commonly modeled in the optimization literature as a linear function of delay minutes, but \textcite{hu2024disruptionOptReview} note this assumption is inconsistent with airline practice, where delay cost is in fact a nonlinear function of delay time -- and that, faced with this complexity, airlines tend to prioritize the speed of a recovery decision over the mathematical optimality of the resulting solution. This preference for tractable, fast decisions over globally optimal ones shows up structurally as well as behaviorally: a systematic review of the Aircraft Recovery Problem finds that studies -- and, by extension, the AOCC processes they model -- rarely minimize delay, cancellations, and aircraft swaps simultaneously, instead treating aircraft, crew, and passenger recovery as separable sub-problems solved sequentially and handed off in turn~\textcite{santana2023arpReview}. Each stage can produce a solution that is locally optimal yet globally suboptimal, or even infeasible, once the next stage's constraints are applied -- a concrete, literature-documented instance of the myopic-optimization pattern this capstone investigates.
+The literature does not converge on a single, standardized definition of the "cost" the AOCC is minimizing, and the values it does quantify do not always hold up under scrutiny. Delay cost is commonly modeled in the optimization literature as a linear function of delay minutes, but \textcite{hu2024disruptionOptReview} notes that this assumption is inconsistent with airline practice, where delay cost is in fact a nonlinear function of delay time -- and that, faced with this complexity, airlines tend to prioritize the speed of a recovery decision over the mathematical optimality of the resulting solution. This preference for tractable, fast decisions over globally optimal ones shows up structurally as well as behaviorally: a review of the Aircraft Recovery Problem finds that studies -- and, by extension, the AOCC processes they model -- rarely minimize delay, cancellations, and aircraft swaps simultaneously, instead treating aircraft, crew, and passenger recovery as separable sub-problems solved sequentially and handed off in turn~\textcite{santana2023arpReview}. Each stage can produce a solution that is locally optimal yet globally suboptimal, or even infeasible, once the next stage's constraints are applied -- a concrete, literature-documented instance of the myopic-optimization pattern this capstone investigates.
 
 That pattern's costs and benefits are visible even in work that improves on the status quo. \textcite{kontodimou2026turnaroundBuffer}'s predictive turnaround-buffer allocation model achieves a 37.1\% reduction in propagated delay relative to a zero-buffer baseline,but it reaches that result by holding aircraft routing, fleet assignment, crew duty, maintenance, and passenger connectivity fixed as upstream constraints, deliberately excluding them from the optimization it performs. The gain is real within that bounded scope, but the framing illustrates the exact risk this capstone is concerned with: a locally-optimized decision layer can report a strong local benefit while externalizing tradeoffs onto adjacent decision layers that go unmeasured by that layer's own cost model. The same pattern appears on the human side of the AOCC: \textcite{dispatcherWorkload2025} documents that when dispatcher workload exceeds capacity, dispatchers "may resort to conservative approaches, which can have financial implications for airlines" -- a workload-driven cost that rarely appears in the delay, cancellation, and swap cost models discussed above. \textcite{hassanDisruptionReview} frames this more broadly as a persistent gap between the disruption-management optimization literature and the reality of AOCC practice.
 
@@ -28,573 +27,118 @@ In this paper, I explore the value tradeoffs that aviation stakeholders experien
 \subsection{Overview of the Project}
 \label{sec:overview}
 
-This project exists within the industry and operating environment of U.S.
-commercial air transportation -- specifically, the National Airspace System
-(NAS): the combination of airspace, airports, aircraft, air navigation
-facilities, and the regulatory and operational organizations that use them to
-move passengers and cargo. The NAS is not one system but, as introduced above,
-a System of Systems: it is jointly owned and operated by organizations with
-distinct, only partially overlapping objectives -- airlines, airports, the
-FAA and its Air Traffic Control (ATC) facilities, and the aircraft and crews
-that execute the plans those organizations produce. No single one of these
-organizations has authority over the whole; each manages its own slice of the
-problem and hands intent -- a schedule, a flight plan, a clearance, a
-trajectory -- to the next.
-
-The social context surrounding this environment is significant on several
-axes at once. It is safety-critical: air traffic control exists principally
-to guarantee separation between aircraft, and the flight crew's foremost
-authority is to deviate from any assigned plan to preserve that safety margin.
-It is economically significant: a single major carrier's irregular
-operations -- weather, mechanical failures, and crew unavailability -- can
-exceed \$440 million per year in lost revenue, crew overtime, and passenger
-accommodation costs, and a single severe-weather event (the "Blizzard of
-'96") cost the U.S. airline industry an estimated \$50-100 million in one
-week~\textcite{clarke1998irregular}. It depends on specialized human
-operators -- dispatchers and controllers -- whose workload is itself a
-scarce, unpriced resource: dispatchers facing workload beyond their capacity
-"may resort to conservative approaches, which can have financial implications
-for airlines"~\textcite{dispatcherWorkload2025}, and controller workload is a
-hard operational ceiling on how much traffic a sector can safely
-absorb. And it has environmental and community consequences -- fuel burn,
-emissions, and aircraft noise -- that are borne by parties (future
-generations, communities near airports) who are not party to the operational
-decisions that produce them. Section~\ref{sec:stakeholders} develops this
-stakeholder landscape in full; the point to establish here is that the
-NAS's operating environment already contains, in miniature, the tension this
-project investigates: safety, economics, human workload, and environmental
-cost are managed by different organizations, on different timescales, using
-different and sometimes incompatible definitions of "good."
-
-I selected this topic for two reasons. First, the NAS is one of the most
-mature, best-documented examples of a real, operating System of Systems
-available to a systems-engineering capstone: the FAA and its international
-counterpart, EUROCONTROL/SESAR, publish detailed public planning and
-architecture documents (e.g.,
-\textcite{faaNasInfrastructureRoadmaps2025,sesarju2025masterPlan}), and
-decades of operations-research and disruption-management literature document
-how its constituent organizations actually make decisions. That makes it
-possible to build a grounded architecture rather than a purely hypothetical
-one. Second, and more specifically, this project began as a narrower
-trajectory-optimization problem and was deliberately broadened into an
-architecture of the whole intent-propagation chain (see
-\hyperref[sec:scope]{Scope} and the project's decision log, D-001) because
-that framing better exercises the skills an ISD capstone is meant to
-demonstrate -- structure, interfaces, responsibility, and traceability --
-while still leaving room for an optimization case study that shows why those
-skills matter operationally.
-
-The potential benefit of this work is a reference architecture that makes
-cross-stakeholder tradeoffs visible \emph{before} they are made, not after.
-As the literature reviewed in Section~\ref{sec:litreview} shows repeatedly,
-today's decision-support tools and human decision processes are organized
-around one organization's cost function at a time; the costs that decision
-externalizes onto another stakeholder are usually invisible to the tool or
-person making it. An architecture that traces how operational intent and
-information actually flow -- from an enterprise objective, through airline
-and ATC planning, to the trajectory an aircraft actually flies -- gives a
-systems engineer, and eventually a decision-support capability built on that
-architecture, a place to see those externalities before they are absorbed as
-unplanned cost by someone else.
-
-Six questions motivate the work and give it a testable shape (see also the
-project's D-004 decision record):
-
-\begin{itemize}
-  \item \emph{How should the NAS be decomposed into constituent systems and
-    Systems-of-Systems?} -- the architecture is only useful if its boundaries
-    reflect real authority and information-ownership lines, not an arbitrary
-    catalog of aviation objects.
-  \item \emph{Where do authority, responsibility, ownership, and lifecycle
-    boundaries occur?} -- these are exactly the transitions (e.g., dispatcher
-    to controller, controller to controller, controller to flight crew) where
-    intent can be lost, delayed, or reinterpreted.
-  \item \emph{How does operational intent propagate from enterprise
-    objectives to physical aircraft behavior?} -- this is the project's
-    organizing throughline (Strategic objective $\rightarrow$ mission plan
-    $\rightarrow$ flight plan $\rightarrow$ ATC constraints $\rightarrow$
-    trajectory negotiation $\rightarrow$ FMS intent $\rightarrow$ guidance
-    commands $\rightarrow$ aircraft motion) and the spine the architecture is
-    built around.
-  \item \emph{How do stakeholder definitions of "optimal" differ?} --
-    Section~\ref{sec:stakeholders} and the project's objective/cost ontology
-    show that "optimal" means something different, and sometimes
-    incompatible, to an airline, a controller, a passenger, and a community
-    near an airport.
-  \item \emph{When does subsystem optimization produce undesirable
-    System-of-Systems outcomes?} -- this is the myopic-optimization pattern
-    documented throughout Section~\ref{sec:litreview}, and the specific
-    failure mode this project is trying to expose rather than hide.
-  \item \emph{How can an MBSE architecture support analysis of those
-    tradeoffs?} -- this is the project's methodological bet: that a
-    traceable model, not a one-off analysis, is what lets a tradeoff
-    surfaced in one scenario generalize to the next.
-\end{itemize}
-
-Taken together, these questions state the problem this project addresses:
-NAS decision-making is fragmented across specialized organizational silos --
-airline planning, day-of-operations control, air traffic control, airport
-operations -- each of which optimizes against its own, usually well-defined
-cost model, while the couplings \emph{between} those silos are rarely modeled
-explicitly and are usually only discovered after a disruption forces them
-into view. That matters because, as
-Section~\ref{sec:litreview} documents, this is not a hypothetical risk: it is
-the specific, recurring pattern the disruption-management and airline-
-scheduling literatures describe when they find that sequential, decomposed
-optimization is common in practice and produces solutions that are locally
-optimal but globally suboptimal or infeasible once handed to the next stage.
-Building a reference architecture that makes that propagation chain explicit
-is the first step toward analyzing, rather than merely enduring, the
-tradeoffs it creates.
+\plantodo{S1}{Describe the industry/environment (commercial aviation and the
+NAS), the social context, and the key stakeholders (preview -- full analysis
+in Section~\ref{sec:stakeholders}). State the project's research questions
+from Project\_To-Do List.md S1 ("Finalize project research questions") and
+explain why they matter. Draw on README.md's framing of the trajectory-intent
+lifecycle (Strategic objective -> mission plan -> flight plan -> ATC
+constraints -> trajectory negotiation -> FMS intent -> guidance commands ->
+aircraft motion) as the throughline.}
 
 \subsection{Review of Current State Design / Literature Review}
 \label{sec:litreview}
 
-As of this report, 52 sources have been collected and triaged into a source
-register (bibliography entry, summary, and 0-5 relevance rating for each);
-roughly a quarter have received a full field-by-field deep annotation, with
-the remainder prioritized for the literature-review milestone that follows
-this interim report. What follows synthesizes the current state of four
-literature tracks: (1) benchmark documents describing how NAS-scale
-architecture is actually planned today, (2) airline planning and scheduling,
-(3) day-of-operations and turnaround coordination, and (4) operations
-control, dispatch, and disruption management -- closing with the gap in that
-literature this project addresses.
+\plantodo{S2--S4}{Synthesize (do not merely list) findings from the three
+literature-review tracks: airline planning and operations (schedule
+planning, fleet assignment, crew scheduling, maintenance routing), day-of-
+operations and turnaround (A-CDM, weight and balance), and OCC/dispatch and
+flight execution (disruption management, dispatcher responsibilities,
+nominal ATC/IFR flow). Pull from per-source annotations captured via the
+literature-review workflow into
+\texttt{evidence/source-register.md} rather than re-deriving them
+here. Identify the research gap this capstone addresses (see also
+Project\_To-Do List.md S16 "Research gap").}
 
-\subsubsection*{Benchmark: how NAS-scale architecture is planned today}
+From my perspective, the current state of the project is off-track, but recoverable. The plan calls for 4 phases of work, with phase 1 completing 9/10 with RACII matrices for the various objectives within the airspace. More time has been spent on the literature review than originally expected, as the scope broadened to encompass consideration of which ontological model to use. Moreover, a lack of discipline on extracting specific actionable information from the review has weakened definitive claims about specific objectives pursued by stakeholders, which in turn feed the considerations of the RACII matrix. While much learning has occurred from the literature review, the impact on schedule continues. Presently, 53 papers have been extracted, with more than half manually reviewed, with many annotated. The literature review is ongoing, but the current content supports the research claims and the enforces the value of the project deliverables.
 
-The closest thing to a "best-in-class" comparison for this project's own
-deliverable -- a NAS reference architecture -- is the pair of national/
-regional ATM modernization roadmaps the FAA and its European counterpart
-publish. The FAA's \emph{NAS Enterprise Architecture: Infrastructure
-Roadmaps} lays out a 17-year, domain-by-domain (Aircraft, Airport, Airspace
-\& Procedures, Automation, Communication, Navigation, Safety, Surveillance,
-Weather, and others) investment plan from an "As-Is" to a "To-Be"
-NAS~\textcite{faaNasInfrastructureRoadmaps2025}. Its European
-counterpart, the SESAR Joint Undertaking's \emph{European ATM Master Plan},
-sets out a comparable "Digital European Sky" vision built around
-trajectory-based operations (TBO), a service-oriented delivery model, and an
-explicit target enterprise architecture
-diagram~\textcite{sesarju2025masterPlan}. Both are authoritative and current,
-but neither publishes the MBSE derivation behind its architecture -- they
-present the resulting roadmap, not a traceable model connecting operational
-concept to system architecture.
+ Time spent developing the Concepts of Operations has also impacted other work. However, the project lacks a specific focus at the moment for what tradeoffs will be considered. While the project does not intend to be an exploration of optimization, the concept focuses on sub-optimality driven by myopic decisions. While the concepts of operations help inform a more comprehensive understanding of the NAS, the systems involved, and the interfaces amongst them, it has not yet provided for unique insights into specific scenarios that might be worth modelling. 
 
-That derivation step does have a documented precedent, just not from the
-NAS: the EU-China GreAT (Greener Air Traffic Operations) research project
-publishes a three-volume progression that starts from a current-state TBO
-concept baseline~\textcite{great2020d21tboConcept}, uses an explicit MBSE
-methodology to derive a gate-to-gate operational and system architecture from
-that concept~\textcite{great2021d22operationalArch}, and extends the result
-down to an avionics-level architecture. This is a rare, concrete example of
-exactly the operational-concept-to-architecture move this capstone's own
-methodology (SysML in Cameo, informed by MagicGrid and selected UAF/DoDAF
-concepts -- decision D-003) needs to make for the NAS, and the closest
-available benchmark for judging whether this project's own architecture is
-comparably rigorous. A second, smaller-scale precedent for the same
-ontology-first, MBSE-second move applied to an aviation System of Systems is
-\textcite{sinharoy2024ontologyUAM}'s architecture framework for Urban Air
-Mobility, and \textcite{liu2025mbseAtmSmt} demonstrates a full,
-requirements-traceable MBSE pipeline (metamodel, architecture model library,
-and formal verification against ICAO requirements) for an ATM system in a
-different regulatory context -- together these establish that MBSE-derived,
-requirements-traceable ATM architecture is an active, current methodology,
-not a hypothetical one, even though no published example does it for the
-U.S. NAS specifically.
+ At this stage, the progress is at risk of analysis paralysis, which is being weighed against the risk of a lack of a well-formed vision for execution. At this point, I wish to heir on the side of action, transitioning the project to Phase 2 and allowing specific gaps or needs in the model development guide further review of the collected sources. That said, I still plan to contiue the review ad-hoc. Also worth noting is that model development will inform possibilities w.r.t. what can be modelled (e.g. multiple instances of an aircraft system performing similar, but different actions simultaneously while each affecting the same controller's workload). Additionally, gaining experience with sysmlv2 will inform whether its learning curve makes it a viable tool, or if Cameo is more appropriate. 
 
-\subsubsection*{Airline planning and scheduling}
+ This pivot from Phase 1 exploration to Phase 2 modelling will advance the project deliverables while engraining a deeper understanding of the information gaps. When the modelling gets to the point of MOEs/MOPs, the objectives of stakeholders will be revisited and a more targetted literature consultation can occur. 
 
-The airline-planning literature converges on one finding relevant to this
-project regardless of which sub-problem is being studied:
-\textcite{eltoukhy2017airline}'s review of over 100 papers organizes airline
-schedule planning into four sequential sub-problems -- flight scheduling,
-fleet assignment, aircraft-maintenance routing, and crew scheduling -- solved
-one after another, and finds that this sequential decomposition is the
-industry norm even though it is provably suboptimal relative to integrated
-formulations. \textcite{lohatepanont2004airline} demonstrate a concrete
-integrated schedule-design-and-fleet-assignment model, using real airline
-data, that outperforms the sequential approach precisely because it does not
-treat fleet assignment as a fixed input to be optimized around after schedule
-design is already frozen. \textcite{xu2024airlineSchedOpt} extends this
-picture with explicit mathematical formulations for thirteen representative
-scheduling models and highlights robust-scheduling variants that explicitly
-price in disruption risk -- a step toward internalizing, rather than
-externalizing, the very costs that later disruption-management research
-(below) has to absorb after the fact. The throughline for this project is
-that the sequential, compartmentalized planning process is not a strawman:
-it is the documented, still-common industry practice, and its cost is that
-decisions made at one stage (e.g., fleet assignment) become fixed constraints
-the next stage (e.g., crew scheduling) cannot renegotiate even when it would
-be globally beneficial to do so.
+ Per the original plan, state machines for the various NAS systems were intended to be completed by 9/15. This deliverable has not been met. The realities of a full-time professional job whose needs often extend beyond the normal 40-hour work week has forced much of the project work to occur on weekends and my time managment needs to adjust to accomodate. This weekend will be a decision gate that informs that process and possibly lead to an adjustment of the schedule of deliverables. 
 
-\subsubsection*{Day-of-operations and turnaround}
 
-Turnaround is the clearest example in this literature of a process that is
-technically local (one aircraft, one gate, one set of ground crews) but
-whose information dependencies are not: \textcite{schultz2017turnaround}'s
-review of turnaround operations and simulation approaches documents how
-airport capacity pressure and schedule disruption both concentrate at the
-turnaround, and surveys the agent-based, discrete-event, and
-cellular-automaton simulation frameworks used to study it.
-EUROCONTROL's current \emph{Specification for Airport Collaborative Decision
-Making}~\textcite{eurocontrolACDMSpec} is the operational answer to that
-information problem: rather than optimizing turnaround locally, it defines a
-shared "milestone approach" -- explicit target, estimated, and actual times
-for each turnaround event -- that airports, airlines, ground handlers, and
-the Network Manager all update and read from a common information model.
-A-CDM is, in effect, an existing, deployed example of the kind of
-information-sharing architecture this capstone is trying to generalize
-across the rest of the NAS: it does not eliminate each stakeholder's local
-objective, but it makes the information those objectives depend on visible
-across organizational boundaries instead of trapped inside one of them.
-
-\subsubsection*{Operations control, dispatch, and disruption management}
-
-This is the deepest and most directly relevant of the four tracks, and its
-findings are woven through Section~\ref{sec:introduction}'s framing above;
-this subsection adds the pieces not already covered there.
-\textcite{clarke1998irregular}'s foundational 1998 survey of the Airline
-Operations Control Center (AOCC) -- still cited as the origin point of this
-literature by later reviews such as \textcite{hassanDisruptionReview} --
-establishes the AOCC's basic structure (a central control center supported
-by maintenance- and station-level control centers) and its guiding decision
-rule: return to the planned schedule as fast as possible, subject to crew and
-maintenance feasibility, largely independent of the trajectory-level fuel or
-routing consequences of how that return is achieved.
-\textcite{hassanDisruptionReview}'s more recent review formalizes why that
-rule persists: aircraft, crew, and passenger recovery are treated as
-separable decision domains not because they are independent in reality, but
-because integrated (multi-resource) recovery is harder to solve and the
-literature that could support it does not match AOCC practice --
-\citeauthor{hassanDisruptionReview} describe this explicitly as a gap between
-published research and the reality of AOCC decision-making.
-\textcite{bouarfa2018masDisruption} and its originating
-thesis~\textcite{castro2013aoccMasThesis} offer a partial counterexample: the
-MASDIMA multi-agent architecture assigns each resource (aircraft, crew,
-passengers) its own agent with an explicit utility function and negotiates a
-joint solution through a supervisor agent -- a working, implemented
-demonstration that local objectives \emph{can} be reconciled algorithmically
-rather than left to sequential handoff, though \citeauthor{bouarfa2018masDisruption}'s
-own evaluation finds that automating those roles concentrates workload and
-judgment onto the remaining human supervisor rather than eliminating the
-need for it.
-
-The pattern above is not limited to human decision processes; it recurs even
-in mathematically rigorous work. \textcite{santana2023arpReview}'s systematic
-review of the Aircraft Recovery Problem finds that studies (and, by
-extension, the AOCC processes they model) rarely minimize delay,
-cancellations, and aircraft swaps simultaneously -- they treat these as
-separable sub-problems solved and handed off in sequence, so a solution that
-is optimal at one stage can be infeasible once the next stage's constraints
-are applied. \textcite{hu2024disruptionOptReview} adds that the standard
-simplification in this literature -- modeling delay cost as linear in delay
-minutes -- does not match airline practice, where delay cost is nonlinear
-and airlines routinely trade mathematical optimality for decision speed.
-\textcite{kontodimou2026turnaroundBuffer}'s predictive turnaround-buffer
-model achieves a real, measured 37.1\% reduction in propagated delay, but
-only by holding routing, fleet assignment, crew duty, maintenance, and
-passenger connectivity fixed as external constraints -- the improvement is
-genuine within its bounded scope, and the boundary itself is the risk this
-capstone investigates. Finally, \textcite{dispatcherWorkload2025}'s recent
-(2026) study of the flight-dispatcher workload-balancing problem is notable
-for two reasons: it is one of only three studies the authors could find that
-treat dispatcher scheduling as an optimization problem at all, and it
-supplies a directly reusable formulation (a load-based objective, a
-Lagrangian-relaxation bound, and a metaheuristic) for treating human workload
-as a first-class, quantified constraint rather than an unmeasured
-externality -- exactly the kind of factor Section~\ref{sec:overview}
-identifies as "harder to quantify" and therefore routinely omitted from
-today's cost models.
-
-\subsubsection*{Research gap}
-
-Individually, each of these tracks is well studied: sequential-versus-
-integrated optimization within airline planning, information-sharing
-protocols for turnaround, and disruption-recovery decision support each have
-mature, if incomplete, literatures, and precedents exist for deriving
-MBSE-based ATM architecture from an operational concept in other regions
-(GreAT, SESAR) and other aviation domains (UAM). What none of them do,
-individually or together, is connect these tracks into one traceable
-model. Each track studies its own slice of the trajectory-intent chain
-in isolation -- planning \emph{or} turnaround \emph{or} dispatch \emph{or}
-foreign-ATM architecture -- using that slice's own vocabulary and cost model,
-and each documents, in its own domain, the same underlying pattern: sequential
-or siloed decision-making that is locally rational and globally uncertain.
-No source in this register builds a single architecture that traces
-operational intent end-to-end -- from an enterprise objective, through
-airline planning, day-of-operations control, and air traffic control, to the
-trajectory an aircraft actually flies -- while keeping each stakeholder's
-objectives, and the points where one stakeholder's decision imposes a cost on
-another, explicit and inspectable in the same model. That is the gap this
-capstone's reference architecture is intended to fill: not a new
-optimization method for any one of these tracks, but a structure that makes
-the couplings \emph{between} them visible to a systems engineer or
-decision-support tool before a disruption forces them into view.
+(Section~\ref{sec:deliverables}).
 
 
 \subsection{Stakeholders}
 \label{sec:stakeholders}
 
-Stakeholders were identified with a PESTLE (Political, Economic, Social,
-Technical, Legal, Environmental) sweep across the NAS, producing a register
-of several dozen stakeholder classes ranging from the FAA and ICAO down to
-local communities and future generations affected by long-run environmental
-cost. That full inventory is deliberately broader than any one model or
-optimization study can carry in detail, so it is narrowed, for the
-architecture and objective-ontology work, to seven categories that sit
-directly inside the trajectory-intent chain and actively trade against one
-another: \textbf{Airline}, \textbf{Passenger}, \textbf{ATC/ANSP},
-\textbf{Airport}, \textbf{Flight Crew}, \textbf{Environmental/Societal}, and
-\textbf{Military}. Each of the seven has been carried through a per-category
-objective/cost/value analysis (classifying each objective as a hard
-constraint, an optimization objective, a cost/penalty, a measure of
-performance, or a measure of effectiveness, and rating whether it is
-directly, indirectly, or not coupled to aircraft trajectory) that is
-summarized here and used directly in Section~\ref{sec:scope} and
-Section~\ref{sec:deliverables}:
+\plantodo{S7}{Identify key project stakeholders (individuals/organizations
+affected by or perceiving themselves affected by NAS operational decisions).
+Draw on the PESTLE stakeholder discovery, stakeholder register, and RACCI
+matrix from Project\_To-Do List.md S7. Confirm the stakeholder set is
+diverse (airline, passenger, ATC/ANSP, airport, flight crew, environmental/
+societal, military -- see S8's per-stakeholder objective categories) and
+that stakeholders with little formal power (e.g., passengers, communities
+affected by noise/emissions) are represented.}
 
+I created the 	exttt{capstone	extunderscore stakeholder	extunderscore assessment.xlsx} file, filling it with my initial assessment of each candidate stakeholder's objectives, and then iteratively refined it as I read more literature and gained a better understanding of the NAS. The assessment includes the following information for each stakeholder: 
 \begin{itemize}
-  \item \textbf{Airline} -- fuel cost, crew cost, aircraft utilization,
-    maintenance, schedule integrity, passenger connections, delay cost,
-    revenue, and dispatch reliability. Represented operationally by the
-    AOCC, dispatch, and network-planning functions discussed in
-    Section~\ref{sec:litreview}.
-  \item \textbf{Passenger} -- ticket price, travel time, connection
-    reliability, schedule convenience, comfort, and disruption risk. A
-    comparatively low-power stakeholder in the sense that passengers do not
-    make operational decisions, but one whose travel-time and connection
-    outcomes are a direct, measurable consequence of decisions made by every
-    other stakeholder in this list.
-  \item \textbf{ATC/ANSP} -- safety and separation, sector workload,
-    capacity, predictability, delay, and traffic complexity. Safety and
-    separation are hard constraints that bound every other objective in this
-    architecture; sector workload is the clearest example in this project of
-    an externality (imposed by airline and individual-aircraft trajectory
-    requests) that the imposing party does not itself pay for.
-  \item \textbf{Airport} -- gate utilization, runway utilization, surface
-    congestion, turnaround performance, and passenger throughput. Sits at
-    the A-CDM information-sharing boundary discussed in
-    Section~\ref{sec:litreview}.
-  \item \textbf{Flight Crew} -- safety, workload, procedural compliance,
-    schedule/duty constraints, and operational flexibility. The Captain's
-    authority to deviate from an assigned trajectory to preserve safety
-    margin is this project's clearest example of decision authority that
-    can, and by design does, override every other stakeholder's local
-    objective.
-  \item \textbf{Environmental/Societal} -- CO2, NOx, contrail/climate
-    effects, noise, local air quality, and community impacts. The
-    lowest-power stakeholder category in this list -- represented by
-    advocacy groups, regulators, and "future generations" as a societal
-    proxy rather than by an operational decision-maker -- and the clearest
-    example of a stakeholder whose costs are chronically externalized by
-    every other category's schedule-recovery and efficiency decisions.
-  \item \textbf{Military} -- mission effectiveness, mission timing, fuel
-    availability, airspace access, operational security, and resilience.
-    Included specifically at the civil-military airspace-access interface
-    (special-use-airspace activation forcing civil rerouting), not as a
-    detailed model of military mission planning -- see
-    Section~\ref{sec:scope}.
+    \item stated interest and whether it acts as a hard constraint, optimization objective, cost/penalty, MOP, or MOE
+    \item candidate explorations of MOP/MOEs
+    \item determination of whether the stakeholder has a direct or indirect impact on trajectory decisions, if any.
+    \item An exploration of whether the stakeholder should be a standalone stakeholder or consolidated with another stakeholder, and the rationale for that decision. 
 \end{itemize}
 
-Because this is a single-student capstone rather than a team project, there
-is no team-composition bias to check against; the mitigation instead was to
-seed the register broadly (the full PESTLE inventory) before narrowing to
-the seven working categories, so that low-power stakeholders were considered
-and then deliberately retained -- Passenger and Environmental/Societal in
-particular -- rather than dropped for convenience. The needs, resources,
-constraints, and information requirements underlying each category above
-are being developed into a full RACCI (Responsible, Accountable, Consulted,
-Informed, and a fifth authority dimension) matrix of NAS operational
-decisions; that matrix, and the deeper per-stakeholder detail, are in
-progress and will be reported in a subsequent submission.
+This has lead me to the following list of stakeholders that I believe are relevant to the project:
+\begin{itemize}
+    \item Governments / Standards Organizations
+    \item Operators (Airlines, Charter Operators, Cargo Operators)
+    \item Air Traffic Control (ATC)
+    \item Aircraft and Engine Manufacturers
+    \item Airport Authority
+    \item Flight Crew
+    \item Passengers
+    \item Environmental/Societal Organizations
+\end{itemize}
+
+Furthermore, an exploration of the interests of each stakeholder has lead me to the following list of objectives that I believe are relevant to the project:
+\begin{itemize}
+    \item Safety / Security
+    \item Efficiency 
+    \item Throughput / Capacity
+    \item Reliability / Resilience
+    \item Environmental Impact
+    \item Noise Impact
+    \item Passenger Satisfaction
+    \item Schedule Reliability
+    \item Cost / Profitability
+    \item Maintenance / Lifecycle Cost
+    \item Regulatory Compliance
+    \item Workload / Human Factors
+\end{itemize}
 
 \subsection{Scope}
 \label{sec:scope}
 
-The System of Interest (SOI) is the portion of the NAS that participates in
-the trajectory-intent chain for scheduled U.S. commercial (Part 121) air
-transportation: the organizations, systems, and information exchanges that
-carry intent from an airline's strategic and network-planning objectives,
-through day-of-operations control and air traffic control, to the trajectory
-an aircraft actually flies and the guidance commands that execute it.
-
-\textbf{Included.} Airline strategic/network planning and its
-sequentially-coupled sub-problems (schedule design, fleet assignment,
-aircraft routing, crew scheduling); day-of-operations functions (dispatch,
-the AOCC, weight and balance); turnaround and airport ground operations
-insofar as they exchange information across organizational boundaries (the
-A-CDM milestone model); air traffic control from clearance delivery through
-enroute, arrival, and approach control; and the onboard systems (FMS,
-autopilot, guidance) that translate a cleared trajectory into aircraft
-motion. The seven stakeholder categories in Section~\ref{sec:stakeholders}
-are the SOI's actor set.
-
-\textbf{Excluded.} General aviation, all-cargo and charter operations
-outside scheduled Part 121 service, and international airspace beyond the
-NAS boundary are out of scope for direct modeling, though the SESAR/European
-and GreAT sources in Section~\ref{sec:litreview} are used as comparative
-benchmarks, not as SOI content. Military aviation is excluded except at its
-one interface with the civil SOI: special-use-airspace activation and the
-civil rerouting it forces (Section~\ref{sec:stakeholders}); internal military
-mission planning, weapons systems, and mission systems are treated as an
-opaque boundary condition. Urban Air Mobility and uncrewed systems are
-excluded from the SOI itself and used only as methodological precedent
-(Section~\ref{sec:litreview}). Below the aircraft/FMS interface --
-autopilot control-law design, control-surface actuation, and other
-airframe-internal behavior -- is excluded; the architecture treats "aircraft
-motion" as the observable output of guidance commands, not as a flight-
-dynamics model.
-
-\textbf{Level of abstraction.} The model spans enterprise objectives down to
-trajectory intent and the guidance commands that realize it, but not below
-that: the trajectory-intent chain (Strategic objective $\rightarrow$ mission
-plan $\rightarrow$ flight plan $\rightarrow$ ATC constraints $\rightarrow$
-trajectory negotiation $\rightarrow$ FMS intent $\rightarrow$ guidance
-commands $\rightarrow$ aircraft motion, Section~\ref{sec:overview}) is
-modeled at full fidelity end-to-end, while lower-level detail inside any one
-link -- e.g., the specific numerical control law an FMS uses to track a
-cleared trajectory -- is treated as a boundary input. Consistent with the
-per-objective abstraction judgments already made in the stakeholder
-objective/cost ontology (Section~\ref{sec:stakeholders}), an objective or
-decision is modeled at full trajectory fidelity when it is \emph{directly}
-coupled to trajectory (e.g., ATC safety/separation, schedule-recovery delay
-cost, contrail avoidance) and treated as a coarser boundary condition when
-the coupling is indirect (e.g., ticket pricing, passenger throughput, crew
-duty-time constraints).
-
-\textbf{Boundary criteria.} A candidate element is included as a
-\emph{system} in the architecture if it produces, transforms, transmits, or
-consumes trajectory-relevant intent or information, and if a specific
-organization can be identified as holding authority or responsibility for it
--- consistent with the domain decomposition already adopted (governance,
-airspace management, airspace resources, flight operations, airport
-operations, aircraft systems, information services, infrastructure, and
-decision support; decision D-002). An element that merely exists in the
-aviation domain without a traceable connection to that chain (e.g., an
-airline's internal HR system) is out of scope. A candidate \emph{stakeholder}
-or actor is included if it holds authority over, is responsible for
-executing, or bears a measurable cost or benefit from a decision inside the
-trajectory-intent chain -- the test applied when the seven-category working
-set in Section~\ref{sec:stakeholders} was narrowed from the full PESTLE
-inventory.
-
-\textbf{Status.} This is the project's initial, working SOI boundary,
-consistent with the candidate scope already sketched in the project's
-working notes; it closes the boundary-definition questions raised during
-research-framework setup (inclusion/exclusion, abstraction level, and system
-and stakeholder boundary criteria). It remains open to revision when
-alternative decompositions are compared against it later in the project
-(organization-based, lifecycle-based, physical, information-flow, and
-decision-authority views), and that comparison may refine or replace the
-domain decomposition without changing the SOI boundary stated here.
+\plantodo{S1}{State what is explicitly included and excluded from the
+System of Interest (SOI), the level(s) of abstraction modeled, and the
+criteria used to draw system and stakeholder/actor boundaries. This section
+should resolve the open boundary questions currently tracked in
+\texttt{knowledge/questions/open-questions.md} S1 -- if any remain open when
+this section is drafted, that is a signal the SOI work in
+Project\_To-Do List.md S1 is not yet closed.}
 
 \subsection{Project Deliverables}
 \label{sec:deliverables}
 
-The project has two primary deliverables, developed together so that the
-second demonstrates the value of the first.
-
-\textbf{1. A SysML/Cameo reference architecture of the SOI defined in
-Section~\ref{sec:scope}.} This includes a NAS context diagram and
-stakeholder model; block definition diagrams (BDDs) for the domain
-decomposition; internal block diagrams (IBDs) for the critical interfaces
-identified along the trajectory-intent chain; an information-object and
-item-flow model; a nominal-flight activity diagram and responsibility
-swimlanes (grounded in the ConOps built from Section~\ref{sec:litreview}'s
-literature, especially the A-CDM milestone model and the AOCC/dispatch
-decision process); and a requirements model traced from stakeholder needs
-(Section~\ref{sec:stakeholders}) through requirements, systems, activities,
-and information exchanges, to the decisions that ultimately shape aircraft
-behavior.
-
-\textbf{2. A bounded optimization-demonstration capability} built as one
-decision-support capability \emph{inside} that architecture rather than as
-a standalone study -- consistent with this project's own framing (this is a
-systems-engineering capstone, not an optimization paper). Using the
-objective/cost ontology summarized in Section~\ref{sec:stakeholders}, the
-demonstration formulates one representative multi-stakeholder conflict (the
-leading candidate is airline fuel-cost minimization versus ATC/ANSP sector
-workload, identified in that ontology as the cleanest available decision
-variable with clean opposing measures on both sides), runs a single
-local-versus-system-level-optimum comparison and objective-weight sweep, and
-traces the resulting decision back through the architecture to show which
-stakeholders absorb which costs -- the specific capability a standalone
-optimizer, decoupled from the architecture, could not show.
-
-Success is assessed against measures that can be checked directly in the
-finished model and report, not by subjective judgment of "improvement":
-
-\begin{itemize}
-  \item \textbf{Stakeholder coverage} -- all seven stakeholder categories
-    (Section~\ref{sec:stakeholders}) represented in the architecture with an
-    identified objective, decision authority, and at least one information
-    dependency.
-  \item \textbf{Traceability coverage} -- a complete, unbroken chain from
-    stakeholder need through requirement, system, activity, and information
-    exchange, to a specific effect on aircraft trajectory or behavior, for
-    at least the nominal-flight ConOps scenario.
-  \item \textbf{Interface/requirement completeness} -- all interfaces
-    identified as critical in the IBD model are connected, and all
-    requirements trace to at least one stakeholder need.
-  \item \textbf{Demonstrated tradeoff} -- the optimization capability
-    produces at least one local-optimum-versus-SoS-optimum comparison that
-    quantifies a cost externalized from one stakeholder onto another, and
-    shows that externality changing as the objective weighting changes.
-  \item \textbf{Architecture value-add} -- an explicit statement, supported
-    by the demonstration, of what the architecture exposes that the
-    optimization result alone would not (i.e., which stakeholder absorbs the
-    externality and through which interface).
-\end{itemize}
+\plantodo{S10, S14, S16}{State the goals and deliverables: the SysML/Cameo
+reference architecture, the traceability chain from stakeholder needs to
+aircraft-level behavior, and the optimization-demonstration capability
+(Section~\ref{sec:results}). Include the quantifiable measures used to
+assess success (e.g., traceability coverage, stakeholder coverage,
+demonstration of a local-vs-SoS optimization tradeoff).}
 
 \subsection{Project Timing}
 \label{sec:timing}
 
-The timeline below revisits the milestone schedule from the 503 Proposal
-submittal and maps each milestone to the corresponding section(s) of the
-project's working to-do list (16 sections, research framework through final
-deliverables). Three planning activities (alternative decomposition
-exploration, myopic-optimization conflict analysis, and the capstone
-demonstration walkthrough) have no dedicated milestone in the original
-submittal; they are scheduled to fall between their logically adjacent
-milestones and are marked accordingly.
-
-\begin{longtable}{p{2.3cm}p{6.3cm}p{1.6cm}p{3.7cm}}
-\toprule
-\textbf{Target date} & \textbf{Milestone} & \textbf{Plan \S} & \textbf{Status (as of \today)} \\
-\midrule
-\endhead
-2026-09-07 & PESTLE Analysis \& System Definition (stakeholder discovery, SOI boundary, NAS context diagram) & S1, S7, S10 & PESTLE discovery and stakeholder register complete; SOI boundary stated in Section~\ref{sec:scope} \\
-2026-09-10 & Authority \& Responsibility Models (RACCI, responsibility swimlanes) & S7, S10 & Not started \\
-\textbf{2026-09-20} & \textbf{Interim Report \#1 (this report)} & S1--S4, S16 & In progress -- this document \\
-2026-09-22 & Sequence Diagrams (critical message flows) & S10 & Not started \\
-2026-10-01 & Activity Diagrams (nominal-flight scenario walkthrough) & S10 & Not started \\
-2026-10-12 & Requirement Traceability (needs $\to$ requirements $\to$ systems $\to$ activities $\to$ information) & S10 & Not started \\
-2026-10-17 & Measures of Effectiveness (MOE/MOP hierarchy) & S8 & Complete -- see stakeholder objective/cost ontology \\
-2026-10-20 & Requirements Definition & S10 & Not started \\
-(unscheduled, between 2026-10-17 and 2026-11-03) & Alternative system decompositions compared against the domain decomposition & S6 & Not started \\
-2026-10-25 & Internal Block Diagrams (critical interfaces connected) & S10 & Not started \\
-2026-10-29 & Interface Definition (Interface Control Document) & S10 & Not started \\
-2026-11-03 & Draft Architecture (BDDs \& package structure) & S10 & Not started \\
-2026-11-08 & Operational Scenarios (nominal-flight ConOps document) & S5 & Not started \\
-(unscheduled, between MOE and Optimization Prototype) & Myopic-optimization conflict analysis & S9 & Not started \\
-2026-11-17 & Literature Review (annotated bibliography, 10--20 papers categorized) & S2--S4 & In progress -- 52 sources triaged, deep annotation ongoing \\
-2026-11-21 & Optimization Prototype (working code, unit tests) & S11, S12 & Not started \\
-2026-11-24 & Integration of MBSE Architecture (traceability links, end-to-end scenario) & S10, S13 & Not started \\
-(unscheduled, between Integration and Final Paper) & Capstone demonstration walkthrough & S14 & Not started \\
-2026-12-18 & Final Paper (complete draft) & S16 & Not started \\
-2026-12-20 & Paper Submittal (official) & S16 & Not started \\
-2026-12-26 & Final Baseline \& Draft Paper (versioned model \& draft paper) & S15 & Not started \\
-\bottomrule
-\end{longtable}
-
-Two scheduling notes carry over from the original submittal and are flagged
-here rather than silently resolved: the submittal schedules the Literature
-Review milestone (2026-11-17) \emph{after} most of the architecture
-milestones (2026-09-07 through 2026-11-03), later than this report's own
-literature-review-before-architecture sequencing assumes -- in practice,
-literature work is running continuously in the background (as reflected in
-Section~\ref{sec:litreview}) rather than strictly front-loaded. The Final
-Baseline \& Draft Paper milestone (2026-12-26) is also dated \emph{after}
-Paper Submittal (2026-12-20); this is being treated as an intentional
-post-submission archival/versioning step pending confirmation with the
-faculty adviser.
+\plantodo{S1 (new)}{Revisit the timeline from the 503 Proposal submittal
+(see \texttt{prework/ISD 503 Submittal.pdf}) and list the sequence of tasks
+-- keyed to Project\_To-Do List.md's 16 sections -- with target completion
+dates. A "Project Timing" task did not previously exist in the plan; it has
+been added to Project\_To-Do List.md S1 this session so this subsection has
+something concrete to draw from.}
