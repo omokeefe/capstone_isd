@@ -37,13 +37,17 @@ delete it from here — don't let answered questions linger.
   Taxonomy-Based Perspective for Systems-of-Systems Design Methods," IEEE SMC 2005) that
   may differ from the PDF registered as `delaurentis2005sosTransportation`
   ("Understanding Transportation as a System-of-Systems Design Problem," AIAA 2005-123) —
-  confirm which paper `yao2026` actually cites. See [[source-register]].
+  confirm which paper `yao2026` actually cites. See [[source-register]]. - DONE Yao cites the 2005 DeLaurentis paper as ref 128:
+
+```There are various definitions and characteristics in the research of SoS. For example, Maier summarizes SoS characteristics into five properties (“Maier’s criteria”) [126]: (i) operational independence, (ii) managerial independence, (iii) geographic distribution, (iv) emergent behavior, and (v) evolutionary development. Moreover, Boardman and Sauser distinguish SoS from conventional systems using five identifying characteristics—Autonomy, Belonging, Connectivity, Diversity, and Emergence [127], while DeLaurentis propose a taxonomy along three orthogonal dimensions, namely Connectivity, Control/Autonomy, and System Type, to characterize and compare different SoS forms [128]. In this review, we describe LA SoS according to standards of ISO/IEC/IEEE 42010:2020 [129]. ISO/IEC/IEEE 42010:2020 states that an entity’s architecture includes “its constituent elements, interactions among elements, interactions with the environment, as well as its behavior/structure and the principles governing its design, use, operation and evolution.”```
+
 - [ ] `younus2026fmeaOntology` cites the same Lu et al. design-ontology work as
   `luDesignOntologyMBSE2020` but gives its venue/year as *IEEE Systems Journal*, 2022, vs.
   the registered arXiv 2020 preprint — reconcile which is authoritative.
+  Looks like the paper was reprinted in a different publiction (IEEE as opposed to airXiv's capture)
 - [ ] `faaFixmUsExtension2024`'s exact release year for FIXM US Extension v4.4.0 isn't
   stated in-document — verify against fixm.aero before citing precisely. See
-  [[source-register]].
+  [[source-register]]. It was acquired from a download from the website https://www.fixm.aero/downloads.html, which has 4.4. published Sept 2 2025. 
 
 ## Optimization study scope (§11)
 
