@@ -2,9 +2,11 @@
 
 _Cross-session focus state only. The full task checklist lives in
 `to-do-list.md` — don't duplicate it here. Update this file per
-`../../workflows/session-wrap-up.md` at the end of each session._
+`../../workflows/session-signoff.md` at the end of each session. Keep entries here
+terse and current-state-only — narrative reasoning belongs in the daily
+`journal/`, not here._
 
-**Last updated:** 2026-09-14
+**Last updated:** 2026-09-17 (see `journal/2026-09-17.md` 21:24 Sign-Off for reasoning)
 
 ## Current phase
 
@@ -53,6 +55,18 @@ update.
 - Resolve the System of Interest boundary questions in
   `../../knowledge/questions/open-questions.md` (§1) — not yet started.
 
+- Drafted a candidate §5 ConOps scenario ("Hub-to-Hub Trajectory Cost vs. Sector
+  Workload Tradeoff") in `../../knowledge/models/conops-scenarios.md` and a full
+  phase-by-phase elaboration in
+  `../../knowledge/models/conops-hub-to-hub-trajectory-cost.md`. Not yet reviewed by the
+  user — see `journal/2026-09-17.md` (20:37, 20:49, 21:09 entries) for the reasoning and
+  open issues (city pair, background-bank size, monetization placeholders unset).
+
+- New: `session-welcome`/`session-signoff` skills replace the old
+  `session-bootstrap`/`session-tagup`/`session-wrap-up` skills — session narrative now
+  lives in the daily journal instead of `sessions/`. See `journal/2026-09-17.md` (21:24
+  Sign-Off) for what changed. Unexercised so far; watch for rough edges.
+
 
 ## Backlog / ideas
 
@@ -66,16 +80,16 @@ update.
 
 ## Next session priority
 
-**Immediate (before 2026-09-20):** review and rewrite the AI-drafted
-`02_introduction.tex` content into the user's own judgment (see flag above),
-finalize the SOI boundary decision (§1) — the draft Scope subsection proposes one,
-but it needs the user's sign-off before it's logged to `decisions-log.md` and
-`open-questions.md` — resolve the Word-conversion tooling question, compile, and
-complete Progress Status Update #1 on Canvas.
+See `journal/2026-09-17.md` (21:24 Sign-Off) for full reasoning. Terse version:
 
-**After the interim report:** work `to-do-list.md` §1 to closure for real (finalize
-research questions, ratify the SOI boundary). The source register is fully populated
-and rated, so §2-§4 literature-review deep-annotation sessions can start any time —
-prioritize the 5-rated sources first (`eltoukhy2017airline`, `hassanDisruptionReview`,
-`schultz2017turnaround`, `clarke1998irregular`, `dispatcherWorkload2025`,
-`eurocontrolACDMSpec`).
+1. Review/rewrite the six AI-drafted `02_introduction.tex` subsections (including
+   further uncommitted manual edits since 2026-09-14) into the user's own judgment;
+   ratify the SOI boundary as part of that pass.
+2. Resolve LaTeX-to-Word conversion, compile, send the adviser copy, complete the
+   Canvas Progress Status Update #1.
+3. Try `session-welcome` next session and flag anything off about it.
+
+**After the interim report:** work `to-do-list.md` §1 to closure for real, then start
+§2-§4 literature-review sessions prioritizing the 5-rated sources first
+(`eltoukhy2017airline`, `hassanDisruptionReview`, `schultz2017turnaround`,
+`clarke1998irregular`, `dispatcherWorkload2025`, `eurocontrolACDMSpec`).

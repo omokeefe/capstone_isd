@@ -18,7 +18,7 @@ through §6-§9.
 
 ## Steps
 
-1. Bootstrap per `workflows/new-session-bootstrap.md`, paying particular
+1. Bootstrap per `workflows/session-welcome.md`, paying particular
    attention to `decisions/decisions-log.md` D-002 (the current domain
    decomposition) and any open decomposition question in `open-questions.md`.
 2. Identify which `projects/nas-sos-capstone/to-do-list.md` §10 bullet this session
@@ -36,7 +36,7 @@ through §6-§9.
    bullets). Partial traces are fine mid-project; note the gap in
    `knowledge/questions/open-questions.md`.
 6. Check off the corresponding `projects/nas-sos-capstone/to-do-list.md` §10 box(es).
-7. Wrap up per `workflows/session-wrap-up.md`.
+7. Sign off per `workflows/session-signoff.md`.
 
 ## Notes
 

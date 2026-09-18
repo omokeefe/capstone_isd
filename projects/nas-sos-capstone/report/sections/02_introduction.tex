@@ -10,7 +10,7 @@ My project aims to build a reference MBSE architecture for how airspace intent i
 In his 2005 paper, DeLaurentis states the following~\textcite{delaurentis2005sosTransportation}:
 
 \begin{quote}
-``PROBLEMS of significant complexity are facing decision-makers within government and industry, and the moniker of `system-of-systems' (heretofore shortened to SoS) is increasingly being applied to problems of this type. Effective system analysis for decision-support quickly becomes unmanageable in this context, with multiple, heterogeneous, distributed systems involved and couched in networks at multiple levels. The situation is exacerbated by the fact that most organizations (and their processes) remain in the `stovepipe' mode -- their people and tools are configured to study within narrow bins with little or no analysis across those bins. Current frames of reference, thought processes, analysis, and design methods are not complete for these SoS problems, exemplified in this paper by future national transportation system realizations. A holistic framework is needed that enables decision makers to discern whether related infrastructure, policy, and/or technology considerations together are good, bad (or indifferent) over time. And this need is urgent, for the SoS type almost always involves decisions that commit large amounts of money, for which ultimate failure or success carries heavy consequences over several generations, and that impact large segments of the public. The costs associated with a chosen path may still be high, but the intent is to maximize the probability that these costs result in good consequences rather than bad.''
+``Problems of significant complexity are facing decision-makers within government and industry, and the moniker of `system-of-systems' (heretofore shortened to SoS) is increasingly being applied to problems of this type. Effective system analysis for decision-support quickly becomes unmanageable in this context, with multiple, heterogeneous, distributed systems involved and couched in networks at multiple levels. The situation is exacerbated by the fact that most organizations (and their processes) remain in the `stovepipe' mode -- their people and tools are configured to study within narrow bins with little or no analysis across those bins. Current frames of reference, thought processes, analysis, and design methods are not complete for these SoS problems ... A holistic framework is needed that enables decision makers to discern whether related infrastructure, policy, and/or technology considerations together are good, bad (or indifferent) over time.''
 \end{quote}
 
 While this reference is from 2005, it is still relevant today. The NAS is a complex system of systems, and the decisions made by the various stakeholders have significant consequences for the safety, efficiency, and sustainability of the air transportation system.
@@ -35,6 +35,18 @@ explain why they matter. Draw on README.md's framing of the trajectory-intent
 lifecycle (Strategic objective -> mission plan -> flight plan -> ATC
 constraints -> trajectory negotiation -> FMS intent -> guidance commands ->
 aircraft motion) as the throughline.}
+
+The NAS is a complex system in which operational decisions are made by independent actors, each of which may or may not be accounting for the impacts on other system stakeholders, which includes regulatory agencies, air traffic service providers, airport operators, airline operations centers, MRO suppliers, flight crews, passengers, and aircraft systems. While substantial architectural work has been performed within individual domains, the relationships and information flows between these domains are often incompletely represented.
+
+Existing models frequently focus myopically on one actor or problem, exhibiting one or more of the following limitations: 
+  - Emphasis on enterprise-level capabilities without sufficient representation of aircraft behavior and onboard desision-making, 
+ - Emphasis on aircraft systems without adequate representation of the broader operational context within which those systems operate, 
+ - limited traceability between strategic objectives, operational constraints, human decisions, and the resulting aircraft trajectories, 
+ - difficulty evaluating the impacts of new operatioal concepts, automation technologies, and optimization services across organizational boundaries. 
+
+As a result, there is no broadly applicable architecture that fully captures how strategic objectives become executable aircraft behavior. This lack of end-to-end traceability limits the ability of engineers, operators, and decision makers to understand the consequences of changes within the NAS and complicates the integration of future decision-support technologies.
+
+This project seeks to address this gap by developing a System-of-Systems architecture that explicitly models the propagation of intent throughout the National Airspace System, from enterprise objectives and airspace management decisions to flight deck decision-making and aircraft trajectory execution.
 
 \subsection{Review of Current State Design / Literature Review}
 \label{sec:litreview}
@@ -123,6 +135,8 @@ should resolve the open boundary questions currently tracked in
 this section is drafted, that is a signal the SOI work in
 Project\_To-Do List.md S1 is not yet closed.}
 
+See Section~\ref{sec:overview} for a discussion of the scope of the project. Also note ambiguities highlighted in the review of the current state design/literature review (Section~\ref{sec:litreview}) that will be addressed in future phases of the project.
+
 \subsection{Project Deliverables}
 \label{sec:deliverables}
 
@@ -132,6 +146,58 @@ aircraft-level behavior, and the optimization-demonstration capability
 (Section~\ref{sec:results}). Include the quantifiable measures used to
 assess success (e.g., traceability coverage, stakeholder coverage,
 demonstration of a local-vs-SoS optimization tradeoff).}
+
+The following deliverables were established for the project upon its inception:
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Project milestones and verification methods}
+\label{tab:project-timing}
+\begin{tabular}{|p{0.19\textwidth}|p{0.19\textwidth}|p{0.12\textwidth}|p{0.16\textwidth}|p{0.22\textwidth}|}
+\hline
+\textbf{Project Milestone} & \textbf{Deliverable} & \textbf{Lead/Team Member} & \textbf{Expected Completion Date} & \textbf{Target Metric/Verification Method} \\
+\hline
+Literature Review & Annotated bibliography & Owen & 9/7/2026 & 10--20 papers categorized \\
+\hline
+PESTLE Analysis \& Systems-of-Interest Definition & Context diagram, text-based documentation & Owen & 9/10/2026 & Review \\
+\hline
+Systems-of-Interest Definition & Text-based documentation & Owen & 9/15/2026 & Clear boundaries and exclusions \\
+\hline
+Operational Scenarios & ConOps document & Owen & 9/22/2026 & 1--3 representative scenarios \\
+\hline
+Draft Architecture & BDDs and package structure & Owen & 10/1/2026 & All domains represented \\
+\hline
+Interface Definition & Interface Control Document & Owen & 10/12/2026 & All interfaces identified \\
+\hline
+Internal Block Diagrams & IBDs & Owen & 10/17/2026 & Critical interfaces connected \\
+\hline
+Requirements Definition & Requirements model & Owen & 10/20/2026 & Trace to stakeholders \\
+\hline
+Measures of Effectiveness & MOE/MOP hierarchy & Owen & 10/25/2026 & Quantifiable metrics defined \\
+\hline
+Requirement Traceability & Requirements matrix & Owen & 10/29/2026 & Complete allocation \\
+\hline
+Activity Diagrams & Operational activities & Owen & 11/3/2026 & Scenario walkthrough \\
+\hline
+Sequence Diagrams & Information exchanges & Owen & 11/8/2026 & Message completeness \\
+\hline
+State Machines & State behavior of key entities & Owen & 11/13/2026 & Executable state logic \\
+\hline
+Authority \& Responsibility Models & RACII (Responsible, Accountable, Consulted, Informed) & Owen & 11/17/2026 & All decisions assigned \\
+\hline
+Optimization Prototype & Working code & Owen & 11/21/2026 & Unit test cases \\
+\hline
+Integration into MBSE Architecture & Traceability links & Owen & 11/24/2026 & End-to-end scenario \\
+\hline
+Final Baseline \& Final Paper & Versioned model \& thesis/paper & Owen & 12/16/2026 & Draft \\
+\hline
+Paper Submittal & Thesis/paper & Owen & 12/20/2026 & Official submittal \\
+\hline
+\end{tabular}
+\end{table}
+
+See the review of the current state design/literature review (Section~\ref{sec:litreview}) for a discussion of the current status of these deliverables and the risks to their timely completion.
 
 \subsection{Project Timing}
 \label{sec:timing}

@@ -1,16 +1,16 @@
 # Daily Journal
 
 A running, append-as-you-go notebook — one file per calendar day
-(`journal/YYYY-MM-DD.md`). Distinct from `../sessions/`:
+(`journal/YYYY-MM-DD.md`). This is now the single home for session narrative:
+start-of-session recaps (`../../../workflows/session-welcome.md` — read-only, doesn't
+write here), end-of-session summaries (`../../../workflows/session-signoff.md`: what
+was worked on, what changed, what's blocked, next steps, plus a PM status check),
+findings while reading a source, half-formed ideas, and observations worth not losing.
+Multiple entries per file are normal and expected.
 
-- `../sessions/` — one structured record **per session** (or per major sub-task),
-  written at wrap-up time per `../../../workflows/session-wrap-up.md`: what was worked
-  on, what changed, what's blocked, what's next. Formal, retrospective, one entry per
-  file.
-- `journal/` (here) — informal, chronological, **per day**, appended to throughout the
-  day: session tag-ups (`../../../workflows/session-tagup.md`), findings while reading a
-  source, half-formed ideas, observations worth not losing. Multiple entries per file are
-  normal and expected.
+`../sessions/` is a **legacy** mechanism — one structured record per session, used
+before 2026-09-17. Older entries there remain as historical record, but new session
+sign-offs go to the journal instead; nothing currently writes to `../sessions/`.
 
 ## Format
 
@@ -18,7 +18,7 @@ Each day's file starts with a `# Journal — YYYY-MM-DD` header. Each entry is a
 subheading with a wall-clock timestamp and a short type tag, oldest entry first:
 
 ```
-## HH:MM — Tag-Up
+## HH:MM — Sign-Off
 ...
 
 ## HH:MM — Finding
@@ -29,7 +29,7 @@ subheading with a wall-clock timestamp and a short type tag, oldest entry first:
 ```
 
 Entry types are a loose convention, not a strict schema — use whatever tag makes the
-entry's purpose clear (`Tag-Up`, `Finding`, `Idea`, `Note`, `Decision`, ...). Get the
+entry's purpose clear (`Sign-Off`, `Finding`, `Idea`, `Note`, `Decision`, ...). Get the
 timestamp from the system clock (e.g. `date +%H:%M`) rather than guessing.
 
 ## Using this for the report
@@ -42,8 +42,8 @@ if a day's entries show that kind of evolution.
 
 ## Maintenance
 
-Append-only, like `../sessions/` — if a later entry finds an earlier one wrong,
-correct it in a new entry rather than editing history. Don't duplicate what belongs in
-`knowledge/`/`evidence/`/`decisions/` (durable facts) or `../sessions/` (formal session
-records) — if a journal entry surfaces something that changes one of those or deserves a
-full session log, do that too rather than letting the journal be the only record.
+Append-only — if a later entry finds an earlier one wrong, correct it in a new entry
+rather than editing history. Don't duplicate what belongs in
+`knowledge/`/`evidence/`/`decisions/` (durable facts) — if a journal entry surfaces
+something that changes one of those, update the relevant file too rather than letting
+the journal be the only record.

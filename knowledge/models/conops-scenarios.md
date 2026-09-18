@@ -150,3 +150,82 @@ only here>
 **Research questions this probes (to-do §1):** <which of the six>
 
 **Notes / open issues:** <anything unresolved about the scenario itself>
+
+---
+
+### Hub-to-Hub Trajectory Cost vs. Sector Workload Tradeoff
+
+**Status:** candidate — drafted 2026-09-17 from journal brainstorm
+([[journal/2026-09-17]]), key parameters still open. Elaborated into a full
+phase-by-phase operational thread in
+[[conops-hub-to-hub-trajectory-cost]] (companion to
+[[conops-nominal-domestic_flight]]).
+
+**Summary:** A single focal flight between two airline hub airports (city pair TBD —
+see open issues) chooses a cruise trajectory (speed/altitude/route, including any
+delay-recovery speed-up) to minimize its own generalized cost — fuel, emissions
+(monetized via a carbon-price proxy on fuel burn, tracked separately from fuel $ cost
+per [[stakeholder-objective-ontology]]'s CO2-vs-contrail note), maintenance/wear
+($/flight-hour proxy), crew time ($/duty-hour), and passenger time/missed-connection
+cost (value-of-time + rebooking proxy) — all monetized into one commensurable number.
+That request is absorbed by a shared en-route sector also carrying a small background
+bank of other traffic, so the airline's locally-optimal trajectory choice has a
+measurable effect on ATC sector workload/complexity, not just on the focal flight's own
+cost. This is the ontology's synthesis-section front-runner conflict ("Airline
+fuel-cost minimization vs. ATC/ANSP sector workload & predictability") built out into a
+concrete, boundedly-sized scenario rather than left as an abstract pairing. Critically,
+the trajectory choice isn't one up-front decision — dispatch paperwork typically
+publishes an advisory step-climb/speed-schedule guideline, and whether the crew
+actually pursues each step (vs. forgoing it to avoid adding workload for themselves or
+a busy-seeming controller) is a recurring in-flight decision with its own workload cost
+to both sides, independent of whether ATC ever needs to actively intervene. See
+[[conops-hub-to-hub-trajectory-cost]] Phase C for the full loop.
+
+**Phases exercised (to-do §5):** Day-of-operations (dispatcher trajectory
+request/flight-planning), flight execution (the trajectory actually flown, ATC
+tactical response) are the core of it. Strategic/commercial planning and turnaround are
+boundary inputs (schedule/aircraft assignment already fixed) rather than modeled in
+detail; postflight/continuation is out of scope for this scenario specifically.
+
+**Actors/systems involved:** Airline Dispatcher and Line Pilot/Captain
+([[stakeholder-personas]]) on the request/execution side; Air Traffic Controller
+(en-route, ARTCC sector) ([[stakeholder-personas]]) on the workload/capacity side;
+Passengers as the endpoint bearing the time/missed-connection cost term. Background
+traffic in the shared sector can stay unpersona'd (just a workload-generating input)
+unless a specific one needs its own trajectory-choice logic.
+
+**SOI questions this exercises:** Directly forces an answer on the still-open
+"abstraction level" question in [[open-questions]] — this scenario only needs
+trajectory-level fidelity for the focal flight and coarse sector-occupancy counts for
+the background bank, not full trajectory fidelity for every aircraft. Also a concrete
+test case for the [[open-questions]] "Decomposition choice (§6)" question: the
+authority split here (dispatcher/crew requests, ATC accepts/modifies/denies) is exactly
+the decision-authority boundary [[decisions-log]] D-002 left unresolved.
+
+**Research questions this probes (to-do §1):** Intent propagation (a fuel/cost-driven
+trajectory request propagating from dispatch through crew to ATC); differing
+definitions of "optimal" (airline generalized cost vs. ATC workload/predictability);
+myopic-optimization failure modes (this *is* the project's leading candidate instance —
+see [[stakeholder-objective-ontology]] synthesis section).
+
+**Notes / open issues:**
+
+- **City pair not yet chosen** — the 2026-09-17 brainstorm's hub map (ATL/LAX/DFW-style)
+  narrowed the *scope* (single hub-to-hub pair, not a 3-hub network) but not the
+  specific pair. Pick one with enough real-world en-route sector congestion to make the
+  workload side meaningful, or treat the sector as illustrative/generic if a specific
+  real pair adds more literature-sourcing burden than value.
+- **Background bank size not yet set** — a single focal flight can't generate
+  meaningful "sector workload"; needs a small number of concurrent aircraft (a first
+  guess: 3-6) sharing the sector. Not yet checked against any literature-sourced sector
+  capacity figure.
+- **Emissions/wear/passenger-time monetization factors are placeholders** — carbon
+  price, value-of-time, and rebooking-cost figures all need either a literature source
+  or an explicitly-flagged assumption before this goes into the report; don't let
+  invented numbers pass as sourced ones.
+- **Relationship to the existing "Domestic Commercial Flight w/Wx Re-Route" stub
+  above:** that scenario is about *off-nominal* rerouting (weather); this one is about a
+  *nominal* trajectory-request choice under a cost/workload tradeoff. Likely both worth
+  keeping as distinct scenarios rather than merging, but worth a second look once both
+  are fleshed out — they may turn out to be the same scenario at two different fidelity
+  levels.

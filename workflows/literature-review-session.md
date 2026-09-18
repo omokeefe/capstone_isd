@@ -6,7 +6,7 @@ in one sitting rather than one at a time.
 
 ## Steps
 
-1. Bootstrap per `workflows/new-session-bootstrap.md`.
+1. Bootstrap per `workflows/session-welcome.md`.
 2. Open `evidence/source-register.md`, filter to the relevant to-do section
    (§2/§3/§4), and pick 2-4 `not started` sources with available PDFs. Prefer clearing
    "no PDF yet" blockers first if easy, but don't let that stall the session — skip and
@@ -21,7 +21,7 @@ in one sitting rather than one at a time.
      not yet in `stakeholder-register.md` or `index.md`? Add it.
 5. Check off the relevant boxes in `projects/nas-sos-capstone/to-do-list.md` for each
    source processed.
-6. Wrap up per `workflows/session-wrap-up.md`, noting in the session log which
+6. Sign off per `workflows/session-signoff.md`, noting in the journal entry which
    sources were processed and what the synthesis pass turned up.
 
 ## Notes

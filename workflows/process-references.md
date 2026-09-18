@@ -78,8 +78,8 @@ For each new file:
    session.
 3. If any source scored 0-1, say so plainly and ask whether to keep it in
    `evidence/sources/` or flag it for removal — don't silently bury a low rating.
-4. Log the sweep in `projects/nas-sos-capstone/sessions/` per
-   `workflows/session-wrap-up.md` if this was a standalone session (date, how
+4. Log the sweep in today's `projects/nas-sos-capstone/journal/` entry per
+   `workflows/session-signoff.md` if this was a standalone session (date, how
    many files processed, ratings distribution, anything flagged).
 
 ## Notes

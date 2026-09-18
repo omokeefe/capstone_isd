@@ -5,7 +5,7 @@ Covers `to-do-list.md` §7 (stakeholder/responsibility analysis) and §8
 
 ## Steps
 
-1. Bootstrap per `workflows/new-session-bootstrap.md`. Read
+1. Bootstrap per `workflows/session-welcome.md`. Read
    `knowledge/models/stakeholder-register.md` in full — it already seeds the PESTLE
    inventory and enterprise-objective hierarchy from `prework/gpt_convos.md`.
 2. **§7 pass** — for the stakeholder(s) in scope this session, fill in the "still open"
@@ -33,7 +33,7 @@ Covers `to-do-list.md` §7 (stakeholder/responsibility analysis) and §8
 6. Update `decisions/decisions-log.md` if this pass changes which stakeholders or
    objectives are treated as in-scope vs. background.
 7. Check off the corresponding boxes in `projects/nas-sos-capstone/to-do-list.md` §7-§9.
-8. Wrap up per `workflows/session-wrap-up.md`.
+8. Sign off per `workflows/session-signoff.md`.
 
 ## Notes
 

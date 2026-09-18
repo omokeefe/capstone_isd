@@ -5,8 +5,8 @@ not perfect inbox processing, not keeping every index continuously current.
 
 ## Every session
 
-Per `workflows/session-wrap-up.md`: a session log, a task-board update, a sweep for
-memory drift (does anything discovered this session make `index.md`,
+Per `workflows/session-signoff.md`: a journal entry, a terse task-board update, a sweep
+for memory drift (does anything discovered this session make `index.md`,
 `decisions-log.md`, or `open-questions.md` wrong?), and a checkbox-reality check against
 `to-do-list.md`. This is the one maintenance step that should never be skipped — it's
 cheap and it's what keeps every other retrieval path in this policy working.
@@ -15,7 +15,7 @@ cheap and it's what keeps every other retrieval path in this policy working.
 
 - **Triage `inbox/`** per `workflows/process-inbox.md` — fine to let a few items sit
   untriaged; not fine to let it become a permanent second junk drawer. A good trigger:
-  whenever session-wrap-up notices it's non-empty.
+  whenever session-signoff notices it's non-empty.
 - **Reconcile a flagged duplicate or version-mismatch** in `evidence/source-register.md`'s
   Flags section (e.g. the de Neufville/Bartolomei draft-vs-published pair) — these are
   deliberately left as a human decision, not auto-resolved.

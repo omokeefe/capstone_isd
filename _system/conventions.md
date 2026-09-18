@@ -32,14 +32,14 @@ no tool-specific format is required to read or update them.
 
 ## The core loop
 
-1. **Bootstrap** — read `workflows/new-session-bootstrap.md` (or just skim
+1. **Bootstrap** — read `workflows/session-welcome.md` (or just skim
    `projects/nas-sos-capstone/index.md` + `task-board.md`) to reload context fast.
 2. **Work** — follow the workflow that matches the task (annotate a source, push on the
    architecture, run an objective-ontology pass, whatever `to-do-list.md` calls for
    next).
 3. **Write back** — update `knowledge/`/`evidence/`/`decisions/` files if facts changed,
    check off boxes in `to-do-list.md`, update `task-board.md` if the focus shifted.
-4. **Wrap up** — log the session per `workflows/session-wrap-up.md`.
+4. **Sign off** — log the session to the journal per `workflows/session-signoff.md`.
 
 ## Naming
 

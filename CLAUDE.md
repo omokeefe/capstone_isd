@@ -34,8 +34,8 @@ Then, as needed:
   items off there directly as work completes. Do not recreate or fork the task list
   elsewhere — `task-board.md` only tracks cross-session *focus*, not the full checklist.
 - **Log every substantive session.** Before ending a session, write a short entry to
-  `projects/nas-sos-capstone/sessions/` per
-  [workflows/session-wrap-up.md](workflows/session-wrap-up.md).
+  today's `projects/nas-sos-capstone/journal/` file per
+  [workflows/session-signoff.md](workflows/session-signoff.md).
 - **Update knowledge/evidence/decision files when facts change**, not just when asked. If
   a session changes the system boundary, resolves an open question, or makes an
   architectural decision, update the relevant file under `knowledge/` or `evidence/` and

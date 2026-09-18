@@ -5,8 +5,8 @@ and next actions, with links out to the file that owns each detail. It replaces 
 used to be split across `PROJECT_CONTEXT.md` and `assistant/memory/project-brief.md`;
 those two carried an acknowledged risk of silently diverging, so this reorg merged them
 into one canonical file. Keep it current — edit in place when scope or direction
-changes; update it at session wrap-up per
-[workflows/session-wrap-up.md](../../workflows/session-wrap-up.md)._
+changes; update it at session sign-off per
+[workflows/session-signoff.md](../../workflows/session-signoff.md)._
 
 ## What this is
 
@@ -152,5 +152,5 @@ Start with [CLAUDE.md](../../CLAUDE.md) (Claude Code entry point) or
 orientation) — both explain the memory/workflow/task-state system this file summarizes.
 Key working agreements: `to-do-list.md` is the only source of truth for task checkboxes;
 update knowledge/evidence/decision files when facts change, not just when asked; log
-every substantive session per
-[workflows/session-wrap-up.md](../../workflows/session-wrap-up.md).
+every substantive session to the journal per
+[workflows/session-signoff.md](../../workflows/session-signoff.md).

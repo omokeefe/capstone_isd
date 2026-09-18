@@ -70,8 +70,10 @@ before triage, not a finished note of any other type. See `inbox/README.md`.
 tool-agnostic, wrapped by `.claude/skills/*/SKILL.md` for Claude Code but not dependent on
 that wrapping.
 
-## Session log / journal entry
+## Journal entry
 
-`projects/nas-sos-capstone/sessions/*.md` (formal, one per session, append-only) vs.
-`projects/nas-sos-capstone/journal/*.md` (informal, one per day, multiple entries per
-file). See the journal's own README for the distinction.
+`projects/nas-sos-capstone/journal/*.md`, one file per day, multiple `##`-headed
+entries per file (session sign-offs, findings, ideas, notes). Append-only. See
+the journal's own README. `projects/nas-sos-capstone/sessions/*.md` is a legacy,
+pre-2026-09-17 version of this (one formal record per session) — its old entries stand
+as history, but nothing writes there anymore.

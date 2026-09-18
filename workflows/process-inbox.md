@@ -8,7 +8,7 @@ machinery: a pasted web excerpt, a half-formed idea, a note from a conversation.
 ## When to run this
 
 Whenever the user asks to "process the inbox" / "clear the inbox," or as a light check
-during `workflows/session-wrap-up.md` if `inbox/` is non-empty. Not a required step every
+during `workflows/session-signoff.md` if `inbox/` is non-empty. Not a required step every
 session — an untriaged inbox item is not a failure state.
 
 ## Steps
