@@ -47,24 +47,27 @@ front-loaded.
   - [x] Map major sections (§1-§16 of this list) to target completion dates.
   - [ ] Identify milestone checkpoints for interim review(s).
 
-- [ ] Submit Interim Report #1 (Introduction and Current State + References) *(ECD
+- [x] Submit Interim Report #1 (Introduction and Current State + References) *(ECD
   2026-09-20 — course syllabus deliverable, not in the 503 Submittal ECD table;
-  unscheduled there like §6/§9/§14)*. `report/sections/02_introduction.tex` currently
-  holds an AI-drafted synthesis of all six required subsections (2026-09-14) that does
-  **not** count as done — see `task-board.md` and session log
-  `sessions/2026-09-14-interim-report-1-scope-correction.md`. Closing this item means
-  actually doing the following, not just editing prose:
-  - [ ] Ratify the SOI boundary (resolves the "Define initial System of Interest"
-    bullet above and `knowledge/questions/open-questions.md` §1) — the draft Scope
-    subsection proposes one (Part 121 scheduled service; military at the SUA-access
-    interface only), but it's a proposal to evaluate, not a decision. In particular,
-    resolve the self-contradiction on cargo carriers (Part 121 covers scheduled cargo
-    too — decide affirmatively whether cargo ops are in scope and why) before
-    ratifying.
+  unscheduled there like §6/§9/§14)*. **Submitted 2026-09-17**, ahead of the ECD — the
+  2026-09-14 AI-drafted synthesis in `report/sections/02_introduction.tex` was rewritten
+  into the user's own judgment/words before submission (ghostwriting concern from
+  `task-board.md`/`sessions/2026-09-14-interim-report-1-scope-correction.md` resolved for
+  this deliverable). The syllabus requirement is satisfied; the sub-items below are *not*
+  all closed by that — several are ongoing capstone-quality work, not submission
+  blockers, and stay open on their own merits:
+  - [ ] Ratify the SOI boundary for real (resolves the "Define initial System of
+    Interest" bullet above and `knowledge/questions/open-questions.md` §1) — **still
+    provisional as of 2026-09-17**; the submitted report's Scope subsection reflects the
+    user's rewrite but the boundary itself has not been ratified as a decision. In
+    particular, resolve the self-contradiction on cargo carriers (Part 121 covers
+    scheduled cargo too — decide affirmatively whether cargo ops are in scope and why)
+    before ratifying.
   - [ ] Once the SOI is ratified, close "Finalize project research questions" above and
     log the boundary decision in `decisions/decisions-log.md`.
-  - [ ] Rewrite all six subsections (Overview, Current State/Literature Review,
-    Stakeholders, Scope, Project Deliverables, Project Timing) in own judgment/words.
+  - [x] Rewrite all six subsections (Overview, Current State/Literature Review,
+    Stakeholders, Scope, Project Deliverables, Project Timing) in own judgment/words —
+    done as part of the 2026-09-17 submission.
   - [ ] Fix the literature-review section's annotation-coverage claim — it currently
     overstates deep-annotated sources; check the real count against
     `evidence/source-register.md`'s own annotation-status tables before restating it.
@@ -77,11 +80,13 @@ front-loaded.
     (`clarke1998irregular`) used to motivate the problem statement.
   - [ ] Decide (don't default to the draft's phrasing) on the §11 optimization-study
     candidate scenario referenced in the Project Deliverables subsection.
-  - [ ] Resolve a LaTeX-to-Word conversion approach (no pandoc/LibreOffice found
-    installed as of 2026-09-14) and produce the Word copy.
-  - [ ] Email the Word copy to faculty adviser Mark Petrotta (mpetrott@umich.edu).
-  - [ ] Complete Progress Status Update #1 (Canvas); upload the report there too
-    unless it's deemed confidential.
+  - [x] Resolve a LaTeX-to-Word conversion approach (no pandoc/LibreOffice found
+    installed as of 2026-09-14) and produce the Word copy — resolved for this
+    submission.
+  - [x] Email the Word copy to faculty adviser Mark Petrotta (mpetrott@umich.edu) —
+    done 2026-09-17.
+  - [x] Complete Progress Status Update #1 (Canvas); upload the report there too
+    unless it's deemed confidential — done 2026-09-17.
 
 
 # 2. Literature Review — Airline Planning and Operations

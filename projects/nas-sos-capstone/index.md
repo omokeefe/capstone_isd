@@ -42,8 +42,10 @@ optimization study) should trace back to this chain somewhere.
 
 ## Current state
 
-Working through `to-do-list.md` §1 ("Establish Research Framework") — SOI boundary,
-research questions, and source register are being stood up; §2-§16 not yet started. All
+ISD 503 Interim Report #1 (Introduction and Current State + References) was submitted
+2026-09-17, ahead of its 2026-09-20 ECD. Working through `to-do-list.md` §1 ("Establish
+Research Framework") — the SOI boundary is still provisional (not yet ratified as a
+decision) and research questions are still open; §2-§16 otherwise not yet started. All
 29 files in `evidence/sources/` are processed (bib + summary + rating); three of the
 newest ten (all rated 4/5) also have a full deep annotation. Details:
 [[task-board]] (`task-board.md`) for active/blocked cross-session focus.

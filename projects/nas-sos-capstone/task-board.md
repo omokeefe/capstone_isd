@@ -6,36 +6,35 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-09-17 (see `journal/2026-09-17.md` 21:24 Sign-Off for reasoning)
+**Last updated:** 2026-09-17 (see `journal/2026-09-17.md` 21:34 Sign-Off Update)
 
 ## Current phase
 
-**ISD 503 Interim Report #1 is due 2026-09-20** — covers only "Introduction and
-Current State" (Overview, Current State/Literature Review, Stakeholders, Scope,
-Project Deliverables, Project Timing) and References; do not write the Executive
-Summary yet. Also requires emailing a Word-format copy to faculty adviser Mark
-Petrotta and completing Progress Status Update #1 on Canvas.
+**ISD 503 Interim Report #1 was submitted 2026-09-17**, ahead of its 2026-09-20 ECD —
+the user rewrote the six required subsections into their own judgment before
+submitting, emailed the Word copy to faculty adviser Mark Petrotta, and completed
+Progress Status Update #1 on Canvas. See `to-do-list.md` §1 for the full checkbox
+state.
 
 `to-do-list.md` §1 ("Establish Research Framework") is still the primary active
-section — the SOI boundary and research questions are still formally unresolved in
-`to-do-list.md` itself (see flag below). §8 (Objective / Cost / Value Ontology) is
-fully drafted out of sequence; §2-§7, §9-§16 otherwise not yet started.
+section — the SOI boundary is genuinely still open (provisional, not ratified — see
+flag below), independent of the report submission. §8 (Objective / Cost / Value
+Ontology) is fully drafted out of sequence; §2-§7, §9-§16 otherwise not yet started.
 
-**Flag — unreviewed AI-drafted content in the report (2026-09-14):** given the
-Interim Report #1 assignment, Claude drafted full prose for all six required
-subsections directly into `report/sections/02_introduction.tex` (Overview, Lit
-Review, Stakeholders, Scope, Deliverables, Timing) without being asked to do so —
-the user's actual request was for TODO/plan updates and PM/professor guidance, not a
-finished draft. The user chose to keep the content as a synthesized-research
-reference rather than revert it, but it is **not** the user's own authored work and
-does **not** count toward any `to-do-list.md` checkbox, `decisions-log.md` entry, or
-`open-questions.md` resolution — in particular, the Scope subsection proposes a SOI
-boundary that is a draft for the user to evaluate, not a ratified decision. See
-memory `feedback_coach-not-ghostwrite-coursework` and
-`project_interim-report-1-2026-09-20`. Before 9/20, the user needs to review/rewrite
-that content into their own judgment, decide on LaTeX-to-Word conversion tooling (no
-pandoc/LibreOffice found installed as of this date), and complete the Canvas status
-update.
+**Resolved (2026-09-17) — AI-drafted content in the report (flagged 2026-09-14):**
+the ghostwriting concern from 2026-09-14 (Claude drafted full prose for all six
+required subsections in `report/sections/02_introduction.tex` without being asked) is
+now resolved — the user rewrote that content into their own judgment/words before
+submitting. See memory `feedback_coach-not-ghostwrite-coursework` and
+`project_interim-report-1-2026-09-20` (now marked closed).
+
+**Still open — SOI boundary:** the submitted report's Scope subsection reflects the
+user's own rewrite, but the System of Interest boundary itself is **not** a ratified
+decision — still provisional as of 2026-09-17. Also still open, as independent
+capstone-quality work rather than submission blockers: the literature-review
+annotation-coverage claim, citation spot-checks against skimmed-only sources, the
+1998-dollar disruption-cost figure, and the §11 optimization-study scenario choice.
+See `to-do-list.md` §1 for the itemized list.
 
 ## Active
 
@@ -80,16 +79,16 @@ update.
 
 ## Next session priority
 
-See `journal/2026-09-17.md` (21:24 Sign-Off) for full reasoning. Terse version:
+Interim Report #1 is submitted — see `journal/2026-09-17.md` (21:34 Sign-Off Update)
+for full reasoning. Terse version:
 
-1. Review/rewrite the six AI-drafted `02_introduction.tex` subsections (including
-   further uncommitted manual edits since 2026-09-14) into the user's own judgment;
-   ratify the SOI boundary as part of that pass.
-2. Resolve LaTeX-to-Word conversion, compile, send the adviser copy, complete the
-   Canvas Progress Status Update #1.
-3. Try `session-welcome` next session and flag anything off about it.
-
-**After the interim report:** work `to-do-list.md` §1 to closure for real, then start
-§2-§4 literature-review sessions prioritizing the 5-rated sources first
-(`eltoukhy2017airline`, `hassanDisruptionReview`, `schultz2017turnaround`,
-`clarke1998irregular`, `dispatcherWorkload2025`, `eurocontrolACDMSpec`).
+1. Work `to-do-list.md` §1 to closure for real: ratify the SOI boundary (including the
+   cargo-carrier self-contradiction) and log it in `decisions/decisions-log.md`; resolve
+   `open-questions.md` §1 accordingly.
+2. Pick up the leftover report-quality items from §1's Interim Report #1 checklist
+   (annotation-coverage claim, citation spot-checks, disruption-cost figure, §11
+   scenario choice) when convenient — not submission blockers, but still open.
+3. Start §2-§4 literature-review sessions, prioritizing the 5-rated sources first
+   (`eltoukhy2017airline`, `hassanDisruptionReview`, `schultz2017turnaround`,
+   `clarke1998irregular`, `dispatcherWorkload2025`, `eurocontrolACDMSpec`).
+4. Try `session-welcome` next session and flag anything off about it.
