@@ -18,6 +18,10 @@ came from the defense domain, not civil transportation.
 
 ## Why it's valuable — and to what
 
+_Superseded 2026-09-19: the user re-rated this source 0/5 (not relevant). The bullets
+below are the original 2026-08-29 triage assessment, kept for the record — do not rely on
+them._
+
 - Literature review section: none of §2-§4 / foundational for the capstone's own framing
   choice.
 - Decomposition / architecture (§6, §10): **this is likely the single most foundational
@@ -35,10 +39,12 @@ came from the defense domain, not civil transportation.
 
 ## Rating
 
-**5/5** — core, foundational reference for the capstone's central methodological premise;
-same author lineage as `sinharoy2024ontologyUAM` (DeLaurentis is the senior/last author on
-both), so the two form a nice pair spanning 2005→2024 of applying SoS thinking to
-aviation-adjacent domains.
+**0/5** — not relevant (user's judgment, 2026-09-19). The scale's recommendation for a 0 is
+removal from `evidence/sources/`; the PDF has not been removed, since the submitted
+Interim Report #1 cites it (`02_introduction.tex`).
+
+_Previously rated 5/5 (2026-08-29): "core, foundational reference for the capstone's
+central methodological premise; same author lineage as `sinharoy2024ontologyUAM`."_
 
 ## Flags
 

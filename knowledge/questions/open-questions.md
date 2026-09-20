@@ -19,6 +19,35 @@ delete it from here — don't let answered questions linger.
   components)?
 - [ ] What criteria decide where a *stakeholder/actor* boundary is drawn?
 
+## SysML draft reconciliation (§10)
+
+- [ ] Several candidate-systems-inventory.md items were left out of that draft pending
+  verification: AMAN and ETFMS under Airspace Management (ETFMS reads as
+  EUROCONTROL-specific rather than a NAS system; AMAN was itself marked uncertain on the
+  source diagram), and GMTOs/ANSPs (generic international terms, not confirmed NAS
+  entities). Verify against real FAA nomenclature before adding.
+- [ ] Constituent systems in that draft trace to candidate-systems-inventory.md (evidence)
+  but not yet to any formal stakeholder need / requirement — the
+  need → objective → requirement → system trace (to-do-list.md §10) is not started for
+  this content.
+
+## Scenario / simulation content (§10, §12-§13)
+
+- [ ] `cameo_models/scenarios/hub-to-hub-example.sysml` (2026-09-19) is a pattern demo,
+  not a decided scenario: ORD/JFK, the SID name "BENKY4," and the approach name "ILS RWY
+  22L" are placeholders, not verified against real published procedures. Replace with a
+  real scenario once one is chosen (see `knowledge/models/conops-scenarios.md`), or
+  verify the procedure names if this specific scenario is kept.
+- [ ] `simulation/vehicle_dynamics.py`'s point-mass model (2026-09-19 first pass) is
+  kinematic, not aerodynamic — no drag, wind, or weight-dependent performance. Fine as a
+  §12 "minimum viable simulation," but don't treat its output as physically validated
+  beyond that.
+- [ ] SysML v2's `individual` modifier (specific occurrence-with-a-lifetime) wasn't
+  confirmed against this project's tool as of 2026-09-19 — public documentation didn't
+  have a worked example. `workflows/sysml-instance-modeling.md` uses plain usages with
+  bound values instead; revisit `individual` if a real need for identity/lifetime
+  semantics (vs. just concrete values) comes up.
+
 ## Decomposition choice (§6)
 
 - [ ] Is the authority/responsibility/information-ownership decomposition
@@ -33,21 +62,6 @@ delete it from here — don't let answered questions linger.
 
 ## Reference-register housekeeping
 
-- [ ] `yao2026loAltitudeSoSSafety` cites a DeLaurentis 2005 SoS-taxonomy paper ("A
-  Taxonomy-Based Perspective for Systems-of-Systems Design Methods," IEEE SMC 2005) that
-  may differ from the PDF registered as `delaurentis2005sosTransportation`
-  ("Understanding Transportation as a System-of-Systems Design Problem," AIAA 2005-123) —
-  confirm which paper `yao2026` actually cites. See [[source-register]]. - DONE Yao cites the 2005 DeLaurentis paper as ref 128:
-
-```There are various definitions and characteristics in the research of SoS. For example, Maier summarizes SoS characteristics into five properties (“Maier’s criteria”) [126]: (i) operational independence, (ii) managerial independence, (iii) geographic distribution, (iv) emergent behavior, and (v) evolutionary development. Moreover, Boardman and Sauser distinguish SoS from conventional systems using five identifying characteristics—Autonomy, Belonging, Connectivity, Diversity, and Emergence [127], while DeLaurentis propose a taxonomy along three orthogonal dimensions, namely Connectivity, Control/Autonomy, and System Type, to characterize and compare different SoS forms [128]. In this review, we describe LA SoS according to standards of ISO/IEC/IEEE 42010:2020 [129]. ISO/IEC/IEEE 42010:2020 states that an entity’s architecture includes “its constituent elements, interactions among elements, interactions with the environment, as well as its behavior/structure and the principles governing its design, use, operation and evolution.”```
-
-- [ ] `younus2026fmeaOntology` cites the same Lu et al. design-ontology work as
-  `luDesignOntologyMBSE2020` but gives its venue/year as *IEEE Systems Journal*, 2022, vs.
-  the registered arXiv 2020 preprint — reconcile which is authoritative.
-  Looks like the paper was reprinted in a different publiction (IEEE as opposed to airXiv's capture)
-- [ ] `faaFixmUsExtension2024`'s exact release year for FIXM US Extension v4.4.0 isn't
-  stated in-document — verify against fixm.aero before citing precisely. See
-  [[source-register]]. It was acquired from a download from the website https://www.fixm.aero/downloads.html, which has 4.4. published Sept 2 2025. 
 
 ## Optimization study scope (§11)
 

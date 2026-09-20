@@ -1,16 +1,19 @@
 # Workflow: Update the Architecture
 
-For sessions touching the SysML/Cameo model, the domain decomposition, or the XML
-export — covers `to-do-list.md` §10 and related architecture work threaded
+For sessions touching the SysML v2 model, the domain decomposition, or the legacy XML
+draft — covers `to-do-list.md` §10 and related architecture work threaded
 through §6-§9.
 
 ## Ground rules
 
-- **Cameo is the source of truth; `prework/nas_system_of_systems_architecture.xml` is a
-  generated artifact.** If Cameo is available, make the change there and re-export.
-  If working from the XML directly (e.g. no Cameo access in this session), clearly mark
-  the change as a draft that needs to be reconciled back into the actual Cameo model
-  later — note it in `projects/nas-sos-capstone/task-board.md`.
+- **The `.sysml` text under `cameo_models/` is the source of truth** (D-006), authored in
+  Syside Modeler in VS Code. Make architecture changes there. Cameo is optional and
+  downstream — anything in a Cameo project is a derived copy that gets regenerated or
+  fixed to match the text, never the other way round.
+- **`prework/nas_system_of_systems_architecture.xml` is a pre-modeling draft**, not
+  generated from the model and not kept in sync. Don't update it as part of routine
+  architecture changes; if it disagrees with the `.sysml` files, the `.sysml` files win.
+  Retire or regenerate it deliberately if it starts to mislead.
 - Every new architecture element should be traceable to *something*: a stakeholder need
   (`stakeholder-register.md`), a source's evidence (`source-register.md`), or the
   trajectory-intent chain (`index.md`). An element with no traceability is a
@@ -26,7 +29,7 @@ through §6-§9.
    information-object model, interface/item-flow model, activity diagram, responsibility
    swimlane, sequence diagram, requirements model, or a specific trace).
 3. Before adding a new element, check whether it already exists under a different name —
-   skim the current package structure / XML rather than assuming.
+   skim the current `.sysml` package structure rather than assuming.
 4. Make the change. For structural changes (new domain, new package, renamed boundary),
    also update `projects/nas-sos-capstone/index.md`'s "Candidate top-level domains"
    section and log the change in `decisions/decisions-log.md` if it's a real
@@ -37,6 +40,29 @@ through §6-§9.
    `knowledge/questions/open-questions.md`.
 6. Check off the corresponding `projects/nas-sos-capstone/to-do-list.md` §10 box(es).
 7. Sign off per `workflows/session-signoff.md`.
+
+## Getting the model into Cameo (not planned)
+
+Not needed: the adviser (Mark Petrotta) recommended Syside/SysML v2 and accepts it as the
+model deliverable (D-006). This section is only a record of options in case that changes.
+The university's Cameo (2024x Refresh 1, checked 2026-09-19) does not support SysML v2 out
+of the box, so there is no direct import. Options, roughly least to most effort — no path
+has been tried:
+
+1. **Get a Cameo release with SysML v2 support** (believed to start with 2024x Refresh 2
+   as a beta, fuller in 2025x — verify) through the university's license/download
+   admin. The user has chosen not to pursue this. If obtained, import the `.sysml` text
+   directly.
+2. **Script it:** a Python script using Syside's Python API dumps the model to JSON, and
+   a Groovy macro run inside Cameo (OpenAPI) builds SysML v1 Blocks, Parts, and value
+   properties from it (`part def` → Block, part usage → part property, `attribute def` →
+   ValueType, specialization → generalization). Repeatable; costs two scripts.
+3. **Rebuild by hand** in Cameo BDDs, using the `.sysml` as the spec. Cheapest if the
+   model is mostly finished; the copy drifts from the text.
+4. **Skip Cameo** and deliver from Syside-generated views. This is the current plan.
+
+Whichever is chosen, log it in `decisions/decisions-log.md`. Don't hand-generate Cameo
+XMI — it depends on internal profile IDs and fails opaquely.
 
 ## Notes
 

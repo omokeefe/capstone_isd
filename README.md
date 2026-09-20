@@ -8,7 +8,7 @@ The original idea in this workspace started with rendezvous and trajectory optim
 
 ## What This Repository Is For
 
-The goal is to build a defensible architecture story in SysML/Cameo that shows:
+The goal is to build a defensible architecture story in SysML v2 that shows:
 
 1. What the National Airspace System contains at a high level.
 2. Who owns which responsibilities and information boundaries.
@@ -16,7 +16,7 @@ The goal is to build a defensible architecture story in SysML/Cameo that shows:
 4. Where optimization or decision-support services fit as capabilities inside the architecture.
 5. How the model traces from operational concepts to requirements, structure, behavior, and verification.
 
-In other words, this repository is not just a document dump. It is the workspace for developing the capstone narrative, the architecture decomposition, the XML export of the architecture content, and the supporting visuals and notes that help explain the model.
+In other words, this repository is not just a document dump. It is the workspace for developing the capstone narrative, the architecture decomposition, the SysML v2 model of the architecture, and the supporting visuals and notes that help explain the model.
 
 ## Capstone Direction
 
@@ -42,8 +42,8 @@ That idea gives the capstone a coherent center of gravity and keeps it from turn
 
 ## Repository Contents
 
-- [projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml](projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml) contains a draft of the architecture content exported as XML, ahead of a real Cameo export.
-- [projects/nas-sos-capstone/cameo_models/](projects/nas-sos-capstone/cameo_models/) is where Cameo/SysML model work can be organized.
+- [projects/nas-sos-capstone/cameo_models/](projects/nas-sos-capstone/cameo_models/) holds the SysML v2 model as textual `.sysml` files, authored in Syside Modeler in VS Code. This is the source of truth for the architecture; Cameo is optional and downstream (the folder name is historical).
+- [projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml](projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml) is an earlier XML draft of the architecture content, predating the SysML v2 model. It is not kept in sync; if it disagrees with the `.sysml` files, the `.sysml` files win.
 - [projects/nas-sos-capstone/prework/gpt_convos.md](projects/nas-sos-capstone/prework/gpt_convos.md) captures the two source conversations that shaped the capstone direction and package structure.
 - [projects/nas-sos-capstone/prework/ACM_diagram.pdf](projects/nas-sos-capstone/prework/ACM_diagram.pdf) is a supporting artifact from the earlier optimization-oriented framing.
 
@@ -53,8 +53,8 @@ If you are new to the capstone, start with the high-level story first:
 
 1. Read this README to understand the purpose and scope.
 2. Review [projects/nas-sos-capstone/prework/gpt_convos.md](projects/nas-sos-capstone/prework/gpt_convos.md) to see how the architecture direction evolved.
-3. Open [projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml](projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml) for the structured architecture content.
-4. Use the Cameo model workspace to map the architecture into SysML packages, diagrams, and traceability.
+3. Open [projects/nas-sos-capstone/cameo_models/](projects/nas-sos-capstone/cameo_models/) for the SysML v2 architecture model (start with its `sysmlv2_exploration.md` reference).
+4. Extend that model to cover SysML packages, views, and traceability.
 
 ## Working Assumptions
 

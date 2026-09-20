@@ -11,11 +11,11 @@ changes; update it at session sign-off per
 ## What this is
 
 A UofM ISD systems engineering & design capstone. System of interest: the **National
-Airspace System (NAS)**, modeled as a **System of Systems** in SysML/Cameo, emphasizing
+Airspace System (NAS)**, modeled as a **System of Systems** in SysML v2, emphasizing
 architecture (structure, behavior, interfaces, traceability) over pure optimization.
-Deliverables: a capstone report (`report/main.tex`) and a Cameo/SysML model
-(`cameo_models/`, exported to `prework/nas_system_of_systems_architecture.xml` until a
-real Cameo export exists). Full framing: [README.md](../../README.md).
+Deliverables: a capstone report (`report/main.tex`) and a SysML v2 model (`cameo_models/`
+— textual `.sysml` authored in Syside Modeler in VS Code, which is the source of truth
+per D-006; Cameo is optional and downstream). Full framing: [README.md](../../README.md).
 
 ## How we got here
 
@@ -69,8 +69,14 @@ information-flow, and decision-authority decompositions before committing.
 Latest first — full rationale and history in
 [[decisions-log]] (`../../decisions/decisions-log.md`):
 
+- **D-006** — The SysML v2 text (authored in Syside Modeler / VS Code) is the source of
+  truth for the model; Cameo is optional and downstream. Amends the tool half of D-003.
+- **D-005** — Instance/scenario content (`cameo_models/scenarios/`) and simulation code
+  (`simulation/`) are kept separate from the structural model, with a documented
+  (not language-level) trace between a SysML `calc def` interface and its Python
+  implementation.
 - **D-004** — Questions the project will answer: External optimization analyses will evaluate how changes in decision scope, information, objective functions, and planning horizon propagate across stakeholder-specific measures of performance and effectiveness.
-- **D-003** — The project will employ SysML in Cameo as its primary systems-modeling language. A decision-centric modeling method, informed by MagicGrid and selected UAF/DoDAF concepts, will represent stakeholder concerns, operational activities, constituent systems, decision authority, information availability, and quantitative performance relationships.
+- **D-003** — (Tool choice amended by D-006: Cameo is no longer the source of truth.) The project will employ SysML in Cameo as its primary systems-modeling language. A decision-centric modeling method, informed by MagicGrid and selected UAF/DoDAF concepts, will represent stakeholder concerns, operational activities, constituent systems, decision authority, information availability, and quantitative performance relationships.
 - **D-002** — Domain decomposition (Governance, Airspace Management, Airspace Resources,
   Flight Operations, Airport Operations, Aircraft Systems, Information Services,
   Infrastructure, Decision Support) built around authority/responsibility/information
@@ -129,9 +135,17 @@ to the authorities/services that constrain it.
 - `README.md` — the public-facing project overview (keep in sync with this file).
 - `to-do-list.md` — canonical 16-section task checklist (this project's copy of what
   used to be the repo-root `Project_To-Do List.md`).
-- `prework/nas_system_of_systems_architecture.xml` — architecture content exported as
-  XML (currently a draft; promote to a real Cameo export once modeling starts).
-- `cameo_models/` — SysML/Cameo model workspace (currently empty scaffolding).
+- `prework/nas_system_of_systems_architecture.xml` — earlier XML draft of the
+  architecture content, predating the SysML v2 model; not kept in sync (D-006). If it
+  disagrees with the `.sysml` files, the `.sysml` files win.
+- `cameo_models/` — the SysML v2 model workspace and source of truth (D-006; the folder
+  name is historical): start with `sysmlv2_exploration.md` (the working reference and file
+  map — it covers the structural domain decomposition (D-002) and `scenarios/`, which
+  holds concrete instance content; see also `workflows/sysml-instance-modeling.md`).
+- `simulation/` — the vehicle-dynamics simulation capability (§12), plain Python, traced
+  by hand back to a `calc def` in the model's `DecisionSupport` package (file map:
+  `cameo_models/sysmlv2_exploration.md`) rather than embedded in the model (D-005; see
+  `workflows/vehicle-simulation-model.md`).
 - `prework/` — source material predating the structured workflow (`gpt_convos.md` is the
   most important: it captures the two conversations that shaped the direction and the
   PESTLE stakeholder / enterprise-objective analysis).

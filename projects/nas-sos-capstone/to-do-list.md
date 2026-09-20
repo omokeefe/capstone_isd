@@ -601,9 +601,9 @@ window if a firmer date is needed.)*
 # 10. Build the SysML Architecture
 
 - [ ] Create NAS context diagram. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition," deliverable "Context diagram")*
-- [ ] Create package/model organization. *(ECD 2026-11-03 — "Draft Architecture," deliverable "BDDs & package structure")*
+- [x] Create package/model organization. *(ECD 2026-11-03 — "Draft Architecture," deliverable "BDDs & package structure". First pass 2026-09-19: the model (file map: `cameo_models/sysmlv2_exploration.md`) now has a package per D-002 domain, plus a `Common` package for shared value types. SysML v2 text is the source of truth (D-006); not in Cameo.)*
 - [ ] Create stakeholder model. *(ECD 2026-09-07, deliverable "stakeholder map")*
-- [ ] Create system BDDs. *(ECD 2026-11-03)*
+- [x] Create system BDDs. *(ECD 2026-11-03. First pass 2026-09-19: NAS + 9 domains + constituent systems populated in the model (file map: `cameo_models/sysmlv2_exploration.md`), filtered to the provisional SOI boundary — see the definitions file's header comment and `open-questions.md`. Source of truth is the SysML v2 text (D-006), not Cameo; no IBDs/interfaces/requirements traced yet.)*
 - [ ] Create operational IBDs. *(ECD 2026-10-25 — "Internal Block Diagrams," metric "Critical interfaces connected")*
 - [ ] Create information-object model. *(ECD 2026-10-29 — "Interface Definition," deliverable "ICD")*
 - [ ] Create interface/item-flow model. *(ECD 2026-10-29)*
@@ -651,9 +651,18 @@ so there's a study left to implement — see §12.)*
 scope below is unlikely to all fit before this date; consider narrowing to one scenario
 and one weight sweep for the prototype, per that note.)*
 
-- [ ] Develop minimum viable simulation.
-- [ ] Validate constituent models independently.
-- [ ] Establish baseline scenario.
+- [x] Develop minimum viable simulation. *(First pass 2026-09-19: point-mass kinematic
+  vehicle dynamics model in `simulation/vehicle_dynamics.py` — speed/heading rate-limited
+  toward commanded values, altitude from commanded climb rate, position via
+  equirectangular projection, placeholder constant fuel burn. Not aerodynamic; extend
+  rather than replace if higher fidelity is needed later.)*
+- [x] Validate constituent models independently. *(First pass 2026-09-19:
+  `simulation/test_vehicle_dynamics.py` smoke tests — holding commanded state holds
+  track, climb command changes altitude correctly, speed change is rate-limited, fuel
+  burns while engine on. All passing.)*
+- [ ] Establish baseline scenario. *(`cameo_models/scenarios/hub-to-hub-example.sysml` is
+  an illustrative pattern-demo, explicitly not the decided ConOps baseline — see that
+  file's header comment and `open-questions.md`.)*
 - [ ] Execute single-stakeholder optimizations.
 - [ ] Execute balanced/SoS optimization.
 - [ ] Sweep objective weights.
@@ -669,11 +678,17 @@ and one weight sweep for the prototype, per that note.)*
 *(ECD 2026-11-24 — "Integration of MBSE Architecture" milestone, deliverable
 "Traceability links," metric "End-to-end scenario.")*
 
-- [ ] Trace simulation entities to SysML blocks.
+- [x] Trace simulation entities to SysML blocks. *(First pass 2026-09-19: `DecisionSupport`
+  package's `VehicleDynamicsModel::StepDynamics` calc def in `cameo_models/nas_sysml_package_definitions.sysml`
+  names the Python module/function that implements it; `simulation/vehicle_dynamics.py`
+  uses the same field names as `AircraftSystems::AircraftState`. Doc-comment trace, not a
+  language-level binding — see `workflows/vehicle-simulation-model.md` for why.)*
 - [ ] Trace decision variables to system properties/actions.
 - [ ] Trace optimization objectives to stakeholder goals.
 - [ ] Trace constraints to requirements.
-- [ ] Trace simulation inputs to information objects/interfaces.
+- [x] Trace simulation inputs to information objects/interfaces. *(First pass 2026-09-19:
+  `cameo_models/scenarios/hub-to-hub-example.sysml`'s `exampleAircraft.flightState` is a
+  concrete `AircraftState` usage shaped to seed `vehicle_dynamics.step_dynamics` directly.)*
 - [ ] Trace optimized decisions through intent-to-trajectory chain.
 - [ ] Show resulting effects on affected stakeholders.
 - [ ] Demonstrate how architecture exposes impacts that a standalone optimizer would omit.

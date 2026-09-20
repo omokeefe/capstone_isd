@@ -20,7 +20,7 @@ folder's purpose changes; update the project index when the project's status cha
 - **Control** (`CLAUDE.md`, `_system/`) — instructions governing how an AI agent orients
   itself and behaves here.
 - **Operational** (`projects/`) — the one active project: its status, task list,
-  sessions, journal, and deliverables (report, Cameo model, prework).
+  sessions, journal, and deliverables (report, SysML v2 model, prework).
 - **Knowledge** (`knowledge/`) — durable concepts, models, and open questions that could
   in principle be reused if a second project ever starts here.
 - **Evidence** (`evidence/`) — literature sources, kept distinct at three depths: the raw

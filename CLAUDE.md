@@ -48,11 +48,14 @@ Then, as needed:
   source PDFs live in `evidence/sources/`. When adding a new source, add both the PDF and
   a bib entry, and register it in
   [evidence/source-register.md](evidence/source-register.md).
-- **SysML/Cameo model work** lives in `projects/nas-sos-capstone/cameo_models/`; the
-  architecture's XML export is
-  `projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml` (currently a
-  draft; promote it once real Cameo modeling starts). Don't hand-edit the XML export
-  casually — treat Cameo as the source of truth and the XML as a generated artifact, per
+- **SysML v2 model work** lives in `projects/nas-sos-capstone/cameo_models/` (the folder
+  name is historical; it holds `.sysml` text authored in Syside Modeler in VS Code). **The
+  `.sysml` text is the source of truth**, not Cameo — per D-006 in
+  [decisions/decisions-log.md](decisions/decisions-log.md). Cameo is optional and
+  downstream: anything imported or rebuilt there is a derived copy. The XML at
+  `projects/nas-sos-capstone/prework/nas_system_of_systems_architecture.xml` is a
+  pre-modeling draft, not generated from the model and not kept in sync; if it disagrees
+  with the `.sysml` files, the `.sysml` files win. See
   [workflows/update-architecture.md](workflows/update-architecture.md).
 - **Quick, untriaged notes go in `inbox/`, not straight into knowledge/evidence.** Triage
   them per [workflows/process-inbox.md](workflows/process-inbox.md) before treating

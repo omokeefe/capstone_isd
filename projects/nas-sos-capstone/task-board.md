@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-09-17 (see `journal/2026-09-17.md` 21:34 Sign-Off Update)
+**Last updated:** 2026-09-19 (see `journal/2026-09-19.md` 11:52 Sign-Off)
 
 ## Current phase
 
@@ -37,6 +37,23 @@ annotation-coverage claim, citation spot-checks against skimmed-only sources, th
 See `to-do-list.md` §1 for the itemized list.
 
 ## Active
+
+- First-pass SysML v2 BDD in the model (file map: `cameo_models/sysmlv2_exploration.md`;
+  2026-09-19): NAS + 9 D-002 domains as packages, constituent systems populated from
+  `../../knowledge/models/candidate-systems-inventory.md`, filtered to the provisional SOI
+  boundary. This text is the source of truth (D-006); it is not in Cameo, and Cameo
+  hand-off is optional and deferred. Gaps logged in
+  `../../knowledge/questions/open-questions.md` ("SysML draft reconciliation").
+
+- New capability, same day: instance/scenario modeling and a vehicle-dynamics simulation
+  capability, plus two new workflows/skills (`sysml-instance-modeling`,
+  `vehicle-simulation-model`) to do more of this going forward. Built a first
+  end-to-end example: `cameo_models/scenarios/hub-to-hub-example.sysml` (flight + two
+  airports + SID/approach procedures + an initial `AircraftState`) driving
+  `simulation/vehicle_dynamics.py` (point-mass kinematic model, tests passing). See
+  D-005 and `journal/2026-09-19.md` (11:52 entry) for the file-layout/integration
+  decisions. Gaps: placeholder procedure names, `individual` SysML keyword unconfirmed —
+  both in `open-questions.md`.
 
 - Drafted the full §8 pass in
   `../../knowledge/models/stakeholder-objective-ontology.md` — objective,
@@ -79,16 +96,20 @@ See `to-do-list.md` §1 for the itemized list.
 
 ## Next session priority
 
-Interim Report #1 is submitted — see `journal/2026-09-17.md` (21:34 Sign-Off Update)
-for full reasoning. Terse version:
+See `journal/2026-09-19.md` (11:52 Sign-Off) for full reasoning. Terse version:
 
-1. Work `to-do-list.md` §1 to closure for real: ratify the SOI boundary (including the
-   cargo-carrier self-contradiction) and log it in `decisions/decisions-log.md`; resolve
-   `open-questions.md` §1 accordingly.
-2. Pick up the leftover report-quality items from §1's Interim Report #1 checklist
-   (annotation-coverage claim, citation spot-checks, disruption-cost figure, §11
-   scenario choice) when convenient — not submission blockers, but still open.
-3. Start §2-§4 literature-review sessions, prioritizing the 5-rated sources first
-   (`eltoukhy2017airline`, `hassanDisruptionReview`, `schultz2017turnaround`,
-   `clarke1998irregular`, `dispatcherWorkload2025`, `eurocontrolACDMSpec`).
-4. Try `session-welcome` next session and flag anything off about it.
+1. Verify or replace the demo scenario's placeholder procedure names (BENKY4, ILS RWY
+   22L), or replace `cameo_models/scenarios/hub-to-hub-example.sysml` entirely once a
+   real ConOps scenario/city-pair is decided.
+2. Create the NAS context diagram (§10, slipped since 2026-09-07).
+3. Create the stakeholder model / map (§10, slipped since 2026-09-07) — likely
+   derivable from `../../knowledge/models/stakeholder-register.md`.
+4. Verify ETFMS/AMAN/GMTOs/ANSPs against real FAA nomenclature before adding to
+   `cameo_models/nas_sysml_package_definitions.sysml`'s Airspace Management package.
+5. Fix the missing D-003/D-004 entries in `decisions/decisions-log.md` (index.md
+   references them; the log itself skips from D-002 to today's new D-005).
+6. Still open from before: work `to-do-list.md` §1 to closure (ratify the SOI boundary,
+   log it in `decisions/decisions-log.md`); start §2-§4 literature-review sessions
+   (5-rated sources first: `eltoukhy2017airline`, `hassanDisruptionReview`,
+   `schultz2017turnaround`, `clarke1998irregular`, `dispatcherWorkload2025`,
+   `eurocontrolACDMSpec`).
