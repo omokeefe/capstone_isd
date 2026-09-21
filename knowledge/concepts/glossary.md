@@ -90,6 +90,56 @@ or conversation — don't let definitions live only in someone's head or a singl
   Recovery Problem — the three sequential sub-problems of airline disruption management
   (see `santana2023arpReview` in [[source-register]]).
 
+- **FOC** — Flight Operations Center; the term used by Seamster et al. (2011) for what this
+  project calls the OCC/AOC (their acronym list: "AOC … see FOC").
+- **PF / PM** — Pilot Flying / Pilot Monitoring: task states that swap between Captain and
+  First Officer, not separate roles (`seamster2011collabSystems`).
+- **PDC** — Pre-Departure Clearance: the IFR clearance delivered to the crew as a datalink
+  (ACARS) message instead of by voice, with voice as fallback (`seamster2011collabSystems`,
+  Table E-2). JO 7110.65BB has no paragraph on it by name.
+- **EDCT** — Expect Departure Clearance Time: a controlled departure time assigned by traffic
+  management (`seamster2011collabSystems` E-1; defined in JO 7110.65BB's Pilot/Controller
+  Glossary; departure-release rules in ¶4-3-4).
+- **OOOI** — Out / Off / On / In: aircraft-generated reports (out of the gate, wheels off,
+  wheels on, in the gate) sent automatically over ACARS to the FOC
+  (`seamster2011collabSystems`, p.43).
+- **PVD / datablock** — Plan View Display: the En Route controller display through which a
+  flight's datablock (its track label) is handed off to the next sector
+  (`seamster2011collabSystems`, pp.44, App. B).
+- **HOST** — the En Route host computer system that files and processes flight data and
+  distributes it to sectors (`seamster2011collabSystems`, pp.43–44). JO 7110.65BB refers to
+  ERAM entries (e.g., ¶5-13-9).
+- **URET / EDST** — User Request Evaluation Tool (2011 En Route conflict-probe and
+  flight-plan-amendment tool, `seamster2011collabSystems`). Where the 2011 report says URET,
+  JO 7110.65BB ¶2-10-1 says EDST.
+- **CDM / ICR / Early Intent** — Collaborative Decision Making; Integrated Collaborative
+  Rerouting, in which stakeholders facing a constraint share *Early Intents* and traffic
+  managers decide whether they suffice. Information is shared but "responsibilities are not
+  shared and the decision is ultimately made by Traffic Management"
+  (`seamster2011collabSystems`, §3.3).
+- **LOA** — Letter of Agreement: standing agreement between ATC facilities regulating
+  airspace configuration, handoff altitudes/speeds, approaches and procedures
+  (`seamster2011collabSystems`, p.20).
+- **TMU** — Traffic Management Unit: the traffic-flow function located at ARTCCs, TRACONs and
+  major towers, coordinated nationally by the Command Center (**ATCSCC**, above). A *unit*, not
+  a single role — see the crosswalk in [[interaction-catalog-flight-execution]].
+- **Handoff / point out** — JO 7110.65BB ¶5-4-2: a *handoff* transfers radar identification
+  **and** radio communications to the receiving controller; a *point out* transfers radar
+  identification for the aircraft to pass through another controller's airspace **without** a
+  communications transfer.
+- **Radar (R) / Radar Associate (RA) / Radar Coordinator (RC) / Radar Flight Data (FD)** —
+  En Route sector team positions defined in JO 7110.65BB ¶2-10-1: R talks to the aircraft and
+  uses radar for separation; RA ("D-side", "Manual Controller"); RC ("Coordinator", "Tracker",
+  "Handoff Controller"); FD ("Assistant Controller", "A-side"). The team as a whole holds the
+  responsibility ("no absolute divisions of responsibilities").
+- **SPAR** — Systems Performance Adjustments Reference: an operator procedure for adjusting
+  takeoff/landing performance to weight, speed, runway length or altitude, sometimes needing
+  captain–dispatch coordination (`seamster2011collabSystems`, p.28; operator-specific term).
+- **Collaboration (NAS, Seamster et al.)** — "A joint effort between groups to reach a common
+  solution based on shared information, consideration for each other's needs and shared
+  responsibilities." Their test for whether a current interaction is collaborative
+  (`seamster2011collabSystems`, p.47).
+
 ## Notes
 
 - This list is intentionally partial. Expand it as sources get annotated

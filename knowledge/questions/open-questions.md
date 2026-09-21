@@ -57,8 +57,33 @@ delete it from here — don't let answered questions linger.
 
 ## Literature gaps
 
-- [ ] Nominal ATC/IFR flight-execution research (§4) hasn't identified specific FAA
-  source documents yet (AIM? 7110.65? advisory circulars?).
+- [ ] Nominal ATC/IFR flight-execution research (§4): **partly answered 2026-09-20** — the
+  ATC-side source is FAA JO 7110.65BB (`faa2025jo711065bb`, in the register), and
+  `seamster2011collabSystems` supplies the interaction sequence; paragraph pointers are in
+  [[interaction-catalog-flight-execution]] but BB's decision-authority text has not been read
+  or extracted yet. Still open: the flight-crew side (AIM, 14 CFR 91/121, airline FOM) and the
+  dispatch side (14 CFR 121 / AC 121-32A).
+
+## Actor abstraction (Seamster crosswalk, 2026-09-20)
+
+Raised by mapping the source's roles onto the personas — details in
+[[interaction-catalog-flight-execution]] §1.
+
+- [ ] Does the project need an **ATC Coordinator** persona (the airline-side single contact with ATC / the
+  Command Center), or is it folded into Airline Dispatcher? The source and `berry2011aocActors`
+  describe different authority and information for the two.
+- [ ] How should the source's **"TMU"** (a unit) and **"Command Center"** map onto the three ARTCC and three
+  national traffic-management persona stubs? Proposal: keep the group as the counterpart and split by role
+  only when a scenario needs a different authority.
+- [ ] **Radar Associates** at TRACON/tower (and the En Route Radar Coordinator and sector Supervisor) have no
+  persona — fold into the radar-position personas, or add stubs? And does "Data / Assistant Controller" mean
+  BB's Radar Associate ("D-side"), Radar Flight Data ("A-side"), or both?
+- [ ] **Load planner** sits in the airline OCC in this project's tree but in a separate RAMP group in the source —
+  which placement does the model use?
+- [ ] Is ATC modeled at **position level or team level**? JO 7110.65BB ¶2-10 treats the team as responsible and
+  lets one controller fill several positions.
+- [ ] Is **automation** (ACARS, HOST/ERAM, PVD, EDST, FMS) a collaborator/actor or a system? The 2011 report treats it as
+  part of a group today and as a fourth collaborator under NextGen.
 
 ## Reference-register housekeeping
 

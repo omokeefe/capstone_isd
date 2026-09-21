@@ -76,6 +76,15 @@ information with AMS specifically (not with each other directly, per this diagra
   info, clearances, screening data, etc.) is a candidate information object/item flow —
   useful seed list once §10 IBD/ICD work starts (ECD 2026-10-25/2026-10-29).
 
+- **Flight-execution exchanges (not airport-side):** this draft covers the Airport Management System
+  hub. The flight deck ↔ ATC ↔ airline FOC ↔ ramp exchanges during a flight (clearances, handoffs,
+  releases, ACARS reports; ~700 rows from Seamster et al. 2011) live in
+  [[interaction-catalog-flight-execution]] and the extracted tables in
+  `evidence/literature-notes/annotations/seamster2011collabSystems-interactions.md`. Its
+  "Systems and media" and "Information objects" lists are the seed for the flight-side item flows
+  of the same §10 interface model; the two should be reconciled when §10 IBD work starts (e.g., the ATC
+  spoke here = the tower/ground/local controllers there).
+
 ## Status
 
 Extracted 2026-08-30, directions unverified against the source diagram (see caveat

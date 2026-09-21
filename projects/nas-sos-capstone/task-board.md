@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-09-19 (see `journal/2026-09-19.md` 11:52 Sign-Off)
+**Last updated:** 2026-09-20 (see `journal/2026-09-20.md`, Reference sweep and Seamster extraction entries)
 
 ## Current phase
 
@@ -37,6 +37,8 @@ annotation-coverage claim, citation spot-checks against skimmed-only sources, th
 See `to-do-list.md` §1 for the itemized list.
 
 ## Active
+
+- 2026-09-20: extracted the Seamster et al. (2011) interaction tables (702 rows) and mapped its actors to the personas (`../../knowledge/models/interaction-catalog-flight-execution.md`); JO 7110.65BB added to the register. Waiting on the user: confirm the crosswalk rows marked "owner to confirm" (ATC Coordinator, TMU/Command Center, Radar Associate, load planner) and read BB ¶2-10, 3-7-2, 3-9-10, 4-3-2/-4, 5-4-5..-9 for decision-authority text (§4 boxes intentionally unchecked).
 
 - First-pass SysML v2 BDD in the model (file map: `cameo_models/sysmlv2_exploration.md`;
   2026-09-19): NAS + 9 D-002 domains as packages, constituent systems populated from

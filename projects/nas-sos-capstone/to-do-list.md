@@ -337,6 +337,8 @@ this date's sequencing relative to §5-§10.)*
 
 ## Nominal ATC Flight Execution
 
+_Status 2026-09-20: JO 7110.65BB is now in the register and the Seamster et al. (2011) interaction matrix has been extracted and mapped to these transitions with BB paragraph pointers — see [[interaction-catalog-flight-execution]] §3. Boxes below are deliberately left unchecked: BB's text was located, not yet read for decision authority / required information, and pushback/ramp and gate transitions have no BB paragraph._
+
 - [ ] Research FAA sources for nominal IFR operation
   - [ ] Clearance delivery.
   - [ ] Pushback/ramp coordination.

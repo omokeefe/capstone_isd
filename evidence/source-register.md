@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-09-13
-**Files in `evidence/sources/` at last sweep:** 52 of 52 processed
+**Last full sweep:** 2026-09-20
+**Files in `evidence/sources/` at last sweep:** 60 of 60 processed
 
 **PDF highlight extraction (2026-09-14):** ran `tools/extract_pdf_annotations.py` (skill
 `extract-pdf-annotations`) against all 51 PDFs in `evidence/sources/`. **15 of 51 PDFs had
@@ -97,14 +97,52 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | Understanding the Implications for Airports of Distributed Air Transportation Using a System-of-Systems Approach.pdf | `delaurentis2008airportsSos` | 4 | [4 - delaurentis2008airportsSos.md](literature-notes/summaries/4%20-%20delaurentis2008airportsSos.md) | 2026-09-13 |
 | Tese_Doutoramento_AntonioCastro_18Julho2013.pdf | `castro2013aoccMasThesis` | 5 | [5 - castro2013aoccMasThesis.md](literature-notes/summaries/5%20-%20castro2013aoccMasThesis.md) | 2026-09-13 |
 | Evaluation of a Multi-Agent System approach to airline disruption management.pdf | `bouarfa2018masDisruption` | 4 | [4 - bouarfa2018masDisruption.md](literature-notes/summaries/4%20-%20bouarfa2018masDisruption.md) | 2026-09-13 |
+| Eric C. Honour - Systems Engineering Return on Investment (University of South Australia).pdf | `honour2010seRoi` (the 2010 INCOSE paper, not the 2013 thesis `honour2013seRoi` — see 2026-09-20 flags) | 3 | [3 - honour2010seRoi.md](literature-notes/summaries/3%20-%20honour2010seRoi.md) | 2026-09-20 |
+| INCOSE International Symp - 2014 - Honour - 10 4 1 Sizing Systems Engineering Activities to Optimize Return on Investment.pdf | `honour2011sizingSE` (year corrected from filename's 2014 — see 2026-09-20 flags) | 2 | [2 - honour2011sizingSE.md](literature-notes/summaries/2%20-%20honour2011sizingSE.md) | 2026-09-20 |
+| berry-pace-2011-examining-the-actors-and-functions-of-an-airline-operations-center.pdf | `berry2011aocActors` | 4 | [4 - berry2011aocActors.md](literature-notes/summaries/4%20-%20berry2011aocActors.md) | 2026-09-20 |
+| Managing Variability - A Cognitive Ethnography of the Work of Airline Dispatchers.pdf | `munro2018managingVariability` | 4 | [4 - munro2018managingVariability.md](literature-notes/summaries/4%20-%20munro2018managingVariability.md) | 2026-09-20 |
+| icao-doc-9854-global-atm-ops-concept.pdf | `icao2005doc9854` | 5 | [5 - icao2005doc9854.md](literature-notes/summaries/5%20-%20icao2005doc9854.md) | 2026-09-20 |
+| Airport surface operations - A holistic framework for operations modeling and risk management.pdf | `wilke2014airportSurface` | 4 | [4 - wilke2014airportSurface.md](literature-notes/summaries/4%20-%20wilke2014airportSurface.md) | 2026-09-20 |
+| Collaborative Systems Assessment - Flightdeck, Air Traffic Control, Flight Operations Center and Automation.pdf | `seamster2011collabSystems` (draft report — see 2026-09-20 flags) | 5 | [5 - seamster2011collabSystems.md](literature-notes/summaries/5%20-%20seamster2011collabSystems.md) | 2026-09-20 |
+| 7110.65BB_Basic_dtd_2-20-25.pdf | `faa2025jo711065bb` | 5 | [5 - faa2025jo711065bb.md](literature-notes/summaries/5%20-%20faa2025jo711065bb.md) | 2026-09-20 |
 
-**Distribution:** thirteen 5s, sixteen 4s, eleven 3s, eleven 2s, three 1s, zero 0s — 52 files, 50
+**Distribution as of 2026-09-20 (computed from the ledger rows above):** 14 x 5, 18 x 4, 12 x 3, 12 x 2, 3 x 1, 1 x 0 — 60 rows. The paragraph that follows is the 2026-09-13 text and predates the 2026-09-19 re-rating of `delaurentis2005sosTransportation` (5 → 0) and the seven 2026-09-20 additions.
+
+**Distribution (2026-09-13 text):** thirteen 5s, sixteen 4s, eleven 3s, eleven 2s, three 1s, zero 0s — 52 files, 50
 distinct works (one remaining draft/published pair, see Flags below, plus the `jain2011pkm`
 duplicate PDF pair found 2026-09-05; the exact-duplicate `jagtap2025mbseEngineInlet` PDF pair
 was resolved during the 2026-09-05 PKM reorg — one copy removed). No exact duplicates found
 among the 18 files added 2026-09-13, though several overlap topically with existing sources —
 see the Flags entry below. Two more files (a PhD thesis and its companion journal paper) were
 added and processed later the same day — see the follow-up flags note below.
+
+### Flags raised by the 2026-09-20 sweep (7 new files)
+
+- **The "Eric C. Honour ... (University of South Australia)" PDF is the 2010 INCOSE paper, not the 2013
+  doctoral thesis.** `references.bib` already carried `honour2013seRoi` (the thesis) as a web-only entry
+  with "PDF not obtained"; the file on disk got its own entry, `honour2010seRoi`, and the thesis entry
+  was left in place and annotated. The second Honour file (`honour2011sizingSE`) is a 2011 (Denver)
+  follow-on; its filename says 2014, which is wrong.
+- **Claim in `knowledge/models/systems_engineering.md` not supported by these sources:** the "40%+
+  shorter schedules, 30% lower development costs, 3.5:1 to 7:1 ROI" figures (cited "Honour, 2013")
+  are in neither Honour paper (both searched). Both papers do support the ~15% (15-20%) optimum SE
+  effort. Verify against the thesis or re-cite; not edited automatically.
+- **Cluster on AOC/FOC roles** — `berry2011aocActors` and `seamster2011collabSystems` are both FAA
+  AJP-61 NextGen human-factors work on AOC/FOC roles (complementary);
+  `munro2018managingVariability` is the ethnographic counterpart on dispatcher work. All three feed the
+  OCC-group persona stubs in `knowledge/models/stakeholder-personas.md`.
+- **`seamster2011collabSystems` is a draft report** (unfilled documentation-page fields); look for a
+  final before citing page-specific claims.
+- **`munro2018managingVariability`** has no masthead on the PDF — venue/volume/pages/DOI confirmed by
+  web search (SAGE; also in NASA NTRS).
+- **`icao2005doc9854`** is a topical parallel to `sesarju2025masterPlan` and `great2020d21tboConcept`
+  (same concept family); the front-matter text layer is garbled but the body is clean.
+- **No exact duplicates; none rated 0-1.** The lowest is `honour2011sizingSE` at 2 (marginal, a
+  sequel to a 3).
+- **Added later the same day:** `faa2025jo711065bb` (FAA JO 7110.65BB, Basic, effective 2025-02-20; rated 5) — the ATC
+  procedures order. Basic edition only (change notices after it are not in the file); the main secondary source on ATC roles,
+  `seamster2011collabSystems`, cites the 2010 edition (7110.65T), so paragraph numbers were re-located by text search.
+  Its deep extraction is in `annotations/seamster2011collabSystems*` (the 700-row interaction tables and BB keyword rules).
 
 ### Flags raised by this sweep (2026-09-13, 18 new files)
 
@@ -292,6 +330,7 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | — (no PDF yet) | `loadControl2026` (Automated Load Control and W&B Validation) | journal/technical article | not started — bib entry removed 2026-09-14, no PDF ever collected |
 | Harnessing Digital Twin Technology for Enhanced Aircraft Turnaround Efficiency.pdf | `lu2025digitalTwinTurnaround` | journal article | not started |
 | Proactive Aircraft Turnaround Buffer Optimization Integrating Machine Learning and Scenario Analysis.pdf | `kontodimou2026turnaroundBuffer` | journal article | not started |
+| Airport surface operations - A holistic framework for operations modeling and risk management.pdf | `wilke2014airportSurface` | journal article (Safety Science) | not started |
 
 ### OCC, dispatch & flight execution (to-do §4)
 
@@ -304,7 +343,11 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | The Aircraft Recovery Problem A Systematic Literature Review.pdf | `santana2023arpReview` | journal review | annotated — see [santana2023arpReview.md](literature-notes/annotations/santana2023arpReview.md) |
 | Tese_Doutoramento_AntonioCastro_18Julho2013.pdf | `castro2013aoccMasThesis` | PhD thesis | not started — high priority given 5/5 rating; see [5 - castro2013aoccMasThesis.md](literature-notes/summaries/5%20-%20castro2013aoccMasThesis.md) |
 | Evaluation of a Multi-Agent System approach to airline disruption management.pdf | `bouarfa2018masDisruption` | journal article | not started |
-| — (nominal ATC/IFR flight execution) | none yet | FAA source(s) TBD | not started — need to identify specific FAA/AIM references per to-do §4 |
+| berry-pace-2011-examining-the-actors-and-functions-of-an-airline-operations-center.pdf | `berry2011aocActors` | conference paper (HFES) | not started — AOC actor/function inventory; feeds OCC-group personas |
+| Managing Variability - A Cognitive Ethnography of the Work of Airline Dispatchers.pdf | `munro2018managingVariability` | conference paper (HFES) | not started |
+| Collaborative Systems Assessment - Flightdeck, Air Traffic Control, Flight Operations Center and Automation.pdf | `seamster2011collabSystems` | NASA/FAA draft technical report | annotated — see [seamster2011collabSystems.md](literature-notes/annotations/seamster2011collabSystems.md) (tables extracted to `-interactions.md/.csv`; BB keyword rules in `-bb-rules.csv`)
+| 7110.65BB_Basic_dtd_2-20-25.pdf | `faa2025jo711065bb` | FAA order (government) | not started — ATC-side source for to-do §4 identified 2026-09-20; paragraph pointers in `knowledge/models/interaction-catalog-flight-execution.md`, authority text not yet read |
+| — (nominal IFR flight-crew side: AIM, 14 CFR 91/121, airline FOM) | none yet | FAA/airline source(s) TBD | not started — still to identify per to-do §4 |
 
 ### MBSE methodology & systems-architecture references (not yet tied to a to-do §; background/methods reading)
 
@@ -346,6 +389,7 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | SESAR_eATM_ATM_Capabilities.xlsx | `sesarju2025eatmCapabilities` | extracted capability taxonomy (data) | not started |
 | Towards a Comparative Analysis of Meta-Metamodels (Kern, Hummel, Kuhne).pdf | `kern2011metametamodels` | workshop paper (DSM'11/SPLASH) | not started |
 | Understanding the Implications for Airports of Distributed Air Transportation Using a System-of-Systems Approach.pdf | `delaurentis2008airportsSos` | journal article | not started — likely relevant to §6 (decomposition), extends delaurentis2005sosTransportation |
+| icao-doc-9854-global-atm-ops-concept.pdf | `icao2005doc9854` | ICAO operational concept document | not started — priority candidate for §5 ConOps / §6 decomposition and the trajectory-intent chain |
 
 ### Off-topic / process background (not tied to any to-do §; flagged for a keep-or-remove decision)
 
@@ -353,6 +397,8 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 |---|---|---|---|
 | Personal knowledge management the foundation of organisational knowledge management.pdf | `jain2011pkm` | journal article | not started — rated 1/5, off-topic for this register (library/information science, no aerospace/MBSE content); see Flags above for the keep-or-remove decision |
 | PritiJainpaperaspublishedliasa_v77_n1_a2.pdf | `jain2011pkm` (duplicate) | journal article | n/a — duplicate PDF of the row above, found 2026-09-05; see Flags above |
+| Eric C. Honour - Systems Engineering Return on Investment (University of South Australia).pdf | `honour2010seRoi` | conference paper (INCOSE) | not started — SE-practice background (rated 3, not off-topic in the jain2011pkm sense); backs a claim in `knowledge/models/systems_engineering.md`, see 2026-09-20 flags |
+| INCOSE International Symp - 2014 - Honour - 10 4 1 Sizing Systems Engineering Activities to Optimize Return on Investment.pdf | `honour2011sizingSE` | conference paper (INCOSE) | not started — rated 2; sequel to the row above; filename year (2014) is wrong |
 
 ## Housekeeping
 

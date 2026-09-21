@@ -10,16 +10,21 @@ the process this follows._
 
 ## How to read this table
 
-- **Classification** — one of: *Hard constraint*, *Optimization objective*,
-  *Cost/penalty*, *MOE* (measure of effectiveness — outcome/mission-level), *MOP*
-  (measure of performance — system/local-level). An objective can carry more than one
-  tag (e.g. safety is a hard constraint whose margin is also tracked as an MOE).
+- **Classification** — one of: 
+    - *Hard constraint*, 
+    - *Optimization objective*, 
+    - *Cost/penalty*, 
+    - *MOE* (measure of effectiveness — outcome/mission-level), 
+    - *MOP* (measure of performance — system/local-level). 
+  An objective can carry more than one  tag (e.g. safety is a hard constraint whose margin is also tracked as an MOE).
 - **MOP** — a directly measurable, local/system-level metric.
 - **MOE** — a higher-level, outcome/mission metric the MOP is a proxy for.
 - **Trajectory-decision impact** — does a change in aircraft trajectory (route,
   altitude, speed, timing — the intent-to-trajectory chain in
-  [[project-brief]]) measurably move this objective? **Yes** (direct/primary),
-  **Indirect** (mediated through another decision), or **No**.
+  [[project-brief]]) measurably move this objective? 
+    - **Yes** (direct/primary),
+    - **Indirect** (mediated through another decision), or 
+    - **No**.
 - **Abstraction comment** — how much internal detail this objective needs in the
   architecture/optimization model vs. treating it as a coarse boundary input.
 
@@ -45,6 +50,7 @@ absorption by dispatch/Captain), relevant to every objective below.
 | Delay cost | Cost/penalty | Delay minutes per flight; compensation exposure (DOT/EU261-style) | Total network delay cost | **Yes** | Direct downstream of trajectory execution (taxi, holding, reroute) — model explicitly. |
 | Revenue | Optimization objective (maximize) | Load factor; yield per seat-mile | Network revenue; RASM | Indirect | Set upstream at scheduling/pricing; trajectory execution reliability only affects revenue long-run via customer choice — treat as out-of-model boundary input. |
 | Dispatch reliability | MOE | % flights departed without mechanical/ops delay | Network dispatch reliability rate (industry-standard) | Indirect | A pre-departure metric; trajectory execution happens after this is set — coarse boundary input. |
+| Flight Safety | MOP | # accidents (or close calls?) per 100,000 flight hours | loss of separation in-air, physical impact on-ground | Yes | Not sure how to abstract, if at all | 
 
 ## Passenger
 

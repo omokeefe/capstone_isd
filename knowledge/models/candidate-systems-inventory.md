@@ -165,3 +165,24 @@ Extracted 2026-08-30, not yet reconciled with `to-do-list.md` §6/§10 work or t
 Cameo model. Next step: when §10 (or §6's alternative-decomposition comparison) is
 worked, pull specific nodes from here rather than starting the systems list from
 scratch — but verify groupings marked "(inferred)" against the source PDF first.
+
+## Additional candidate systems from literature (not in the source diagram)
+
+Surfaced by `seamster2011collabSystems` (2011 flight-execution interaction matrix; provenance: literature,
+not the user's prework diagram). All **candidates** — none checked against current FAA nomenclature
+(compare the ETFMS/AMAN/GMTO verification item in the task board), and several are 2011-era.
+See [[interaction-catalog-flight-execution]] §6 for how each is used in the matrix.
+
+- **ACARS** — datalink between aircraft and airline/ATC (PDC delivery, load/weight uplink,
+  OOOI reports, dispatcher contact).
+- **HOST / ERAM** — En Route flight-data processing and distribution to sectors (JO 7110.65BB refers
+  to ERAM).
+- **PVD** — plan view display and datablock handoff.
+- **URET → EDST** — En Route conflict probe and flight-plan amendment tool (2011 report says URET;
+  JO 7110.65BB says EDST).
+- **ATIS / D-ATIS** — terminal information broadcast referenced in nearly every arrival/departure exchange.
+- **Flight-progress strips (paper/electronic)** — printed ~30 minutes before the flight reaches the fix or airport.
+- **CPDLC** — controller–pilot datalink (only oceanic use noted in the 2011 report).
+- **AFTN** — network used to file flight plans with the En Route host.
+- **Airline flight-planning/tracking tool** — the "flight planner"/spreadsheet-style tool dispatchers use
+  (`munro2018managingVariability`); belongs with the Airline Operations Center system above.

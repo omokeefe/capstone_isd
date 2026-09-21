@@ -19,23 +19,29 @@ Model Based Systems Engineering (MBSE) is a SE methodology that formalizes the p
   development through end of life — "the politics of engineering." Solve the right problem
   before designing; potentially half of strategic failures come from ignoring key
   stakeholders' interests.
+
 - **Technical and management.** Each step generates the information the next decision
   needs; control gates, traceability, and schedule are half the job.
+
 - **Silos cause unintended consequences.** Decomposition creates specialists and
   interfaces. The systems engineer owns the interfaces, the requirement tree, and
   cross-cutting risk.
+
 - **Zig-zag down, zig-zag up.** Alternate between decomposing requirements (vertical) and
   choosing the design that will satisfy them (horizontal), down to configured items. Then
   integrate and verify back up, one tier at a time, against that tier's requirements.
+
 - **Verification is not validation.** *Verification* = objective evidence the design meets
   the stated requirements (bottom-up; don't repeat lower-tier tests; integration tests
   target interfaces; verify software as well as hardware). *Validation* = the system
   actually serves stakeholders in the intended, uncontrolled environment. A system can
   pass the first and fail the second (Coast Guard cutter, Expeditionary Fighting Vehicle).
+
 - **What a requirement is.** A "shall" with a rationale, a parent, and a verification
   method chosen up front (inspection, demonstration, analysis/simulation, test).
   Threshold/objective values where quantifiable; interface requirements kept apart from
   design requirements. Set demanding targets with margin early — margin erodes.
+
 - **Control gates** ask one question: is the risk of going forward acceptable? Outcomes:
   pass / pass with conditions / fail (freeze or go back). Risk = probability × severity; a
   detection only helps if controls exist and get used.
@@ -43,22 +49,26 @@ Model Based Systems Engineering (MBSE) is a SE methodology that formalizes the p
 ## MBSE in brief
 
 - MBSE is SE using models, not documents, as the medium of exchange. Three parts:
-  **language** (SysML v2), **tool** (Syside Modeler in VS Code; Cameo optional, per D-006),
-  **method** (MagicGrid). SE is the goal;
+    - **language** (SysML v2), 
+    - **tool** (Syside Modeler in VS Code; Cameo optional, per D-006),
+    - **method** (MagicGrid). SE is the goal;
   "model-based" is only how.
 - **The model is the single source of truth.** Diagrams and slides are generated views. A
   change is made in the model, after agreement with affected parties, and propagates to
   every view — never made on a slide.
+
 - **Four pillars:** structure (BDD, IBD, package), behavior (use case, activity, state
   machine, sequence), requirements (containment, derive, satisfy, verify), parametrics
   (equations tying design parameters to MOEs and requirements). MagicGrid v2 adds safety
   and reliability.
+
 - **MagicGrid = rows × pillars.** *Problem domain*: opaque box (stakeholder needs, context
   block with actors and item flows, use cases + activity diagrams, MOEs), then clear box
   (functional decomposition and functional interfaces). *Solution domain*: system, then
   subsystem (logical architecture, system requirements, state machine, parametrics).
   *Implementation*: implementable specs handed to software/CAD with a bidirectional trace.
   Keep the problem domain implementation-neutral — many solutions can map to one problem.
+
 - **Digital engineering** extends MBSE across the whole lifecycle: an authoritative source
   of truth per aspect, curated models, and a digital twin of each fielded instance feeding
   operational data back into design. (B-52: ~4 years of development, 75+ in
@@ -73,11 +83,11 @@ Operate → Sustain → Evolve → Retire. Legend: green oval = map requirements
 system; green square = review by stakeholders/management; purple oval = pass / fail /
 revise; purple square = test readiness review.
 
-**Tier mapping (mine — confirm):** SLR = System tier (the NAS as SoS); HLR = Subsystem
-tier (the nine D-002 domains); LLR = Component tier (constituent systems and their
-interfaces). The lectures call the top tier "high-level requirements" — that is what this
-repo calls SLR. Task checkboxes live in
-[to-do-list.md](../../projects/nas-sos-capstone/to-do-list.md); the § numbers below only
+**Tier mapping (mine — confirm):** 
+ - SLR = System tier (the NAS as SoS); 
+ - HLR = Subsystem tier (the nine D-002 domains); 
+ - LLR = Component tier (constituent systems and their interfaces). 
+Task checkboxes live in [to-do-list.md](../../projects/nas-sos-capstone/to-do-list.md); the § numbers below only
 point there.
 
 **0. Define the system and its environment.**
