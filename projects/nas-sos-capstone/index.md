@@ -44,9 +44,10 @@ optimization study) should trace back to this chain somewhere.
 
 ISD 503 Interim Report #1 (Introduction and Current State + References) was submitted
 2026-09-17, ahead of its 2026-09-20 ECD. Working through `to-do-list.md` §1 ("Establish
-Research Framework") — the SOI boundary is still provisional (not yet ratified as a
-decision) and research questions are still open; §2-§16 otherwise not yet started. All
-29 files in `evidence/sources/` are processed (bib + summary + rating); three of the
+Research Framework") — the SOI boundary and research questions were ratified/closed on
+2026-09-21 through D-007. The resulting scope baseline is documented in
+`knowledge/models/system_of_interest_definition.md`; §2-§16 otherwise remain in
+progress or not yet started. All 29 files in `evidence/sources/` are processed (bib + summary + rating); three of the
 newest ten (all rated 4/5) also have a full deep annotation. Details:
 [[task-board]] (`task-board.md`) for active/blocked cross-session focus.
 
@@ -60,8 +61,8 @@ Airport Operations · Aircraft Systems · Information Services · Infrastructure
 Decision Support
 
 See [[open-questions]] (`../../knowledge/questions/open-questions.md`) for unresolved
-boundary calls, and `to-do-list.md` §6 ("Explore Alternative System Decompositions") for
-the plan to compare this against organization-based, lifecycle-based, physical,
+architecture calls, and `to-do-list.md` §6 ("Explore Alternative System Decompositions")
+for the plan to compare this against organization-based, lifecycle-based, physical,
 information-flow, and decision-authority decompositions before committing.
 
 ## Decisions
@@ -71,6 +72,11 @@ Latest first — full rationale and history in
 
 - **D-006** — The SysML v2 text (authored in Syside Modeler / VS Code) is the source of
   truth for the model; Cameo is optional and downstream. Amends the tool half of D-003.
+- **D-007** — Ratified the SOI around trajectory-intent propagation: ATC, airport
+  operations, Part 121 scheduled passenger flight operations, aircraft systems, and
+  flight crew are modeled; passengers, governance, and military are boundary actors;
+  infrastructure and suppliers are constraints; information systems and decision
+  support are abstracted.
 - **D-005** — Instance/scenario content (`cameo_models/scenarios/`) and simulation code
   (`simulation/`) are kept separate from the structural model, with a documented
   (not language-level) trace between a SysML `calc def` interface and its Python
@@ -113,6 +119,10 @@ to the authorities/services that constrain it.
 - **Owen O'Keefe** (omokeefe@gmail.com) — student, this capstone.
 - **Mark Petrotta** (mpetrott@umich.edu) — faculty adviser this semester, has advised
   several MBSE-focused capstones.
+- **Nicole Friedberg** (nmtucker@umich.edu) — ISD 503 course coordinator. Office hours
+  Mondays 1:30-2:30p (Zoom or 3664 GG Brown), none Sep 28 or Oct 19. Extensions are
+  approved by the adviser first, then the coordinator is informed. Course rules and
+  milestone details: `prework/course-info-canvas.md`.
 - Stakeholder inventory (PESTLE) and enterprise-objective hierarchy:
   [[stakeholder-register]] (`../../knowledge/models/stakeholder-register.md`); ConOps-
   scenario stakeholder personas: [[stakeholder-personas]]

@@ -1,5 +1,66 @@
 # Defining the SOI
 
+**Status: ratified 2026-09-21; see D-007 in `decisions/decisions-log.md`.**
+
+This document is the scope baseline for the NAS-as-SoS capstone. The System of
+Interest is bounded around the lifecycle of trajectory intent:
+
+```
+Enterprise objective -> mission/flight plan -> ATC constraints -> negotiated trajectory
+-> FMS intent -> guidance commands -> aircraft motion
+```
+
+## Ratified boundary
+
+Include an entity as a **modeled system** when it has distinct decision authority or
+execution behavior that is dynamically coupled to in-scope decisions and materially
+affects cost, safety, workload, schedule reliability, or passenger value. Treat an
+entity as a **boundary actor** when it supplies objectives, demand, feedback, or rules
+without being decomposed as a decision mechanism. Treat an influence as a **context
+constraint** when it is externally determined and enters the analysis as a parameter or
+scenario condition. **Absorb or abstract** a capability when its internal structure is
+not itself a decision variable, while preserving its effects as information, cost, or
+performance attributes.
+
+| Candidate | Project Action | Ratified disposition |
+|---|---|---|
+| Governance / Regulatory and Legal | Boundary Actor | Sets the rules and societal/environmental policy context. Held fixed in the baseline; regulatory sensitivity sweeps are optional. |
+| Airspace Management / ATC | Modeled System | Directs traffic through clearances and flow-management actions; coupled to trajectory intent, safety, and workload. |
+| Airport Operations | Modeled System | Airport-side turnaround, gate, ground-handling, and control activities affect capacity, schedule reliability, safety, and passenger value. |
+| Flight Operations | Modeled System | Part 121 scheduled passenger operators are modeled because dispatch, scheduling, routing, and recovery decisions are coupled to the selected KPIs. Other traffic is background input when KPI-relevant. |
+| Aircraft Systems | Modeled System | Aircraft state and onboard systems are the execution endpoint of the trajectory-intent chain. |
+| Flight Crew | Modeled System | Crew have independent execution authority and handle information between operational intent, clearances, guidance, and aircraft behavior. |
+| Passengers | Boundary Actor | Demand, willingness to pay, passenger mix, and time sensitivity influence airline choices about fares, frequency, aircraft assignment, connections, and delay/rerouting tradeoffs. RPM measures passenger traffic and airline output; affordability, schedule reliability, and satisfaction are value measures. Passengers do not directly set fares or aircraft speed; airline decisions mediate those effects. |
+| Military | Boundary Actor | Military operations are outside the modeled operator population; military traffic and special-use airspace enter as external scenario conditions when civil KPIs require them. |
+| Information Systems | Absorbed / Abstracted | Information is modeled as exchanges; specific channels are included only when reliability, latency, or capability changes a decision or KPI. |
+| Infrastructure / Airspace Resources | Context Constraint | Airspace structure, navigation infrastructure, and shared resources are external baseline constraints, with optional parameterized sensitivity analysis. |
+| Maintenance Suppliers | Context Constraint | Supplier-side cost, availability, and turnaround effects are exogenous parameters; airline maintenance decisions remain within Flight Operations. |
+| Decision Support | Absorbed / Abstracted | Decision-support capability is allocated to operator or ATM contexts; recommendations and information dependencies remain modelable. |
+
+## Included and excluded scope
+
+The seven modeled-system or boundary-actor rows above are included at an abstraction
+sufficient to trace authority, information, decisions, and KPI effects. The project
+does not decompose passengers, regulators, military operations, suppliers, information
+services, infrastructure, or decision support into independent internal systems.
+General aviation, scheduled cargo, international airspace, and military operations are
+outside the modeled operator population, but may appear as background traffic or
+constraints when omitting them would materially distort a selected KPI. This is an
+analytical boundary, not a claim that those activities are unimportant to the real NAS.
+
+## Levels of abstraction
+
+The architecture links three levels without attempting equal detail at each: (1)
+enterprise and stakeholder objectives, policies, demand, and value measures; (2)
+operational decisions by airline/dispatch, airport, ATC/ANSP, and crew; and (3)
+aircraft state, FMS intent, guidance, and resulting motion. Subsystem detail is added
+only when it changes authority, information flow, a decision, or a selected KPI.
+
+The system boundary and stakeholder boundary are related but not identical: passengers
+and regulators are boundary actors, while flight crew and aircraft systems are modeled
+because their decisions and execution behavior are central to the trajectory-intent
+chain.
+
 This file documents the definition of and rationale for the System of Interest (SOI).
 Constructed from several brainstorming sessions, themselves informed by the literature
 reviewed, and formulated from the perspective of including systems of the NAS that have
@@ -22,7 +83,11 @@ Operations · Aircraft Systems · Information Services · Infrastructure · Deci
 Support). Those domains  organizes systems basd on *what the NAS does*, functionally; this one organizes
 *who/what holds authority or incurs value/cost*, as a check against the stakeholder
 register. 
-## The eight systems
+## Historical draft (superseded)
+
+The material below is retained as provenance from the pre-ratification exploration. It
+is not the current SOI definition; the ratified boundary and project actions above take
+precedence.
 
 ### 1. Aircraft
 
@@ -109,11 +174,6 @@ on arrival-rate assumptions, traffic flow, or capacity/optimality), individual A
 Traffic Controllers, and National Managers of Tactical Operations (set daily
 initiatives like en-route metering and coordinate across centers on weather/etc.).
 
-### 8. Maintenance Suppliers
-
-Included, narrowly, as the actor that sets the cost of engine maintenance and overhaul
-— a cost input to the operator-side tradeoffs this project models, not a system this
-project decomposes further.
 
 ## Excluded as content, not channel: SWIM and Weather
 
@@ -134,34 +194,16 @@ governance and failure modes. They exclude for the same reason only at this proj
 abstraction level (information exists and reaches an actor; the pipe doesn't matter). If
 a ConOps scenario ever turns SWIM reliability/latency itself into a decision variable,
 that would pull it into scope the same way FMS is in scope — same escape hatch as the
-Militaries exclusion above.
+Militaries exclusion above. For instance, trans-oceanic flight results in portions of
+the flight where radio communication and contact with ground-based navigation systems
+is no longer available. A dispatcher may choose to route the aircraft to fly along coastal 
+land masses to maintain a specific set of interfaces w/a threshold of reliability. However, 
+doing so would sacrifice huge amounts of time, fuel, and logistics. 
 
-## Boundary calls worth flagging
 
-These are exclusions or ambiguous inclusions from the spreadsheet worth surfacing
-explicitly, in case a reviewer (or a later session) would draw the line differently:
+## Provenance
 
-- **Airframe / Flight Control System** are nominally "included" under Aircraft for
-  safety reasons but are explicitly *not* levers this project's decisions act on —
-  worth double-checking this doesn't quietly smuggle unmodeled complexity into the
-  aircraft-level SOI boundary.
-- **Militaries** are excluded from Operators on the assumption that priority handling
-  makes their special needs a non-issue for this project's scope — this is an
-  assumption, not a verified fact, and should be revisited if military-airspace
-  interaction becomes relevant to a ConOps scenario (see [[open-questions]]).
-- **IT & Cybersecurity** sits oddly under Operators (it's really a cross-cutting
-  concern touching Aircraft, ATC, and Airports too, via the comms channel) — flagged
-  here rather than resolved, since forcing it into one of the eight would misrepresent
-  it.
-- **Ticketing** is excluded but the rationale ("probably not worth including") is the
-  weakest-justified exclusion in the set — low risk either way, but noted rather than
-  silently dropped.
-
-## Status
-
-Drafted 2026-09-13 from
-[system_of_interest_exploration.xlsx](system_of_interest_exploration.xlsx). Not yet
-reconciled line-by-line against [[candidate-systems-inventory]]'s nine-domain cut or
-against the seven-stakeholder set used in [[stakeholder-objective-ontology]] — next step
-is to confirm all three groupings agree on membership before this feeds §10 architecture
-work.
+The historical draft was developed 2026-09-13 from
+[system_of_interest_exploration.xlsx](system_of_interest_exploration.xlsx). The
+ratification reconciles that exploration with the candidate-systems inventory, the
+stakeholder register, and the boundary review recorded in D-007.

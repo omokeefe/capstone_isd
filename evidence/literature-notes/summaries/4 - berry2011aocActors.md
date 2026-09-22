@@ -49,6 +49,27 @@ persona stubs that already exist.
   `castro2013aoccMasThesis`.
 - Cites the FAA HSI Roadmap and NAS EA OV-6c scenarios — possible leads for §4 nominal-flight sources.
 
+## Highlighted passages
+
+_Digital highlights the user marked up in the PDF (30 found, no ink annotations), extracted 2026-09-21 via `tools/extract_pdf_annotations.py`. Prose highlights are verbatim; the Table 1 and Figure 1 highlights are condensed because the text layer of those graphics is scrambled — read them in the PDF itself._
+
+**Page 1**
+- **Highlight:** "In this study, AOC actors that are critical to the day-to-day operation of an AOC were identified and a functional allocation was performed."
+- **Highlight:** "The typical AOC is comprised of fifty to one hundred operators in various roles."
+
+**Page 2**
+- **Highlight:** "Only those members who are critical to the day-to- day operation of the AOC and those functions that are frequent and critical to day-to-day operation will be included in this analysis"
+
+**Page 3**
+- **Highlight (Table 1, "Select AOC Actors"):** the whole table — actor, alternate names, role description, "requires dispatcher license/currency", and literature references — for Aircraft Dispatcher, Operations Manager, AOC Duty Director, Flight Follower, Aircraft Router, ATC Coordinator, Manager Tactical ATC, Crew Scheduler, Crew Scheduling Manager, Maintenance Controller, Manager Maintenance Control. (The text layer interleaves the columns; the reconstructed pairings are in the source's actor inventory, not here.)
+
+**Page 4**
+- **Highlight (Figure 1, "AOC Functional Allocation"):** the actor x function matrix (X = major role, ● = minor role). Functions marked: plan flight, monitor/track flight, communicate with flight crew, communicate with ATC, assist during diversions, plan aviation maintenance, schedule flight crew. Actors marked: the eleven listed under Table 1. The X/● cell values are unreadable in the text layer.
+- **Highlight:** "As such, the flight follower is not nearly as prevalent in the scientific literature as the dispatch role, but the safety implications of the flight follower role are evident and substantial."
+- **Highlight:** "For example, the ATC coordinator’s primary obligation is to communicate with ATC and act as the singular point-of-contact with ATC. While the dispatcher may communicate with ATC in emergency situations, the dispatcher does not interact directly with ATC; rather information provided by the dispatcher and other members is relayed to ATC via the ATC coordinator."
+
+**What the markup emphasizes:** the scope limit (critical, frequent roles only), the actor inventory and actor x function allocation as the paper's core products, and two role-boundary points — the flight follower is under-studied relative to the dispatcher, and the ATC coordinator (not the dispatcher) is the AOC's single point of contact with ATC. Both feed the OCC-group persona stubs in `knowledge/models/stakeholder-personas.md`.
+
 ## Processing metadata
 
 - **Read depth:** fully read (5 pages)

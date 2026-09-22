@@ -58,12 +58,11 @@ fold this role into the parent persona instead of filling this out>
 
 ## Personas
 
-### Line Pilot (Captain, Part 121 scheduled operations)
+### Crew / Line Pilot (Captain, Part 121 scheduled operations)
 
 **Traces to (PESTLE):** "Flight crews" (Social)
 **Traces to (§8):** Flight Crew
-**Appears in:** not yet used — candidate for the nominal domestic flight scenario
-(flight-execution and turnaround phases)
+**Appears in:** 
 
 **Who they are:** Pilot-in-command of a scheduled airline flight; final authority for the
 safety of the flight once the aircraft is under their command.
@@ -80,35 +79,32 @@ instructions unless safety requires deviation.
 **Information needs (inputs):** Dispatch release, flight plan, weather/NOTAMs, weight and
 balance/loadsheet, ATC clearances, aircraft system status.
 **Information produced (outputs):** Acceptance of release, position/status reports,
-deviation requests, PIREPs, post-flight aircraft/maintenance writeups.
+deviation requests, PIREPs, post-flight aircraft/maintenance writeups, requests for cleareance changes.
 **Constraints:** FARs, company operating procedures, duty-time/rest rules, aircraft
 performance limits, ATC clearance compliance.
 **What "optimal" looks like to them (draft):** Safety first; secondarily, schedule
-adherence and passenger/crew workload — not fuel cost or network-level efficiency, which
-are dispatch's/airline's concern more than the Captain's.
+adherence and passenger/crew workload, tertially fuel cost or network-level efficiency
 **Typical friction / pain point:** Dispatch/company pressure toward fuel- or
-schedule-optimal routing vs. the Captain's more conservative safety margin; ATC-assigned
+schedule-optimal routing and loading vs. the Captain's more conservative safety margin; ATC-assigned
 routing/altitude that doesn't match the flight-planned "optimal" trajectory.
 **Notes:** Draft/illustrative — refine against flight-dispatch and disruption-management
 literature once to-do §4 annotation reaches pilot/dispatcher shared-responsibility
 sources.
 
-**Source mapping (Seamster et al. 2011 → this persona):** source role FD *Captain* — identical (renamed). Abstraction: the source's Pilot Flying / Pilot Monitoring are task states that swap between Captain and First Officer, so they are folded into Captain/First Officer rather than kept as separate personas; why: final authority attaches to the Captain, not to PF/PM (fails the "materially different" test). Confidence high on the identity, medium on the PF/PM fold. Full crosswalk and gaps: [[interaction-catalog-flight-execution]].
+**Source mapping (Seamster et al. 2011 → this persona):** source role FD *Captain*.. Abstraction: the source's Pilot Flying / Pilot Monitoring are task states that swap between Captain and First Officer, so they are folded into Captain/First Officer rather than kept as separate personas; why: final authority attaches to the Captain, not to PF/PM (fails the "materially different" test). Full crosswalk and gaps: [[interaction-catalog-flight-execution]].
 
 ---
 
-### Air Traffic Controller (Enroute, ARTCC sector)
+### Air Traffic Controller (Enroute, ARTCC sector, TRACON, ATCT)
 
-**Traces to (PESTLE):** "Air traffic controllers" (Technical)
+**Traces to (PESTLE):** "Air traffic controllers" (Technical); really includes Air Navigation Service Provider / Air Traffic Management
 **Traces to (§8):** ATC/ANSP
-**Appears in:** not yet used — candidate for the nominal domestic flight scenario
-(enroute portion of flight execution) and the international-boundary scenario
-(sector-to-sector/ANSP handoff)
+**Appears in:** 
 
-**Who they are:** FAA controller responsible for separation and traffic flow within one
-enroute sector.
+**Who they are:** FAA controller responsible for separation and traffic flow within one section of airspace, 
+whether that's regional sector, distance-boundary to airport, or otherwise. 
 **Goals:** Maintain safe separation, keep traffic flowing predictably, manage sector
-workload/complexity within acceptable bounds.
+workload/complexity within acceptable bounds, accomodate crew and airline needs.
 **Responsibilities:** Issue clearances (altitude, route, speed) within the sector;
 coordinate handoffs to adjacent sectors/facilities; manage weather deviations and traffic
 conflicts.
@@ -116,22 +112,22 @@ conflicts.
 altitude, speed instructions); authority ends at the sector boundary, where it's
 handed off via coordination, not unilaterally extended.
 **Information needs (inputs):** Flight plan/intent, surveillance track data, weather,
-adjacent-sector coordination, other traffic in sector.
+adjacent-sector coordination, other traffic in sector, vocal & acars-transmitted 
+information from pilots & dispatchers. 
 **Information produced (outputs):** Clearances/instructions to aircraft, handoff
 coordination to next sector/facility, traffic-flow reports.
 **Constraints:** FAA 7110.65 (Air Traffic Control order) procedures, sector
 capacity/workload limits, separation minima, equipment (radar/ADS-B coverage).
-**What "optimal" looks like to them (draft):** Safety and manageable workload/complexity
-first; predictability of traffic flow — not any individual aircraft's fuel/schedule
+**What "optimal" looks like to them (draft):** Safely separated aircraft, manageable workload/complexity; 
+predictability of traffic flow — not any individual aircraft's fuel/schedule
 optimum, which can conflict with sector-level flow management (e.g., vectoring off an
 airline's fuel-optimal path to preserve separation).
 **Typical friction / pain point:** Individually fuel-/time-optimal aircraft trajectories
 that increase sector complexity or reduce predictability — a direct §9 candidate
 ("individual optimal trajectory vs. network congestion").
-**Notes:** Draft/illustrative — refine against nominal ATC flight-execution research
-(to-do §4, FAA source TBD — see [[open-questions]] "Literature gaps").
+**Notes:** 
 
-**Source mapping (Seamster et al. 2011 → this persona):** source role ATC *En Route sector – R* ("1st Center 1st sector" … "Last Center last Sector") — many→one. Abstraction: center/sector identity and position along the route are dropped (they belong in the instance model); why: JO 7110.65BB ¶2-10-1 treats the sector team as one team ("no absolute divisions of responsibilities… the team, as a whole, has responsibility"). Confidence high. Full crosswalk and gaps: [[interaction-catalog-flight-execution]].
+**Source mapping (Seamster et al. 2011 → this persona):** source role ATC *En Route sector – R* ("1st Center 1st sector" … "Last Center last Sector") — many→one. Abstraction: center/sector identity and position along the route are dropped (they belong in the instance model); why: JO 7110.65BB ¶2-10-1 treats the sector team as one team ("no absolute divisions of responsibilities… the team, as a whole, has responsibility"). Confidence high.
 
 ---
 
@@ -139,11 +135,12 @@ that increase sector complexity or reduce predictability — a direct §9 candid
 
 **Traces to (PESTLE):** "Dispatchers" (Technical)
 **Traces to (§8):** Airline
-**Appears in:** not yet used — candidate for the nominal domestic flight scenario
-(day-of-operations phase) and the off-nominal/disruption scenario
+**Appears in:** 
 
 **Who they are:** Certificated airline dispatcher in the Operations Control Center,
-jointly responsible with the Captain for flight release under Part 121.
+jointly responsible with the Captain for flight release under Part 121. "Dispatch" in
+practice is a cluster of AOC workers, not one person (see *Role cluster* below); this
+persona is the licensed **Aircraft Dispatcher** at its core.
 **Goals:** Release flights that are safe, legal, and efficient (fuel, routing, timing)
 across the whole network the dispatcher is following, not just one flight in isolation.
 **Responsibilities:** Build/approve the flight plan and release; monitor weather,
@@ -152,13 +149,16 @@ flight-following authority through the flight's duration.
 **Decision authority:** Joint authority with the Captain over the release and en route
 routing/fuel decisions; can direct a diversion or hold in coordination with the Captain;
 authority is shared, not solely the dispatcher's or solely the Captain's — a documented
-ambiguous-authority case for §7.
-**Information needs (inputs):** Weather/NOTAMs, aircraft performance and status, crew
-legality, ATC flow-control advisories, network-wide schedule/connection status.
-**Information produced (outputs):** Flight release and flight plan, in-flight
-amendments, diversion/delay decisions, coordination with OCC/AOC on network impacts.
+ambiguous-authority case for §7. Only the licensed Aircraft Dispatcher holds it; the
+Flight Follower and ATC Coordinator who support the role are unlicensed (Berry & Pace 2011, Table 1).
+**Information needs (inputs):** Weather/NOTAMs, aircraft performance models, aircraft maintenance status, 
+crew legality, ATC flow-control advisories (normally relayed by the ATC Coordinator, not received
+from ATC directly), network-wide schedule/connection status, scheduled flight including airport
+equipment and runway lengths
+**Information produced (outputs):** Flight release and flight plan, in-flight routing & control changes, 
+diversion/delay decisions, coordination with OCC/AOC on network impacts, 
 **Constraints:** FARs (Part 121 dispatch requirements), company operating specs, fuel
-policy, duty-time rules for dispatchers themselves.
+policy, crew's final say, duty-time rules for dispatchers themselves.
 **What "optimal" looks like to them (draft):** Network-level efficiency — fuel cost,
 schedule integrity, downstream connection/aircraft-rotation impact — a broader scope than
 the Captain's single-flight view.
@@ -167,11 +167,25 @@ delaying one flight to protect downstream connections/aircraft rotation) can be
 suboptimal or unwelcome for that flight's own passengers/crew — a §9 candidate
 ("airline schedule integrity vs. ATC workload" is adjacent; also a passenger-vs-airline
 conflict not currently listed in §9's starter set, worth adding).
-**Notes:** Draft/illustrative — refine against flight-dispatcher research once to-do §4
-annotation reaches this role; also connects to the OCC/disruption-management literature
-in §4.
+**Notes:** 
 
-**Source mapping (Seamster et al. 2011 → this persona):** source role FOC *Flight Dispatcher* — identical. Not folded in: the source's FOC *ATC coordinator*, which the source treats as a separate desk and which Berry & Pace (2011) describe as the AOC's usual point of contact with ATC (the dispatcher does not normally interact with ATC directly) — no persona exists for it yet (gap; owner decision). Full crosswalk and gaps: [[interaction-catalog-flight-execution]].
+**Source mapping (Seamster et al. 2011 → this persona):** source role FOC *Flight Dispatcher* — identical. Not folded in: the source's FOC *ATC coordinator*, which the source treats as a separate desk and which Berry & Pace (2011) describe as the AOC's usual point of contact with ATC (the dispatcher does not normally interact with ATC directly) — no persona exists for it yet, though I don't perceive this to be a gap. It will be folded in.
+
+**Role cluster — "dispatcher" is several workers (Berry & Pace 2011 → this persona):** Berry & Pace find the AOC "is not limited to just a dispatcher or flight planner" (a typical AOC has 50-100 operators) and that the dispatcher, though able to perform many AOC functions, is often not the *main* owner of them. The dispatch function splits across these roles (Table 1; major/minor marks from Figure 1; source summary: `berry2011aocActors`):
+
+| AOC role (alternate names) | Licence / currency | What it does | Major role in (Fig. 1) |
+|---|---|---|---|
+| Aircraft Dispatcher (Flight Superintendent, Airspace Manager) | Yes / Yes | Joint responsibility for operational safety of flight: plans, monitors, assists and briefs crews, handles emergencies | Plan flight; monitor/track; communicate with flight crew; assist during diversions |
+| Flight Follower (Aircraft Dispatcher Assistant) | No / No | Tracks flights in progress for the dispatcher, alerts them to problems, monitors diversions; not every airline uses the role, but most large AOCs do | Monitor/track; assist during diversions | 
+| ATC Coordinator | No / No | The AOC's single point of contact with ATC; relief for flights hit by ATC reroutes/delays | Communicate with ATC |
+| Manager Tactical ATC | No / No | Supports the ATC Coordinator | none (minor: communicate with ATC) |
+| Aircraft Router | No / No | "Safe, timely, and efficient routing of aircraft" | none (minor: plan flight, plan maintenance, diversions) |
+
+The other Table 1 roles (Operations Manager, AOC Duty Director, Crew Scheduler and manager, Maintenance Controller and manager) are not part of the dispatch cluster; they line up with the existing OCC stubs (Operations Control Duty Manager, Crew Controller, Maintenance Controller).
+
+- **Abstraction (owner to confirm):** Flight Follower is folded into this persona rather than split out. Why: it holds no licence and no release authority of its own, and its inputs and outputs are the dispatcher's (flight status, alerts, diversion monitoring), so it adds nothing independent to a RACCI row beyond "delegate of the dispatcher." Split it if a scenario needs an explicit monitoring handoff between the two. Evidence is one airline's unpublished 2002 manual plus SMEs, and titles vary by carrier, so this is one example of the structure, not necessarily the industry standard.
+- **Change to the ATC path:** the dispatcher does not normally talk to ATC directly (emergencies aside); information goes through the ATC Coordinator. Seamster et al. agree: a Command Center TMU advisory reaches the dispatcher as TMU → ATC Coordinator → interphone → dispatcher (`E-7#05`-`#07`, `E-8#01`-`#02`). Sequence diagrams should route dispatcher↔ATC messages through the coordinator. Consistency check: the Air Traffic Controller persona's inputs currently list information from dispatchers as a direct source.
+- **Open scope check:** Figure 1 gives the licensed dispatcher only *minor* roles in communicating with ATC, planning maintenance and scheduling crews, so the network-level goal in "What optimal looks like" and the connection-protection friction point above may belong to the Operations Manager / Duty Director rather than the dispatcher. Against that, `munro2018managingVariability` reports airlines expect dispatchers to support company cost and payload goals, not only safety. Test against a scenario before rewriting those fields.
 
 ---
 
@@ -179,8 +193,7 @@ in §4.
 
 **Traces to (PESTLE):** "Airlines (e.g. Delta)" (Economic)
 **Traces to (§8):** Airline
-**Appears in:** not yet used — candidate for the off-nominal/disruption scenario
-(network-level irregular-operations decisions)
+**Appears in:** 
 
 **Who they are:** Senior airline operations leader accountable for network-wide
 operational and financial performance, typically overseeing the OCC during
@@ -202,11 +215,11 @@ reports during disruption.
 **Information produced (outputs):** Operating policy, delegated authority/thresholds for
 dispatch and OCC staff, escalation decisions during major disruption events.
 **Constraints:** Regulatory exposure (DOT consumer-protection rules, FAR compliance),
-financial performance pressure, labor agreements, public/brand reputation.
+financial performance pressure from shareholders, labor agreements, public/brand reputation.
 **What "optimal" looks like to them (draft):** Aggregate network cost and on-time
 performance, revenue protection, and customer-experience/regulatory-exposure
 management — the broadest and most explicitly financial "optimal" of the airline-side
-personas.
+personas. Should I define specifics here, e.g. AROC? 
 **Typical friction / pain point:** Policy set for the average/aggregate case can produce
 poor outcomes in specific instances the more tactical personas (dispatcher, Captain) have
 to absorb — the clearest local-vs-system tension is actually *within* the airline

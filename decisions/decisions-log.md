@@ -6,6 +6,64 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-007 — Ratified SOI boundary and analytical scope
+
+**Date:** 2026-09-21
+**Status:** active. Supersedes the provisional SOI boundary documented before this
+decision; it refines, but does not supersede, D-002's candidate domain decomposition.
+
+**Decision:** Ratify the NAS-as-SoS System of Interest around the trajectory-intent
+lifecycle from enterprise objectives through aircraft motion. Model Airspace
+Management/ATC, Airport Operations, Flight Operations for Part 121 scheduled passenger
+operators, Aircraft Systems, and Flight Crew as modeled systems. Include Governance /
+Regulatory and Legal, Passengers, and Military as boundary actors. Treat Infrastructure
+/ Airspace Resources and Maintenance Suppliers as context constraints. Absorb or
+abstract Information Systems and Decision Support, while retaining their effects as
+information exchanges or capabilities when relevant.
+
+**Rationale:** An entity is modeled when it has distinct decision authority or execution
+behavior dynamically coupled to in-scope decisions and materially affects cost, safety,
+workload, schedule reliability, or passenger value. Boundary actors supply objectives,
+demand, feedback, or rules without being decomposed as decision mechanisms. Exogenous
+influences enter as constraints or scenario parameters. This criterion preserves the
+authority and responsibility relationships needed for a systems-of-systems architecture
+without expanding the project into a model of every NAS participant.
+
+Passengers remain boundary actors because demand, willingness to pay, passenger mix, and
+time sensitivity influence airline choices about fares, frequency, aircraft assignment,
+connections, and delay/rerouting tradeoffs. Revenue passenger miles provide an
+aggregate measure of passenger traffic and airline output; affordability, schedule
+reliability, and satisfaction remain value measures. Passengers do not directly set
+fares or aircraft speed, which are mediated by airline revenue-management and
+operations decisions.
+
+Part 121 scheduled passenger operations define the modeled operator population. General
+aviation, scheduled cargo, international airspace, and military operations remain
+outside that modeled population, but may be represented as background traffic or
+constraints when their omission would materially distort a selected KPI. This is an
+analytical scope choice, not a claim that those activities are unimportant to the real
+NAS.
+
+**Alternatives considered:** A broad model of all NAS organizations was rejected as
+unbounded. A purely physical decomposition was rejected because it hides authority,
+information ownership, and stakeholder tradeoffs. Treating passengers, regulators, or
+military operations as fully decomposed systems was rejected because their internal
+decision mechanisms are not the focus of the selected scenarios. Treating all
+information services and decision support as external was rejected because their
+information and recommendations still affect modeled decisions; they are therefore
+abstracted rather than ignored.
+
+**Evidence / source:** `knowledge/models/system_of_interest_definition.md`, the
+2026-09-21 SOI-boundary review conversation, `knowledge/models/stakeholder-register.md`,
+and D-002's authority/responsibility/information-ownership framing.
+
+**Consequences:** The SOI definition and project index become the scope baseline for
+architecture work. Future changes to the modeled population require a new decision or
+an explicit scenario-level justification. The baseline holds regulation and external
+constraints fixed; sensitivity analysis may vary them later.
+
+---
+
 ## D-006 — SysML v2 text (authored in Syside Modeler / VS Code) is the source of truth; Cameo is optional and downstream
 
 **Date:** 2026-09-19

@@ -5,20 +5,6 @@ resolved, move the resolution into the relevant file (usually
 `../../projects/nas-sos-capstone/index.md` or `../../decisions/decisions-log.md`) and
 delete it from here — don't let answered questions linger.
 
-## System boundary (to-do-list.md §1 "Define initial System of Interest")
-
-- [x] Included/excluded scope has a working draft: `index.md` names 9 candidate domains;
-  general aviation, military airspace (beyond its PESTLE/objective stakeholder role), and
-  international airspace are provisionally excluded. Not yet ratified as a formal
-  boundary.
-- [ ] What level(s) of abstraction will the model operate at? (Enterprise policy down to
-  control-surface deflection is an enormous range — the trajectory-intent chain in
-  `index.md` spans it conceptually, but the model can't render every level in equal
-  detail.)
-- [ ] What criteria decide where a *system* boundary is drawn (vs. just listing
-  components)?
-- [ ] What criteria decide where a *stakeholder/actor* boundary is drawn?
-
 ## SysML draft reconciliation (§10)
 
 - [ ] Several candidate-systems-inventory.md items were left out of that draft pending
@@ -47,6 +33,27 @@ delete it from here — don't let answered questions linger.
   have a worked example. `workflows/sysml-instance-modeling.md` uses plain usages with
   bound values instead; revisit `individual` if a real need for identity/lifetime
   semantics (vs. just concrete values) comes up.
+
+## Course minimum requirements fit (from `prework/course-info-canvas.md`, 2026-09-21)
+
+The course sets minimum requirements for academic credit. Each needs an explicit answer
+in the report; none is answered anywhere in the repo yet.
+
+- [ ] **Current-state metric.** The course requires "a metric (or set of quantifiable
+  measurables) to summarize current state conditions" that can also show improvement or
+  potential for improvement. What is the metric for an architecture project? Candidates
+  live in the §11 optimization study (e.g. airline fuel cost vs. ATC/ANSP sector
+  workload), but the study scenario is still undecided.
+- [ ] **Improvement claim.** The course accepts actual improvement or "evidence and/or
+  effective logic-based arguments" of potential improvement, including via simulation.
+  Which of those will this project rely on? This is the adviser's call to confirm.
+- [ ] **Value to the sponsor.** Who is the sponsor for this project (faculty adviser only?),
+  and what does "value-added" mean to them? Dollar benefits are preferred but the report's
+  Impact section already flags that a literal dollar figure may not be meaningful (see
+  `report/sections/06_impact_financial_benefits.tex`). Ask the adviser whether an
+  operational-terms headline with a caveated dollar estimate is acceptable.
+- [ ] **Course page says "Winter 2026"** but the dates (Sep 20-Dec 13) are Fall 2026.
+  Probably stale template text; the dates are what matter, but worth a glance.
 
 ## Decomposition choice (§6)
 

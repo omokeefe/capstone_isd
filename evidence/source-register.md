@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-09-20
-**Files in `evidence/sources/` at last sweep:** 60 of 60 processed
+**Last full sweep:** 2026-09-21
+**Files in `evidence/sources/` at last sweep:** 61 of 61 processed
 
 **PDF highlight extraction (2026-09-14):** ran `tools/extract_pdf_annotations.py` (skill
 `extract-pdf-annotations`) against all 51 PDFs in `evidence/sources/`. **15 of 51 PDFs had
@@ -31,6 +31,16 @@ for how to opt in later). Sources with highlights merged: `liu2025mbseAtmSmt`,
 `kontodimou2026turnaroundBuffer`, `hu2024disruptionOptReview`, `bartolomei2012esmdm`,
 `castro2013aoccMasThesis`, `santana2023arpReview`, `sadik2025holonicUAM`,
 `dispatcherWorkload2025`, `delaurentis2005sosTransportation`.
+
+**PDF highlight extraction, follow-up (2026-09-21):** re-ran the extractor over all 60 PDFs in
+`evidence/sources/`. 19 PDFs now carry digital markup; the 15 above were already merged, and the
+other **3 — all added after the 2026-09-14 run — were merged into their summaries' `## Highlighted
+passages` section**: `berry2011aocActors` (30 highlights), `munro2018managingVariability` (20),
+`seamster2011collabSystems` (29; mostly table captions/whole tables — the table content itself is
+in its `annotations/` extraction). The new file `faa2025servicesHierarchy` has no markup. The
+15 previously merged sources were checked passage by passage against the fresh extraction (first
+40 normalized characters of each highlight/comment): nothing is missing, so no highlights have
+been added to them since 2026-09-14.
 
 Rating scale (be honest — a register where everything is a 4 or 5 is not useful):
 
@@ -105,8 +115,9 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | Airport surface operations - A holistic framework for operations modeling and risk management.pdf | `wilke2014airportSurface` | 4 | [4 - wilke2014airportSurface.md](literature-notes/summaries/4%20-%20wilke2014airportSurface.md) | 2026-09-20 |
 | Collaborative Systems Assessment - Flightdeck, Air Traffic Control, Flight Operations Center and Automation.pdf | `seamster2011collabSystems` (draft report — see 2026-09-20 flags) | 5 | [5 - seamster2011collabSystems.md](literature-notes/summaries/5%20-%20seamster2011collabSystems.md) | 2026-09-20 |
 | 7110.65BB_Basic_dtd_2-20-25.pdf | `faa2025jo711065bb` | 5 | [5 - faa2025jo711065bb.md](literature-notes/summaries/5%20-%20faa2025jo711065bb.md) | 2026-09-20 |
+| faa-services-hierarchy.pdf | `faa2025servicesHierarchy` (year from PDF creation date; version/date not on the slide — see 2026-09-21 flags) | 4 | [4 - faa2025servicesHierarchy.md](literature-notes/summaries/4%20-%20faa2025servicesHierarchy.md) | 2026-09-21 |
 
-**Distribution as of 2026-09-20 (computed from the ledger rows above):** 14 x 5, 18 x 4, 12 x 3, 12 x 2, 3 x 1, 1 x 0 — 60 rows. The paragraph that follows is the 2026-09-13 text and predates the 2026-09-19 re-rating of `delaurentis2005sosTransportation` (5 → 0) and the seven 2026-09-20 additions.
+**Distribution as of 2026-09-21 (computed from the ledger rows above):** 14 x 5, 19 x 4, 12 x 3, 12 x 2, 3 x 1, 1 x 0 — 61 rows. The paragraph that follows is the 2026-09-13 text and predates the 2026-09-19 re-rating of `delaurentis2005sosTransportation` (5 → 0) and the eight 2026-09-20/21 additions.
 
 **Distribution (2026-09-13 text):** thirteen 5s, sixteen 4s, eleven 3s, eleven 2s, three 1s, zero 0s — 52 files, 50
 distinct works (one remaining draft/published pair, see Flags below, plus the `jain2011pkm`
@@ -115,6 +126,17 @@ was resolved during the 2026-09-05 PKM reorg — one copy removed). No exact dup
 among the 18 files added 2026-09-13, though several overlap topically with existing sources —
 see the Flags entry below. Two more files (a PhD thesis and its companion journal paper) were
 added and processed later the same day — see the follow-up flags note below.
+
+### Flags raised by the 2026-09-21 sweep (1 new file)
+
+- **`faa2025servicesHierarchy` (`faa-services-hierarchy.pdf`, rated 4)** — a one-page FAA slide of nine
+  service groups with numbered component services (ATM 101-109, ..., ATM Infrastructure Management
+  901-908). It was already committed in `d99fee5` but never registered. It is the service-oriented
+  counterpart to `faaNasInfrastructureRoadmaps2025` (domain-oriented) — complementary, not a duplicate.
+  Year is the PDF creation date (2025-02-24), not a stated issue date; the "ANG-B2" author field and whether
+  this is the current issue on the FAA site were not verified (recorded in the bib `note`). It has no
+  definitions or rationale, so it supports decomposition cross-checks but not claims about what a service does.
+- No exact duplicates; nothing rated 0-1.
 
 ### Flags raised by the 2026-09-20 sweep (7 new files)
 
@@ -390,6 +412,7 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | Towards a Comparative Analysis of Meta-Metamodels (Kern, Hummel, Kuhne).pdf | `kern2011metametamodels` | workshop paper (DSM'11/SPLASH) | not started |
 | Understanding the Implications for Airports of Distributed Air Transportation Using a System-of-Systems Approach.pdf | `delaurentis2008airportsSos` | journal article | not started — likely relevant to §6 (decomposition), extends delaurentis2005sosTransportation |
 | icao-doc-9854-global-atm-ops-concept.pdf | `icao2005doc9854` | ICAO operational concept document | not started — priority candidate for §5 ConOps / §6 decomposition and the trajectory-intent chain |
+| faa-services-hierarchy.pdf | `faa2025servicesHierarchy` | FAA service taxonomy (one slide) | not started — cross-check for §6/§10 decomposition against the domain list and `faaNasInfrastructureRoadmaps2025`; too short to need deep annotation beyond transcribing the tree (done in its summary) |
 
 ### Off-topic / process background (not tied to any to-do §; flagged for a keep-or-remove decision)
 

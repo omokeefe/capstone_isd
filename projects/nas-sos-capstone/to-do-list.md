@@ -15,21 +15,21 @@ front-loaded.
 
 ## 1. Establish Research Framework
 
-- [ ] Finalize project research questions *(ECD 2026-09-07 — "PESTLE Analysis & System Definition")*
-  - [ ] How should the NAS be decomposed into constituent systems and Systems-of-Systems?
-  - [ ] Where do authority, responsibility, ownership, and lifecycle boundaries occur?
-  - [ ] How does operational intent propagate from enterprise objectives to physical aircraft behavior?
-  - [ ] How do stakeholder definitions of "optimal" differ?
-  - [ ] When does subsystem optimization produce undesirable System-of-Systems outcomes?
-  - [ ] How can an MBSE architecture support analysis of those tradeoffs?
+- [x] Finalize project research questions *(ECD 2026-09-07 — "PESTLE Analysis & System Definition"; scope baseline ratified 2026-09-21)*
+  - [x] How should the NAS be decomposed into constituent systems and Systems-of-Systems?
+  - [x] Where do authority, responsibility, ownership, and lifecycle boundaries occur?
+  - [x] How does operational intent propagate from enterprise objectives to physical aircraft behavior?
+  - [x] How do stakeholder definitions of "optimal" differ?
+  - [x] When does subsystem optimization produce undesirable System-of-Systems outcomes?
+  - [x] How can an MBSE architecture support analysis of those tradeoffs?
 
-- [ ] Define initial System of Interest (SOI)*
-  - [ ] Define what is explicitly included.
-  - [ ] Define what is explicitly excluded.
-  - [ ] Define level(s) of abstraction.
-  - [ ] Establish criteria for creating a system boundary.
-  - [ ] Establish criteria for creating a stakeholder/actor boundary.
-  - [ ] Document assumptions and unresolved boundary questions.
+- [x] Define initial System of Interest (SOI)* *(ratified 2026-09-21; see D-007 and `knowledge/models/system_of_interest_definition.md`)*
+  - [x] Define what is explicitly included.
+  - [x] Define what is explicitly excluded.
+  - [x] Define level(s) of abstraction.
+  - [x] Establish criteria for creating a system boundary.
+  - [x] Establish criteria for creating a stakeholder/actor boundary.
+  - [x] Document assumptions and unresolved boundary questions.
 
 - [x] Create research evidence/source register *(feeds ECD 2026-11-17 "Literature Review" milestone — see §2 note)*
   - [x] Source
@@ -45,7 +45,25 @@ front-loaded.
 - [ ] Establish project milestone timeline *(done 2026-08-29 — dates below sourced from `prework/ISD 503 Submittal.pdf`)*
   - [x] Revisit the timeline from the 503 Proposal submittal (`prework/ISD 503 Submittal.pdf`).
   - [x] Map major sections (§1-§16 of this list) to target completion dates.
-  - [ ] Identify milestone checkpoints for interim review(s).
+  - [x] Identify milestone checkpoints for interim review(s). *(2026-09-21, from the
+    Canvas course page, saved verbatim at `prework/course-info-canvas.md`. All due
+    11:59 pm ET; these graded dates supersede the proposal's self-set ECDs where they
+    conflict, e.g. Final Paper 12-18 / Submittal 12-20 fall after the real Dec 13 due date.)*
+    - [x] Interim Report #1 + Progress Update #1 — Sep 20 (submitted Sep 17).
+    - [ ] Interim Report #2 + Progress Update #2 — **Oct 25**. Adds Introduction,
+      Assumptions and Methodology, Results and Discussion (preliminary), References to
+      Report #1. Schedule the adviser review meeting; submit to adviser, then confirm in
+      Canvas. Word format.
+    - [ ] Peer Project Presentation — upload by **Nov 20**; ~10 min, by-program slot
+      (Nov 17-19), sign up on the Canvas calendar; use
+      `prework/503 Project Presentation Template-v26.pptx`.
+    - [ ] Project Review #3 + Progress Update #3 — **Nov 22**. Option 1: short progress
+      update (adviser may ask for email/report/presentation). Option 2: final-report draft
+      with Results and Discussion, adviser only. Ask the adviser which one they want.
+    - [ ] Final Report #4 — **Dec 13**; adviser gets it first, upload to Canvas (PDF or
+      Word) only after adviser approval. Optional draft to adviser about Dec 6.
+    - [ ] Report Synopsis (1-2 paragraph short summary, Word, Canvas naming format) — Dec 13
+      or on adviser approval; no confidential content.
 
 - [x] Submit Interim Report #1 (Introduction and Current State + References) *(ECD
   2026-09-20 — course syllabus deliverable, not in the 503 Submittal ECD table;
@@ -56,15 +74,13 @@ front-loaded.
   this deliverable). The syllabus requirement is satisfied; the sub-items below are *not*
   all closed by that — several are ongoing capstone-quality work, not submission
   blockers, and stay open on their own merits:
-  - [ ] Ratify the SOI boundary for real (resolves the "Define initial System of
-    Interest" bullet above and `knowledge/questions/open-questions.md` §1) — **still
-    provisional as of 2026-09-17**; the submitted report's Scope subsection reflects the
-    user's rewrite but the boundary itself has not been ratified as a decision. In
-    particular, resolve the self-contradiction on cargo carriers (Part 121 covers
-    scheduled cargo too — decide affirmatively whether cargo ops are in scope and why)
-    before ratifying.
-  - [ ] Once the SOI is ratified, close "Finalize project research questions" above and
-    log the boundary decision in `decisions/decisions-log.md`.
+  - [x] Ratify the SOI boundary for real (resolves the "Define initial System of
+    Interest" bullet above and `knowledge/questions/open-questions.md` §1) — ratified
+    2026-09-21 as D-007; Part 121 scheduled passenger operations are the modeled
+    operator population, with other traffic represented only as background when KPI-
+    relevant.
+  - [x] Once the SOI is ratified, close "Finalize project research questions" above and
+    log the boundary decision in `decisions/decisions-log.md` — completed through D-007.
   - [x] Rewrite all six subsections (Overview, Current State/Literature Review,
     Stakeholders, Scope, Project Deliverables, Project Timing) in own judgment/words —
     done as part of the 2026-09-17 submission.
@@ -605,7 +621,7 @@ window if a firmer date is needed.)*
 - [ ] Create NAS context diagram. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition," deliverable "Context diagram")*
 - [x] Create package/model organization. *(ECD 2026-11-03 — "Draft Architecture," deliverable "BDDs & package structure". First pass 2026-09-19: the model (file map: `cameo_models/sysmlv2_exploration.md`) now has a package per D-002 domain, plus a `Common` package for shared value types. SysML v2 text is the source of truth (D-006); not in Cameo.)*
 - [ ] Create stakeholder model. *(ECD 2026-09-07, deliverable "stakeholder map")*
-- [x] Create system BDDs. *(ECD 2026-11-03. First pass 2026-09-19: NAS + 9 domains + constituent systems populated in the model (file map: `cameo_models/sysmlv2_exploration.md`), filtered to the provisional SOI boundary — see the definitions file's header comment and `open-questions.md`. Source of truth is the SysML v2 text (D-006), not Cameo; no IBDs/interfaces/requirements traced yet.)*
+- [x] Create system BDDs. *(ECD 2026-11-03. First pass 2026-09-19: NAS + 9 domains + constituent systems populated in the model (file map: `cameo_models/sysmlv2_exploration.md`), filtered to the pre-ratification SOI boundary — reconcile this first pass to D-007 before treating it as the current scope baseline. Source of truth is the SysML v2 text (D-006), not Cameo; no IBDs/interfaces/requirements traced yet.)*
 - [ ] Create operational IBDs. *(ECD 2026-10-25 — "Internal Block Diagrams," metric "Critical interfaces connected")*
 - [ ] Create information-object model. *(ECD 2026-10-29 — "Interface Definition," deliverable "ICD")*
 - [ ] Create interface/item-flow model. *(ECD 2026-10-29)*
@@ -775,3 +791,13 @@ for — see `report/README.md` for the full section-to-plan mapping.
 - [ ] Limitations.
 - [ ] Conclusions and future work.
 - [ ] Appendices (detailed stakeholder register, RACCI matrix, source register, full diagram set). (new)
+- [ ] GenAI-use citation. (new, 2026-09-21) The course GenAI policy
+  (`prework/course-info-canvas.md`) says GenAI tools must be cited when used, and points to
+  the UM Library GenAI citation guide. Nothing in the report or `references.bib` does this
+  yet, and Claude Code has been used throughout. Decide the citation style (APA/IEEE
+  examples are in the course page), what to cite (tool + version + date, prompts?), and
+  where it appears (References and/or a short disclosure), and check it with the adviser.
+- [ ] Course minimum requirements check. (new, 2026-09-21) Before Interim #2, confirm the
+  report shows a current-state metric plus demonstrated or argued potential improvement
+  (simulation counts), and value to the sponsor. See the open question in
+  `knowledge/questions/open-questions.md` ("Course minimum requirements fit").

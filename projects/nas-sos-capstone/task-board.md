@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-09-20 (see `journal/2026-09-20.md`, Reference sweep and Seamster extraction entries)
+**Last updated:** 2026-09-21 (see `journal/2026-09-21.md`, SOI ratification entry)
 
 ## Current phase
 
@@ -16,10 +16,10 @@ submitting, emailed the Word copy to faculty adviser Mark Petrotta, and complete
 Progress Status Update #1 on Canvas. See `to-do-list.md` §1 for the full checkbox
 state.
 
-`to-do-list.md` §1 ("Establish Research Framework") is still the primary active
-section — the SOI boundary is genuinely still open (provisional, not ratified — see
-flag below), independent of the report submission. §8 (Objective / Cost / Value
-Ontology) is fully drafted out of sequence; §2-§7, §9-§16 otherwise not yet started.
+`to-do-list.md` §1 ("Establish Research Framework") remains the current phase, but its
+SOI boundary and research-question work were ratified and closed on 2026-09-21 through
+D-007. §8 (Objective / Cost / Value Ontology) is fully drafted out of sequence;
+§2-§7, §9-§16 otherwise remain in progress or not yet started.
 
 **Resolved (2026-09-17) — AI-drafted content in the report (flagged 2026-09-14):**
 the ghostwriting concern from 2026-09-14 (Claude drafted full prose for all six
@@ -28,13 +28,10 @@ now resolved — the user rewrote that content into their own judgment/words bef
 submitting. See memory `feedback_coach-not-ghostwrite-coursework` and
 `project_interim-report-1-2026-09-20` (now marked closed).
 
-**Still open — SOI boundary:** the submitted report's Scope subsection reflects the
-user's own rewrite, but the System of Interest boundary itself is **not** a ratified
-decision — still provisional as of 2026-09-17. Also still open, as independent
-capstone-quality work rather than submission blockers: the literature-review
+**Still open — independent capstone work:** the literature-review
 annotation-coverage claim, citation spot-checks against skimmed-only sources, the
 1998-dollar disruption-cost figure, and the §11 optimization-study scenario choice.
-See `to-do-list.md` §1 for the itemized list.
+The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Active
 
@@ -42,8 +39,8 @@ See `to-do-list.md` §1 for the itemized list.
 
 - First-pass SysML v2 BDD in the model (file map: `cameo_models/sysmlv2_exploration.md`;
   2026-09-19): NAS + 9 D-002 domains as packages, constituent systems populated from
-  `../../knowledge/models/candidate-systems-inventory.md`, filtered to the provisional SOI
-  boundary. This text is the source of truth (D-006); it is not in Cameo, and Cameo
+  `../../knowledge/models/candidate-systems-inventory.md`, filtered to the pre-ratification
+  SOI boundary. This text is the source of truth (D-006); it is not in Cameo, and Cameo
   hand-off is optional and deferred. Gaps logged in
   `../../knowledge/questions/open-questions.md` ("SysML draft reconciliation").
 
@@ -70,8 +67,8 @@ See `to-do-list.md` §1 for the itemized list.
   intra-stakeholder conflict).
 
 
-- Resolve the System of Interest boundary questions in
-  `../../knowledge/questions/open-questions.md` (§1) — not yet started.
+- Reconcile the SysML BDD and context/stakeholder views with the ratified SOI in D-007 —
+  see `journal/2026-09-21.md`.
 
 - Drafted a candidate §5 ConOps scenario ("Hub-to-Hub Trajectory Cost vs. Sector
   Workload Tradeoff") in `../../knowledge/models/conops-scenarios.md` and a full
@@ -98,7 +95,7 @@ See `to-do-list.md` §1 for the itemized list.
 
 ## Next session priority
 
-See `journal/2026-09-19.md` (11:52 Sign-Off) for full reasoning. Terse version:
+See `journal/2026-09-21.md` (21:17 Sign-Off) for full reasoning. Terse version:
 
 1. Verify or replace the demo scenario's placeholder procedure names (BENKY4, ILS RWY
    22L), or replace `cameo_models/scenarios/hub-to-hub-example.sysml` entirely once a
@@ -110,8 +107,7 @@ See `journal/2026-09-19.md` (11:52 Sign-Off) for full reasoning. Terse version:
    `cameo_models/nas_sysml_package_definitions.sysml`'s Airspace Management package.
 5. Fix the missing D-003/D-004 entries in `decisions/decisions-log.md` (index.md
    references them; the log itself skips from D-002 to today's new D-005).
-6. Still open from before: work `to-do-list.md` §1 to closure (ratify the SOI boundary,
-   log it in `decisions/decisions-log.md`); start §2-§4 literature-review sessions
+6. Still open from before: work `to-do-list.md` start §2-§4 literature-review sessions
    (5-rated sources first: `eltoukhy2017airline`, `hassanDisruptionReview`,
    `schultz2017turnaround`, `clarke1998irregular`, `dispatcherWorkload2025`,
    `eurocontrolACDMSpec`).
