@@ -5,6 +5,32 @@ resolved, move the resolution into the relevant file (usually
 `../../projects/nas-sos-capstone/index.md` or `../../decisions/decisions-log.md`) and
 delete it from here — don't let answered questions linger.
 
+## SOI-to-BDD reconciliation (D-008, 2026-09-22)
+
+The BDD (`cameo_models/nas_sysml_package_definitions.sysml`) was restructured to split
+D-007's disposition tiers into `NationalAirspaceSystem` (Modeled Systems) vs. a new
+`Environment` part def (everything else) — see decisions-log.md D-008. That pass raised
+questions it didn't resolve:
+
+- [ ] **Information Services and Decision Support placement.** D-007 rates both
+  "Absorbed / Abstracted," not "Boundary Actor" or "Context Constraint" — the SOI
+  definition's method section describes absorbed capabilities as staying attached to the
+  modeled systems they inform (effects preserved as information/cost/performance
+  attributes), not living as external actors. They were placed in `Environment` anyway as
+  a structural simplification. `DecisionSupport::VehicleDynamicsModel` in particular feeds
+  §12-§13 simulation traceability — confirm whether it (and `InformationServices`) should
+  move back to being a capability allocated onto `AircraftSystems`/`FlightOperations`
+  rather than a peer of Governance/Passengers/Military in `Environment`.
+- [ ] **Flight Crew role split.** The new `FlightCrew` package (added because D-007 rates
+  Flight Crew a Modeled System and the pre-ratification BDD had no representation for it
+  at all) currently models only `PilotInCommand`/`FirstOfficer`. Remote Pilot and Cabin
+  Crew (both named in the historical SOI draft's "Flight Crews" section) aren't placed yet
+  — this overlaps the Seamster-crosswalk actor-abstraction questions below and should be
+  resolved together.
+- [ ] **Maintenance Suppliers** (a Context Constraint row in D-007) still has no
+  representation in `Environment::Infrastructure` — no candidate-systems-inventory entry
+  was found to anchor it to.
+
 ## SysML draft reconciliation (§10)
 
 - [ ] Several candidate-systems-inventory.md items were left out of that draft pending

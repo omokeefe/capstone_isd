@@ -60,6 +60,15 @@ Governance · Airspace Management · Airspace Resources · Flight Operations ·
 Airport Operations · Aircraft Systems · Information Services · Infrastructure ·
 Decision Support
 
+The BDD ([[decisions-log]] D-008, 2026-09-22) now splits these by D-007 disposition rather
+than nesting all nine uniformly: **Modeled Systems** (Airspace Management, Flight
+Operations, Airport Operations, Aircraft Systems, and a new Flight Crew domain) compose
+`NationalAirspaceSystem`; **Boundary Actors / Context Constraints / Absorbed capabilities**
+(Governance, Passengers, Military, Infrastructure, Information Services, Decision Support)
+compose a separate `Environment` part def for the context diagram to reference. D-002's
+question of whether this nine-domain decomposition is itself final is unaffected and still
+open — see below.
+
 See [[open-questions]] (`../../knowledge/questions/open-questions.md`) for unresolved
 architecture calls, and `to-do-list.md` §6 ("Explore Alternative System Decompositions")
 for the plan to compare this against organization-based, lifecycle-based, physical,
@@ -70,6 +79,11 @@ information-flow, and decision-authority decompositions before committing.
 Latest first — full rationale and history in
 [[decisions-log]] (`../../decisions/decisions-log.md`):
 
+- **D-008** — Reconciled the SysML BDD to D-007: `NationalAirspaceSystem` now composes only
+  the five ratified Modeled System domains (adding a new Flight Crew domain that was
+  missing entirely); a new `Environment` part def holds Governance, Passengers, Military,
+  Infrastructure, Information Services, and Decision Support, undecomposed, for the context
+  diagram to reference.
 - **D-006** — The SysML v2 text (authored in Syside Modeler / VS Code) is the source of
   truth for the model; Cameo is optional and downstream. Amends the tool half of D-003.
 - **D-007** — Ratified the SOI around trajectory-intent propagation: ATC, airport

@@ -1,28 +1,31 @@
 package NationalAirspaceSystem {
     doc /*
      * System of Interest: the National Airspace System (NAS), modeled as a System
-     * of Systems. Domain decomposition follows decisions/decisions-log.md D-002
-     * (Governance, Airspace Management, Airspace Resources, Flight Operations,
-     * Airport Operations, Aircraft Systems, Information Services, Infrastructure,
-     * Decision Support) — provisional, revisit at to-do-list.md §6.
+     * of Systems. Boundary ratified 2026-09-21 per decisions/decisions-log.md D-007
+     * (rationale: knowledge/models/system_of_interest_definition.md). Reconciled
+     * 2026-09-22 from the pre-ratification first pass: only the five ratified
+     * Modeled System domains (Airspace Management, Flight Operations, Airport
+     * Operations, Aircraft Systems, Flight Crew) are decomposed inside the
+     * `NationalAirspaceSystem` part def below. Governance, Passengers, Military,
+     * Infrastructure, Information Services, and Decision Support are D-007
+     * boundary actors / context constraints / absorbed capabilities — present in
+     * the `Environment` part def for context-diagram authoring (ports, item flows
+     * crossing the SOI boundary — see nas_context_diagram.sysml), but deliberately
+     * NOT decomposed into constituent systems, per system_of_interest_definition.md's
+     * "Included and excluded scope."
+     *
+     * D-002's domain-decomposition question (how the *modeled* systems themselves
+     * are organized) is separate from D-007's boundary question and remains
+     * provisional pending to-do-list.md §6 — this reconciliation does not resolve
+     * it, only re-sorts the pre-ratification package list by D-007 disposition.
      *
      * Constituent systems below are drawn from
-     * knowledge/models/candidate-systems-inventory.md and filtered to the
-     * provisional SOI boundary in knowledge/questions/open-questions.md: general
-     * aviation, military airspace (beyond its PESTLE/objective role), and
-     * international/foreign-authority systems are intentionally NOT populated yet.
-     * Specifically excluded here pending a boundary decision: ICAO, EASA, CAAC
-     * (non-US regulators), Ground/Maritime Transport System (sibling systems, not
-     * NAS constituents), the generic military "Weapons/Mission System" decomposition
-     * example, and inventory items the source itself couldn't confirm (ETFMS reads
-     * as EUROCONTROL-specific rather than NAS; GMTOs/ANSPs as named are generic
-     * international terms rather than confirmed NAS entities) — see
-     * knowledge/models/candidate-systems-inventory.md for the caveats.
+     * knowledge/models/candidate-systems-inventory.md. General aviation and
+     * international/foreign-authority systems remain out of scope per D-007.
      *
-     * DRAFT: authored directly in SysML v2 textual notation, not yet reconciled
-     * into a Cameo model. Cameo remains the source of truth per
-     * workflows/update-architecture.md; this file is the input to bring in once
-     * Cameo modeling starts on this project.
+     * DRAFT: authored directly in SysML v2 textual notation (Syside Modeler), the
+     * source of truth per D-006 — not reconciled into Cameo, which is optional and
+     * downstream.
      */
 
     package Common {
@@ -64,35 +67,43 @@ package NationalAirspaceSystem {
         }
     }
 
-    // The System of Interest itself: the NAS as a composition of its constituent domains.
+    // The System of Interest itself: the five ratified Modeled System domains
+    // (D-007). Boundary actors, context constraints, and absorbed capabilities
+    // live in Environment below, not here.
     part def NationalAirspaceSystem {
-        part governance: Governance::GovernanceDomain;
         part airspaceManagement: AirspaceManagement::AirspaceManagementDomain;
-        part airspaceResources: AirspaceResources::AirspaceResourcesDomain;
         part flightOperations: FlightOperations::FlightOperationsDomain;
         part airportOperations: AirportOperations::AirportOperationsDomain;
         part aircraftSystems: AircraftSystems::AircraftSystemsDomain;
-        part informationServices: InformationServices::InformationServicesDomain;
-        part infrastructure: Infrastructure::InfrastructureDomain;
-        part decisionSupport: DecisionSupport::DecisionSupportDomain;
+        part flightCrew: FlightCrew::FlightCrewDomain;
     }
 
-    package Governance {
-        doc /* Rule-making and regulatory authority over the NAS. */
-
-        public import ScalarValues::*;
-
-        part def GovernanceDomain {
-            part faa: FederalAviationAdministration;
+    // Everything outside the ratified SOI boundary (D-007): boundary actors,
+    // context constraints, and absorbed/abstracted capabilities. Exists so the
+    // context diagram can show actors and item flows crossing the SOI boundary,
+    // without decomposing any of them into constituent systems.
+    part def Environment {
+        doc /* Everything outside the ratified SOI boundary (D-007): boundary actors,
+        * context constraints, and absorbed/abstracted capabilities. Exists so the
+        * context diagram can show actors and item flows crossing the SOI boundary,
+        * without decomposing any of them into constituent systems.
+         */
+        
+        part def EnvironmentDomain {
+            part governance: Governance::GovernanceDomain;
+            part passengers: Passengers::PassengersDomain;
+            part military: Military::MilitaryDomain;
+            part infrastructure: Infrastructure::InfrastructureDomain;
+            part informationServices: InformationServices::InformationServicesDomain;
+            part decisionSupport: DecisionSupport::DecisionSupportDomain;
         }
 
-        part def FederalAviationAdministration {
-            doc /* The US regulatory authority for the NAS. Candidate-systems-inventory's
-             * generic "Regulatory System" node, instantiated to the FAA since the SOI is
-             * the US NAS; EASA/CAAC (other instances of the same generic pattern) are
-             * out of scope. */
-            attribute name: String;
-        }
+        part governance: Governance::GovernanceDomain;
+        part passengers: Passengers::PassengersDomain;
+        part military: Military::MilitaryDomain;
+        part infrastructure: Infrastructure::InfrastructureDomain;
+        part informationServices: InformationServices::InformationServicesDomain;
+        part decisionSupport: DecisionSupport::DecisionSupportDomain;
     }
 
     package AirspaceManagement {
@@ -163,16 +174,6 @@ package NationalAirspaceSystem {
              * distinct from the published SID/STAR/approach procedures at either end. */
             attribute waypoints: Common::Position[*];
         }
-    }
-
-    package AirspaceResources {
-        doc /* No constituent systems identified yet. Candidate-systems-inventory.md's
-         * "Satellite System" (comm/nav/wx) is infrastructure shared across domains and is
-         * modeled under Infrastructure instead; nothing else in the source maps cleanly
-         * to airspace-sector/route/altitude resources as a *system*. Flagged, not
-         * silently populated — see knowledge/questions/open-questions.md. */
-
-        part def AirspaceResourcesDomain;
     }
 
     package FlightOperations {
@@ -428,12 +429,108 @@ package NationalAirspaceSystem {
         // Vehicle Network, Entertainment System) is intentionally NOT modeled here —
         // the source itself frames it as a generic vehicle-decomposition teaching
         // example, not NAS-specific content, and Weapons/Mission System are
-        // military-aircraft-specific and outside the provisional SOI boundary. See
-        // knowledge/questions/open-questions.md.
+        // military-aircraft-specific and outside the ratified SOI boundary (D-007
+        // treats Military as a boundary actor). See knowledge/questions/open-questions.md.
+    }
+
+    package FlightCrew {
+        doc /* Modeled System per D-007: "Crew have independent execution authority
+         * and handle information between operational intent, clearances, guidance,
+         * and aircraft behavior." Absent from the pre-ratification first pass;
+         * added here 2026-09-22 to close that gap. Role split (Captain/First
+         * Officer authority, Remote Pilot, whether Cabin Crew belongs here as the
+         * flight-crew/passenger interface) is not yet resolved against the
+         * Seamster crosswalk open question — modeled minimally (pilot roles only)
+         * pending that decision; see knowledge/questions/open-questions.md.
+         */
+
+        public import ScalarValues::*;
+
+        part def FlightCrewDomain {
+            part pilotInCommand: PilotInCommand;
+            part firstOfficer: FirstOfficer;
+        }
+
+        part def PilotInCommand {
+            doc /* Final execution authority over the aircraft (14 CFR 91.3). */
+            attribute name: String;
+        }
+
+        part def FirstOfficer {
+            attribute name: String;
+        }
+    }
+
+    package Governance {
+        doc /* Boundary Actor per D-007: "Sets the rules and societal/environmental
+         * policy context. Held fixed in the baseline; regulatory sensitivity
+         * sweeps are optional." The pre-ratification first pass nested a
+         * FederalAviationAdministration constituent system here; removed 2026-09-22
+         * per system_of_interest_definition.md's exclusion of regulators from
+         * internal decomposition — Governance is now a single opaque actor. */
+
+        public import ScalarValues::*;
+
+        part def GovernanceDomain {
+            attribute name: String; // e.g., "FAA" — the SOI's regulatory context
+        }
+    }
+
+    package Passengers {
+        doc /* Boundary Actor per D-007: demand, willingness to pay, passenger mix,
+         * and time sensitivity influence airline decisions about fares, frequency,
+         * aircraft assignment, connections, and delay/rerouting tradeoffs;
+         * passengers do not directly set fares or aircraft speed. Not decomposed
+         * further — distinct from Common::Passenger, which is a per-flight
+         * manifest attribute (a seat assignment on a specific Flight), not this
+         * actor role. New 2026-09-22; absent from the pre-ratification first
+         * pass. */
+
+        part def PassengersDomain;
+    }
+
+    package Military {
+        doc /* Boundary Actor per D-007: outside the modeled operator population;
+         * military traffic and special-use airspace enter as external scenario
+         * conditions only when civil KPIs require them. New 2026-09-22; absent
+         * from the pre-ratification first pass. */
+
+        part def MilitaryDomain;
+    }
+
+    package Infrastructure {
+        doc /* Context Constraint per D-007 ("Infrastructure / Airspace
+         * Resources"): airspace structure, navigation infrastructure, and shared
+         * resources are external baseline constraints, with optional
+         * parameterized sensitivity analysis. Consolidates the pre-ratification
+         * Infrastructure and AirspaceResources packages 2026-09-22 — D-007 treats
+         * them as a single row — and drops the internal decomposition;
+         * SatelliteSystem/WeatherService are kept as named constraints, not
+         * modeled as decision-lever systems. Maintenance Suppliers (also a
+         * Context Constraint row per D-007) is not represented here — no
+         * candidate-systems-inventory entry to anchor it to yet; flagged in
+         * knowledge/questions/open-questions.md. */
+
+        part def InfrastructureDomain {
+            part satelliteSystem: SatelliteSystem;
+            part weatherService: WeatherService;
+        }
+
+        part def SatelliteSystem {
+            doc /* Comm/nav/weather satellite infrastructure — external constraint,
+             * not a decision lever, per D-007. */
+        }
+
+        part def WeatherService;
     }
 
     package InformationServices {
-        doc /* NAS-wide information exchange between domains. */
+        doc /* Absorbed / Abstracted per D-007: "Information is modeled as
+         * exchanges; specific channels are included only when reliability,
+         * latency, or capability changes a decision or KPI." Kept as a single
+         * opaque SWIM placeholder pending that trigger — see the Environment
+         * part def's doc comment for the open question on whether this package
+         * belongs in Environment at all. */
 
         part def InformationServicesDomain {
             part swim: SWIM;
@@ -445,30 +542,19 @@ package NationalAirspaceSystem {
         }
     }
 
-    package Infrastructure {
-        doc /* Physical infrastructure shared across domains (comm, nav, weather). */
-
-        part def InfrastructureDomain {
-            part satelliteSystem: SatelliteSystem;
-            part weatherService: WeatherService;
-        }
-
-        part def SatelliteSystem {
-            doc /* Comm/nav/weather satellite infrastructure, shared across Airspace
-             * Management and Aircraft Systems per candidate-systems-inventory.md. */
-        }
-
-        part def WeatherService;
-    }
-
     package DecisionSupport {
-        doc /* Per this project's own framing (index.md working assumptions) and
-         * candidate-systems-inventory.md's explicit gap note, decision-support/
-         * optimization is a capability layered on top of the architecture, not a
-         * physical NAS system — which is why the vehicle dynamics model below lives
-         * here rather than under AircraftSystems: it's a simulation/analysis
-         * capability that reads and predicts Aircraft state, not a constituent onboard
-         * system. */
+        doc /* Absorbed / Abstracted per D-007: "Decision-support capability is
+         * allocated to operator or ATM contexts; recommendations and information
+         * dependencies remain modelable." Per this project's own framing (index.md
+         * working assumptions) and candidate-systems-inventory.md's explicit gap
+         * note, decision-support/optimization is a capability layered on top of
+         * the architecture, not a physical NAS system — which is why the vehicle
+         * dynamics model below is not under AircraftSystems: it's a simulation/
+         * analysis capability that reads and predicts Aircraft state, not a
+         * constituent onboard system. See the Environment part def's doc comment
+         * for the open question on whether this package belongs in Environment at
+         * all, given it feeds §12-§13 traceability rather than acting as an
+         * external actor. */
 
         public import ScalarValues::*;
 

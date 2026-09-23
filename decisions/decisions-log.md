@@ -6,6 +6,59 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-008 — BDD reconciled to D-007: modeled systems vs. Environment, split by ratified disposition
+
+**Date:** 2026-09-22
+**Status:** active. Applies D-007's ratified boundary to the SysML v2 BDD
+(`cameo_models/nas_sysml_package_definitions.sysml`); does not touch D-002's domain-
+decomposition question, which stays provisional pending §6.
+
+**Decision:** Restructured the BDD's top-level composition to mirror D-007's disposition
+column instead of treating all nine pre-ratification D-002 packages uniformly:
+
+1. `part def NationalAirspaceSystem` now composes only the five ratified Modeled System
+   domains: Airspace Management, Flight Operations, Airport Operations, Aircraft Systems,
+   and a new `FlightCrew` package (Captain/First Officer roles) that was entirely absent
+   from the pre-ratification first pass.
+2. A new `part def Environment` composes everything else — Governance, Passengers,
+   Military, Infrastructure, Information Services, Decision Support — so the still-unbuilt
+   NAS context diagram has boundary-crossing actors/constraints to reference, without
+   decomposing any of them into constituent systems.
+3. Governance's `FederalAviationAdministration` constituent part was removed (Governance
+   is now a single opaque actor); the empty `AirspaceResources` package was merged into
+   `Infrastructure` (D-007 treats "Infrastructure / Airspace Resources" as one row);
+   `Passengers` and `Military` packages were added as opaque boundary actors (previously
+   unmodeled).
+
+**Rationale:** `system_of_interest_definition.md`'s "Included and excluded scope" is
+explicit that the project does not decompose passengers, regulators, military, suppliers,
+information services, infrastructure, or decision support into independent internal
+systems — but the pre-ratification BDD did exactly that (nested FAA under Governance,
+SatelliteSystem/WeatherService under Infrastructure, SWIM under InformationServices) and
+was entirely missing Flight Crew, a ratified Modeled System. Splitting the composition by
+D-007 disposition (modeled vs. environment) makes the model match the ratified boundary
+and gives the context diagram a real SOI-boundary/environment split to draw ports and item
+flows across, per MagicGrid step 0 (`sysmlv2_exploration.md` §3a).
+
+**Alternatives considered:** Keep all nine domains flat inside `NationalAirspaceSystem`
+and just strip internal decomposition from the non-modeled ones in place (rejected by the
+project owner — a separate `Environment` part def was preferred so the context diagram,
+which the project owner is authoring directly rather than delegating, has an explicit
+boundary to draw against).
+
+**Open question carried forward:** Information Services and Decision Support are rated
+"Absorbed / Abstracted" in D-007, not "Boundary Actor" or "Context Constraint" — arguably
+their effects should stay attached to the modeled systems they inform (e.g. Decision
+Support's `VehicleDynamicsModel` feeds §12-§13 traceability) rather than sit in
+`Environment` alongside true external actors. Placed in `Environment` here as a
+simplification; flagged in `knowledge/questions/open-questions.md` for confirmation before
+the context diagram treats them as boundary-crossing actors.
+
+**Evidence / source:** `knowledge/models/system_of_interest_definition.md`,
+`decisions-log.md` D-007, `cameo_models/sysmlv2_exploration.md` §3a (MagicGrid step 0).
+
+---
+
 ## D-007 — Ratified SOI boundary and analytical scope
 
 **Date:** 2026-09-21

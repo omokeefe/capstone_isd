@@ -91,19 +91,12 @@ Task checkboxes live in [to-do-list.md](../../projects/nas-sos-capstone/to-do-li
 point there.
 
 **0. Define the system and its environment.**
-*Lectures:* charter authorizes and bounds the project; draw the boundary; treat the SOI as
-an opaque box first.
-*Actions:* ratify the SOI boundary as a logged decision (§1, still provisional); produce
-the NAS context diagram — actors, environment, item flows across the boundary (§10).
+*Lectures:* charter authorizes and bounds the project; draw the boundary; treat the SOI as an opaque box first.
+*Actions:* ratify the SOI boundary as a logged decision (§1, still provisional); produce the NAS context diagram — actors, environment, item flows across the boundary (§10).
 
 **1. Identify stakeholders and understand context.**
-*Lectures:* stakeholders across the whole lifecycle (develop, produce, use, sustain,
-dispose, regulate); power/interest grid; usage scenarios — normal, alternate, emergency
-(observe under stress); use cases with actors, preconditions, flows, postconditions;
-MOEs ("if you can't define goodness, you don't understand the customer").
-*Actions:* finish the stakeholder register/model (§7, §10); use the ConOps scenarios as the
-use cases, including off-nominal and emergency (§5); keep MOP/MOE per stakeholder (§8);
-read scenarios back to the adviser and let them correct the record.
+*Lectures:* stakeholders across the whole lifecycle (develop, produce, use, sustain, dispose, regulate); power/interest grid; usage scenarios — normal, alternate, emergency (observe under stress); use cases with actors, preconditions, flows, postconditions; MOEs ("if you can't define goodness, you don't understand the customer").
+*Actions:* finish the stakeholder register/model (§7, §10); use the ConOps scenarios as the use cases, including off-nominal and emergency (§5); keep MOP/MOE per stakeholder (§8); read scenarios back to the adviser and let them correct the record.
 
 **2. Stakeholder requirements → translation** *(System Requirements Review: do
 stakeholders understand and agree on the requirements?)*
