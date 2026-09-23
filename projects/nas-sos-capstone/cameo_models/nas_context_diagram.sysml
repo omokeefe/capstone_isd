@@ -45,23 +45,34 @@ package ContextDiagram {
         //     - observed by the airline operations center,
         //     - observed by the airspace management domain
         //     - interacting with the environment domain (weather, terrain, etc.)
-        //     - operated by the Flight Operations domain.
+        //     - operated by the Flight Operations domain,
+        //     - certified according to the rules established by the environment domain.
         //  - The flight crew: 
         //     - supported by the flight operations (e.g. airline operations center), 
         //     - interacting with the aircraft systems domain,
         //     - interacting with the airspace management domain,
         //     - interacting with the airport operations domain,
-        //     - interacting with the environment domain.
-        //  - AOC connected to the airport operations and airspace management 
-        //    domains, which provide information and support for the flight operations. 
-        //  - The flight crew also interface with the airspace management domain, which  
-        //    provides information and clearances for the flight operations, and the 
-        //    aircraft systems domain, which provides information and support for the 
-        //    flight operations. 
-        //  - The environment domain provides information and support for the flight 
-        //    operations, and is connected to the airport operations, airspace management, 
-        //    aircraft systems, and flight operations domains.
-        //  - The 
+        //     - working according to the rules established by the environment domain.
+        //  - The flight operations domain:
+        //     - supporting one to many flight crews,
+        //     - receiving data from the aircraft systems domain,
+        //     - communicating with the airspace management domain,
+        //     - communicating with the airport operations domain.
+        //     - working according to the rules established by the environment domain.
+        //  - The airport operations domain:
+        //     - communicating with the flight operations domain,
+        //     - communicating with the airspace management domain,
+        //     - sending data to the aircraft systems domain,
+        //     - communicating with the flight crew,
+        //     - working according to the rules established by the environment domain.
+        //  - The airspace management domain:
+        //     - communicating with the flight operations domain,
+        //     - communicating with the airport operations domain,
+        //     - sending data to the aircraft systems domain,
+        //     - communicating with the flight crew,
+        //     - 
+        //     - working according to the rules established by the environment domain.
+
 
     }
 }
