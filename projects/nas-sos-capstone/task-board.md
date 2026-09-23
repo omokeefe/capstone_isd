@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-09-21 (see `journal/2026-09-21.md`, SOI ratification entry)
+**Last updated:** 2026-09-22 (see `journal/2026-09-22.md`, context-diagram connection sign-off)
 
 ## Current phase
 
@@ -34,6 +34,8 @@ annotation-coverage claim, citation spot-checks against skimmed-only sources, th
 The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Active
+
+- 2026-09-22: finalize the NAS context-diagram connection set in `cameo_models/nas_context_diagram.sysml`; keep the diagram scoped to the D-007 SOI boundary and omit unnecessary environment links until the stakeholder model is reconciled.
 
 - 2026-09-20: extracted the Seamster et al. (2011) interaction tables (702 rows) and mapped its actors to the personas (`../../knowledge/models/interaction-catalog-flight-execution.md`); JO 7110.65BB added to the register. Waiting on the user: confirm the crosswalk rows marked "owner to confirm" (ATC Coordinator, TMU/Command Center, Radar Associate, load planner) and read BB ¶2-10, 3-7-2, 3-9-10, 4-3-2/-4, 5-4-5..-9 for decision-authority text (§4 boxes intentionally unchecked).
 
