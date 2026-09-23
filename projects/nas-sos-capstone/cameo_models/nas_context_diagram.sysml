@@ -70,8 +70,34 @@ package ContextDiagram {
         //     - communicating with the airport operations domain,
         //     - sending data to the aircraft systems domain,
         //     - communicating with the flight crew,
-        //     - 
         //     - working according to the rules established by the environment domain.
+
+        // I need to connect only the relationships that actually matter operationally, 
+        // not every domain to every other domain.
+
+        // Core operational coordination        
+        connect flightOps.airlineOperationsCenter to flightCrew.pilotInCommand;
+        connect flightOps.airlineOperationsCenter to flightCrew.firstOfficer;
+
+        // Flight Ops to operational environment
+        connect flightOps.airlineOperationsCenter to airspaceMgmt.atc;
+        connect flightOps.airlineOperationsCenter to airportOps.airport;
+
+        // Airspace control / clearance interactions
+        connect airspaceMgmt.atc to flightCrew.pilotInCommand;
+        connect airspaceMgmt.atc to aircraftSys.aircraft;
+
+        // Crew-to-aircraft execution
+        connect flightCrew.pilotInCommand to aircraftSys.aircraft;
+        connect flightCrew.firstOfficer to aircraftSys.aircraft;
+
+        // Airport interactions
+        connect flightCrew.pilotInCommand to airportOps.airport;
+        connect flightCrew.firstOfficer to airportOps.airport;
+        connect aircraftSys.aircraft to airportOps.airport;
+
+        // Mutual airport/airspace coordination
+        connect airportOps.airport to airspaceMgmt.atc;
 
 
     }
