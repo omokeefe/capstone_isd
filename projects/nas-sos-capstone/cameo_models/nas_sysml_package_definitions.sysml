@@ -138,6 +138,7 @@ package NationalAirspaceSystem {
 
         part def AirTrafficFlowManagementSystem {
             part timeBasedFlowManagement: TimeBasedFlowManagement;
+			part trafficManagementUnit: TrafficManagementUnit; 
         }
 
         part def TimeBasedFlowManagement {
@@ -145,6 +146,10 @@ package NationalAirspaceSystem {
              * are left out: AMAN was itself marked uncertain on the source diagram, and
              * ETFMS reads as a EUROCONTROL system rather than a NAS one — both need
              * verification before being added. */
+        }
+
+        part def TrafficManagementUnit {
+            doc /* Traffic Management Unit (TMU). <NEEDS MORE DESCRIPTIVE NOTES>*/
         }
 
         public import ScalarValues::*;
@@ -470,6 +475,7 @@ package NationalAirspaceSystem {
         part def FlightCrewDomain {
             part pilotInCommand: PilotInCommand;
             part firstOfficer: FirstOfficer;
+            part cabinCrew: CabinCrew;
         }
 
         part def PilotInCommand {
@@ -479,6 +485,10 @@ package NationalAirspaceSystem {
 
         part def FirstOfficer {
             attribute name: String;
+        }
+
+        part def CabinCrew {
+            attribute names: String[*]; // List of cabin crew members
         }
     }
 

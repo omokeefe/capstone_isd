@@ -13,7 +13,12 @@ package ContextDiagram {
   
      */
 
-    part def NASContextDiagram {    
+    metadata def ContextVisible {
+        doc /* Tag for elements the context view (MyViews::systemContext) should render.
+         * Apply as a prefix: #ContextVisible part ... / #ContextVisible connect ... */
+    }
+
+    part def NASContextDiagram {
         public import ScalarValues::*;
         public import NationalAirspaceSystem::AirportOperations::*;
         public import NationalAirspaceSystem::AirspaceManagement::*;
@@ -23,12 +28,26 @@ package ContextDiagram {
         public import NationalAirspaceSystem::Common::*;
         public import NationalAirspaceSystem::Environment::*;
 
+        // #ContextVisible marks what the context view renders. Nested parts are
+        // redefined (:>>) only so they can carry the tag; their types are unchanged.
         part environment: EnvironmentDomain;
-        part airportOps: AirportOperationsDomain;
-        part airspaceMgmt: AirspaceManagementDomain;    
-        part aircraftSys: AircraftSystemsDomain;
-        part flightOps: FlightOperationsDomain;
-        part flightCrew: FlightCrewDomain;
+        #ContextVisible part airportOps: AirportOperationsDomain {
+            #ContextVisible part :>> airport;
+        }
+        #ContextVisible part airspaceMgmt: AirspaceManagementDomain {
+            #ContextVisible part :>> atc;
+        }
+        #ContextVisible part aircraftSys: AircraftSystemsDomain {
+            #ContextVisible part :>> aircraft;
+        }
+        #ContextVisible part flightOps: FlightOperationsDomain {
+            #ContextVisible part :>> airlineOperationsCenter;
+        }
+        #ContextVisible part flightCrew: FlightCrewDomain {
+            #ContextVisible part :>> pilotInCommand;
+            #ContextVisible part :>> firstOfficer;
+            #ContextVisible part :>> cabinCrew;
+        }
 
         // Theorize what we want to connect up here.
         // The ATM consists of:
@@ -69,29 +88,91 @@ package ContextDiagram {
         // not every domain to every other domain.
 
         // Core operational coordination        
-        connect flightOps.airlineOperationsCenter to flightCrew.pilotInCommand;
-        connect flightOps.airlineOperationsCenter to flightCrew.firstOfficer;
+        #ContextVisible connect flightOps.airlineOperationsCenter to flightCrew.pilotInCommand;
+        #ContextVisible connect flightOps.airlineOperationsCenter to flightCrew.firstOfficer;
 
         // Flight Ops to operational environment
-        connect flightOps.airlineOperationsCenter to airspaceMgmt.atc;
-        connect flightOps.airlineOperationsCenter to airportOps.airport;
+        #ContextVisible connect flightOps.airlineOperationsCenter to airspaceMgmt.atc;
+        #ContextVisible connect flightOps.airlineOperationsCenter to airportOps.airport;
 
         // Airspace control / clearance interactions
-        connect airspaceMgmt.atc to flightCrew.pilotInCommand;
-        connect airspaceMgmt.atc to aircraftSys.aircraft;
+        #ContextVisible connect airspaceMgmt.atc to flightCrew.pilotInCommand;
+        #ContextVisible connect airspaceMgmt.atc to aircraftSys.aircraft;
 
         // Crew-to-aircraft execution
-        connect flightCrew.pilotInCommand to aircraftSys.aircraft;
-        connect flightCrew.firstOfficer to aircraftSys.aircraft;
+        #ContextVisible connect flightCrew.pilotInCommand to aircraftSys.aircraft;
+        #ContextVisible connect flightCrew.firstOfficer to aircraftSys.aircraft;
 
         // Airport interactions
-        connect flightCrew.pilotInCommand to airportOps.airport;
-        connect flightCrew.firstOfficer to airportOps.airport;
-        connect aircraftSys.aircraft to airportOps.airport;
+        #ContextVisible connect flightCrew.pilotInCommand to airportOps.airport;
+        #ContextVisible connect flightCrew.firstOfficer to airportOps.airport;
+        #ContextVisible connect aircraftSys.aircraft to airportOps.airport;
 
         // Mutual airport/airspace coordination
-        connect airportOps.airport to airspaceMgmt.atc;
+        #ContextVisible connect airportOps.airport to airspaceMgmt.atc;
 
+        
+        // Core operational coordination  - AOC to Crew
+		//   - Recommended fuel loading & anticipated passenger load
+        //   - Flight plan & route info (SID/STAR, altitudes, waypoints, etc.)
+        //   - Weather & NOTAM info
+        //   - 
+        
+        // Core operational coordination  - Crew to AOC 
+        //   - Final Passenger & Fuel Load
+        //   - Aircraft Configuration & Performance Data
+        //   - Aircraft Status & Maintenance Needs
+		//   - Equipment Malfunctions & Emergencies
+		//   - Pilot Reports (PIREPs)
+		//   - Route Modification Needs
+		
+        // Core operational coordination  - ATC to Crew
+		//   - radio comms hand-offs & transfer info
+		//   - traffic advisories
+		//   - request responses/clearances
+		//   - ATIS info
+		//   - Coordinate airport lighting to communicate to pilots statuses & preferrences
+		//   - Estimated Departure Clearance Times (EDCTs)
+		
+        // Core operational coordination  - Crew to ATC
+		//   - Intent & Requests
+		//   - Equipment Malfunctions & Emergencies
+		//   - Pilot Reports (PIREPs)
+		//   - Comms Establishing at departure and in response to transfer
+
+        // Core operational coordination  - ATC to AOC (ATSCC -> Flight Ops)
+        //   - Traffic Advisories
+        //   - Estimated Departure Clearance Times (EDCTs)
+        //   - Adverse Flight Condition Advisories (weather, equipment, etc.)
+
+        // Core operational coordination  - AOC to ATC
+        //   - Flight Plan & Route Info (SID/STAR, altitudes, waypoints, etc.)
+        //   - Proposed route modifications
+        //   - 
+
+        // ATC to Airport Operations
+        //   - Runway & Taxiway Status to drive Lights & Signage
+
+        // Airport Operations to Crew
+        //   - Runway & Taxiway Status via Lights
+
+        // No exchanges between aircraftsys and airportops, assuming its all visual indicators and not data exchanges.
+
+        // Aircraft Systems to Crew
+        //   - Aircraft & Engine Status
+        //   - Fuel Status
+        //   - Navigation & Avionics Status
+        //   - Equipment Malfunctions & Emergencies
+        //   - Position & Trajectory Info (via FMS)
+        //   - Recommended Aircraft Control (via FMS: speed, altitude, heading, etc.)
+
+
+		
+		// Inter-ATC Connections
+		//   - ATSCC to TMU: 
+        //     - Actuals??? NEED TO DETERMINE WHAT IS ACTUALLY EXCHANGED HERE
+		//   - TMU to ATSCC:
+        //      - Time-based flow management info (EDCTs, etc.) 
 
     }
 }
