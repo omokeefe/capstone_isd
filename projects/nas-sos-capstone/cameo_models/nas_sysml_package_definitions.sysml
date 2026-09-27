@@ -463,14 +463,27 @@ package NationalAirspaceSystem {
          * flight-crew/passenger interface) is not yet resolved against the
          * Seamster crosswalk open question — modeled minimally (pilot roles only)
          * pending that decision; see knowledge/questions/open-questions.md.
+         * 2026-09-27 (D-009): Captain/FO grouped as FlightDeckCrew, the single element
+         * external systems connect to; Cabin Crew stays in this domain but is absorbed
+         * at context level (no authority over in-scope decisions).
          */
 
         public import ScalarValues::*;
 
         part def FlightCrewDomain {
+            part flightDeckCrew: FlightDeckCrew;
+            part cabinCrew: CabinCrew;
+        }
+
+        part def FlightDeckCrew {
+            doc /* The two-pilot flight deck as ONE element (D-009, 2026-09-27). Under D-007's
+             * test, the Captain and FO do not hold separate decision authority: final
+             * authority attaches to the PIC (14 CFR 91.3), and PF/PM duties swap between the
+             * two. So external systems (AOC, ATC, airport, aircraft) connect here, not to
+             * either pilot. The roles stay as sub-parts for IBD/behavior work where the split
+             * matters (e.g. the FO working the radio, Seamster E-2#07, E-4#02-04). */
             part pilotInCommand: PilotInCommand;
             part firstOfficer: FirstOfficer;
-            part cabinCrew: CabinCrew;
         }
 
         part def PilotInCommand {

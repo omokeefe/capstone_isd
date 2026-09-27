@@ -6,6 +6,68 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-009 — Context diagram baseline: every system assessed against D-007; AOC link split to TFM; flight deck merged
+
+**Date:** 2026-09-27
+**Status:** active. Applies D-007 to the context diagram (`cameo_models/nas_context_diagram.sysml`), as D-008 applied it to the BDD. The candidate "retarget AOC → `atcscc`" from the 2026-09-26 journal is adopted here in modified form (a split).
+
+**Decision:**
+
+1. **Every system on the context diagram gets an explicit D-007 disposition**, recorded as a comment on its part in the `.sysml` file and in the table below. D-007's test: an entity is *modeled* when it has distinct decision authority or execution behavior, dynamically coupled to in-scope decisions, that materially affects cost, safety, workload, schedule reliability, or passenger value. Otherwise it is a boundary actor (supplies objectives, demand, feedback, or rules), a context constraint (exogenous), or absorbed (kept only as exchange content or a capability). Only modeled systems are rendered on the context view (`#ContextVisible`).
+2. **The AOC ↔ Airspace Management link is split by counterpart.** Traffic-flow content (EDCTs, TMI and reroute advisories, TOS, Early Intent, FSM schedule changes, GDP substitutions) goes on a new `aocTfm` connection to `atcscc`. Flight-plan filing and amendment stays on `atc` as `aocFlightPlanFiling`.
+3. **Pilot in command and first officer are merged into one `FlightDeckCrew` part** (new in `nas_sysml_package_definitions.sysml`, inside `FlightCrewDomain`). All crew connections attach to it. The two roles remain as its sub-parts for IBD and behavior work.
+4. **The aircraft ↔ airport exchanges are kept as a complete set of 20 unrendered connections**, with one rendered summary link (`aircraftAirport`). The Airport sub-parts they attach to are absorbed.
+5. **The mapping of the FAA's "system users / customers / flight operators" to `airlineOperationsCenter` (via its ATC coordinator) is recorded as an abstraction.**
+6. **Takeoff performance (V-speeds, thrust / assumed-temperature settings) is modeled as provided by the AOC in the release package.** This is an abstraction: in practice it depends on the aircraft type, and some types (e.g. the 737) compute it in the FMS (owner, 2026-09-27). It keeps the crew's plan-vs-FMS cross-check limited to fuel, weight, ETA, and altitude predictions. Fuel is uplifted by the airport fuel carrier, whose fuel slip reaches the crew on `airportToCrew`.
+
+**D-007 assessment of each system:**
+
+| System (part) | Authority or execution behavior coupled to in-scope decisions | Material effect | Disposition | On context view |
+|---|---|---|---|---|
+| Airline Operations Center (`flightOps.airlineOperationsCenter`) | Operational control; dispatcher and PIC jointly responsible for the release (14 CFR 121.533); sets route and fuel plan | cost, schedule reliability | Modeled | rendered |
+| ATCSCC (`airspaceMgmt.atcscc`) | "Final approving authority" for interfacility TMIs (JO 7210.3EE ¶18-2-3i); EDCT/CTOP/reroutes act directly on airline decisions | delay cost, schedule reliability | Modeled | rendered |
+| TMU (`airspaceMgmt.tmu`) | Local TM latitude (MIT, fix balancing; ¶18-2-3 NOTE); turns national TMIs into sector constraints | schedule, controller workload | Modeled (one part for terminal and ARTCC TMUs) | rendered |
+| Tactical ATC (`airspaceMgmt.atc`) | Clearance and separation authority (JO 7110.65BB) shapes the flown trajectory | safety, schedule | Modeled | rendered |
+| TRACON, ARTCC (`tracon`, `artcc`) | Same as tactical ATC | same | Modeled in the BDD; covered by the `atc` umbrella at context level | not rendered |
+| Flight deck crew (`flightCrew.flightDeckCrew`) | PIC final authority (14 CFR 91.3); turns plan + clearances into FMS intent | safety, workload, fuel | Modeled, as one element | rendered |
+| Cabin crew (`flightCrew.cabinCrew`) | No authority over in-scope decisions; "cabin secure" couples to departure time only weakly, through the PIC | safety (outside the selected scenarios) | Inside the modeled Flight Crew domain, absorbed at context level | not rendered |
+| Aircraft (`aircraftSys.aircraft`) | No decision authority, but its execution behavior (FMS intent → guidance → motion) is the end of the intent chain | fuel burn, safety | Modeled | rendered |
+| Airport operator (`airportOps.airport`) | Gates, non-movement area, closures, slots at coordinated airports; departure readiness couples to EDCT compliance | schedule reliability | Modeled (weakest evidence of the set: C/B) | rendered |
+| Airport sub-parts (fuel distribution, ground handling, gates, terminals, baggage, cargo, maintenance hangar) | Carry out decisions made by other actors (AOC fuel and load orders, passengers, weather, maintenance status, ATC/ramp clearance) | turnaround time, but not as a decision lever | Absorbed | only as ends of unrendered connections |
+| Ticketing system (`flightOps.ticketingSystem`) | Revenue/booking side; enters only as passenger demand | — | Absorbed (a boundary-actor effect) | not rendered |
+| Governance (`environment.governance`) | Supplies rules | — | Boundary actor | not rendered (draft link) |
+| Passengers (`environment.passengers`) | Supply demand; mediated by airline decisions | — | Boundary actor | not rendered |
+| Military (`environment.military`) | Special-use airspace as a scenario condition | — | Boundary actor | not rendered (draft link) |
+| Infrastructure incl. navaids, weather service (`environment.infrastructure`) | Exogenous signals and constraints | — | Context constraint | not rendered; `apNavaidSignals` unrendered, weather link drafted |
+| Maintenance Suppliers | Exogenous parts/cost/availability | — | Context constraint | no part yet |
+| Information Services (`environment.informationServices`) | Channels (NTML, TFMS, ACARS) matter only when they change a decision or KPI | — | Absorbed (carried as the media in connection docs) | not rendered |
+| Decision Support (`environment.decisionSupport`) | Tools (FSM, TBFM, CTOP) operated by modeled systems | — | Absorbed (a capability of ATCSCC/TMU/AOC) | not rendered |
+
+**Rationale:**
+
+- *Split:* JO 7210.3EE Ch. 18 (grade A) shows the operator exchanging EDCTs, TOS, schedule changes, and GDP options directly with the ATCSCC/TFMS, not with tactical controllers. §6-5 of the same order shows flight plans going computer-to-computer to the ARTCC host. The old single link mixed two counterparts with different authority. Separating them puts the airline-vs-NAS flow conflict (§9) on its own link.
+- *Merge:* under D-007's test, the Captain and FO do not hold separate decision authority at context level. Final authority attaches to the PIC, and pilot-flying/pilot-monitoring duties swap between them (Seamster 2011, p.44). Every crew link had been drawn twice with identical content. GreAT D2.2's operational IBD also has no separate crew node.
+- *Aircraft ↔ airport set:* none of these exchanges changes an optimization outcome. Each one carries out a decision made on another actor's link, so rendering them would add clutter without showing a decision lever (owner, 2026-09-27).
+
+**Alternatives considered:**
+
+- Pure retarget of AOC → `atcscc` (the 09-26 proposal). Rejected: it would drop the grade-A flight-plan filing path to the ARTCC host.
+- Keep one AOC → `atc` link. Rejected: the TFM counterpart is evidenced as the ATCSCC, not tactical ATC.
+- Keep PIC and FO as separate endpoints. Rejected: duplicate connectors, no authority difference at context level.
+- Connect crew links to the whole `flightCrew` domain. Rejected: that would fold cabin crew into the flight-deck interface.
+- Drop the aircraft ↔ airport exchanges from the model. Rejected: the owner wants the set kept for completeness and later IBD reuse.
+
+**Evidence / source:** `knowledge/models/context-diagram-exchange-evidence.md`; `evidence/literature-notes/summaries/5 - faa2025jo72103ee.md` (¶18-2-3i, 18-4-1d, 18-8-2c/3d, 18-10-3/6e/12, 18-12-3b, §6-5); `5 - faa2025jo711065bb.md`; `knowledge/models/interaction-catalog-flight-execution.md` (PF/PM → Captain/FO crosswalk); GreAT D2.2 Figure 3; journal 2026-09-26 (14:06 recommendations) and 2026-09-27.
+
+**Consequences:**
+
+- The context view renders 12 connections among 7 systems. The per-connection doc comments give the evidence grade and sources.
+- Anything that referenced `flightCrew.pilotInCommand` or `.firstOfficer` directly must now go through `flightCrew.flightDeckCrew`. Only the context diagram did.
+- The PIC/FO distinction, including the FO working the radio, returns only at IBD or behavior level.
+- Open items carried forward in the `.sysml` TODOs: whether `atc` should hold `tracon`/`artcc` as sub-parts; the environment links (drafted, not rendered); the AOC ↔ Airport link, which has the weakest US evidence.
+
+---
+
 ## D-008 — BDD reconciled to D-007: modeled systems vs. Environment, split by ratified disposition
 
 **Date:** 2026-09-22

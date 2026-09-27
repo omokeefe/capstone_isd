@@ -101,7 +101,7 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 See `journal/2026-09-26.md` (19:25 Sign-Off) for reasoning.
 
-1. Apply the 09-26 14:06 recommendations to `nas_context_diagram.sysml` (AOC → `atcscc`, `atc` → `atcscc`, Aircraft → AOC, evidence comment per `connect`); D-009 if the retarget is accepted; check the §10 box.
+1. Context diagram: D-009 logged 09-27 (AOC ↔ TFM split, PIC/FO merged, D-007 disposition per system). Remaining: owner review of the TODO(review)/TODO(missing) items in `nas_context_diagram.sysml`, then check the §10 box.
 2. Refine the BDD: decide where `ControlTower` and Decision Support belong; write down anything unresolved as advisor questions.
 3. Deferred admin updates from 09-26 (to-do §4, source-register:371, interaction-catalog §7, exchange-evidence, open-questions); decide which §4 boxes to check.
 4. Carried over: sequence diagrams (ECD 09-22) slipped; re-date them. Activity diagram ECD 10-01 at risk. Older items (placeholder procedure names, ETFMS/AMAN nomenclature, missing D-003/D-004, §2-§4 lit-review sessions) are still open; see journal 2026-09-21.

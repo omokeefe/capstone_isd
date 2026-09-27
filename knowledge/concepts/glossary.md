@@ -123,6 +123,13 @@ or conversation — don't let definitions live only in someone's head or a singl
 - **TMU** — Traffic Management Unit: the traffic-flow function located at ARTCCs, TRACONs and
   major towers, coordinated nationally by the Command Center (**ATCSCC**, above). A *unit*, not
   a single role — see the crosswalk in [[interaction-catalog-flight-execution]].
+- **TMI** — Traffic Management Initiative: a technique for matching demand to capacity. JO 7210.3EE ¶18-7-4 lists the types: altitude (capping, tunneling, LAADR), miles-in-trail (MIT), minutes-in-trail (MINIT), fix balancing, airborne holding, departure sequencing (DSP), TFMS programs (GDP, AFP, CTOP), reroutes, and ground stops (GS). The ATCSCC approves interfacility TMIs that cause reportable (≥ 15 min) delays (¶18-7-7). TMIs exclude controller-coordinated actions (`faa2025jo72103ee`).
+- **GDP / AFP / GS** — Ground Delay Program (ATCSCC assigns arrival slots, so flights get EDCTs and wait on the ground), Airspace Flow Program (the same idea applied to an FCA), and Ground Stop (flights meeting given criteria stay on the ground; one of the most restrictive TMIs). JO 7210.3EE §§18-10, 18-11, 18-13.
+- **CTOP / TOS** — Collaborative Trajectory Options Program: a TMI that assigns each flight the most preferred available option from its **Trajectory Options Set**. The TOS is a message sent *by the flight operator* to TFMS that ranks route/altitude/speed options by acceptable ground delay (JO 7210.3EE ¶18-12-1, ¶18-12-3).
+- **FEA / FCA** — Flow Evaluation Area / Flow Constrained Area: an airspace region, flight filters, and time window used to identify flights affected by a constraint. Stakeholders *may* need to act on an FEA and *are required* to act on an FCA (JO 7210.3EE ¶18-8-2).
+- **NTML** — National Traffic Management Log: the FAA tool in which facilities record and coordinate TM events, TBM operations, TMIs, delays, and restrictions. Facilities must use it "in preference to other methods" (JO 7210.3EE ¶18-5-3, ¶18-5-8).
+- **MAP** — Monitor Alert Parameter: the sector/airport load threshold in TFMS monitor/alert. The recommended look-ahead is 1.5–2.5 h. Red and yellow alerts are handled within the facility, and changes to MAP values are reported to the ATCSCC (JO 7210.3EE §18-9).
+- **TCA** — Tactical Customer Advocate: the ATCSCC position that operators coordinate with when they cannot comply with an FEA/FCA, or when they need an earlier EDCT (JO 7210.3EE ¶18-8-3d, ¶18-11-4e).
 - **Handoff / point out** — JO 7110.65BB ¶5-4-2: a *handoff* transfers radar identification
   **and** radio communications to the receiving controller; a *point out* transfers radar
   identification for the aircraft to pass through another controller's airspace **without** a

@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-09-21
-**Files in `evidence/sources/` at last sweep:** 61 of 61 processed
+**Last full sweep:** 2026-09-27
+**Files in `evidence/sources/` at last sweep:** 62 of 62 processed
 
 **PDF highlight extraction (2026-09-14):** ran `tools/extract_pdf_annotations.py` (skill
 `extract-pdf-annotations`) against all 51 PDFs in `evidence/sources/`. **15 of 51 PDFs had
@@ -116,8 +116,9 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | Collaborative Systems Assessment - Flightdeck, Air Traffic Control, Flight Operations Center and Automation.pdf | `seamster2011collabSystems` (draft report — see 2026-09-20 flags) | 5 | [5 - seamster2011collabSystems.md](literature-notes/summaries/5%20-%20seamster2011collabSystems.md) | 2026-09-20 |
 | 7110.65BB_Basic_dtd_2-20-25.pdf | `faa2025jo711065bb` | 5 | [5 - faa2025jo711065bb.md](literature-notes/summaries/5%20-%20faa2025jo711065bb.md) | 2026-09-20 |
 | faa-services-hierarchy.pdf | `faa2025servicesHierarchy` (year from PDF creation date; version/date not on the slide — see 2026-09-21 flags) | 4 | [4 - faa2025servicesHierarchy.md](literature-notes/summaries/4%20-%20faa2025servicesHierarchy.md) | 2026-09-21 |
+| FAA Order 7210.3EE_Bsc_w_Chg_1_2_and_3_dtd_7-9-26.pdf | `faa2025jo72103ee` (Basic + CHG 1–3, current to 2026-07-09) | 5 | [5 - faa2025jo72103ee.md](literature-notes/summaries/5%20-%20faa2025jo72103ee.md) | 2026-09-27 |
 
-**Distribution as of 2026-09-21 (computed from the ledger rows above):** 14 x 5, 19 x 4, 12 x 3, 12 x 2, 3 x 1, 1 x 0 — 61 rows. The paragraph that follows is the 2026-09-13 text and predates the 2026-09-19 re-rating of `delaurentis2005sosTransportation` (5 → 0) and the eight 2026-09-20/21 additions.
+**Distribution as of 2026-09-27 (computed from the ledger rows above):** 15 x 5, 19 x 4, 12 x 3, 12 x 2, 3 x 1, 1 x 0 — 62 rows. The paragraph that follows is the 2026-09-13 text and predates the 2026-09-19 re-rating of `delaurentis2005sosTransportation` (5 → 0) and the eight 2026-09-20/21 additions.
 
 **Distribution (2026-09-13 text):** thirteen 5s, sixteen 4s, eleven 3s, eleven 2s, three 1s, zero 0s — 52 files, 50
 distinct works (one remaining draft/published pair, see Flags below, plus the `jain2011pkm`
@@ -126,6 +127,12 @@ was resolved during the 2026-09-05 PKM reorg — one copy removed). No exact dup
 among the 18 files added 2026-09-13, though several overlap topically with existing sources —
 see the Flags entry below. Two more files (a PhD thesis and its companion journal paper) were
 added and processed later the same day — see the follow-up flags note below.
+
+### Flags raised by the 2026-09-27 sweep (1 new file)
+
+- **`faa2025jo72103ee` (FAA JO 7210.3EE, Facility Operation and Administration, Basic + CHG 1–3; rated 5).** This is the facility/traffic-management companion to `faa2025jo711065bb`. Chapter 18 (Traffic Management) gives **grade-A evidence for the operator ↔ ATCSCC/TFMS exchange** (EDCTs to "linked system users," FSM schedule changes, GDP user options coordinated "directly with the ATCSCC," TOS and Early Intent to TFMS, hotlines, the Operations Plan webinar with airline planners). The 7110.65BB pass had left this exchange at B/C. The summary also checks the 09-27 pasted TMU → ATCSCC note claim by claim: most claims are confirmed, but three are corrected (the ATCSCC issues EDCTs, not the TMU; operators send TOS, not TMUs; MAP alerts stay inside the facility and only MAP value changes go to the ATCSCC).
+- The order never says "AOC" or "dispatch," only "system users/customers/flight operators." Mapping those terms to `airlineOperationsCenter` is an abstraction to record.
+- The copy is consolidated through CHG 3, so it is newer than the BB file (Basic only). Not a duplicate. Nothing rated 0–1. No digital markup.
 
 ### Flags raised by the 2026-09-21 sweep (1 new file)
 
@@ -369,6 +376,7 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | Managing Variability - A Cognitive Ethnography of the Work of Airline Dispatchers.pdf | `munro2018managingVariability` | conference paper (HFES) | not started |
 | Collaborative Systems Assessment - Flightdeck, Air Traffic Control, Flight Operations Center and Automation.pdf | `seamster2011collabSystems` | NASA/FAA draft technical report | annotated — see [seamster2011collabSystems.md](literature-notes/annotations/seamster2011collabSystems.md) (tables extracted to `-interactions.md/.csv`; BB keyword rules in `-bb-rules.csv`)
 | 7110.65BB_Basic_dtd_2-20-25.pdf | `faa2025jo711065bb` | FAA order (government) | not started — ATC-side source for to-do §4 identified 2026-09-20; paragraph pointers in `knowledge/models/interaction-catalog-flight-execution.md`, authority text not yet read |
+| FAA Order 7210.3EE_Bsc_w_Chg_1_2_and_3_dtd_7-9-26.pdf | `faa2025jo72103ee` | FAA order (government) | not started — TFM-side source (Ch. 18) for to-do §4 and the AOC ↔ ATCSCC link; key ¶ pointers and the verified operator ↔ ATCSCC flows are in its summary |
 | — (nominal IFR flight-crew side: AIM, 14 CFR 91/121, airline FOM) | none yet | FAA/airline source(s) TBD | not started — still to identify per to-do §4 |
 
 ### MBSE methodology & systems-architecture references (not yet tied to a to-do §; background/methods reading)
