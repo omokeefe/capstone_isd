@@ -92,8 +92,20 @@ or conversation — don't let definitions live only in someone's head or a singl
 
 - **FOC** — Flight Operations Center; the term used by Seamster et al. (2011) for what this
   project calls the OCC/AOC (their acronym list: "AOC … see FOC").
+- **Captain / First Officer (FO) / PIC** — the project's standard pilot-role names (D-010). Captain and FO are the two persistent roles in the model. **PIC** (pilot in command) is used only where the text is about legal authority: the PIC has final authority over the aircraft (14 CFR 91.3) and is normally the captain.
 - **PF / PM** — Pilot Flying / Pilot Monitoring: task states that swap between Captain and
-  First Officer, not separate roles (`seamster2011collabSystems`).
+  First Officer, not separate roles (`seamster2011collabSystems`). **PNF** (pilot not flying) is the older term PM replaced. Not used in the model (D-010).
+- **Flight follower / ATC coordinator** — AOC roles (`berry2011aocActors`). The flight follower monitors and tracks flights in progress (the "radar-focused" dispatcher role). The ATC coordinator is the AOC's single point of contact with ATC/TFM; the dispatcher does not talk to ATC directly except in emergencies. Role boundaries blur in practice (`munro2018managingVariability`).
+- **Tankering** — carrying extra fuel from a station where it is cheaper to avoid buying it at the destination. A dispatcher fuel decision driven by station fuel prices.
+- **ACARS** — Aircraft Communications Addressing and Reporting System: the air-ground datalink (VHF or Satcom) that carries AOC messages (OOOI, maintenance, W&B) and some ATS services (PDC, D-ATIS, FANS 1/A CPDLC).
+- **CPDLC / Data Comm** — Controller-Pilot Data Link Communications: ATC clearances and requests as datalink messages. The FAA's Data Comm program delivers departure clearances and en route CPDLC domestically. Oceanic CPDLC is the primary means outside VHF coverage (JO 7110.65BB ¶8-1-6). The crew must accept a CPDLC clearance before it can be loaded into the FMS.
+- **D-ATIS** — Digital ATIS delivered over ACARS.
+- **ADS-B (Out)** — Automatic Dependent Surveillance–Broadcast: the aircraft broadcasts its position and the ATC-assigned beacon code. Surveillance, not a datalink to the AOC. ADS-B-equipped aircraft still need an operable transponder (JO 7110.65BB ¶5-2-1 NOTE).
+- **Mode 3/A / Mode C / Mode S** — transponder replies: beacon code (3/A), pressure altitude (C), and selective addressing/data (S). ATC validates Mode C when it is within 300 ft of the pilot-reported altitude (JO 7110.65BB ¶5-2-15).
+- **EFC** — Expect Further Clearance: the time a holding aircraft can expect to leave the fix, issued with holding instructions (JO 7110.65BB ¶4-6-1).
+- **Safety alert** — controller call for unsafe proximity to terrain, obstructions or other aircraft; a first-priority duty. Once issued, the action is "solely the pilot's prerogative" (JO 7110.65BB ¶2-1-6).
+- **FSM / TBFM / TFMS / DRT** — TFM tools, modeled as media, not parties (D-010): Flight Schedule Monitor (GDP/AFP/GS slots, used by FAA and operators); Time-Based Flow Management (metering); Traffic Flow Management System (TOS, Early Intent, monitor/alert, RAD); Diversion Recovery Tool (operator priorities for diverted flights, JO 7210.3EE ¶18-4-5).
+- **SMART** — Strategic Management of Airspace, Routes and Trajectories: an AI-supported FAA TFM planning tool, in limited use around Washington, D.C. since 2026-09-21 (news coverage; not yet a registered source, see `inbox/2026-09-27-tfm-research-leads.md`).
 - **PDC** — Pre-Departure Clearance: the IFR clearance delivered to the crew as a datalink
   (ACARS) message instead of by voice, with voice as fallback (`seamster2011collabSystems`,
   Table E-2). JO 7110.65BB has no paragraph on it by name.

@@ -23,8 +23,8 @@ questions it didn't resolve:
   rather than a peer of Governance/Passengers/Military in `Environment`.
 - [ ] **Flight Crew role split.** The new `FlightCrew` package (added because D-007 rates
   Flight Crew a Modeled System and the pre-ratification BDD had no representation for it
-  at all) currently models only `PilotInCommand`/`FirstOfficer`. Remote Pilot and Cabin
-  Crew (both named in the historical SOI draft's "Flight Crews" section) aren't placed yet
+  at all) currently models `FlightDeckCrew` (`Captain`/`FirstOfficer`, renamed from `PilotInCommand` by D-010) and `CabinCrew` (absorbed at context level, D-009; its passenger-interface role recorded 2026-09-27). Remote Pilot
+  (named in the historical SOI draft's "Flight Crews" section) isn't placed yet
   — this overlaps the Seamster-crosswalk actor-abstraction questions below and should be
   resolved together.
 - [ ] **Maintenance Suppliers** (a Context Constraint row in D-007) still has no

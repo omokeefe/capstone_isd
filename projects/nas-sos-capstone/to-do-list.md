@@ -382,6 +382,12 @@ _Status 2026-09-20: JO 7110.65BB is now in the register and the Seamster et al. 
   - [ ] Trigger for responsibility transfer.
   - [ ] Resulting aircraft action.
 
+- [ ] Acquire and register traffic-flow-management sources beyond JO 7210.3EE *(added 2026-09-27 from the context-diagram review; leads in `inbox/2026-09-27-tfm-research-leads.md`)*:
+  - [ ] CTOP: FAA CDM / CTOP concept or user material, so TOS content (options, preferences) and the CTOP assignment logic can be cited beyond 7210.3EE §18-12.
+  - [ ] FAA SMART (Strategic Management of Airspace, Routes and Trajectories): what it is, who uses it (ATCSCC/TMUs, airlines?), and whether it changes the TFM decision-support picture (Decision Support, absorbed per D-007).
+  - [ ] US gate-assignment authority (airline-leased vs common-use gates) for the AOC ↔ Airport link.
+  - [ ] Crew ↔ aircraft / FMS: a citable source (ARINC 702A, an FCOM, FAA AC 120-71B), or state the owner's professional experience in the write-up.
+
 
 # 5. Construct the Nominal-Flight ConOps
 
@@ -604,6 +610,7 @@ window if a firmer date is needed.)*
   - [ ] Military mission effectiveness vs civil-airspace capacity.
   - [ ] Individual optimal trajectory vs network congestion.
   - [ ] CO2 optimization vs non-CO2 climate impacts.
+  - [ ] Airline slot/priority ranking vs ATCSCC system efficiency: GDP slot substitution (JO 7210.3EE ¶18-10-12) and diversion recovery priorities (¶18-4-5). The operator ranks its own flights, and the ATCSCC keeps delay factors equal and may modify priorities. Explore as a disruption scenario (GDP at a hub → EDCTs → cancellations/substitutions → a diversion → recovery request), not as an allocation-math deep dive. *(added 2026-09-27)*
 
 - [ ] For each conflict document:
   - [ ] Decision maker.

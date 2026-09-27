@@ -204,15 +204,15 @@ package IbdExample {
             port fpIn  : ~FlightPlanPort;
             port voice : VoicePort;
         }
-        part pic  : FlightCrew::PilotInCommand {
+        part captain : FlightCrew::Captain {
             port voice  : ~VoicePort;
             port stick  : ControlPort;
         }
         part aircraft : AircraftSystems::Aircraft { port controls : ~ControlPort; }
 
         flow of FlightPlan from aoc.fpOut.plan to atc.fpIn.plan;
-        interface vhf : AtcCrewVoice connect atc.voice to pic.voice;
-        flow of ControlInput from pic.stick.cmd to aircraft.controls.cmd;
+        interface vhf : AtcCrewVoice connect atc.voice to captain.voice;
+        flow of ControlInput from captain.stick.cmd to aircraft.controls.cmd;
     }
 }
 
@@ -328,12 +328,12 @@ package SequenceExample {
     item def Readback;
 
     part def ClearanceDelivery {
-        part pic : NationalAirspaceSystem::FlightCrew::PilotInCommand;
+        part captain : NationalAirspaceSystem::FlightCrew::Captain;
         part atc : NationalAirspaceSystem::AirspaceManagement::AirTrafficControlSystem;
 
-        message request  of ClearanceRequest from pic to atc;
-        message clearance of Clearance       from atc to pic;
-        message readback  of Readback        from pic to atc;
+        message request  of ClearanceRequest from captain to atc;
+        message clearance of Clearance       from atc to captain;
+        message readback  of Readback        from captain to atc;
 
         first request then clearance;
         first clearance then readback;

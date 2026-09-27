@@ -6,6 +6,41 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-010 — Context diagram rendering rule, datalink split, role naming, and supporting definitions
+
+**Date:** 2026-09-27
+**Status:** active. Refines D-009 after the owner's line-by-line review of `cameo_models/nas_context_diagram.sysml` (journal 2026-09-27, "Context diagram review").
+
+**Decision:**
+
+1. **Rendering rule.** A sub-part is rendered on the context view only if it has an exchange that crosses a domain boundary. Links inside one domain go on that domain's IBD. Applied: `atcsccTmu` and the drafted `tmuAtc` move to a new placeholder IBD (`cameo_models/nas_ibd_airspace_management.sysml`, view `MyViews::airspaceManagementIbd`), with the open "`atc` umbrella vs tower/TRACON/ARTCC" question. `tmu` is no longer rendered on the context view.
+2. **Exchanges that carry a decision without making one are kept but not rendered.** This extends the D-009 aircraft ↔ airport rule. Applied: `aocFlightPlanFiling` stays in the model (the filed plan is the intent object ATC clears against) but is no longer rendered. The route decision is made at the AOC, traded on `aocTfm`, and accepted or amended in the clearance. The same rule gives the new unrendered crew ↔ airport set (`ca*`: lighting, docking guidance, marshalling, pushback coordination, de-icing, fuel slip, gate agent) under the rendered `airportToCrew` summary.
+3. **"Datalink" is split by counterpart and function.** `aocAircraftDatalink` = AOC ↔ aircraft over ACARS (AOC messages). New `atcAircraftDatalink` = ATC ↔ aircraft (PDC, D-ATIS, CPDLC / Data Comm), rendered. `atcSurveillance` = aircraft → ATC (transponder, ADS-B Out). ADS-B is surveillance, not a datalink to the AOC. The aircraft-side equipment is broken out in the definitions (`CommunicationSystem`, `SurveillanceSystem.transponder`, `tcas`).
+4. **Navaids stay in Infrastructure; lighting stays at the airport.** Most navaids are FAA-owned and FAA-maintained (NAS roadmaps; some non-federal). Airfield lighting is airport-owned and airport-maintained (14 CFR 139.311) and operated from the tower (BB 3-4-x). So navaids are *not* handled like lights (owner's question, answered).
+5. **Role naming: Captain / First Officer.** `PilotInCommand` is renamed `Captain`. "PIC" is used only where the text is about legal authority (14 CFR 91.3). PF/PM and PNF are not used in the model. This matches the existing Seamster crosswalk abstraction ("PF/PM dropped; only Captain/FO kept").
+6. **Supporting definitions added to `nas_sysml_package_definitions.sysml`:** AOC roles (dispatcher, flight follower, ATC coordinator, load planner, maintenance controller, crew scheduler, aircraft router, duty manager); TFM tools as absorbed media (`AirTrafficFlowManagementSystem`: TFMS, FSM, NTML, TBFM, DRT); TFM exchange items (EDCT, TMI advisory, FEA/FCA, TOS, CTOP assignment, schedule change, slot substitution, diversion recovery request); the dispatch release, fuel slip, FMS prediction, and the `PreflightCrossCheck` action performed by `FlightDeckCrew`; ground-handling roles, into-plane fueler, airfield lighting, and gate agents.
+7. **Evidence grade `[SME]` added** for the owner's professional FMS knowledge (16 years in industry). It is stated as such in the write-up unless a citable source is found.
+
+**Rationale:** the context view is a domain-to-domain picture of the NAS, so intra-domain links sit one level too deep for it (item 1). Rendering only decision-bearing exchanges keeps the view about where the intent chain can be changed (item 2). The ambiguous "datalink" term hid three different counterparts and authorities (item 3). Items 4–5 answer the owner's questions directly. Item 6 moves draft code into the definitions file per methods §10.1.
+
+**Alternatives considered:**
+
+- Keep ATCSCC ↔ TMU on the context view as the "enterprise → tactical" step. Rejected: that step now shows on the IBD, and the context view still shows where TFM meets the airline (`aocTfm`) and where the clearance meets the crew (`atcToCrew`).
+- Drop flight plan filing from the model entirely (the owner's first instinct). Rejected: the filed plan is the data ATC correlates the track to (BB 5-3-3d) and the "cleared as filed" baseline. It is kept for traceability, just not rendered.
+- One ATC ↔ aircraft connection for surveillance and datalink. Rejected: they differ in direction, medium, and whether the crew is in the loop.
+- PIC/PNF or PF/PM naming. Rejected: those mix axes (legal authority vs task). Captain/FO is the only symmetric pair, and PNF was replaced by PM (FAA AC 120-71B).
+
+**Evidence / source:** JO 7110.65BB 2-1-6, 2-6-2, 2-6-4, 2-7-1, 4-6-1/4, 5-1-2, 5-2-x, 5-3-3, 8-1-6 (extracted 2026-09-27); JO 7210.3EE 6-5, 18-4-5, 18-10-12, 18-12-3/4; Berry & Pace 2011; Munro 2018; Seamster 2011; `knowledge/models/context-diagram-exchange-evidence.md`.
+
+**Consequences:**
+
+- The context view renders 11 operational connections (was 12: minus `aocFlightPlanFiling` and `atcsccTmu`, plus `atcAircraftDatalink`) plus the 5 environment links that are live in the file.
+- The §10 "Create operational IBDs" work has a first placeholder file.
+- `FlightCrew::PilotInCommand` no longer exists; anything that referenced it uses `FlightCrew::Captain`.
+- Open: the `atc` umbrella question (IBD file); a US source for gate authority; CTOP and SMART sources (to-do-list §4 additions); the GDP-substitution / diversion-recovery scenario (§9 addition).
+
+---
+
 ## D-009 — Context diagram baseline: every system assessed against D-007; AOC link split to TFM; flight deck merged
 
 **Date:** 2026-09-27
