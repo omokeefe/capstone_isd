@@ -114,8 +114,7 @@ package NationalAirspaceSystem {
             part tracon: TRACON;
             part artcc: ARTCC;
             part atcscc: ATCSCC;
-            part trafficFlowMonitoringCenter: TrafficFlowMonitoringCenter;
-            part atfms: AirTrafficFlowManagementSystem;
+            part tmu: TMU;
         }
 
         part def AirTrafficControlSystem {
@@ -134,23 +133,19 @@ package NationalAirspaceSystem {
             doc /* Air Traffic Control System Command Center — national traffic-flow authority. */
         }
 
-        part def TrafficFlowMonitoringCenter;
+        part def TMU {
+            doc /* Traffic Management Unit — local traffic-flow authority. */
+        }
 
         part def AirTrafficFlowManagementSystem {
             part timeBasedFlowManagement: TimeBasedFlowManagement;
-			part trafficManagementUnit: TrafficManagementUnit; 
         }
 
         part def TimeBasedFlowManagement {
-            doc /* FAA Time-Based Flow Management. AMAN and ETFMS from the source inventory
-             * are left out: AMAN was itself marked uncertain on the source diagram, and
-             * ETFMS reads as a EUROCONTROL system rather than a NAS one — both need
-             * verification before being added. */
+            doc /* FAA Time-Based Flow Management. Does it make sense to log minutes-in-trail separation? 
+                 * What about other initiatives?*/
         }
 
-        part def TrafficManagementUnit {
-            doc /* Traffic Management Unit (TMU). <NEEDS MORE DESCRIPTIVE NOTES>*/
-        }
 
         public import ScalarValues::*;
 

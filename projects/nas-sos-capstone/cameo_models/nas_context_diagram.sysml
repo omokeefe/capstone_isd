@@ -170,9 +170,13 @@ package ContextDiagram {
 		
 		// Inter-ATC Connections
 		//   - ATSCC to TMU: 
-        //     - Actuals??? NEED TO DETERMINE WHAT IS ACTUALLY EXCHANGED HERE
+        //      - Flow Evaluation Areas (FEAs) and Flow Constrained Areas (FCAs). This lets the TMU know exactly which flights in their sectors are impacted by macro-level constraints
+        //      - Traffic Management Initatives (Ground Delay Programs (GDPs) and Ground Stops (GS): the TMU coordinates Expect Departure Clearance Times (EDCTs)) 
+        //      - Flight Schedule Monitor (FSM): Used to transmit slot assignments, capacity limits, and real-time modeling data to TMU terminals
 		//   - TMU to ATSCC:
-        //      - Time-based flow management info (EDCTs, etc.) 
+        //      - Disruption Events/Changes (localized convective weather, low visibility, or wind changes that call for pre-coordinated Severe Weather Avoidance Plans (SWAP),  runway closures, airport equipment failures, computer/software glitches, etc.)
+        //      - MITs, including submitting or updating Miles-in-Trail (MIT) or Minutes-in-Trail restrictions between adjacent ARTCC sectors
+        //      - TBFM
 
     }
 }
