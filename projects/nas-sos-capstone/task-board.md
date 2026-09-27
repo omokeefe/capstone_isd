@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-09-22 (see `journal/2026-09-22.md`, context-diagram connection sign-off)
+**Last updated:** 2026-09-26 (see `journal/2026-09-26.md`, 14:06 recommendations + 19:25 Sign-Off)
 
 ## Current phase
 
@@ -35,9 +35,11 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Active
 
-- 2026-09-22: finalize the NAS context-diagram connection set in `cameo_models/nas_context_diagram.sysml`; keep the diagram scoped to the D-007 SOI boundary and omit unnecessary environment links until the stakeholder model is reconciled.
+- Context diagram (§10, slipped from 09-07): evidence gathered (09-24 A-CDM/GreAT, 09-26 JO 7110.65BB), 12 recommendations ready, `.sysml` not yet edited. See journal 2026-09-26 14:06.
 
-- 2026-09-20: extracted the Seamster et al. (2011) interaction tables (702 rows) and mapped its actors to the personas (`../../knowledge/models/interaction-catalog-flight-execution.md`); JO 7110.65BB added to the register. Waiting on the user: confirm the crosswalk rows marked "owner to confirm" (ATC Coordinator, TMU/Command Center, Radar Associate, load planner) and read BB ¶2-10, 3-7-2, 3-9-10, 4-3-2/-4, 5-4-5..-9 for decision-authority text (§4 boxes intentionally unchecked).
+- JO 7110.65BB: ~65 ¶ read in full 2026-09-26 and approved by user. Admin follow-through deferred to 09-27 (to-do §4 status/boxes, source-register, interaction-catalog §7, exchange-evidence, open-questions). See journal 2026-09-26 19:25. Seamster crosswalk "owner to confirm" rows (ATC Coordinator, TMU/Command Center, Radar Associate, load planner) are still open.
+
+- Advisor meeting this week, date TBD. Goal: arrive with the context diagram closed and BDD questions written down.
 
 - First-pass SysML v2 BDD in the model (file map: `cameo_models/sysmlv2_exploration.md`;
   2026-09-19): NAS + 9 D-002 domains as packages, constituent systems populated from
@@ -97,19 +99,9 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Next session priority
 
-See `journal/2026-09-21.md` (21:17 Sign-Off) for full reasoning. Terse version:
+See `journal/2026-09-26.md` (19:25 Sign-Off) for reasoning.
 
-1. Verify or replace the demo scenario's placeholder procedure names (BENKY4, ILS RWY
-   22L), or replace `cameo_models/scenarios/hub-to-hub-example.sysml` entirely once a
-   real ConOps scenario/city-pair is decided.
-2. Create the NAS context diagram (§10, slipped since 2026-09-07).
-3. Create the stakeholder model / map (§10, slipped since 2026-09-07) — likely
-   derivable from `../../knowledge/models/stakeholder-register.md`.
-4. Verify ETFMS/AMAN/GMTOs/ANSPs against real FAA nomenclature before adding to
-   `cameo_models/nas_sysml_package_definitions.sysml`'s Airspace Management package.
-5. Fix the missing D-003/D-004 entries in `decisions/decisions-log.md` (index.md
-   references them; the log itself skips from D-002 to today's new D-005).
-6. Still open from before: work `to-do-list.md` start §2-§4 literature-review sessions
-   (5-rated sources first: `eltoukhy2017airline`, `hassanDisruptionReview`,
-   `schultz2017turnaround`, `clarke1998irregular`, `dispatcherWorkload2025`,
-   `eurocontrolACDMSpec`).
+1. Apply the 09-26 14:06 recommendations to `nas_context_diagram.sysml` (AOC → `atcscc`, `atc` → `atcscc`, Aircraft → AOC, evidence comment per `connect`); D-009 if the retarget is accepted; check the §10 box.
+2. Refine the BDD: decide where `ControlTower` and Decision Support belong; write down anything unresolved as advisor questions.
+3. Deferred admin updates from 09-26 (to-do §4, source-register:371, interaction-catalog §7, exchange-evidence, open-questions); decide which §4 boxes to check.
+4. Carried over: sequence diagrams (ECD 09-22) slipped; re-date them. Activity diagram ECD 10-01 at risk. Older items (placeholder procedure names, ETFMS/AMAN nomenclature, missing D-003/D-004, §2-§4 lit-review sessions) are still open; see journal 2026-09-21.

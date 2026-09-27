@@ -56,6 +56,16 @@ no tool-specific format is required to read or update them.
 - Bib keys: `lastname+year+shorttitle`, lowercase, no spaces (e.g.
   `schultz2017turnaround`).
 
+## Text formatting (no hard wrapping)
+
+Files here are read with soft word wrap on screens of widely varying width, so new or rewritten content should not be hard-wrapped to a fixed column.
+
+- **Markdown prose: one paragraph per line** (or one list item per line). Let the editor wrap it. Don't insert line breaks mid-sentence to hit 80/100/120 characters.
+- **Semantic line breaks are fine where they mean something** — separate list items, table rows, headings, block quotes, and deliberate breaks between distinct ideas. Just never break purely for width.
+- **When editing an existing hard-wrapped paragraph**, it's fine to reflow that paragraph to a single line as part of the edit. Don't mass-reflow untouched files — it bloats diffs and obscures real changes.
+- **Tables**: don't pad cells with spaces to align columns; `| a | b |` is enough.
+- **Exceptions where fixed layout matters**: code blocks, ASCII diagrams/trees (e.g. the folder map in `workspace-map.md`), YAML/frontmatter, `.bib` entries, and source code (`.sysml`, `.py`, `.tex`) — follow the file's existing style or the language's own conventions there. In LaTeX, one sentence or paragraph per line is preferred over column wrapping.
+
 ## Linking
 
 - Prefer linking (`[[like-this]]` in prose, or a normal relative markdown link) over

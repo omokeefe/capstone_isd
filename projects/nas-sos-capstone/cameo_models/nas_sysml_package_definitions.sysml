@@ -171,8 +171,11 @@ package NationalAirspaceSystem {
 
         part def EnrouteSegment {
             doc /* A waypoint-to-waypoint leg of the en-route portion of a route, as
-             * distinct from the published SID/STAR/approach procedures at either end. */
-            attribute waypoints: Common::Position[*];
+             * distinct from the published SID/STAR/approach procedures at either end.
+             * A route is an ordered sequence of these legs (see FlightPlan::route). */
+            attribute fromWaypoint: Common::Position;
+            attribute toWaypoint: Common::Position;
+            attribute airway: String; // e.g., "J80", "V16"; empty for direct legs
         }
     }
 
@@ -190,15 +193,33 @@ package NationalAirspaceSystem {
 
         part def TicketingSystem;
 
+        part def FlightPlan {
+            attribute flightNumber: String;
+            ref part departureAirport: AirportOperations::Airport;
+            ref part arrivalAirport: AirportOperations::Airport;
+            ref part sid: AirspaceManagement::StandardInstrumentDeparture;
+            ref part star: AirspaceManagement::StandardTerminalArrival;
+            ref part approach: AirspaceManagement::InstrumentApproachProcedure;
+            attribute departureTime: Common::DateTime;
+            attribute arrivalTime: Common::DateTime;
+            ref part route: AirspaceManagement::EnrouteSegment[*] ordered; // en-route legs, in flown order
+        }
+
+        part def Trajectory {
+            doc /* A planned or actual trajectory for a flight, as a 4D path through space and time. */
+            attribute waypoints: Common::Position[*] ordered; // 4D points (lat/lon/alt + timestamp), in time order
+        }
+
         part def Flight {
             attribute flightNumber: String;
             ref part aircraft: AircraftSystems::Aircraft;
             ref part departureAirport: AirportOperations::Airport;
             ref part arrivalAirport: AirportOperations::Airport;
+            ref part trajectory: Trajectory; // Reference to the trajectory for the flight
             attribute departureTime: Common::DateTime;
             attribute arrivalTime: Common::DateTime;
             attribute status: String; // e.g., "Scheduled", "Delayed", "Cancelled"
-            attribute route: Common::Position[*]; // Waypoints for the flight path
+            ref part route: AirspaceManagement::EnrouteSegment[*] ordered; // En-route legs, in flown order
             attribute phase: String; // e.g., "Preflight", "Takeoff", "Climb", "Cruise", "Descent", "Approach", "Landing", "Taxi", "Parked", "Completed"
             attribute crew: Common::Operator[*]; // Crew members operating the flight
             attribute passengers: Common::Passenger[*]; // Passengers on the flight

@@ -57,6 +57,7 @@ Then, as needed:
   pre-modeling draft, not generated from the model and not kept in sync; if it disagrees
   with the `.sysml` files, the `.sysml` files win. See
   [workflows/update-architecture.md](workflows/update-architecture.md).
+- **Don't hard-wrap authored text.** Write markdown prose one paragraph per line and let the editor soft-wrap; the user reads with word wrap on screens of varying width. Details and exceptions (code, diagrams, tables, LaTeX) in [_system/conventions.md](_system/conventions.md) § "Text formatting".
 - **Quick, untriaged notes go in `inbox/`, not straight into knowledge/evidence.** Triage
   them per [workflows/process-inbox.md](workflows/process-inbox.md) before treating
   anything in there as settled fact.

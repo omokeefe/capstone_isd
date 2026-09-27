@@ -30,18 +30,11 @@ package ContextDiagram {
         part flightOps: FlightOperationsDomain;
         part flightCrew: FlightCrewDomain;
 
-        // Testing different connections
-        connect flightOps.airlineOperationsCenter to flightCrew.pilotInCommand;
-        connect flightOps.airlineOperationsCenter to flightCrew.firstOfficer;  
-
-        connect airportOps.airport to aircraftSys.aircraft;
-
-
         // Theorize what we want to connect up here.
         // The ATM consists of:
         //  - The aircraft:
-        //     - flying from airport to airport, 
-        //     - controlled by the flight crew, 
+        //     - flying from airport to airport, creating 4D points that form a trajectory,
+        //     - controlled by the flight crew, physical interactions 
         //     - observed by the airline operations center,
         //     - observed by the airspace management domain
         //     - interacting with the environment domain (weather, terrain, etc.)
