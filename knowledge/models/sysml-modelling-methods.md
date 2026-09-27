@@ -63,7 +63,7 @@ An untyped view renders as General. `render asInterconnectionDiagram;` is an alt
 | `expose X::*;` | X's direct children |
 | `expose X::**;` | X and all descendants |
 | `expose X::*::**;` | All descendants, not X |
-| `expose X::**[@MyTag];` | Descendants carrying metadata `MyTag` (inline filter) |
+| `expose X::**[@MyTag];` | Descendants carrying metadata `MyTag` (inline filter). Chooses where the diagram starts only: each exposed part is still drawn with all of its contents. To hide untagged sub-parts, use `expose X::*::**;` plus `filter @MyTag;` ([sysml-diagram-rendering.md](sysml-diagram-rendering.md) §2) |
 | `expose X::*[hastype SysML::PartUsage];` | Children that are exactly part usages |
 
 **Filter operators:** `@` = at least one classification matches, includes subtypes (use for metadata tags); `istype` = all match, includes subtypes; `hastype` = exact type only. Combine with `and` / `not`, e.g. `filter (as SysML::PartDefinition) hastype SysML::PartDefinition and not (as SysML::Type).isAbstract;`
@@ -80,7 +80,7 @@ An untyped view renders as General. `render asInterconnectionDiagram;` is an alt
 - **Save before visualizing**: the renderer reads the saved file.
 - **Keep Mode: Folder** (status bar). All `.sysml` in `cameo_models/` resolve as one model; Standalone shows cross-file refs as `<placeholder>`.
 
-**Rendering:** `Ctrl+Alt+V` on a view (or right-click → *Visualize view*) renders that view across files. `Ctrl+Alt+E` renders one element's subtree. `Ctrl+Shift+V` renders the whole current file (rarely useful at our size). Layout buttons: Hierarchical for trees, Orthogonal for IBDs/context. *Save As Image* gives a quick PNG/SVG. For report figures, use the CLI so they're reproducible:
+**Rendering:** setup, CLI commands, expose modes and troubleshooting are in [sysml-diagram-rendering.md](sysml-diagram-rendering.md). In short: `Ctrl+Alt+V` on a view (or right-click → *Visualize view*) renders that view across files. `Ctrl+Alt+E` renders one element's subtree. `Ctrl+Shift+V` renders the whole current file (rarely useful at our size). Layout buttons: Hierarchical for trees, Orthogonal for IBDs/context. *Save As Image* gives a quick PNG/SVG. For report figures, use the CLI so they're reproducible:
 
 ```bash
 syside check "projects/nas-sos-capstone/cameo_models/**/*.sysml"
@@ -94,7 +94,7 @@ syside table export projects/nas-sos-capstone/cameo_models/ -n "MyViews::reqTrac
 
 **Purpose:** show the SoI boundary and what crosses it. It shows **external actors ↔ SoI** plus the **exchanges** (items/information), and nothing internal. Per D-007 the SoI is `NationalAirspaceSystem` and the actors live in `Environment`.
 
-**Pattern:** a context `part def` instantiates the SoI and each actor as usages, connects them through ports, and tags what should render. The view exposes only tagged elements. (This is what [nas_context_diagram.sysml](../../projects/nas-sos-capstone/cameo_models/nas_context_diagram.sysml) does; the example below adds ports and typed flows, which the current file doesn't have yet.)
+**Pattern:** a context `part def` instantiates the SoI and each actor as usages, connects them through ports, and tags what should render. The view draws only tagged elements, at every level (tested pattern and pitfalls: [sysml-diagram-rendering.md](sysml-diagram-rendering.md) §2). (This is what [nas_context_diagram.sysml](../../projects/nas-sos-capstone/cameo_models/nas_context_diagram.sysml) does; the example below adds ports and typed flows, which the current file doesn't have yet.)
 
 ```sysml
 package ContextExample {
@@ -130,7 +130,8 @@ package ContextExample {
 
 // in MyViews:
 view 'NAS Context Diagram' : InterconnectionView {
-    expose ContextExample::NASContext::**[@ContextExample::ContextVisible];
+    expose ContextExample::NASContext::*::**;       // not ::** (would include untagged NASContext)
+    filter @ContextExample::ContextVisible;         // applies at every level, hides untagged sub-parts
 }
 ```
 
