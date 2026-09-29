@@ -30,7 +30,7 @@ Primary text is registered (7210.3EE ¶18-10-12, ¶18-4-5). For the scenario, a 
 
 ## Gate-assignment authority (US)
 
-Needed for credibility of the AOC ↔ Airport link: who assigns gates when gates are airline-leased (exclusive/preferential) vs common-use. Leads: FAA AC 150/5360-13 (airport terminal planning), and ACRP reports on airport–airline use and lease agreements. Verify report numbers before citing.
+Needed for credibility of the AOC ↔ Airport link: who assigns gates when gates are airline-leased (exclusive/preferential) vs common-use. Leads: FAA AC 150/5360-13 (airport terminal planning), and ACRP reports on airport–airline use and lease agreements. Verify report numbers before citing. **2026-09-28:** FAA Order 5190.6C Ch. 9 registered (`faa2026order51906cCh9`). It covers the sponsor's authority and accommodation duty (A) but not the preferential/common-use split. Still needed: an airport use and lease agreement or an ACRP report for that split.
 
 ## Crew ↔ aircraft (FMS)
 

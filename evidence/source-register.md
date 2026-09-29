@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-09-27
-**Files in `evidence/sources/` at last sweep:** 62 of 62 processed
+**Last full sweep:** 2026-09-27 (single-source add 2026-09-28)
+**Files in `evidence/sources/` at last sweep:** 63 of 63 processed
 
 **PDF highlight extraction (2026-09-14):** ran `tools/extract_pdf_annotations.py` (skill
 `extract-pdf-annotations`) against all 51 PDFs in `evidence/sources/`. **15 of 51 PDFs had
@@ -117,6 +117,7 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | 7110.65BB_Basic_dtd_2-20-25.pdf | `faa2025jo711065bb` | 5 | [5 - faa2025jo711065bb.md](literature-notes/summaries/5%20-%20faa2025jo711065bb.md) | 2026-09-20 |
 | faa-services-hierarchy.pdf | `faa2025servicesHierarchy` (year from PDF creation date; version/date not on the slide — see 2026-09-21 flags) | 4 | [4 - faa2025servicesHierarchy.md](literature-notes/summaries/4%20-%20faa2025servicesHierarchy.md) | 2026-09-21 |
 | FAA Order 7210.3EE_Bsc_w_Chg_1_2_and_3_dtd_7-9-26.pdf | `faa2025jo72103ee` (Basic + CHG 1–3, current to 2026-07-09) | 5 | [5 - faa2025jo72103ee.md](literature-notes/summaries/5%20-%20faa2025jo72103ee.md) | 2026-09-27 |
+| FAA Order 5190.6C Airport Compliance Manual Chapter 9.pdf | `faa2026order51906cCh9` (Ch. 9 only) | 3 | [3 - faa2026order51906cCh9.md](literature-notes/summaries/3%20-%20faa2026order51906cCh9.md) | 2026-09-28 |
 
 **Distribution as of 2026-09-27 (computed from the ledger rows above):** 15 x 5, 19 x 4, 12 x 3, 12 x 2, 3 x 1, 1 x 0 — 62 rows. The paragraph that follows is the 2026-09-13 text and predates the 2026-09-19 re-rating of `delaurentis2005sosTransportation` (5 → 0) and the eight 2026-09-20/21 additions.
 
@@ -127,6 +128,10 @@ was resolved during the 2026-09-05 PKM reorg — one copy removed). No exact dup
 among the 18 files added 2026-09-13, though several overlap topically with existing sources —
 see the Flags entry below. Two more files (a PhD thesis and its companion journal paper) were
 added and processed later the same day — see the follow-up flags note below.
+
+### Flags raised 2026-09-28 (1 new file, added on request, not by a sweep)
+
+- **`faa2026order51906cCh9` (FAA Order 5190.6C, Airport Compliance Manual Ch. 9; rated 3).** Grade-A evidence that the airport sponsor keeps authority over terminal and gate space: signatory leases (9.2b), no exclusive rights to air carriers, and a duty to accommodate them (9.8a, Grant Assurances 22/23/39). **It does not cover preferential- vs common-use gate allocation.** Chs. 8, 12, and 14 were checked and don't cover it either, so that split stays C. A DWU Consulting AI-generated article was briefly registered for the split the same day, then removed at the owner's direction as insufficient.
 
 ### Flags raised by the 2026-09-27 sweep (1 new file)
 

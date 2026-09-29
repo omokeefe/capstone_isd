@@ -366,9 +366,10 @@ package ContextDiagram {
         //                                                          fuel/weight negotiation); rest [C]
         //     - load plan to the ramp (bags, cargo, mail)           [B] Munro; Seamster E-2
         //     - maintenance work orders to line maintenance         [B] Berry & Pace (maintenance control)
-        //     - target off-block time (A-CDM TOBT). US equivalent: see TODO(open) below.
+        //     - target off-block time (A-CDM TOBT). US equivalent: 
         //   Airport / station -> AOC
-        //     - gate assignment (authority varies: see TODO(open) below)          [C]
+        //     - gate assignment. Who decides depends on the lease; see note 1 below.
+        //                                         [A] 5190.6C 9.2b, 9.8a (sponsor side) / [C]
         //     - turnaround / service readiness                                     [B] Clarke
         //     - gate personnel: boarding status, final passenger count, door closed,
         //       late-passenger holds (gate agents)          [B] Munro (dispatch vs gate agents)
@@ -379,10 +380,12 @@ package ContextDiagram {
         //       to the dispatcher's tankering choice (fuel price = context constraint, like
         //       Maintenance Suppliers)                                             [C]
         //     - de-icing capacity, curfews / noise restrictions                    [C]
-        //   TODO(open) 1. Gate assignment authority (airline-leased exclusive/preferential gates
-        //      vs airport-assigned common-use gates). Needs a US source for credibility. Leads
-        //      to check (not registered): FAA AC 150/5360-13 (terminal planning); ACRP reports
-        //      on airport-airline use and lease agreements.
+        //   1. Gate assignment authority.
+        //      [A] FAA Order 5190.6C Ch. 9
+        //      ABSTRACTION (owner, 2026-09-28): at the hub, the airline, as signatory tenant,
+        //      assigns its own flights to the gates it leases. The airport keeps ultimate
+        //      authority and must accommodate other carriers. Where no airline leases the gate,
+        //      the airport assigns it. 
         //   2. Turnaround readiness is OUT OF SCOPE as a process (owner, 2026-09-27; see journal).
         //      It enters as ONE exogenous input: the aircraft's ready / actual off-block time
         //      (or a delay distribution) at this link. That keeps the hook for a later delay
@@ -397,7 +400,9 @@ package ContextDiagram {
              * AOC -> airport: schedules and gate requests; service orders (fuel order, catering
              *   by passenger count, water/lav, ground power / air start, de-icing plan); load
              *   plan to the ramp; maintenance work orders; target off-block time (A-CDM TOBT).
-             * Airport -> AOC: gate assignment, service/turnaround readiness, boarding status,
+             * Airport -> AOC: gate assignment (the sponsor controls terminal space; the
+             *   airline/airport split depends on the lease, see note 1), service/turnaround
+             *   readiness, boarding status,
              *   final passenger count and door closure (gate agents), runway/taxiway closures and
              *   field conditions (field NOTAMs), fuel availability, de-icing capacity,
              *   curfews/noise restrictions.
@@ -405,7 +410,8 @@ package ContextDiagram {
              * material set: the decision is made at the AOC and carried out at the airport.
              * Sources: interface-exchange-draft.md (prework hub, C, directions unverified);
              * Clarke 1998 (B); Munro 2018 (B); Berry & Pace 2011 (B); EUROCONTROL A-CDM (A, but
-             * European). US gate-authority source still missing. */
+             * European); FAA Order 5190.6C Ch. 9 (A: sponsor duties on air-carrier leases
+             * and access; the per-gate split is still C). */
         }
 
         #ContextVisible connection aocAircraftDatalink connect flightOps.airlineOperationsCenter to aircraftSys.aircraft {
