@@ -354,6 +354,7 @@ unreadable at this resolution. §5.2 and the cruise-to-taxi-in event traces were
 - **EUROCONTROL A-CDM spec** — §§1–5.1.15 and roles read 2026-09-24; alerts, requirements and annexes still unread.
 - **JO 7110.65BB** — ¶3-7-2 and the glossary read 2026-09-24. You are now reviewing BB yourself to extract
   interfaces (¶11-1 TMIs, ¶2-10, 3-9-10, 4-3-2/-4, 5-4-5..-9); nothing from that review is folded in here yet.
+- **AIM (`faa2025aim`, registered 2026-10-04)** — Ch. 4, §5-1 to §5-3, selected §5-4 paragraphs and §5-5 read. **Nothing is folded into the tables or grades above yet.** Candidates, all in the summary's "Second pass" section: link 4, position reports apply only outside radar contact (¶5-3-2), and "descend via" gives the crew the vertical profile (¶5-4-1); link 5 datalink, PDC/CPDLC-DCL and En Route CPDLC are FAA-described (¶5-2-2, ¶5-3-1), which could lift "domestic CPDLC unsourced"; link 6, clearance form drives FMS loading (¶5-4-6, ¶5-5-16); the ownership question, approach control as a function an ARTCC can provide (¶5-4-3).
 - **FIXM v4.4.0** — no per-class extraction yet; would give real field names for the information objects above.
 - **GreAT D2.2 operational architecture** (rated 5/5) — Figure 3 and the pre-departure loop read 2026-09-24; §5.2 and the cruise-to-taxi-in event traces unread.
 - **Castro 2013 / Bouarfa 2018** — AOC-internal message structures (aircraft/crew/passenger manager agents).

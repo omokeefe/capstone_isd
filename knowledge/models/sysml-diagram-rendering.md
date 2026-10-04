@@ -100,7 +100,7 @@ $syside = "C:\Users\omoke\AppData\Local\Programs\Syside\syside.exe"   # or just 
 
 ```powershell
 cd .\capstone_isd\
-& "C:\Users\omoke\AppData\Local\Programs\Syside\syside.exe" viz view projects/nas-sos-capstone/cameo_models/ -e "**/requirements_*.sysml" -e "**/scenarios/**" -n "MyViews::NASMyViews::systemContext" -f png -o projects/nas-sos-capstone/cameo_models/print
+& "C:\Users\omoke\AppData\Local\Programs\Syside\syside.exe" viz view projects/nas-sos-capstone/  cameo_models/ -e "**/requirements_*.sysml" -e "**/scenarios/**" -n "MyViews::NASMyViews::systemContext" -f png -o projects/nas-sos-capstone/cameo_models/print
 Move-Item projects/nas-sos-capstone/cameo_models/print/diagram-systemContext.png projects/nas-sos-capstone/cameo_models/print/NAS_Context_Diagram_reduced.png
 
 ```

@@ -16,8 +16,10 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-09-27 (single-source add 2026-09-28)
-**Files in `evidence/sources/` at last sweep:** 63 of 63 processed
+**Last full sweep:** 2026-10-04
+**Files in `evidence/sources/` at last sweep:** 69 of 69 processed
+
+**PDF highlight extraction (2026-10-04):** ran the extractor on the two files added today. Both carry digital markup and both were merged into their summaries' `## Highlighted passages` section: `faa2025aim` (about 100 highlights and one underline, PDF pp. 57–393) and `faa2025jo711010ee` (5, all Appendix A headings). No ink annotations in either. The extractor's raw text repeats line fragments on wrapped highlights, so the AIM passages were re-read from the page before merging. The other PDFs were not re-run.
 
 **PDF highlight extraction (2026-09-14):** ran `tools/extract_pdf_annotations.py` (skill
 `extract-pdf-annotations`) against all 51 PDFs in `evidence/sources/`. **15 of 51 PDFs had
@@ -118,8 +120,31 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | faa-services-hierarchy.pdf | `faa2025servicesHierarchy` (year from PDF creation date; version/date not on the slide — see 2026-09-21 flags) | 4 | [4 - faa2025servicesHierarchy.md](literature-notes/summaries/4%20-%20faa2025servicesHierarchy.md) | 2026-09-21 |
 | FAA Order 7210.3EE_Bsc_w_Chg_1_2_and_3_dtd_7-9-26.pdf | `faa2025jo72103ee` (Basic + CHG 1–3, current to 2026-07-09) | 5 | [5 - faa2025jo72103ee.md](literature-notes/summaries/5%20-%20faa2025jo72103ee.md) | 2026-09-27 |
 | FAA Order 5190.6C Airport Compliance Manual Chapter 9.pdf | `faa2026order51906cCh9` (Ch. 9 only) | 3 | [3 - faa2026order51906cCh9.md](literature-notes/summaries/3%20-%20faa2026order51906cCh9.md) | 2026-09-28 |
+| AIM_Basic_w_Chg_1_and_2_and_3_dtd_7-9-26_FINAL.pdf | `faa2025aim` (Basic + CHG 1–3, current to 2026-07-09) | 5 | [5 - faa2025aim.md](literature-notes/summaries/5%20-%20faa2025aim.md) | 2026-10-04 |
+| 7110.10EE_Bsc_dtd_2-20-25.pdf | `faa2025jo711010ee` (Basic only) | 3 | [3 - faa2025jo711010ee.md](literature-notes/summaries/3%20-%20faa2025jo711010ee.md) | 2026-10-04 |
+| FAA Order 5190.6C Airport Compliance Manual Chapter 12.pdf | `faa2026order51906cCh12` (Ch. 12 only) | 2 | [2 - faa2026order51906cCh12.md](literature-notes/summaries/2%20-%20faa2026order51906cCh12.md) | 2026-10-04 |
+| NASA NTRS 20140004896_weight_estimation_from_climb_performance (Schultz, Thipphavong, Erzberger).pdf | `schultz2012adaptiveClimb` (venue from another paper's citation) | 4 | [4 - schultz2012adaptiveClimb.md](literature-notes/summaries/4%20-%20schultz2012adaptiveClimb.md) | 2026-10-04 |
+| Aircraft Mass Estimation Using Cruise Flight Profile.pdf | `mori2022massCruise` | 4 | [4 - mori2022massCruise.md](literature-notes/summaries/4%20-%20mori2022massCruise.md) | 2026-10-04 |
+| Performance Analysis of a Conflict Probe Utilizing Only State Vector Information.pdf | `bilimoria2004stateVectorProbe` (not a URET/EDST measurement) | 3 | [3 - bilimoria2004stateVectorProbe.md](literature-notes/summaries/3%20-%20bilimoria2004stateVectorProbe.md) | 2026-10-04 |
 
-**Distribution as of 2026-09-27 (computed from the ledger rows above):** 15 x 5, 19 x 4, 12 x 3, 12 x 2, 3 x 1, 1 x 0 — 62 rows. The paragraph that follows is the 2026-09-13 text and predates the 2026-09-19 re-rating of `delaurentis2005sosTransportation` (5 → 0) and the eight 2026-09-20/21 additions.
+**Distribution as of 2026-10-04, after the experiment-definition additions (computed from the ledger rows above):** 16 x 5, 21 x 4, 15 x 3, 13 x 2, 3 x 1, 1 x 0 — 69 rows.
+
+### Flags raised 2026-10-04, experiment-definition additions (3 files: 1 added by the owner, 2 downloaded on request)
+
+- **Purpose.** These three support the §11 experiment definition worked in the 2026-10-04 journal (crossing conflict, what ATC knows about weight and cost index). None belongs to the §2–§4 annotation tables.
+- **`schultz2012adaptiveClimb` (rated 4).** The citable statement that weight and speed intent "are considered competitive parameters by airlines and are not available for use" to ground automation, and that the predictor starts from a nominal weight. Climb phase only, simulation only. Venue and paper number are not on the PDF.
+- **`mori2022massCruise` (rated 4).** The only cruise-phase weight source. Gives the cost-index form of the cost function, an altitude-versus-mass curve, and three reasons aircraft fly below their cost-optimal altitude. One type, 39 flights, oceanic.
+- **`bilimoria2004stateVectorProbe` (rated 3).** Missed and false alert rates by look-ahead time, but for a velocity-vector probe without flight plan intent. **It does not measure URET or EDST.** Its references [2] and [3] are the URET accuracy studies.
+- **Requested but not obtained (no file, no bib entry):**
+  - The MITRE URET functional performance assessment (`mitre.org/sites/default/files/pdf/rozen_functional.pdf`) and MITRE's URET overview (`celio_user_request.pdf`): the site returned HTTP 403 to automated download.
+  - The cost index and take-off mass estimation paper (`core.ac.uk/works/43963944`): HTTP 403; title and authors were never confirmed.
+  - The FAA Technical Center wind-forecast-error study behind the "at most six percent" false alert figure: not located. The ICAS 2004 paper 216 that the search pointed to turned out to be the state-vector paper above.
+- **Downloaded and discarded:** a Kochi University of Technology file returned by the same search was a Japanese undergraduate thesis abstract on flight-simulator data, not a mass or cost-index estimation paper. Removed, not registered.
+- Nothing rated 0–1.
+
+**Distribution as of 2026-10-04, before these additions:** 16 x 5, 19 x 4, 14 x 3, 13 x 2, 3 x 1, 1 x 0 — 66 rows.
+
+**Distribution as of 2026-09-27:** 15 x 5, 19 x 4, 12 x 3, 12 x 2, 3 x 1, 1 x 0 — 62 rows. The paragraph that follows is the 2026-09-13 text and predates the 2026-09-19 re-rating of `delaurentis2005sosTransportation` (5 → 0) and the eight 2026-09-20/21 additions.
 
 **Distribution (2026-09-13 text):** thirteen 5s, sixteen 4s, eleven 3s, eleven 2s, three 1s, zero 0s — 52 files, 50
 distinct works (one remaining draft/published pair, see Flags below, plus the `jain2011pkm`
@@ -128,6 +153,16 @@ was resolved during the 2026-09-05 PKM reorg — one copy removed). No exact dup
 among the 18 files added 2026-09-13, though several overlap topically with existing sources —
 see the Flags entry below. Two more files (a PhD thesis and its companion journal paper) were
 added and processed later the same day — see the follow-up flags note below.
+
+### Flags raised by the 2026-10-04 sweep (3 files: 2 new, 1 found unregistered)
+
+- **`faa2025aim` (Aeronautical Information Manual, Basic + CHG 1–3; rated 5).** The pilot-side companion to `faa2025jo711065bb`. It closes the flight-crew side of the nominal-IFR literature gap. Section 5-5 lists pilot and controller responsibilities side by side for 15 procedures and says they "intentionally overlap." ¶5-2-2 shows the PDC departure clearance passing through "airline/service provider computers" before reaching the aircraft by ACARS. **The AIM is guidance, not regulation:** ¶5-5-1 places pilot responsibilities in the CFRs, so authority claims still need 14 CFR 91/121, which is not registered. It never mentions a dispatcher or AOC.
+- **`faa2025jo711010ee` (FAA JO 7110.10EE, Flight Services, Basic only; rated 3).** Flight service specialists mainly serve general aviation, which is outside the Part 121 scope. Its value is narrow: Appendix A (flight plan content, FAA Form 7233-4) and Section 6-2 (what is sent to the ARTCC, and per-ARTCC filer lockout times). Do not cite it as evidence of airline filing practice; that path is `faa2025jo72103ee` §6-5. This copy does not include Changes 1–3.
+- **Overlap, no exact duplicates:** the Pilot/Controller Glossary is now bound into three registered files (`faa2025jo711065bb`, `faa2025jo711010ee`, `faa2025aim`); the AIM copy is the newest. The AIM's Appendix 4 and JO 7110.10EE's Appendix A carry the same form title and were not compared.
+- **Flight-plan change cutoff:** the AIM says 46 minutes, JO 7210.3EE says 45, and JO 7110.10EE TBL 6-2-1 shows it varies by ARTCC (43 to 61 minutes).
+- **`faa2026order51906cCh12` (FAA Order 5190.6C Ch. 12, Review of Aeronautical Lease Agreements; rated 2).** The file was in `evidence/sources/` since 2026-09-28 without a ledger row; registered at the owner's request. One usable principle: the sponsor may delegate airport operation to a tenant but "has the ultimate responsibility for the management and operation of the airport" (12.6a). It does not mention gates, terminals, or air carriers, so the gate-allocation split stays C. Its URL was not recorded (flagged in the bib `note`).
+- **AIM second pass (same day):** the 14 sections the owner marked in the contents but had not highlighted were read in full. Findings and a novelty check against the existing notes are in the summary's "Second pass" section. The strongest new items: first-come-first-served landing priority (¶5-4-26), fuel conservation as a stated ATC aim (¶5-4-2), and "descend via" as a transfer of vertical-profile discretion to the crew (¶5-4-1).
+- Nothing rated 0–1.
 
 ### Flags raised 2026-09-28 (1 new file, added on request, not by a sweep)
 
@@ -382,7 +417,9 @@ Status values: `not started` · `in progress` · `annotated` · `mapped to archi
 | Collaborative Systems Assessment - Flightdeck, Air Traffic Control, Flight Operations Center and Automation.pdf | `seamster2011collabSystems` | NASA/FAA draft technical report | annotated — see [seamster2011collabSystems.md](literature-notes/annotations/seamster2011collabSystems.md) (tables extracted to `-interactions.md/.csv`; BB keyword rules in `-bb-rules.csv`)
 | 7110.65BB_Basic_dtd_2-20-25.pdf | `faa2025jo711065bb` | FAA order (government) | not started — ATC-side source for to-do §4 identified 2026-09-20; paragraph pointers in `knowledge/models/interaction-catalog-flight-execution.md`, authority text not yet read |
 | FAA Order 7210.3EE_Bsc_w_Chg_1_2_and_3_dtd_7-9-26.pdf | `faa2025jo72103ee` | FAA order (government) | not started — TFM-side source (Ch. 18) for to-do §4 and the AOC ↔ ATCSCC link; key ¶ pointers and the verified operator ↔ ATCSCC flows are in its summary |
-| — (nominal IFR flight-crew side: AIM, 14 CFR 91/121, airline FOM) | none yet | FAA/airline source(s) TBD | not started — still to identify per to-do §4 |
+| AIM_Basic_w_Chg_1_and_2_and_3_dtd_7-9-26_FINAL.pdf | `faa2025aim` | FAA manual (government; guidance, not regulation) | not started — flight-crew-side source for to-do §4, registered 2026-10-04; Section 5-5 read in full and the owner's highlights (Ch. 4, §5-1 to §5-3) merged into its summary; §5-4 arrivals not yet read |
+| 7110.10EE_Bsc_dtd_2-20-25.pdf | `faa2025jo711010ee` | FAA order (government) | not started — flight plan content (Appendix A) and handling (§6-2) only; feeds the §10 information-object model more than §4 |
+| — (nominal IFR flight-crew and dispatch authority: 14 CFR 91/121, AC 121-32A, airline FOM) | none yet | FAA/airline source(s) TBD | not started — still to identify per to-do §4 |
 
 ### MBSE methodology & systems-architecture references (not yet tied to a to-do §; background/methods reading)
 

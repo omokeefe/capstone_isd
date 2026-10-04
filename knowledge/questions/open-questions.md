@@ -94,8 +94,10 @@ in the report; none is answered anywhere in the repo yet.
   ATC-side source is FAA JO 7110.65BB (`faa2025jo711065bb`, in the register), and
   `seamster2011collabSystems` supplies the interaction sequence; paragraph pointers are in
   [[interaction-catalog-flight-execution]] but BB's decision-authority text has not been read
-  or extracted yet. Still open: the flight-crew side (AIM, 14 CFR 91/121, airline FOM) and the
-  dispatch side (14 CFR 121 / AC 121-32A).
+  or extracted yet. **Flight-crew side partly answered 2026-10-04:** the AIM is registered
+  (`faa2025aim`); its Section 5-5 gives pilot and controller responsibilities side by side. The AIM is
+  guidance, not regulation, and never mentions a dispatcher. Still open: the regulatory basis
+  (14 CFR 91/121, airline FOM) and the dispatch side (14 CFR 121 / AC 121-32A).
 
 ## Actor abstraction (Seamster crosswalk, 2026-09-20)
 
@@ -129,3 +131,4 @@ Raised by mapping the source's roles onto the personas — details in
   page cap. Recommend scoping §11–§14 to one representative scenario, a single weight
   sweep, and one Pareto-style comparison, with broader sweep/sensitivity work kept as
   future work. Not yet decided; revisit once §7–§8 progress.
+- [ ] **Experiment definition (raised 2026-10-04).** Candidate: a crossing conflict among about four aircraft in one en-route sector, comparing a rule-based baseline (one descent clearance) with a decision that knows each aircraft's weight and cost index. Still open: the one factor that differs between cases, the baseline's tie-breaker for which aircraft descends and its source, the sources for the ±0.04 M and ±0.072 M figures, and the "truth" model both cases are scored against. Full list in the 2026-10-04 journal. Evidence so far: `schultz2012adaptiveClimb` and `mori2022massCruise` (ATC does not receive weight or cost index), `faa2025jo711065bb` ¶13-1-1 (EDST). The EDST false alert rate is unsourced.
