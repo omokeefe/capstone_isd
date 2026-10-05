@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-09-26 (see `journal/2026-09-26.md`, 14:06 recommendations + 19:25 Sign-Off)
+**Last updated:** 2026-10-04 (see `journal/2026-10-04.md`, 20:36 Sign-Off). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
 
 ## Current phase
 
@@ -34,6 +34,10 @@ annotation-coverage claim, citation spot-checks against skimmed-only sources, th
 The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Active
+
+- §11 experiment definition (2026-10-04): reframed, baseline sourced, prior work read; nothing decided yet. See journal 2026-10-04 (14:20, 16:30, 20:30) and `evidence/prior-work-experiment-definition/prior-work-writeup.md`.
+
+- Blocked on adviser: scope option (a/b/c) and current-state metric. No record that the meeting happened.
 
 - Context diagram (§10, slipped from 09-07): evidence gathered (09-24 A-CDM/GreAT, 09-26 JO 7110.65BB), 12 recommendations ready, `.sysml` not yet edited. See journal 2026-09-26 14:06.
 
@@ -99,9 +103,9 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Next session priority
 
-See `journal/2026-09-26.md` (19:25 Sign-Off) for reasoning.
+See `journal/2026-10-04.md` (20:36 Sign-Off) for reasoning.
 
-1. Context diagram: D-009 logged 09-27 (AOC ↔ TFM split, PIC/FO merged, D-007 disposition per system). Remaining: owner review of the TODO(review)/TODO(missing) items in `nas_context_diagram.sysml`, then check the §10 box.
-2. Refine the BDD: decide where `ControlTower` and Decision Support belong; write down anything unresolved as advisor questions.
-3. Deferred admin updates from 09-26 (to-do §4, source-register:371, interaction-catalog §7, exchange-evidence, open-questions); decide which §4 boxes to check.
-4. Carried over: sequence diagrams (ECD 09-22) slipped; re-date them. Activity diagram ECD 10-01 at risk. Older items (placeholder procedure names, ETFMS/AMAN nomenclature, missing D-003/D-004, §2-§4 lit-review sessions) are still open; see journal 2026-09-21.
+1. One-page experiment definition (factor that differs, baseline rule and tie-breaker, metrics, truth model); take it and the scope question (a/b/c) to the adviser.
+2. Finish the nominal-flight activity diagram with swimlanes; check the §10 context diagram box.
+3. Re-date slipped ECDs against Interim Report #2 (10-25). Traceability chain (ECD 10-12) not started.
+4. Carried over from 09-26, not reviewed since: BDD placement of `ControlTower` and Decision Support; deferred §4 admin updates; sequence diagrams.

@@ -761,7 +761,7 @@ A two-airline game with a fairness-oriented service provider. Each airline tells
 ### On the baseline
 
 - **Altitude first is well supported.** The NASA resolver chose it because it gave the least delay (paper 1). Swedish clearance data shows about 28 level changes for every heading change used to prevent a conflict (paper 4).
-- **The direction is contested.** The NASA resolver tries a climb first for fuel efficiency and checks the ceiling (paper 1). The earlier search result that descents are twice as frequent as climbs came from a paper not obtained (Rantanen and Wickens). The experiment's "one descent" baseline is defensible as the option that needs no knowledge of the aircraft, which is the point the journal already makes.
+- **The direction is contested.** The NASA resolver tries a climb first for fuel efficiency and checks the ceiling (paper 1). Rantanen and Wickens, since obtained and registered as `rantanen2012conflictManeuvers`, found the opposite in U.S. track data: descents more than three times as frequent as climbs, and 23 descents to 6 climbs for level crossing conflicts. The experiment's "one descent" baseline is defensible as the option that needs no knowledge of the aircraft, which is the point the journal already makes.
 - **Which aircraft moves has published tie-breakers:** the one farthest from a boundary or its top of descent; the one not recently maneuvered; a non-arrival before an arrival; the climbing aircraft before the overflight (papers 1 and 2).
 - **Speed is a weak lever for a crossing conflict.** It "seldom succeeds" in cruise and loses effect inside six minutes (papers 1 and 2). Published step sizes are 0.025 Mach or 10 kt, and the subliminal range is -6 to +3 percent (papers 1 and 14).
 - **A simulated controller can be simple and still sourced:** approve unless there is a conflict or the sector is over its Monitor Alert Parameter (paper 11).
@@ -810,6 +810,8 @@ None of these papers scores a single sector-level conflict resolution by each ai
 ## Not obtained
 
 These were on the list and could not be downloaded. The first four are the ones most worth getting through the university library.
+
+**Update, 2026-10-04 evening:** the owner obtained Rantanen and Wickens (2012), Kirwan and Flynn (2001) and Coppenbarger (1999), plus Fothergill and Neal (2013). All four are registered sources with summaries in `evidence/literature-notes/summaries/`. Coppenbarger (2001) and the rest of this table are still not held.
 
 | Paper | Why it matters | What blocked it |
 |---|---|---|

@@ -17,7 +17,7 @@ This file tracks references at two different depths — keep them straight:
 ## Processing Ledger
 
 **Last full sweep:** 2026-10-04
-**Files in `evidence/sources/` at last sweep:** 69 of 69 processed
+**Files in `evidence/sources/` at last sweep:** 73 of 73 processed
 
 **PDF highlight extraction (2026-10-04):** ran the extractor on the two files added today. Both carry digital markup and both were merged into their summaries' `## Highlighted passages` section: `faa2025aim` (about 100 highlights and one underline, PDF pp. 57–393) and `faa2025jo711010ee` (5, all Appendix A headings). No ink annotations in either. The extractor's raw text repeats line fragments on wrapped highlights, so the AIM passages were re-read from the page before merging. The other PDFs were not re-run.
 
@@ -126,8 +126,26 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | NASA NTRS 20140004896_weight_estimation_from_climb_performance (Schultz, Thipphavong, Erzberger).pdf | `schultz2012adaptiveClimb` (venue from another paper's citation) | 4 | [4 - schultz2012adaptiveClimb.md](literature-notes/summaries/4%20-%20schultz2012adaptiveClimb.md) | 2026-10-04 |
 | Aircraft Mass Estimation Using Cruise Flight Profile.pdf | `mori2022massCruise` | 4 | [4 - mori2022massCruise.md](literature-notes/summaries/4%20-%20mori2022massCruise.md) | 2026-10-04 |
 | Performance Analysis of a Conflict Probe Utilizing Only State Vector Information.pdf | `bilimoria2004stateVectorProbe` (not a URET/EDST measurement) | 3 | [3 - bilimoria2004stateVectorProbe.md](literature-notes/summaries/3%20-%20bilimoria2004stateVectorProbe.md) | 2026-10-04 |
+| Conflict Resolution Maneuvers in Air Traffic Control  Investigation of Operational Data.pdf | `rantanen2012conflictManeuvers` | 5 | [5 - rantanen2012conflictManeuvers.md](literature-notes/summaries/5%20-%20rantanen2012conflictManeuvers.md) | 2026-10-04 |
+| Identification_of_air_traffic_controller_conflict_.pdf | `kirwan2001coraStrategies` (interim results) | 4 | [4 - kirwan2001coraStrategies.md](literature-notes/summaries/4%20-%20kirwan2001coraStrategies.md) | 2026-10-04 |
+| fothergill-neal-2013-conflict-resolution-heuristics-for-en-route-air-traffic-management.pdf | `fothergill2013resolutionHeuristics` | 3 | [3 - fothergill2013resolutionHeuristics.md](literature-notes/summaries/3%20-%20fothergill2013resolutionHeuristics.md) | 2026-10-04 |
+| coppenbarger-2012-en-route-climb-trajectory-prediction-enhancement-using-airline-flight-planning-information.pdf | `coppenbarger1999climbPrediction` (1999 paper; file name says 2012) | 4 | [4 - coppenbarger1999climbPrediction.md](literature-notes/summaries/4%20-%20coppenbarger1999climbPrediction.md) | 2026-10-04 |
 
-**Distribution as of 2026-10-04, after the experiment-definition additions (computed from the ledger rows above):** 16 x 5, 21 x 4, 15 x 3, 13 x 2, 3 x 1, 1 x 0 — 69 rows.
+**Distribution as of 2026-10-04, evening (computed from the ledger rows above):** 17 x 5, 23 x 4, 16 x 3, 13 x 2, 3 x 1, 1 x 0 — 73 rows.
+
+### Flags raised 2026-10-04, evening (4 files added by the owner)
+
+- **Purpose.** Controller behaviour and the ground system's aircraft assumptions, for the §11 experiment's baseline. None belongs to the §2–§4 annotation tables. All four PDFs carry digital highlights, which are listed in each summary's "Highlighted passages" section.
+- **`rantanen2012conflictManeuvers` (rated 5).** U.S. radar-track evidence of what controllers do. For crossing tracks with both aircraft level, 23 of 36 maneuvers were descents. These are responses to the short-range conflict alert, not strategic resolutions, and speed changes were not analysed. Some of the paper's table rows do not add to their stated totals.
+- **`kirwan2001coraStrategies` (rated 4).** Rules, principles and factors from 45 European controller interviews. Interim: the resolutions actually chosen were not yet analysed. Most principles were cited by one to three controllers.
+- **`fothergill2013resolutionHeuristics` (rated 3).** Thirteen heuristics with their instruction counts. Self-reported, no frequencies, one Australian center.
+- **`coppenbarger1999climbPrediction` (rated 4).** Primary source for the nominal-weight-per-type assumption and for observed take-off weight spreads. **The file name says 2012; the paper is 1999.** Climb phase only. It is the source that `schultz2012adaptiveClimb` cites, so the two are not independent.
+- **Disagreement to carry forward, not a duplicate:** on whether controllers prefer descent. `rantanen2012conflictManeuvers` observes descent as the most common choice for level aircraft; `fothergill2013resolutionHeuristics` reports controllers saying it is not preferred because of fuel.
+- **Related, unregistered material:** 20 further papers on the same topic are in `evidence/prior-work-experiment-definition/` with a write-up. They are deliberately not in this ledger.
+- **Scenario figures** from two of these papers were saved by the owner to `attachments/` and are described in the corresponding summaries.
+- Nothing rated 0–1.
+
+**Distribution as of 2026-10-04, after the experiment-definition additions:** 16 x 5, 21 x 4, 15 x 3, 13 x 2, 3 x 1, 1 x 0 — 69 rows.
 
 ### Flags raised 2026-10-04, experiment-definition additions (3 files: 1 added by the owner, 2 downloaded on request)
 
