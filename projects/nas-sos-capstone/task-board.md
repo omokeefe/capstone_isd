@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-04 (see `journal/2026-10-04.md`, 20:36 Sign-Off). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
+**Last updated:** 2026-10-05 (see `journal/2026-10-05.md`, 21:26 Sign-Off). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
 
 ## Current phase
 
@@ -36,6 +36,10 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 ## Active
 
 - §11 experiment definition (2026-10-04): reframed, baseline sourced, prior work read; nothing decided yet. See journal 2026-10-04 (14:20, 16:30, 20:30) and `evidence/prior-work-experiment-definition/prior-work-writeup.md`.
+
+- §11 central claim questioned (2026-10-05): candidate reframing is a model-wide check for decisions made without needed information, with the simulation as one measured example. Not decided. Sheth dispatcher-ratings evidence added. See journal 2026-10-05 and `open-questions.md` §11.
+
+- Three unregistered PDFs in `evidence/sources/` (two Sheth papers, SESAR Solutions Catalogue 2019). See `open-questions.md` "Reference-register housekeeping".
 
 - Blocked on adviser: scope option (a/b/c) and current-state metric. No record that the meeting happened.
 
@@ -103,9 +107,9 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Next session priority
 
-See `journal/2026-10-04.md` (20:36 Sign-Off) for reasoning.
+See `journal/2026-10-05.md` (21:26 Sign-Off) for reasoning.
 
-1. One-page experiment definition (factor that differs, baseline rule and tie-breaker, metrics, truth model); take it and the scope question (a/b/c) to the adviser.
-2. Finish the nominal-flight activity diagram with swimlanes; check the §10 context diagram box.
-3. Re-date slipped ECDs against Interim Report #2 (10-25). Traceability chain (ECD 10-12) not started.
+1. One-page experiment definition, capped at one hour: central claim first, then the factor that differs, baseline rule and tie-breaker, metrics, truth model. Include the back-of-envelope effect size and the hand check on three or four context-diagram decisions. Take it and the scope question (a/b/c) to the adviser.
+2. Finish the nominal-flight activity diagram with swimlanes; check the §10 context diagram box. Carried over twice.
+3. Register the three new PDFs and confirm the ten-factor table's source. Re-date slipped ECDs against Interim Report #2 (10-25). Traceability chain (ECD 10-12) not started.
 4. Carried over from 09-26, not reviewed since: BDD placement of `ControlTower` and Decision Support; deferred §4 admin updates; sequence diagrams.
