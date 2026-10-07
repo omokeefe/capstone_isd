@@ -15,12 +15,23 @@ package NominalOpsActivity {
     private import NationalAirspaceSystem::AircraftSystems::*;
     private import NationalAirspaceSystem::FlightOperations::*;
     private import NationalAirspaceSystem::FlightCrew::*;
+    private import NationalAirspaceSystem::Common::*;
+    private import NationalAirspaceSystem::Infrastructure::*;
 
     // =========================================================================
     // 1. PHASE ACTION DEFS
-    // Parameters (in/out) are the items that flow between phases. Add, rename,
-    // or retype them as the exchanges firm up.
+    // Parameters (in/out) are the items that flow between phases. 
     // =========================================================================
+
+    action def Prework {
+        doc /* All of the airline work that occur before the flight planning can 
+        occur, including Market segmentation, service model, network design, 
+        published schedule, fleet assignment strategy, and crew assignment.
+         */
+         // Connec this either as the start node, or as an input to the 
+         // start node.
+    }
+
 
     action def PlanFlight {
         doc /* AOC/dispatch builds the flight plan and issues the dispatch release. */
@@ -28,24 +39,41 @@ package NominalOpsActivity {
         out release : DispatchRelease;
     }
 
+    action def SupplyFuel {
+        doc /* Fuel supplier delivers fuel to the airport for the flight. */
+        in release : DispatchRelease;
+        out  fuelLoad : Real; // lb, same unit as DispatchRelease.plannedFuel
+        out fuelSlip : FuelSlip;
+    }
+
     action def PrepareForDeparture {
         doc /* Parallel ground preparation, ending when the aircraft is ready to push.
-         * Example fork/join pattern; replace the sub-actions with real ones. */
+        */
         in release : DispatchRelease;
+        in aircraft : Aircraft;
+        in crew : Operator[*];
+        in passengers : Passenger[*];
+        in cargo : Cargo[*];
+        in fuelLoad : Real; // lb, same unit as DispatchRelease.plannedFuel
+        in weather : WeatherConditions; // actual weather, exogenous (not the release's weather package)
+
+        out flight : Flight;
+        out aircraftState : AircraftState;
 
         first start;
         then fork prepFork;
             then prepareAircraft;
-            then prepareCrew;
             then turnAroundGate;
 
         action prepareAircraft;   // fueling, loading, FMS initialization
-        action prepareCrew;       // briefing, preflight checks
         action turnAroundGate;    // boarding, baggage, ground handling
 
         first prepareAircraft then prepJoin;
-        first prepareCrew then prepJoin;
         first turnAroundGate then prepJoin;
+
+        // prepareAircraft has airport fuel delivery, 
+        // crew to aircraft FMS entries
+        // crew to aircraft configuration, etc.
 
         join prepJoin;
         then done;

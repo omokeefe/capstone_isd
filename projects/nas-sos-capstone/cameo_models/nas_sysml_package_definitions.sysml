@@ -921,6 +921,13 @@ package NationalAirspaceSystem {
         }
 
         part def WeatherService;
+
+        item def WeatherConditions {
+            doc /* The actual state of the atmosphere (wind, visibility, ceiling, precipitation,
+             * convection), as opposed to the reports and forecasts WeatherService produces
+             * about it. Exogenous: the SoI has to operate within it and cannot change it, so
+             * it enters behaviors as an input, not as a decision lever (D-007). */
+        }
     }
 
     package InformationServices {

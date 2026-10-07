@@ -49,38 +49,38 @@ package SystemLevelRequirements {
 
         requirement <'SLR-001'> realTimeMonitoringAndControl : SystemLevelRequirement {
             doc /* The NAS System shall provide real-time air traffic monitoring and control capabilities. */
-            status = RequirementStatus::draft;
-            kind = RequirementKind::functional;
+            :>> status = RequirementStatus::draft;
+            :>> kind = RequirementKind::functional;
         }
 
         requirement <'SLR-002'> controllerPilotCommunication : SystemLevelRequirement {
             doc /* The NAS System shall support communication between air traffic controllers and pilots. */
-            status = RequirementStatus::draft;
-            kind = RequirementKind::functional;
+            :>> status = RequirementStatus::draft;
+            :>> kind = RequirementKind::functional;
         }
 
         requirement <'SLR-003'> navigationAids : SystemLevelRequirement {
             doc /* The NAS System shall provide navigation aids to assist pilots in safely navigating the airspace. */
-            status = RequirementStatus::draft;
-            kind = RequirementKind::functional;
+            :>> status = RequirementStatus::draft;
+            :>> kind = RequirementKind::functional;
         }
 
         requirement <'SLR-004'> aircraftSurveillance : SystemLevelRequirement {
             doc /* The NAS System shall support surveillance systems to track aircraft positions and movements. */
-            status = RequirementStatus::draft;
-            kind = RequirementKind::functional;
+            :>> status = RequirementStatus::draft;
+            :>> kind = RequirementKind::functional;
         }
 
         requirement <'SLR-005'> atcCenterCoordination : SystemLevelRequirement {
             doc /* The NAS System shall facilitate coordination between different air traffic control centers. */
-            status = RequirementStatus::draft;
-            kind = RequirementKind::functional;
+            :>> status = RequirementStatus::draft;
+            :>> kind = RequirementKind::functional;
         }
 
         requirement <'SLR-006'> conflictDetectionAndResolution : SystemLevelRequirement {
             doc /* The NAS System shall provide tools for conflict detection and resolution to prevent mid-air collisions. */
-            status = RequirementStatus::draft;
-            kind = RequirementKind::functional;
+            :>> status = RequirementStatus::draft;
+            :>> kind = RequirementKind::functional;
         }
     }
 }

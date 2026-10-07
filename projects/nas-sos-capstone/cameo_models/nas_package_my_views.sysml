@@ -44,7 +44,10 @@ package MyViews {
             // Placeholder IBD (D-010): links internal to Airspace Management.
             expose AirspaceManagementIBD::AirspaceManagementInternals::**[@AirspaceManagementIBD::IBDVisible];
         }
-
+                
+        view nominalOpsActivity : ActionFlowView {
+            expose NominalOpsActivity::NominalFlightOperations::**;
+        }
 
         // Additional views can be added as needed to support the development and
         // understanding of the system of interest.

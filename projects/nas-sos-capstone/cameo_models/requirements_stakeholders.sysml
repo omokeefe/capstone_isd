@@ -44,14 +44,14 @@ package StakeholderRequirements {
 
         requirement <'SN-001'> regulatoryCompliance : StakeholderNeed {
             doc /* The NAS System shall comply with all applicable regulations and standards set forth by the FAA. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::governmentsAndStandardsOrganizations;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::governmentsAndStandardsOrganizations;
         }
 
         requirement <'SN-002'> newRegulationSupport : StakeholderNeed {
             doc /* The NAS System shall support the implementation of new regulations and standards as they are developed. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::governmentsAndStandardsOrganizations;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::governmentsAndStandardsOrganizations;
         }
     }
 
@@ -62,8 +62,8 @@ package StakeholderRequirements {
 
         requirement <'SN-003'> efficientReliableAirTrafficManagement : StakeholderNeed {
             doc /* The NAS System shall provide efficient and reliable air traffic management to minimize delays and optimize flight operations. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::operators;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::operators;
         }
 
         // TODO: 4 more "The NAS System shall..." needs to be written.
@@ -76,14 +76,14 @@ package StakeholderRequirements {
 
         requirement <'SN-004'> controllerSituationalAwareness : StakeholderNeed {
             doc /* The NAS System shall provide real-time situational awareness and decision support tools to air traffic controllers. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::airTrafficControl;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::airTrafficControl;
         }
 
         requirement <'SN-005'> interCenterCoordination : StakeholderNeed {
             doc /* The NAS System shall facilitate effective communication and coordination between different ATC centers to ensure safe and efficient air traffic management. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::airTrafficControl;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::airTrafficControl;
         }
 
         // TODO: 3 more "The NAS System shall..." needs to be written.
@@ -96,8 +96,8 @@ package StakeholderRequirements {
 
         requirement <'SN-006'> newTechnologyIntegration : StakeholderNeed {
             doc /* The NAS System shall provide a platform for the integration of new aircraft and engine technologies to enhance operational capabilities and efficiency. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::aircraftAndEngineManufacturers;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::aircraftAndEngineManufacturers;
         }
     }
 
@@ -108,8 +108,8 @@ package StakeholderRequirements {
 
         requirement <'SN-007'> airportOperationsSupport : StakeholderNeed {
             doc /* The NAS System shall support airport operations by providing accurate and timely information on air traffic movements and airport capacity. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::airportAuthority;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::airportAuthority;
         }
 
         // TODO: 3 more "The NAS System shall..." needs to be written.
@@ -122,8 +122,8 @@ package StakeholderRequirements {
 
         requirement <'SN-008'> flightCrewDecisionSupport : StakeholderNeed {
             doc /* The NAS System shall provide flight crews with real-time information and decision support tools to enhance safety and operational efficiency. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::flightCrews;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::flightCrews;
         }
 
         // TODO: 3 more "The NAS System shall..." needs to be written.
@@ -136,8 +136,8 @@ package StakeholderRequirements {
 
         requirement <'SN-009'> passengerSafetyAndComfort : StakeholderNeed {
             doc /* The NAS System shall ensure the safety and comfort of passengers by providing reliable and efficient air travel services. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::passengers;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::passengers;
         }
 
         // TODO: 3 more "The NAS System shall..." needs to be written.
@@ -150,8 +150,8 @@ package StakeholderRequirements {
 
         requirement <'SN-010'> environmentalAndSocietalInsight : StakeholderNeed {
             doc /* The NAS System shall support environmental and societal objectives by providing data and insights to inform policy decisions and mitigate potential impacts. */
-            status = RequirementStatus::draft;
-            stakeholderGroup = StakeholderGroup::environmentalAndSocietalOrganizations;
+            :>> status = RequirementStatus::draft;
+            :>> stakeholderGroup = StakeholderGroup::environmentalAndSocietalOrganizations;
         }
 
         // TODO: 3 more "The NAS System shall..." needs to be written.
