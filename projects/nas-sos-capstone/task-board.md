@@ -113,7 +113,7 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 See `journal/2026-10-06.md` (21:12 Sign-Off) for reasoning; item 1's detail is in `journal/2026-10-05.md` (21:26 Sign-Off).
 
-1. One-page experiment definition, capped at one hour, central claim first. Carried over three sessions. Take it and the scope question (a/b/c) to the adviser.
+1. Review the drafted experiment one-pager (`knowledge/models/experiment-definition.md`, AI draft 2026-10-06) and make its four "Decide" items, central claim first. Capped at one hour. Do the hand check on three or four context-diagram decisions. Take it and the scope question (a/b/c) to the adviser.
 2. Finish the activity diagram: connect `Prework`, real sub-actions, swimlanes, hub-to-hub walkthrough. Then check the §10 box.
 3. Re-date the traceability chain (ECD 10-12, not started) and its dependents (10-17, 10-20) against Interim Report #2 (10-25).
 4. Load one `.sysml` file from Python in `.venv` to confirm the Syside licence works.
