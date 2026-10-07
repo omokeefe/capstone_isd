@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-05 (see `journal/2026-10-05.md`, 21:26 Sign-Off). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
+**Last updated:** 2026-10-06 (see `journal/2026-10-06.md`, 21:12 Sign-Off). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
 
 ## Current phase
 
@@ -34,6 +34,10 @@ annotation-coverage claim, citation spot-checks against skimmed-only sources, th
 The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Active
+
+- Nominal-flight activity diagram (§10, slipped from 10-01): in progress 2026-10-06. Inputs/outputs on `PrepareForDeparture`, `Prework` and `SupplyFuel` added, view renders. No swimlanes, sub-actions still placeholders. See journal 2026-10-06.
+
+- Python `.venv/` with `syside` 0.11.0 created 2026-10-06 (git-ignored). Import tested only; licence for the Python package unverified.
 
 - §11 experiment definition (2026-10-04): reframed, baseline sourced, prior work read; nothing decided yet. See journal 2026-10-04 (14:20, 16:30, 20:30) and `evidence/prior-work-experiment-definition/prior-work-writeup.md`.
 
@@ -107,9 +111,10 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Next session priority
 
-See `journal/2026-10-05.md` (21:26 Sign-Off) for reasoning.
+See `journal/2026-10-06.md` (21:12 Sign-Off) for reasoning; item 1's detail is in `journal/2026-10-05.md` (21:26 Sign-Off).
 
-1. One-page experiment definition, capped at one hour: central claim first, then the factor that differs, baseline rule and tie-breaker, metrics, truth model. Include the back-of-envelope effect size and the hand check on three or four context-diagram decisions. Take it and the scope question (a/b/c) to the adviser.
-2. Finish the nominal-flight activity diagram with swimlanes; check the §10 context diagram box. Carried over twice.
-3. Register the three new PDFs and confirm the ten-factor table's source. Re-date slipped ECDs against Interim Report #2 (10-25). Traceability chain (ECD 10-12) not started.
-4. Carried over from 09-26, not reviewed since: BDD placement of `ControlTower` and Decision Support; deferred §4 admin updates; sequence diagrams.
+1. One-page experiment definition, capped at one hour, central claim first. Carried over three sessions. Take it and the scope question (a/b/c) to the adviser.
+2. Finish the activity diagram: connect `Prework`, real sub-actions, swimlanes, hub-to-hub walkthrough. Then check the §10 box.
+3. Re-date the traceability chain (ECD 10-12, not started) and its dependents (10-17, 10-20) against Interim Report #2 (10-25).
+4. Load one `.sysml` file from Python in `.venv` to confirm the Syside licence works.
+5. Carried over: register the three new PDFs and confirm the ten-factor table's source; context diagram box; BDD placement of `ControlTower` and Decision Support; deferred §4 admin updates; sequence diagrams.
