@@ -6,6 +6,65 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-015 — Experiment starts from one aircraft type; ICAO calculator accepted for the CO2 factor; arrival-time effect of speed acknowledged
+
+**Date:** 2026-10-09
+**Status:** active. Owner direction, same day as D-014. **Supersedes item 1 of D-014** (a B777 and a 737 as the crossing pair); the rest of D-014 stands.
+
+**Decision:**
+
+1. **Both crossing aircraft are the B737-900 MAX** (Boeing's name: 737 MAX 9). The two-type pair of D-014 is kept as a later variation. The heavy and light weights are not yet set.
+2. **The report acknowledges that the outcome is sensitive to the types and weights in the scenario.** The owner's reading: that sensitivity indicates how prevalent the issue is, and shows the benefit of MBSE's support for interchangeable models of different fidelity.
+3. **ICAO's Carbon Emissions Calculator is the accepted source for the CO2 produced per kg of fuel** (3.16; `icao2024icecMethodology`, p. 6). Known criticisms of the calculator are noted and acknowledged in the report where appropriate.
+4. **The effect of a speed change on arrival time is acknowledged in the report, even if it is not definitively included in the costs.** A change of 0.04 Mach held over 1,000 NM at 38,000 ft moves arrival by about 6 to 7 minutes, which can push a flight that is already early or late out of a 10 to 15 minute slot.
+
+**Why:**
+
+- With one type, the nominal-model case cannot tell the two aircraft apart, so the value of shared weight and cost index is isolated. Claude raised that two types narrow that value; the owner agreed it matters and chose to start from one type.
+- The owner judged ICAO's calculator good enough as a source and asked for its criticisms to be noted.
+- The arrival-time arithmetic is the owner's and was checked (458.9 kt at Mach 0.80; 99 s per 0.01 Mach).
+
+**Consequences and open items:**
+
+- The 105,000 lb weight in D-014 is close to the empty weight of this type, so both weights need setting.
+- An earlier statement that one resolution costs a flight only seconds to a couple of minutes was too narrow and is corrected in `knowledge/models/experiment-options-and-scoring.md` §4.2.
+- Mach 0.84 may be above the type's maximum operating Mach number (0.82, not sourced), which would limit the fast side to +0.02.
+- The criticism of the ICAO calculator that bears on this experiment is that it counts CO2 only, while the options here are altitude changes and non-CO2 effects depend on altitude. That link needs a source.
+
+---
+
+## D-014 — Experiment scenario and scoring, second review: aircraft types, speed lever, fourth case, emissions routes, all aircraft listed
+
+**Date:** 2026-10-09
+**Status:** active. Owner direction from the hand review of `knowledge/models/experiment-options-and-scoring.md`, transcribed in `projects/nas-sos-capstone/handwritten/2026-10-09_experiment-options-and-scoring_round_2.md`. Adds to D-013; nothing in D-013 is reversed. The experiment's central claim is still open in `knowledge/models/experiment-definition.md` §1.
+
+**Decision:**
+
+1. **The crossing pair is a B777 at 600,000 lb with 200 or more passengers (AC1) and a 737 at 105,000 lb (AC2).** Owner's figures, graded [SME].
+2. **The speed lever is built to fail.** Distances and speeds are chosen so that a change within ±0.04 Mach cannot separate the pair. ±0.04 Mach is graded [SME].
+3. **Levels are 2,000 ft apart for one direction of flight (eastbound odd, westbound even), taken as fact** [SME]. The check against JO 7110.65BB is dropped unless needed later. Candidate levels for the crossing pair are FL370 (climb to FL390) and FL380 (climb to FL400); not chosen.
+4. **A fourth case, D, is added: the shared-weight case plus the airline's connection information.** The owner's reason: ATC and airports can exchange it through SWIM, and including or omitting it is the kind of parameter the study varies. Making it a separate case, not part of case C, is Claude's reading of the note.
+5. **Emissions routes.** A CORSIA credit price is used for the airline column, applied to a U.S. domestic flight as a stated assumption. Passenger value goes in the discussion. A social cost of carbon is quoted in the system column.
+6. **"Automated decision" means the automation proposes, and the controller checks and issues the clearance.**
+7. **Every aircraft's cost is listed in the outcome tables,** not only the worst-off one.
+8. **The system column is a measure of the airspace as a whole system of systems,** defined by its own cost statement.
+
+**Why:**
+
+- Items 1 to 3 are the owner's operational judgment of a realistic and usable scenario.
+- Item 4 follows the owner's finding that dispatchers rate schedule integrity and connections above fuel (Sheth et al., credits-concept paper, Figure 7), which weight and cost index do not carry.
+- Item 5: a credit price is a cost an airline can face; society's cost is not, so it sits at the system level.
+- Item 7: listing all four shows who pays without a summary statistic.
+
+**Consequences and open items:**
+
+- With two different aircraft types, the nominal-model case already tells the pair apart by type. What sharing weight adds narrows to the distance from each type's nominal weight and the cost index. Raised with the owner; not yet answered.
+- A statement in the first draft, that a heavy aircraft is nearer its optimum at the lower level, was struck by the owner and removed. The direction is left to the truth model.
+- One conflict resolution costs a flight seconds to minutes, so crossing a 10 to 15 minute slot boundary depends on how late the flight already is. The scenario has to state that.
+- Still unsourced: the missed-connection cost, a CORSIA price, the CO2 per kg of fuel, a passenger-choice study and a social cost of carbon. The Sheth et al. paper is held but not registered.
+
+---
+
 ## D-013 — Experiment scoring: TASAR altitude set and climb rule, impacts stated separately, CO2 in dollars for the airline only
 
 **Date:** 2026-10-09

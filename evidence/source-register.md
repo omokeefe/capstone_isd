@@ -17,7 +17,7 @@ This file tracks references at two different depths — keep them straight:
 ## Processing Ledger
 
 **Last full sweep:** 2026-10-04 (one file added and processed on its own 2026-10-09; not a full sweep)
-**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 74 of 74 after the 2026-10-09 addition
+**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 75 of 75 after the two 2026-10-09 additions
 
 **PDF highlight extraction (2026-10-09):** ran the extractor on the one file added today, `engility2014tasarAlaska`. 38 highlights (PDF pp. 3–12), no typed comments, no ink. Merged into its summary's `## Highlighted passages` section. The other PDFs were not re-run.
 
@@ -133,8 +133,9 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | fothergill-neal-2013-conflict-resolution-heuristics-for-en-route-air-traffic-management.pdf | `fothergill2013resolutionHeuristics` | 3 | [3 - fothergill2013resolutionHeuristics.md](literature-notes/summaries/3%20-%20fothergill2013resolutionHeuristics.md) | 2026-10-04 |
 | coppenbarger-2012-en-route-climb-trajectory-prediction-enhancement-using-airline-flight-planning-information.pdf | `coppenbarger1999climbPrediction` (1999 paper; file name says 2012) | 4 | [4 - coppenbarger1999climbPrediction.md](literature-notes/summaries/4%20-%20coppenbarger1999climbPrediction.md) | 2026-10-04 |
 | tasar_ntrs_20140012787.pdf | `engility2014tasarAlaska` (corporate author; NASA technical monitor David Wing) | 4 | [4 - engility2014tasarAlaska.md](literature-notes/summaries/4%20-%20engility2014tasarAlaska.md) | 2026-10-09 |
+| ICEC_Methodology_Passengers_v13.pdf | `icao2024icecMethodology` (Version 13.1, Aug 2024) | 3 | [3 - icao2024icecMethodology.md](literature-notes/summaries/3%20-%20icao2024icecMethodology.md) | 2026-10-09 |
 
-**Distribution as of 2026-10-09 (computed from the ledger rows above):** 17 x 5, 24 x 4, 16 x 3, 13 x 2, 3 x 1, 1 x 0 — 74 rows.
+**Distribution as of 2026-10-09 (computed from the ledger rows above):** 17 x 5, 24 x 4, 17 x 3, 13 x 2, 3 x 1, 1 x 0 — 75 rows.
 
 ### Flags raised 2026-10-09 (1 file promoted from the prior-work folder at the owner's request)
 
@@ -142,6 +143,8 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 - **Author is corporate.** The document says it was prepared by Engility Corporation under contract NNL12AA06C, with David Wing as NASA Technical Monitor, and names no personal author. It is cited that way. A web search summary names Jeffrey Henderson as author of a later published version (NASA/CR-2015-218787); not confirmed, not used.
 - **Its controller model is stated, not measured.** The report itself lists facility observations as future work.
 - **"Monitor alert parameter value" and "red sector"** are explained in the summary from `faa2025jo72103ee` §18-9. The order does not define red against yellow, and "area manager" is the report's term, not the order's; both are marked [C] in the summary.
+- **`icao2024icecMethodology` (rated 3), added later the same day.** ICAO's methodology for its Carbon Emissions Calculator, downloaded from icao.int at the owner's direction. Used for one constant, 3.16 kg of CO2 per kg of fuel (p. 6). The calculator counts CO2 only; criticisms of it are listed in the summary and are unregistered leads. No highlights (not read by the owner).
+- **Still held but not registered:** the Sheth et al. credits-concept paper, now confirmed as the source of the ten-factor dispatcher table (Figure 7, PDF p. 11).
 - **Related, unregistered material:** 19 further papers remain in `evidence/prior-work-experiment-definition/`. The write-up's section 11 now points to this registered copy.
 - Nothing rated 0–1.
 

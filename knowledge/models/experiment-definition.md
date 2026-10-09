@@ -63,7 +63,7 @@ One model scores every case, at higher fidelity than the model any case used to 
 ## 10. Known limits
 
 - Level crossing conflicts are a minority: 36 of 256 in the U.S. data.
-- Cost index understates a connection-critical flight, and dispatchers rate schedule integrity and connections above fuel (Sheth et al.; table source unconfirmed).
+- Cost index understates a connection-critical flight, and dispatchers rate schedule integrity and connections above fuel (Sheth, Gutierrez-Nolasco, Courtney and Smith, credits-concept paper, Figure 7, PDF p. 11; held in `evidence/sources/` but not yet registered; the paper says the averages are not statistically significant).
 - Airlines could misreport what they share. Published gains from misreporting cost index are small (1 to 3 percent).
 - The ±0.04 M speed figure is still unsourced.
 
