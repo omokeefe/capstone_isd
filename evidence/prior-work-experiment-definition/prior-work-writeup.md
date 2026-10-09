@@ -1,6 +1,6 @@
 # Prior work overlapping the experiment definition: what to learn from each paper
 
-Written 2026-10-04. These papers were downloaded for the §11 experiment definition (a crossing conflict among about four aircraft in one en-route sector, comparing a rule-based baseline against a decision that knows each aircraft's weight and cost index). They are **not registered sources**: no bib entries, no ledger rows, no ratings. If one earns a place in the report, run it through `workflows/process-references.md` first.
+Written 2026-10-04. These papers were downloaded for the §11 experiment definition (a crossing conflict among about four aircraft in one en-route sector, comparing a rule-based baseline against a decision that knows each aircraft's weight and cost index). They are **not registered sources**: no bib entries, no ledger rows, no ratings. If one earns a place in the report, run it through `workflows/process-references.md` first. One has been: section 11 (the TASAR benefits study) was registered as `engility2014tasarAlaska` on 2026-10-09 and its PDF moved to `evidence/sources/`.
 
 Each entry says how much was read. Page numbers are PDF pages.
 
@@ -368,50 +368,64 @@ It shows the information exchange in case C is past the concept stage in Europe 
 
 ## 11. Engility for NASA Langley (2014), "Traffic Aware Strategic Aircrew Requests (TASAR): Annualized TASAR Benefits for Alaska Airlines Operations"
 
-- **File:** `tasar_ntrs_20140012787.pdf` (contractor report NNL12AA06C, 2 September 2014, 23 pp). Read in full.
+- **File:** `evidence/sources/tasar_ntrs_20140012787.pdf` (contractor report NNL12AA06C, 2 September 2014, 23 pp). Read in full.
+- **Now a registered source (2026-10-09):** bib key `engility2014tasarAlaska`, rated 4, summary at `evidence/literature-notes/summaries/4 - engility2014tasarAlaska.md`. The PDF was moved out of this folder at the owner's request so it can be cited in the report. The other entries in this write-up are still unregistered.
+- **Owner's highlights (2026-10-09):** 38 passages, PDF pp. 3–12, listed in the summary. Points below marked **[H]** are ones the owner highlighted. The "Owner's highlights" subsection lists what the highlights add to the 2026-10-04 reading.
 - **What it is:** a fast-time benefits study of a cockpit tool that proposes route and altitude changes the controller is likely to approve. It is the mirror image of the experiment: the aircraft is given a picture of the traffic, where the experiment gives ATC a picture of the aircraft's costs.
 
 ### Decisions and rationale
 
 - **Optimize one aircraft at a time.** "All automation and pilot procedures are fully dedicated to a single aircraft which allows tailoring of optimization criteria to the objectives of each flight" (p. 6). This is local optimization by design.
-- **Objective:** 50 percent fuel, 50 percent time. An advisory is rejected if it increases either one, so no fuel-for-time trade is allowed.
+- **Objective:** 50 percent fuel, 50 percent time. An advisory is rejected if it increases either one, so no fuel-for-time trade is allowed. **[H]**
 - **Only ask for what will be approved.** The tool withholds a request when:
-  - it predicts a traffic conflict (probed 8 minutes ahead with a conservative 10 NM and 1,000 ft shell, using state projection only, since the aircraft does not have other aircraft's flight plans);
+  - it predicts a traffic conflict (probed 8 minutes ahead with a conservative 10 NM and 1,000 ft shell, using state projection only, since the aircraft does not have other aircraft's flight plans); **[H]**
   - it would enter weather or special activity airspace;
-  - the crew has already made a request to this sector controller;
-  - the aircraft is within about 20 NM of the sector boundary (handoff);
+  - the crew has already made a request to this sector controller; **[H]**
+  - the aircraft is within about 20 NM of the sector boundary (handoff); **[H]**
   - the aircraft is still in its initial climb;
   - the aircraft is within 200 NM of a large hub destination.
-- **Why voice limits the levers.** Requests go by voice, so lateral changes are limited to one or two named waypoints.
+- **Why voice limits the levers.** Requests go by voice, so lateral changes are limited to one or two named waypoints. **[H]**
 
 ### Control levers
 
 - Lateral: one or two named waypoints, then rejoin.
-- Vertical: 2,000 ft above, 2,000 ft below, or 4,000 ft below the assigned altitude.
-- **Climbs were allowed only at or below FL350, "to be conservative since aircraft weight was not modeled in the simulation"** (p. 8).
+- Vertical: 2,000 ft above, 2,000 ft below, or 4,000 ft below the assigned altitude. **[H]**
+- **Climbs were allowed only at or below FL350, "to be conservative since aircraft weight was not modeled in the simulation"** (p. 8). **[H]**
 - Combinations of the two.
 
 ### The controller model (how the baseline ATC decision was simulated)
 
 The simulated controller rejects a request if:
 
-1. It would cause a conflict. The controller knows more than the aircraft: all flight plans, and traffic beyond the aircraft's 60 NM ADS-B range.
-2. The sector is over its Monitor Alert Parameter ("a red sector"). The reasoning: as traffic rises, controllers form a plan, and a request that does not fit the plan is likely to be denied.
-3. The request would send the aircraft into an adjacent red sector.
+1. It would cause a conflict. The controller knows more than the aircraft: all flight plans, and traffic beyond the aircraft's 60 NM ADS-B range. **[H]**
+2. The sector is over its Monitor Alert Parameter ("a red sector"). The reasoning: as traffic rises, controllers form a plan, and a request that does not fit the plan is likely to be denied. **[H]**
+3. The request would send the aircraft into an adjacent red sector. **[H]** The report qualifies this rule in the next two sentences, which the 2026-10-04 reading left out: "Controllers are generally not aware of red sectors elsewhere and will not consider traffic demand in other sectors when evaluating aircrew requests. However, the area manager may instruct the controller not to send traffic through an adjacent sector if the adjacent sector is currently experiencing high traffic" (p. 10). So rule 3 does not model the sector controller's own judgment. It models an instruction the controller receives from a supervisor.
 
 ### Methodology
 
-- Two linked instances of NASA's FACET tool, one simulating the present and one predicting ahead.
+- Two linked instances of NASA's FACET tool, one simulating the present and one predicting ahead. **[H]** The predictor tests each request for conflicts with traffic and airspace hazards and computes its effect on the airline's time and fuel.
+- Inputs **[H]**: traffic from recorded ASDI data (the FAA's traffic feed to industry); winds from recorded RUC forecasts; reroute initiatives from the National Traffic Management Log; convective weather from NEXRAD radar reflectivity.
+- Flights on their recorded path are replayed point by point with no performance model. Only the alternate trajectories are flown through aircraft performance models. **[H]**
 - Baseline is the historically flown trajectory of real Alaska Airlines flights (July to September 2012). The treatment replays the flight with the tool allowed to make requests every five minutes from top of climb to 200 NM from destination.
 - Results are scaled to a year by route frequency from public traffic statistics, then converted to dollars with fuel price and per-minute maintenance and depreciation costs from public financial filings. Crew cost and customer satisfaction are left out.
 
 ### Results worth knowing
 
 - 8,000 to 12,000 gallons of fuel and 900 to 1,300 minutes saved per aircraft per year; a little over 5 million dollars a year fleet-wide.
-- Per flight, for the "more wind-optimal trajectory" case: about 27 gallons and 2.3 minutes. The rare "reroute initiative has ended" case gave the most per flight (103 gallons, 7.8 minutes).
+- Per flight (p. 12) **[H]**: about 27 gallons and 2.3 minutes for the "more wind-optimal trajectory" case; 103 gallons and 7.8 minutes for the "reroute initiative has ended" case; 12 gallons and 1.3 minutes for the convective weather case. The reroute and weather cases together were fewer than 5 percent of flights, so the wind figure is the typical one.
+- The earlier, generic study this report builds on found more: 543 lb of fuel (about 80 gallons) and 3.6 minutes per flight for network carriers (p. 6). **[H]**
 - Mix of requests: 44 percent lateral only, 5 percent vertical only, 51 percent combined.
 - 6 percent of requests were rejected by the simulated controller. Without ADS-B traffic information on board, about 23 percent would have been.
 - Request load on ATC: 4 to 8 requests per hour in the busiest sectors at peak times. The report suggests managing that through dispatcher coordination.
+
+### Owner's highlights (2026-10-09): what they add
+
+- **Which figure to quote.** The owner's hand review of the experiment one-pager marked "about 27 gallons and 2.3 minutes per flight" for a fact check. The figure is correct (p. 12) and is the typical case, but it is one of three, and the predecessor study reported about 80 gallons and 3.6 minutes for network carriers (p. 6). Quote it as the wind-optimal case, with the range.
+- **Who knows a sector is overloaded.** Not the controller of the neighbouring sector. The traffic management unit sees the alert and notifies the affected area (FAA Order JO 7210.3EE ¶18-9-3d); a supervisor then restricts what the neighbouring controller may send. The report calls that supervisor the "area manager", which is not the order's term.
+- **What "monitor alert parameter value" is.** A number per sector that triggers an alert in the traffic flow system when predicted traffic reaches it. It is set from a national workload model and adjusted locally for weather and outages (JO 7210.3EE ¶18-9-1, ¶18-9-2). The full explanation is in the summary note.
+- **A strategic route change is distinguished from a tactical heading change** (p. 7): the weather use case applies only when there is enough lead time for the first.
+- **Aircraft left on a reroute after it ends** (p. 7) is the use case with the largest saving per flight. It is an information gap of its own: the initiative is over, and nothing moves the aircraft back to its preferred route unless the crew asks.
+- **ADS-B equipage changes the controller's load, not the airline's benefit** (p. 6): with less traffic information on board, more requests reach the controller that would cause a conflict.
 
 ### Why it matters for the experiment
 

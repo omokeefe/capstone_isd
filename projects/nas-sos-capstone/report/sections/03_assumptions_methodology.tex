@@ -32,3 +32,86 @@ $J = w_1 J_1 + w_2 J_2 + \dots + w_n J_n$, normalization approach for
 objectives with different units/scales, and the stakeholder weighting
 scheme. This section should be detailed enough that the scenario and
 formulation could be reproduced.}
+
+% ---- Placeholders added 2026-10-09 (AI-drafted scaffolding, not report prose).
+% Source of the structure: knowledge/models/experiment-definition.md and
+% knowledge/models/experiment-options-and-scoring.md; decision D-013.
+\subsection{Experiment Design}
+\label{sec:experiment-method}
+
+\plantodo{S11}{\textbf{State the central claim} the experiment supports.
+Still undecided (see \texttt{experiment-definition.md} \S1 and the hand
+review notes 1.2, 2.1, 4.1). Answer the objection that the simulation
+compares two ways of operating and so does not by itself test MBSE.}
+
+\plantodo{S11}{\textbf{Scenario.} Four aircraft in one invented en-route
+sector, shown as one snapshot: a crossing pair at the same level and two
+aircraft in trail 2,000 ft below. State which aircraft belong to the same
+airline, which is late with connections, and the weight of each. Give the
+level of the crossing pair and say why it is above FL350. Justify the static
+snapshot by the controller studies that used one
+(\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).}
+
+\plantodo{S11}{\textbf{The one thing that differs between cases.} Define
+cases A, B and C by what the decider knows. State what ``automated
+decision'' means for who devises and who issues the clearance (undecided).
+State that the levers are the same in all three.}
+
+\begin{table}[h]
+\centering
+\caption{PLACEHOLDER -- the three cases. Wording to be the author's.}
+\label{tab:cases}
+\begin{tabular}{@{}llll@{}}
+\toprule
+Case & Decider & Information & Climb rule applies? \\
+\midrule
+A & Controller, by rule & Type, level, speed, route & Yes \\
+B & Automation & Nominal weight per type & Yes \\
+C & Automation & Shared weight and cost index & No \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\plantodo{S11}{\textbf{Altitude options and the climb rule (assumption
+adopted from a prior study).} State the three altitude options (2,000 ft
+above, 2,000 ft below, 4,000 ft below) and the rule that a climb is offered
+only at or below FL350, citing \cite{engility2014tasarAlaska} (p.~8). Say
+plainly that this is that study's modeling assumption, made because it did
+not model aircraft weight; it is not an FAA rule and not observed controller
+behaviour. Then explain why the rule binds cases A and B and not case C:
+this is the mechanism by which missing information removes an option.
+Still to check: that 2,000 ft steps match the levels assigned to one
+direction of flight (\cite{faa2025jo711065bb}, paragraph not yet found).}
+
+\plantodo{S11}{\textbf{Baseline rule for case A.} One descent clearance,
+citing \cite{rantanen2012conflictManeuvers}. State which aircraft descends
+and the tie-breaker (undecided), and whether the aircraft is cleared back up.}
+
+\plantodo{S11}{\textbf{Resolution options.} Introduce
+Table~\ref{tab:options}. For each option give the instructions it costs now,
+the follow-up it creates, and what the decider must know to use it. Cite
+\cite{fothergill2013resolutionHeuristics} for the instruction accounting.}
+
+\plantodo{S11}{\textbf{How each option is scored, one statement per
+viewpoint.} Aircraft: extra fuel plus cost index times extra time
+(\cite{mori2022massCruise}, Eq.~1--3). Airline: the sum over its aircraft
+plus a step cost when a flight misses a connection, plus CO2 converted to
+dollars. Sector: clearances issued, effort to devise them, and residual
+risk, reported as three separate items. System: totals stated side by side,
+with no weighted sum (D-013). Say why no weighted sum: nobody in the model
+owns the weights.}
+
+\plantodo{S11}{\textbf{Emissions.} State the conversion from fuel to CO2 and
+its source (not yet held). State how CO2 becomes dollars at the airline
+level and why that route was chosen (credit price, passenger value, or both;
+undecided), and why the system level keeps CO2 in kg.}
+
+\plantodo{S11, S12}{\textbf{Truth model.} One model scores every case. State
+what it is and its fidelity relative to the models the cases decide with.
+Not chosen; \texttt{simulation/vehicle\_dynamics.py} uses a constant
+placeholder fuel flow and cannot do this yet.}
+
+\plantodo{S11}{\textbf{Abstractions made and why.} One short table: each
+simplification, the reason, and the risk. A draft list is in
+\texttt{experiment-options-and-scoring.md} \S6.}
+% ---- end placeholders 2026-10-09

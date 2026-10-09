@@ -1111,7 +1111,7 @@
   note         = {Year is the PDF creation date (2025-02-24, PowerPoint export; PDF author
              field "ANG-B2"); no version, title-page date or byline appears on the slide. Unverified:
              what ANG-B2 stands for, and whether this is the current issue of the hierarchy on the
-             FAA NAS EA site (faa.gov/about/office_org/headquarters_offices/ang/r2r) -- check before
+             FAA NAS EA site (faa.gov/about/office\_org/headquarters\_offices/ang/r2r) -- check before
              citing as current.},
   annotation   = {A single slide: nine top-level FAA service groups (Air Traffic Management;
              Airport Management; Security; Safety; Enterprise Management; Certification;
@@ -1345,4 +1345,33 @@
                Climb phase only; worst-case errors, not typical ones; Table 4 is poorly scanned.
                Primary source for statements that schultz2012adaptiveClimb reports second-hand.
                Added 2026-10-04.}
+}
+
+@techreport{engility2014tasarAlaska,
+  author      = {{Engility Corporation}},
+  title       = {Traffic Aware Strategic Aircrew Requests ({TASAR}): Annualized {TASAR} Benefits
+                 for {Alaska Airlines} Operations},
+  institution = {Engility Corporation, Billerica, MA, for NASA Langley Research Center},
+  year        = {2014},
+  month       = sep,
+  type        = {Contractor report},
+  number      = {NNL12AA06C, deliverable 41A},
+  url         = {https://ntrs.nasa.gov/api/citations/20140012787/downloads/20140012787.pdf},
+  note        = {Corporate author, as the document states: "prepared by Engility Corporation
+                 ... under Contract No. NNL12AA06C with NASA Langley Research Center" (Preface,
+                 p. 2); NASA Technical Monitor: David Wing (title page). No personal author is
+                 named. A web search summary of the NASA record for a later published version
+                 (NASA/CR-2015-218787, NTRS 20150017048) names Jeffrey Henderson; not confirmed
+                 and not used here.},
+  annotation  = {(file: tasar_ntrs_20140012787.pdf, 23 pp; NTRS document 20140012787; dated
+                 2 September 2014; NASA technical monitor David Wing.) Fast-time simulation with
+                 two linked FACET instances replaying Alaska Airlines 737 flights of July to
+                 September 2012. Per flight: 27 gallons and 2.3 minutes for the wind-optimal case,
+                 103 and 7.8 after an expired reroute initiative, 12 and 1.3 around convective
+                 weather (p. 12). Gives a rule-based controller acceptance model (reject on
+                 conflict, on a sector over its Monitor Alert Parameter, or on entry to an adjacent
+                 such sector) and states that controllers are generally not aware of red sectors
+                 elsewhere (p. 10). Aircraft weight was not modeled (p. 8). The controller model is
+                 the authors', not measured. Moved from evidence/prior-work-experiment-definition/
+                 and registered 2026-10-09.}
 }

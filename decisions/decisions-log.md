@@ -6,6 +6,33 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-013 — Experiment scoring: TASAR altitude set and climb rule, impacts stated separately, CO2 in dollars for the airline only
+
+**Date:** 2026-10-09
+**Status:** active. Owner direction, 2026-10-09, on the draft `knowledge/models/experiment-options-and-scoring.md`. It settles three items that draft had marked for the owner. It does not settle the experiment's central claim, which is still open in `knowledge/models/experiment-definition.md` §1.
+
+**Decision:**
+
+1. **Altitude options and climb rule are taken from the TASAR benefits study.** Each aircraft may be moved 2,000 ft above, 2,000 ft below or 4,000 ft below its assigned altitude. A climb is offered only if the aircraft is at or below FL350 (`engility2014tasarAlaska`, p. 8). This is the starting point and may be refined.
+2. **The system level states impacts independently.** Total fuel, total CO2, total airline cost, the sector's workload items and the largest cost to any one aircraft are reported side by side. No weighted sum at first.
+3. **Emissions are reported as CO2 and converted to dollars at the airline level only.** At the airline level the report puts CO2 into concrete terms for the airline, possibly through carbon credits or passenger value. At the system-of-systems level it stays as CO2, with discussion of what it means for society and for how passengers perceive a flight.
+4. **The FL350 climb rule binds only the cases that lack the aircraft's weight** (the rule-based baseline and the nominal-model case). The case with shared weight and models judges climbs from the actual weight. The first scenario puts the crossing pair high enough that the rule closes climbs to the first two cases. (Added the same day, after the owner confirmed: "that is exactly the point.")
+
+**Why:**
+
+- The TASAR rule has a stated reason, "to be conservative since aircraft weight was not modeled", which is the same gap the experiment measures. The owner judged it a reasonable assumption. It also replaces an unsourced "usable level" with a published set.
+- A weighted sum needs weights that no stakeholder in the model owns, and it hides the trade between levels that the table is meant to show.
+- An airline can face a price on carbon; society's cost is not a line in the airline's accounts. The owner also noted choosing flights listed with lower emissions, as a traveller.
+
+**Consequences and open items:**
+
+- The level of the crossing pair decides whether climbs are available, so it has to be chosen deliberately. A variation at or below FL350, where every case can climb, is left for later.
+- The published rule permits a climb at exactly FL350, so the crossing pair must be above FL350 for the rule to close climbs. The exact level is not chosen.
+- The TASAR set is that study's modeling assumption for cockpit requests, not an FAA rule and not measured controller behaviour. Cite it as an adopted assumption.
+- No source is held yet for the CO2 produced per kg of fuel, for a carbon price that applies to a U.S. domestic flight, or for how emissions labels affect passenger choice.
+
+---
+
 ## D-012 — Owner's hand review of the diagrams: crew acts through controls, outside inputs drawn as ports, decision support owned per actor, airport and aircraft trimmed
 
 **Date:** 2026-10-08

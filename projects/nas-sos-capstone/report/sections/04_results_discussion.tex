@@ -53,3 +53,97 @@ demonstration to one representative scenario with a single weight sweep
 and one Pareto-style comparison, rather than the full matrix -- see the
 note added to \texttt{knowledge/questions/open-questions.md} under
 "Optimization study scope (S11)."
+
+% ---- Placeholders added 2026-10-09 (AI-drafted scaffolding, not report prose).
+% No results exist yet. Every cell below is empty on purpose.
+\subsection{Experiment Results}
+\label{sec:experiment-results}
+
+\begin{table}[h]
+\centering
+\caption{PLACEHOLDER -- resolution options. A dash means no instruction.
+Full version with instruction counts in Appendix~\ref{app:optimization}.}
+\label{tab:options}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Option & AC1 & AC2 & AC3 & AC4 \\
+\midrule
+O1 & Descend 2,000 ft & -- & -- & -- \\
+O2 & -- & Descend 2,000 ft & -- & -- \\
+O3 & Climb 2,000 ft & -- & -- & -- \\
+O4 & -- & Climb 2,000 ft & -- & -- \\
+O5 & Turn behind AC2 & -- & -- & -- \\
+O6 & -- & Turn behind AC1 & -- & -- \\
+O7 & Reduce speed & -- & -- & -- \\
+O8 & Descend 4,000 ft & -- & -- & -- \\
+O9 & Descend 2,000 ft & -- & Slow or turn & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{PLACEHOLDER -- outcome of each case at four levels, as a difference
+from case A. No simulation has been run; cells are empty.}
+\label{tab:outcomes}
+\begin{tabular}{@{}p{1.6cm}p{1.6cm}p{2.6cm}p{2.6cm}p{2.8cm}p{2.8cm}@{}}
+\toprule
+Case & Option chosen & Aircraft (largest cost to any one) & Airline (each
+airline's total) & Sector (clearances / effort / risk) & System (total fuel,
+total CO2, total cost) \\
+\midrule
+A &  & reference & reference & reference & reference \\
+B &  &  &  &  &  \\
+C &  &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\plantodo{S12}{\textbf{Which option each case chose, and why.} Walk
+Table~\ref{tab:outcomes} row by row. For case A, name the rule that produced
+the choice. For B and C, name the cost that decided it.}
+
+\plantodo{S12}{\textbf{Did the climb rule matter?} With the crossing pair
+above FL350, cases A and B could not offer a climb and case C could. Say
+whether case C used one, for which aircraft, and what it saved. If C did not
+climb either, say so: that is a result too.}
+
+\plantodo{S12}{\textbf{B minus A, and C minus B.} The first is what
+automation is worth; the second is what the information exchange is worth.
+Compare the size of each with the prior figure of tens of gallons per flight
+(\cite{engility2014tasarAlaska}, p.~12) and say whether the difference is
+larger than the truth model's uncertainty.}
+
+\plantodo{S9, S12}{\textbf{Does the best option change with the level?} Read
+across each row of Table~\ref{tab:outcomes}. Name any option that is better
+for one aircraft or one airline and worse for the sector or the system, and
+who pays (the largest cost to any one aircraft). This is the sub-system
+versus system discussion.}
+
+\plantodo{S12}{\textbf{Airline X's two flights.} Discuss the option that
+touches both of one airline's aircraft: what the airline would choose
+between its late flight and its early one, and that the controller cannot
+see that preference. Connect to the dispatcher priorities (schedule
+integrity and connections rated at or above fuel; source of that table still
+to confirm).}
+
+\plantodo{S12}{\textbf{Workload is three things.} Discuss clearances issued,
+effort to devise, and residual risk separately. Say where a ``more
+workload'' option on one of them is ``less'' on another.}
+
+\plantodo{S12}{\textbf{The case where nothing changes.} Report the variation
+with similar weights and cost indexes, where case C picks the same option as
+case A, to show the comparison is not rigged.}
+
+\plantodo{S13}{\textbf{Trace back to the model.} For each column of
+Table~\ref{tab:outcomes}, name the part in the context diagram it belongs to
+(aircraft and crew; airline operations center; ATC sector). Say what the
+system column maps to, since no single part owns it. Name the exchange that
+case C adds (weight and cost index to ATC) and where it sits in the model.}
+
+\plantodo{S12, S15}{\textbf{Limits.} Level crossing conflicts are a minority
+(36 of 256, \cite{rantanen2012conflictManeuvers}); one invented sector; a
+static snapshot; the climb rule is one threshold for every type; airlines
+could misreport what they share (cite the 1 to 3 percent figure once that
+source is registered).}
+% ---- end placeholders 2026-10-09

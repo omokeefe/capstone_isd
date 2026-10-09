@@ -6,7 +6,7 @@
 
 **Proposed:** the architecture model can be checked, decision by decision, for one thing: does the actor who makes this decision receive the information the decision depends on? The experiment measures what one of the gaps found by that check costs. It is one worked example, not the main result.
 
-**Alternative:** the four-aircraft experiment is the main result. This is weaker for three reasons. The expected effect is small (about 27 gallons and 2.3 minutes per flight in NASA's TASAR study). The value of sharing aircraft data with ATC has already been studied (Coppenbarger; SESAR's downlink of the aircraft's predicted profile). And the simulation compares two ways of operating, so it cannot test MBSE as an engineering method.
+**Alternative:** the four-aircraft experiment is the main result. This is weaker for three reasons. The expected effect is small (about 27 gallons and 2.3 minutes per flight for the typical case, a switch to a more wind-optimal trajectory, in NASA's TASAR study; the three cases range from 12 to 103 gallons: `engility2014tasarAlaska`, p. 12). The value of sharing aircraft data with ATC has already been studied (Coppenbarger; SESAR's downlink of the aircraft's predicted profile). And the simulation compares two ways of operating, so it cannot test MBSE as an engineering method.
 
 **What the proposed claim lets the project say about MBSE:** the benefit is any gap the check finds that the owner did not already know. The cost is the modeling time recorded in the journal and git history. If the check finds nothing new, the claim is the modest one: the model organized existing knowledge.
 
@@ -42,6 +42,8 @@ One descent clearance. This is the most common observed choice for this geometry
 - Separation: a hard constraint, not a score.
 
 Each option is scored at four levels (aircraft, airline, sector, system) in one table, with the largest penalty taken by any one aircraft reported alongside.
+
+A draft of that table, the list of resolution options it scores, and one cost/benefit statement per level are in `experiment-options-and-scoring.md` (2026-10-09, from the owner's hand review; nothing in it is decided).
 
 ## 7. Truth model (Decide)
 

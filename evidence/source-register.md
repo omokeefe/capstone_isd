@@ -16,8 +16,10 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-10-04
-**Files in `evidence/sources/` at last sweep:** 73 of 73 processed
+**Last full sweep:** 2026-10-04 (one file added and processed on its own 2026-10-09; not a full sweep)
+**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 74 of 74 after the 2026-10-09 addition
+
+**PDF highlight extraction (2026-10-09):** ran the extractor on the one file added today, `engility2014tasarAlaska`. 38 highlights (PDF pp. 3–12), no typed comments, no ink. Merged into its summary's `## Highlighted passages` section. The other PDFs were not re-run.
 
 **PDF highlight extraction (2026-10-04):** ran the extractor on the two files added today. Both carry digital markup and both were merged into their summaries' `## Highlighted passages` section: `faa2025aim` (about 100 highlights and one underline, PDF pp. 57–393) and `faa2025jo711010ee` (5, all Appendix A headings). No ink annotations in either. The extractor's raw text repeats line fragments on wrapped highlights, so the AIM passages were re-read from the page before merging. The other PDFs were not re-run.
 
@@ -130,6 +132,18 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | Identification_of_air_traffic_controller_conflict_.pdf | `kirwan2001coraStrategies` (interim results) | 4 | [4 - kirwan2001coraStrategies.md](literature-notes/summaries/4%20-%20kirwan2001coraStrategies.md) | 2026-10-04 |
 | fothergill-neal-2013-conflict-resolution-heuristics-for-en-route-air-traffic-management.pdf | `fothergill2013resolutionHeuristics` | 3 | [3 - fothergill2013resolutionHeuristics.md](literature-notes/summaries/3%20-%20fothergill2013resolutionHeuristics.md) | 2026-10-04 |
 | coppenbarger-2012-en-route-climb-trajectory-prediction-enhancement-using-airline-flight-planning-information.pdf | `coppenbarger1999climbPrediction` (1999 paper; file name says 2012) | 4 | [4 - coppenbarger1999climbPrediction.md](literature-notes/summaries/4%20-%20coppenbarger1999climbPrediction.md) | 2026-10-04 |
+| tasar_ntrs_20140012787.pdf | `engility2014tasarAlaska` (corporate author; NASA technical monitor David Wing) | 4 | [4 - engility2014tasarAlaska.md](literature-notes/summaries/4%20-%20engility2014tasarAlaska.md) | 2026-10-09 |
+
+**Distribution as of 2026-10-09 (computed from the ledger rows above):** 17 x 5, 24 x 4, 16 x 3, 13 x 2, 3 x 1, 1 x 0 — 74 rows.
+
+### Flags raised 2026-10-09 (1 file promoted from the prior-work folder at the owner's request)
+
+- **`engility2014tasarAlaska` (rated 4).** The 2014 TASAR benefits study for Alaska Airlines. Moved from `evidence/prior-work-experiment-definition/` to `evidence/sources/` so it can be cited in the report. The owner wants it for general practice around requests to ATC and for coordination detail: the sector controller is generally not aware of overloaded ("red") sectors elsewhere, and a supervisor may tell the controller not to send traffic into one.
+- **Author is corporate.** The document says it was prepared by Engility Corporation under contract NNL12AA06C, with David Wing as NASA Technical Monitor, and names no personal author. It is cited that way. A web search summary names Jeffrey Henderson as author of a later published version (NASA/CR-2015-218787); not confirmed, not used.
+- **Its controller model is stated, not measured.** The report itself lists facility observations as future work.
+- **"Monitor alert parameter value" and "red sector"** are explained in the summary from `faa2025jo72103ee` §18-9. The order does not define red against yellow, and "area manager" is the report's term, not the order's; both are marked [C] in the summary.
+- **Related, unregistered material:** 19 further papers remain in `evidence/prior-work-experiment-definition/`. The write-up's section 11 now points to this registered copy.
+- Nothing rated 0–1.
 
 **Distribution as of 2026-10-04, evening (computed from the ledger rows above):** 17 x 5, 23 x 4, 16 x 3, 13 x 2, 3 x 1, 1 x 0 — 73 rows.
 

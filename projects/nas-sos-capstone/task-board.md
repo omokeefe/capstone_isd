@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-06 (see `journal/2026-10-06.md`, 21:12 Sign-Off). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
+**Last updated:** 2026-10-08 (see `journal/2026-10-08.md`, 22:38 Sign-Off, written 2026-10-09). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
 
 ## Current phase
 
@@ -35,6 +35,10 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Active
 
+- Operational IBDs (§10, ECD 10-25): aircraft IBD built and hand-reviewed 2026-10-08 (D-011, D-012); links not evidence-graded. Airspace IBD is a placeholder with the `atc` umbrella question open. See journal 2026-10-08.
+
+- Context diagram (§10, slipped from 09-07): revised per the owner's hand review 2026-10-08 (D-012). Box still open: the reason behind each link is not written. See `open-questions.md` "Diagram review".
+
 - Nominal-flight activity diagram (§10, slipped from 10-01): in progress 2026-10-06. Inputs/outputs on `PrepareForDeparture`, `Prework` and `SupplyFuel` added, view renders. No swimlanes, sub-actions still placeholders. See journal 2026-10-06.
 
 - Python `.venv/` with `syside` 0.11.0 created 2026-10-06 (git-ignored). Import tested only; licence for the Python package unverified.
@@ -46,8 +50,6 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 - Three unregistered PDFs in `evidence/sources/` (two Sheth papers, SESAR Solutions Catalogue 2019). See `open-questions.md` "Reference-register housekeeping".
 
 - Blocked on adviser: scope option (a/b/c) and current-state metric. No record that the meeting happened.
-
-- Context diagram (§10, slipped from 09-07): evidence gathered (09-24 A-CDM/GreAT, 09-26 JO 7110.65BB), 12 recommendations ready, `.sysml` not yet edited. See journal 2026-09-26 14:06.
 
 - JO 7110.65BB: ~65 ¶ read in full 2026-09-26 and approved by user. Admin follow-through deferred to 09-27 (to-do §4 status/boxes, source-register, interaction-catalog §7, exchange-evidence, open-questions). See journal 2026-09-26 19:25. Seamster crosswalk "owner to confirm" rows (ATC Coordinator, TMU/Command Center, Radar Associate, load planner) are still open.
 
@@ -111,10 +113,9 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Next session priority
 
-See `journal/2026-10-06.md` (21:12 Sign-Off) for reasoning; item 1's detail is in `journal/2026-10-05.md` (21:26 Sign-Off).
+See `journal/2026-10-08.md` (22:38 Sign-Off) for reasoning; item 1's detail is in `journal/2026-10-05.md` (21:26 Sign-Off).
 
 1. Review the drafted experiment one-pager (`knowledge/models/experiment-definition.md`, AI draft 2026-10-06) and make its four "Decide" items, central claim first. Capped at one hour. Do the hand check on three or four context-diagram decisions. Take it and the scope question (a/b/c) to the adviser.
-2. Finish the activity diagram: connect `Prework`, real sub-actions, swimlanes, hub-to-hub walkthrough. Then check the §10 box.
-3. Re-date the traceability chain (ECD 10-12, not started) and its dependents (10-17, 10-20) against Interim Report #2 (10-25).
-4. Load one `.sysml` file from Python in `.venv` to confirm the Syside licence works.
-5. Carried over: register the three new PDFs and confirm the ten-factor table's source; context diagram box; BDD placement of `ControlTower` and Decision Support; deferred §4 admin updates; sequence diagrams.
+2. Re-date the traceability chain (ECD 10-12, not started) and its dependents (10-17, 10-20) against Interim Report #2 (10-25).
+3. Grade the default aircraft IBD links and work the "Diagram review" questions in `open-questions.md`; then the `atc` umbrella question on the airspace IBD.
+4. Carried over: finish the activity diagram (connect `Prework`, real sub-actions, swimlanes, hub-to-hub walkthrough); confirm the Syside licence from Python in `.venv`; register the three new PDFs and confirm the ten-factor table's source; deferred §4 admin updates; sequence diagrams.

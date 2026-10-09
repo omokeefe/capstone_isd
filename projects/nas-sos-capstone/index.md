@@ -79,6 +79,10 @@ information-flow, and decision-authority decompositions before committing.
 Latest first — full rationale and history in
 [[decisions-log]] (`../../decisions/decisions-log.md`):
 
+- **D-012** — Owner's hand review of the diagrams: the crew acts through flight deck controls, outside inputs are drawn as ports, decision support is owned per actor, and the airport and aircraft were trimmed.
+- **D-011** — Aircraft decomposed in levels; the detail stays in the model and is hidden on diagrams by default.
+- **D-010** — Context diagram rendering rule, datalink split, role naming, and supporting definitions.
+- **D-009** — Context diagram baseline: every system assessed against D-007; the airline operations center link split to traffic flow management; flight deck merged.
 - **D-008** — Reconciled the SysML BDD to D-007: `NationalAirspaceSystem` now composes only
   the five ratified Modeled System domains (adding a new Flight Crew domain that was
   missing entirely); a new `Environment` part def holds Governance, Passengers, Military,
