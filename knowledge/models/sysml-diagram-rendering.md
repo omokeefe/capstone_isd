@@ -121,7 +121,36 @@ Move-Item projects/nas-sos-capstone/cameo_models/print/diagram-systemContext.png
 ## 6. Known issues (2026-09-27)
 
 - **69 model errors block a full-folder render.** They're name clashes (`namespace-distinguishability`) in `requirements_nas_system.sysml`, `requirements_stakeholders.sysml` and `scenarios/hub-to-hub-example.sysml`: members such as `status`, `kind`, `stakeholderGroup`, `yaw`, `flightNumber` reuse a name they already inherit. Until fixed, render with `-e "**/requirements_*.sysml" -e "**/scenarios/**"`.
-- **Most connection names don't show on the context diagram.** Only the five environment links (`rulesToAoc`, `rulesToAtc`, `weatherToTfm`, `weatherToAoc`, `suaToTfm`) are labeled. They're the only ones declared without a `{ doc ... }` body, which may be the cause. Not investigated.
-- **The Airspace Management IBD view** (`airspaceManagementIbd`) still uses the `::**[@IBDVisible]` expose with no view `filter`, so it will likely have the same problems. Not yet changed.
+- **Most connection names don't show on the context diagram.** Only the five environment links (`rulesToAoc`, `rulesToAtc`, `weatherToTfm`, `weatherToAoc`, `suaToTfm`) are labeled. They're the only ones declared without a `{ doc ... }` body. Cause confirmed and fixed 2026-10-08: see §8.
+- **The Airspace Management IBD view** (`airspaceManagementIbd`) used the `::**[@IBDVisible]` expose with no view `filter` and rendered an empty frame. Fixed 2026-10-08: it now uses `expose …::*::**` plus `filter`, and draws.
+
+## 7. Levels of detail on one diagram (2026-10-08, D-011)
+
+To keep detail in the model but off the default picture, use two tags and two views over the same wrapper `part def`. The aircraft IBD (`nas_ibd_aircraft.sysml`) does this:
+
+- `#IBDVisible` on what the default view draws; `#IBDDetail` on what only the detailed view adds.
+- Default view: `filter @AircraftIBD::IBDVisible;`. Detailed view: `filter @AircraftIBD::IBDVisible or @AircraftIBD::IBDDetail;` (tested, syside viz).
+- Anything left untagged stays in the definitions and is drawn by neither view. To show it, redefine it in the diagram file with a tag (`#IBDDetail part :>> fan;`).
+- With a prefix tag on a referenced part, `ref` goes first: `ref #IBDVisible part crew: FlightDeckCrew;`. The other order is a syntax error.
+
+## 8. Connection labels and ports (tested 2026-10-08, syside viz 0.10.3, D-012)
+
+**Labels.** A connection's name is printed on its line unless the connection's body owns a `doc` or a `comment`. An empty body `{ }` or no body keeps the name.
+
+- To keep both the name on the diagram and the description in the model, put the description next to the connection as `comment about <name> /* ... */`:
+
+  ```sysml
+  #ContextVisible connection aocTfm connect flightOps.airlineOperationsCenter to airspaceMgmt.atcscc;
+  comment about aocTfm /* [A] Traffic flow management link. ... */
+  ```
+
+- **Where the comment sits matters.** A comment owned by a part that is drawn is printed in a "comments" compartment inside that part's box. For connections inside a drawn part (the ones inside `airliner` on the aircraft IBD), put the comments in the enclosing, undrawn `part def` and use the qualified name: `comment about airliner::navData /* ... */`.
+- A name in single quotes prints with its spaces, if a longer label is wanted: `connection 'surveillance: aircraft to ATC' connect ...`. Not used in the model yet.
+- The tag prints in front of every label (`«#ContextVisible» aocTfm`). No way to hide it was found.
+- The text at each end of a line is the name of the part or port the line ends on.
+
+**Ports.** A tagged port is drawn as a small square on the edge of its part, with its name beside it, whether or not anything is connected to it. A connection may end on a port (`connect x to part.port`). A port redefined in the diagram file to carry a tag prints as `weatherIn :>> weatherIn`, the same as redefined parts. A `flow of <Item> from a to b` is drawn as a line with a filled arrowhead labeled with the item, which is the way to show direction and content on one line.
+
+**Not possible:** placing parts by hand (for example around an outline of the aircraft). Syside lays the diagram out itself. The only route is to export SVG and arrange it in a drawing tool, which makes a picture that is no longer generated from the model.
 
 Sources: [Syside — Diagram Views](https://docs.sensmetry.com/modeler/diagram-views.html); [Syside — CLI diagram generation](https://docs.sensmetry.com/modeler/cli/diagram-generation.html); [Syside — Install Modeler](https://docs.sensmetry.com/modeler/install/); `syside --help` output, v0.10.3.

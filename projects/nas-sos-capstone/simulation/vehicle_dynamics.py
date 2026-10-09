@@ -1,6 +1,7 @@
 """Minimum-viable point-mass vehicle dynamics model.
 
-Implements the interface declared as `DecisionSupport::VehicleDynamicsModel::StepDynamics`
+Implements `DecisionSupport::VehicleDynamicsModel` (the `StepDynamics` calc def was removed
+2026-10-08, D-012; the signature is recorded in that part def's doc)
 in `cameo_models/nas_sysml_package_definitions.sysml` (see `workflows/vehicle-simulation-model.md` for why the
 physics lives here rather than as an embedded SysML calc body). Field names mirror
 `AircraftSystems::AircraftState`'s attributes so the two stay traceable by inspection:

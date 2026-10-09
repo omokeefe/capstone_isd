@@ -95,7 +95,8 @@ package NationalAirspaceSystem {
             part military: Military::MilitaryDomain;
             part infrastructure: Infrastructure::InfrastructureDomain;
             part informationServices: InformationServices::InformationServicesDomain;
-            part decisionSupport: DecisionSupport::DecisionSupportDomain;
+            // decisionSupport removed 2026-10-08 (D-012): decision support is not outside
+            // the SoI. The AOC, ATC, the aircraft and the flight deck crew each own one.
         }
 
         part governance: Governance::GovernanceDomain;
@@ -103,7 +104,6 @@ package NationalAirspaceSystem {
         part military: Military::MilitaryDomain;
         part infrastructure: Infrastructure::InfrastructureDomain;
         part informationServices: InformationServices::InformationServicesDomain;
-        part decisionSupport: DecisionSupport::DecisionSupportDomain;
     }
 
     package AirspaceManagement {
@@ -123,6 +123,10 @@ package NationalAirspaceSystem {
 
         part def AirTrafficControlSystem {
             doc /* Top-level ATC system node per candidate-systems-inventory.md. */
+            // ATC's own decision support (D-012), e.g. conflict probes and trajectory predictors.
+            part decisionSupport: DecisionSupport::DecisionSupportSystem;
+            // Inputs from outside the SoI (D-012). Drawn as ports; the sender is not drawn.
+            port rulesIn;   // Governance: 14 CFR, JO 7110.65 / 7210.3
         }
 
         part def TRACON {
@@ -135,6 +139,10 @@ package NationalAirspaceSystem {
 
         part def ATCSCC {
             doc /* Air Traffic Control System Command Center — national traffic-flow authority. */
+            // Inputs from outside the SoI (D-012). Why these two arrive here and not at the
+            // TMU or the controllers is an open question (open-questions.md, 2026-10-08).
+            port weatherIn;              // Infrastructure: weather service
+            port specialUseAirspaceIn;   // Military: special-use airspace status
         }
 
         part def TMU {
@@ -300,6 +308,11 @@ package NationalAirspaceSystem {
             part crewScheduler: CrewScheduler;
             part aircraftRouter: AircraftRouter;
             part dutyManager: AOCDutyManager;
+            // The AOC's own decision support (D-012), e.g. the flight planning system.
+            part decisionSupport: DecisionSupport::DecisionSupportSystem;
+            // Inputs from outside the SoI (D-012). Drawn as ports; the sender is not drawn.
+            port rulesIn;     // Governance: 14 CFR 91 / 121
+            port weatherIn;   // Infrastructure: weather service
         }
 
         part def Dispatcher {
@@ -443,19 +456,18 @@ package NationalAirspaceSystem {
             part gates: Gate[*];
             part apron: Apron;
             part controlTower: ControlTower;
-            part weatherStation: WeatherStation;
             part fuelDistributionSystem: FuelDistributionSystem;
             part maintenanceHangar: MaintenanceHangar;
             part passengerTerminal: PassengerTerminal;
-            part cargoTerminal: CargoTerminal;
             part airportManagementSystem: AirportManagementSystem;
             part groundHandling: GroundHandling;
             part airfieldLighting: AirfieldLighting;
-            part gateAgents: GateAgents;
             part customsAndImmigration: CustomsAndImmigration;
-            part securityServices: SecurityServices;
-            part parkingAndTransportationServices: ParkingAndTransportationServices;
             part baggageHandlingSystem: BaggageHandlingSystem;
+            // Removed 2026-10-08 (owner review, D-012): weatherStation, cargoTerminal,
+            // gateAgents, securityServices, parkingAndTransportationServices, and below
+            // fuelDistributionSystem.tanks / .intoPlaneFueler and groundHandling.marshaller.
+            // The parts that remain still need evidence for their internal structure.
             attribute operators: Common::Operator[*];
         }
 
@@ -472,6 +484,11 @@ package NationalAirspaceSystem {
         }
 
         part def Gate {
+            doc /* The stand and its jetway, and the people who work it. Gate / customer-service
+             * agents are not a separate part (removed 2026-10-08, D-012): boarding, final
+             * passenger count, door closure and late-passenger holds happen here. In US
+             * practice the agents are usually airline station staff or a contracted handler.
+             * Friction with dispatch over late passengers: Munro 2018. */
             attribute position: Common::Position;
             attribute gateNumber: String;
             attribute type: String; // e.g., "Commercial", "Cargo"
@@ -491,31 +508,22 @@ package NationalAirspaceSystem {
             attribute isOperational: Boolean; // true if control tower is operational
         }
 
-        part def WeatherStation {
-            attribute position: Common::Position;
-            attribute sensors: String[*]; // e.g., "Anemometer", "Barometer"
-            attribute isOperational: Boolean; // true if weather station is operational
-        }
-
         part def FuelDistributionSystem {
+            doc /* Everything that gets fuel from the airport's storage into the aircraft, the
+             * fueling agent included: receives the fuel order, presets and uplifts at the
+             * refuel panel, and hands the fuel slip to the crew. Storage tanks and the
+             * fueling agent are not separate parts (removed 2026-10-08, D-012). */
             attribute position: Common::Position;
             attribute fuelTypes: String[*]; // e.g., "Jet A", "Avgas"
             attribute capacity: Real; // in liters
             attribute isOperational: Boolean; // true if fuel distribution system is operational
 
             part fuelTransferSystem: FuelTransferSystem;
-            part tanks: Tank[*];
-            part intoPlaneFueler: IntoPlaneFueler;
-        }
-
-        part def IntoPlaneFueler {
-            doc /* The airport fuel carrier's fueling agent (owner, 2026-09-27). Receives the fuel
-             * order, presets and uplifts at the refuel panel, and hands the fuel slip to the crew. */
         }
 
         item def FuelSlip {
             doc /* The fuel carrier's uplift record: gallons delivered and density, converted to
-             * pounds. Goes fueler -> flight deck crew (unrendered caFuelSlip connection); the crew
+             * pounds. Goes fuel distribution -> flight deck crew (unrendered caFuelSlip connection); the crew
              * reconciles it against the gauges and the release in PreflightCrossCheck. [C] standard
              * practice, not yet in a registered source. */
             attribute gallonsUplifted: Real;
@@ -524,8 +532,6 @@ package NationalAirspaceSystem {
         }
 
         part def FuelTransferSystem;
-
-        part def Tank;
 
         part def MaintenanceHangar {
             attribute position: Common::Position;
@@ -541,19 +547,13 @@ package NationalAirspaceSystem {
             attribute isOperational: Boolean; // true if passenger terminal is operational
         }
 
-        part def CargoTerminal {
-            attribute position: Common::Position;
-            attribute capacity: Integer; // Number of cargo units that can be handled
-            attribute facilities: String[*]; // e.g., "Loading Docks", "Storage Area"
-            attribute isOperational: Boolean; // true if cargo terminal is operational
-        }
-
         part def AirportManagementSystem {
             doc /* AMS — candidate-systems-inventory.md's hub node for airport-side
-             * information exchange with Ground Handling, Customs and Immigration,
-             * Security Services, Parking and Transportation Services, and Baggage
-             * Handling System. See knowledge/models/interface-exchange-draft.md for the
-             * draft exchange map once interface modeling starts (to-do-list.md §10). */
+             * information exchange with Ground Handling, Customs and Immigration and the
+             * Baggage Handling System (the source also lists Security Services and Parking
+             * and Transportation Services, removed from the model 2026-10-08, D-012). See
+             * knowledge/models/interface-exchange-draft.md for the draft exchange map once
+             * interface modeling starts (to-do-list.md §10). */
         }
 
         part def GroundHandling {
@@ -561,7 +561,6 @@ package NationalAirspaceSystem {
              * contracted handler, depending on the airport; modeled under Airport as an
              * abstraction (D-009: these sub-parts carry out decisions made on other links). */
             part pushbackCrew: PushbackCrew;
-            part marshaller: Marshaller;
             part catering: CateringService;
             part deicing: DeicingService;
             part lavAndWaterService: LavAndWaterService;
@@ -571,12 +570,10 @@ package NationalAirspaceSystem {
             doc /* Tug driver (on headset) and wing walkers. Coordinates push, brake set/release
              * and engine start with the flight deck over the ground interphone, and relays
              * nothing to ATC: the captain obtains the push/movement approval and relays it
-             * (Wilke 2014; Seamster E-3#05-13). */
-        }
-
-        part def Marshaller {
-            doc /* Ramp agent who marshals the aircraft onto the stand with hand/wand signals
-             * where no docking guidance is used (Seamster E-13#10-13). [B/C] */
+             * (Wilke 2014; Seamster E-3#05-13). The same ramp crew marshals the arriving
+             * aircraft onto the stand with hand/wand signals where no docking guidance is
+             * used (Seamster E-13#10-13, [B/C]); the marshaller is not a separate part
+             * (removed 2026-10-08, D-012). */
         }
 
         part def CateringService;
@@ -595,20 +592,7 @@ package NationalAirspaceSystem {
              * here: they are Infrastructure (D-007), mostly FAA-owned (NAS roadmaps). */
         }
 
-        part def GateAgents {
-            doc /* Gate / customer-service agents. In US practice usually the airline's station
-             * employees (or a contracted handler), not airport staff; modeled at the airport
-             * because they work the airport's gate and the airline station is not a separate
-             * part (abstraction, 2026-09-27). Boarding, final passenger count, door closure,
-             * standby/rebooking; the main passenger-facing role on the ground. Friction with
-             * dispatch over late passengers (Munro 2018). */
-        }
-
         part def CustomsAndImmigration;
-
-        part def SecurityServices;
-
-        part def ParkingAndTransportationServices;
 
         part def BaggageHandlingSystem;
     }
@@ -638,15 +622,94 @@ package NationalAirspaceSystem {
             attribute status: String; // e.g., "On Ground", "In Flight", "Maintenance"
             attribute flightState: AircraftState; // "state" is a reserved SysML keyword
 
-            part flightManagementSystem: FlightManagementSystem;
+            // Top level of the aircraft decomposition (D-011, 2026-10-08). Each part opens
+            // into its own definition below, so a diagram can stop at this level or go
+            // deeper. What a diagram shows is decided by tags in the diagram file
+            // (nas_ibd_aircraft.sysml), not here.
+            part avionics: AvionicsSystem;
             part flightControlSystem: FlightControlSystem;
-            part pitotStaticSystem: PitotStaticSystem;
             part fuelSystem: FuelSystem;
+            part propulsion: PropulsionSystem;
+            part airframe: Airframe;
+            part landingGear: LandingGearSystem;
+            part utilities: UtilitySystems;
+            part flightDeckControls: FlightDeckControls;
+            // cabin: CabinSystem removed 2026-10-08 (D-012): no value to the study. The
+            // people on board sit in airframe.fuselage.
+
+            // What crosses the aircraft boundary other than the links on the context
+            // diagram (D-012). Wake is left out: not important for the study.
+            port adsbOut;      // surveillance broadcast: position, velocity, pressure altitude, beacon code
+            port adsbIn;       // ADS-B reports received from other aircraft
+            port emissions;    // engine exhaust
+            port ambientAir;   // total and static pressure, temperature, sensed by the pitot-static system
+        }
+
+        part def FlightDeckControls {
+            doc /* What the crew puts their hands and feet on to fly the aircraft (owner,
+             * 2026-10-08, [SME]; D-012). The crew does not act on the flight control system
+             * or the autoflight system directly: every input goes through one of these, or
+             * through the FMS. The other flight deck panels (overhead, radio tuning, lights)
+             * are not modeled; they hold no importance in this project.
+             * ABSTRACTION: the mode control panel is avionics equipment, grouped here with
+             * the mechanical controls because the grouping is by who uses it (the crew),
+             * not by what it is built from. */
+            part yokes: Yoke[2];
+            part rudderPedals: RudderPedals[2];
+            part thrustLevers: ThrustLevers;
+            part configurationLevers: ConfigurationLevers;
+            part modeControlPanel: ModeControlPanel;
+        }
+        part def Yoke {
+            doc /* Control column and wheel (sidestick on fly-by-wire types): pitch and roll. */
+        }
+        part def RudderPedals {
+            doc /* Yaw, plus wheel brakes and rudder-pedal steering on the ground. */
+        }
+        part def ThrustLevers {
+            doc /* Throttles: thrust command to each engine's FADEC when the autothrottle is
+             * not engaged. */
+        }
+        part def ConfigurationLevers {
+            doc /* Flap / slat lever, speedbrake lever, landing gear lever, trim. */
+        }
+        part def ModeControlPanel {
+            doc /* MCP (FCU on Airbus): autopilot and autothrottle engagement, mode selection
+             * (LNAV / VNAV, heading, altitude hold, ...), and the speed, altitude, heading and
+             * vertical speed targets. These targets bound what the FMS may do. */
+        }
+
+        part def AvionicsSystem {
+            doc /* The aircraft's electronic systems: sensing, computing, display, communication
+             * and surveillance. One level of abstraction above the FMS and its neighbors
+             * (D-011): before 2026-10-08 these were direct parts of Aircraft.
+             * D-012: pitot-static moved to UtilitySystems; EICAS folded into the displays. */
+            part flightManagementSystem: FlightManagementSystem;
+            part autoFlightControlSystem: AutoFlightControlSystem;
             part navigationSystem: NavigationSystem;
-            part guidanceSystem: GuidanceSystem;
-            part surveillanceSystem: SurveillanceSystem;
             part communicationSystem: CommunicationSystem;
+            part surveillanceSystem: SurveillanceSystem;
+            part displaySystem: FlightDeckDisplaySystem;
+            part standbyInstruments: StandbyInstrumentSystem;
+            part guidanceSystem: GuidanceSystem;
             part radar: Radar;
+            // The aircraft's own decision support (D-012). Where it sits relative to the
+            // FMS, which already predicts fuel, time and optimum altitude, is not settled.
+            part decisionSupport: DecisionSupport::DecisionSupportSystem;
+        }
+
+        part def FlightDeckDisplaySystem {
+            doc /* Everything the crew reads on the main displays: flight path, automation
+             * modes, the FMS route, traffic from the surveillance system, and engine
+             * indication and crew alerting. EICAS (ECAM on Airbus) was a separate part until
+             * 2026-10-08; it overlapped with this one and was folded in (D-012). */
+        }
+        part def StandbyInstrumentSystem {
+            doc /* Independent backup instruments: attitude, airspeed and altitude, on their
+             * own power and sensing, for when the main displays fail. On current types one
+             * integrated standby display; on older types three separate gauges. Not the
+             * "six pack" (the six primary instruments of older and general-aviation
+             * panels, which the main displays replaced). Kept at detail level only. */
         }
 
         attribute def AircraftState {
@@ -720,22 +783,157 @@ package NationalAirspaceSystem {
         part def Satcom;
 
         part def FlightControlSystem {
-            part autoFlightControlSystem: AutoFlightControlSystem;
+            doc /* The physical side of flight control (owner, 2026-10-08): controllers, servos,
+             * hydraulic actuators and the control surfaces. It is driven by the crew's
+             * controls and by the AutoFlightControlSystem, which is avionics-hosted logic and
+             * a part of AvionicsSystem, not of this system (moved 2026-10-08, D-011). */
+            part controlElectronics: FlightControlElectronics;
+            part actuators: FlightControlActuator[1..*];
             part primaryFCS: PrimaryFCS;
+            part secondaryFCS: SecondaryFCS;
             part reversionaryFCS: ReversionaryFCS;
         }
 
-        part def AutoFlightControlSystem;
-        part def PrimaryFCS;
-        part def ReversionaryFCS;
+        part def AutoFlightControlSystem {
+            doc /* Avionics-hosted, software-based logic that drives the FlightControlSystem and
+             * the engines (owner, 2026-10-08): autopilot and autothrottle, engaged and given
+             * targets by the crew, steered by FMS guidance when LNAV/VNAV is engaged. */
+            part autopilot: Autopilot;
+            part autothrottle: Autothrottle;
+        }
+        part def Autopilot;
+        part def Autothrottle;
 
-        part def PitotStaticSystem;
+        part def FlightControlElectronics {
+            doc /* The controllers: flight control computers / actuator control electronics. */
+        }
+        part def FlightControlActuator {
+            doc /* Servos and hydraulic (or electric) actuators that move the surfaces. */
+        }
+        part def PrimaryFCS {
+            doc /* Surfaces that control pitch, roll and yaw. */
+            part ailerons: Aileron[2];
+            part elevator: Elevator;
+            part rudder: Rudder;
+        }
+        part def SecondaryFCS {
+            doc /* Surfaces that change lift, drag and trim. A different set of surfaces from
+             * PrimaryFCS; not the same thing as ReversionaryFCS. */
+            part flaps: FlapSystem;
+            part slats: SlatSystem;
+            part spoilers: SpoilerSystem;
+            part stabilizerTrim: StabilizerTrimSystem;
+        }
+        part def ReversionaryFCS {
+            doc /* Backup control path used when the normal one fails. A mode of operating the
+             * primary surfaces, not another set of surfaces. */
+        }
+        part def Aileron;
+        part def Elevator;
+        part def Rudder;
+        part def FlapSystem;
+        part def SlatSystem;
+        part def SpoilerSystem;
+        part def StabilizerTrimSystem;
+
+        part def PitotStaticSystem {
+            doc /* Probes, ports and air data computation: senses the air outside and supplies
+             * airspeed, pressure altitude and temperature to the FMS, autoflight, displays,
+             * surveillance and standby instruments. A utility system (UtilitySystems), not
+             * avionics (owner, 2026-10-08, [SME]; D-012). */
+        }
 
         part def FuelSystem {
             doc /* Tanks, fuel transfer system, fuel quantity processing, fire retardant
              * system, etc. per candidate-systems-inventory.md — not yet broken into
-             * sub-parts pending verification of that grouping. */
+             * sub-parts pending verification of that grouping.
+             * Stays a direct part of Aircraft (owner, 2026-10-08): it stores fuel and feeds
+             * every engine. Each engine's own fuel-supply system is Engine.fuelSupply. */
         }
+
+        part def PropulsionSystem {
+            doc /* One to many engines, the APU included (owner, 2026-10-08). Engines are not
+             * named left / right, so the definition is not limited to twin-engine aircraft. */
+            part engines: Engine[1..*];
+            part mainEngines: TurbofanEngine[1..*] :> engines;
+            part apu: AuxiliaryPowerUnit[0..1] :> engines;
+        }
+
+        abstract part def Engine {
+            doc /* What every gas-turbine engine on the aircraft has, the APU included. */
+            part fadec: EngineControlSystem;
+            part fuelSupply: EngineFuelSupplySystem;
+            part compressor: CompressorStage[1..*];
+            part combustor: Combustor;
+            part turbine: TurbineStage[1..*];
+        }
+
+        part def TurbofanEngine :> Engine {
+            doc /* Thrust engine. Gas path: fan -> compressor stages -> combustor -> turbine
+             * stages -> nozzle. */
+            part fan: Fan;
+            part nozzle: Nozzle;
+        }
+
+        part def AuxiliaryPowerUnit :> Engine {
+            doc /* Small gas turbine that supplies electrical power and bleed air, mainly on
+             * the ground. Produces no thrust. */
+        }
+
+        part def EngineControlSystem {
+            doc /* FADEC: turns a thrust command (thrust lever or autothrottle) into fuel flow
+             * and engine settings. One per engine. */
+        }
+        part def EngineFuelSupplySystem {
+            doc /* The engine's own pumps, metering and nozzles, fed by the aircraft FuelSystem. */
+        }
+        part def Fan;
+        part def CompressorStage;
+        part def Combustor;
+        part def TurbineStage;
+        part def Nozzle;
+
+        part def Airframe {
+            doc /* The structure the forces act on. Its aerodynamic behavior is an attribute,
+             * not a part: it is a property set, and the analysis that uses it is the
+             * vehicle-dynamics model, kept outside AircraftSystems. */
+            attribute aerodynamicProperties: AerodynamicProperties;
+            part fuselage: Fuselage;
+            part wings: Wing[2];
+            part empennage: Empennage;
+        }
+        attribute def AerodynamicProperties;
+        part def Fuselage;
+        part def Wing;
+        part def Empennage;
+
+        part def LandingGearSystem {
+            part noseGear: NoseLandingGear;
+            part mainGear: MainLandingGear[2..*];
+            part brakes: BrakeAndAntiskidSystem;
+            part steering: NoseWheelSteeringSystem;
+        }
+        part def NoseLandingGear;
+        part def MainLandingGear;
+        part def BrakeAndAntiskidSystem;
+        part def NoseWheelSteeringSystem;
+
+        part def UtilitySystems {
+            doc /* Power and environmental services the other systems depend on. */
+            part electrical: ElectricalPowerSystem;
+            part hydraulic: HydraulicPowerSystem;
+            part pneumatic: PneumaticSystem;
+            part environmentalControl: EnvironmentalControlSystem;
+            part iceProtection: IceAndRainProtectionSystem;
+            part fireProtection: FireProtectionSystem;
+            part pitotStaticSystem: PitotStaticSystem;
+        }
+        part def ElectricalPowerSystem;
+        part def HydraulicPowerSystem;
+        part def PneumaticSystem;
+        part def EnvironmentalControlSystem;
+        part def IceAndRainProtectionSystem;
+        part def FireProtectionSystem;
 
         part def NavigationSystem {
             doc /* Grouping under Aircraft (rather than nested in FlightManagementSystem)
@@ -743,10 +941,18 @@ package NationalAirspaceSystem {
              * unverified against the source diagram. */
         }
 
-        part def GuidanceSystem;
+        part def GuidanceSystem {
+            doc /* TODO(review), 2026-10-08: probably not a separate part. On a transport
+             * aircraft guidance is a function shared by the FMS (LNAV/VNAV commands) and the
+             * AutoFlightControlSystem (flight director, mode logic); the IBD shows it as the
+             * FMS -> autoflight link. Kept here, untagged on the IBD, until the owner decides. */
+        }
 
         part def SurveillanceSystem {
-            doc /* What makes the aircraft visible to ATC and to other aircraft. */
+            doc /* What makes the aircraft visible to ATC and to other aircraft, and other
+             * aircraft visible to it. Broadcasts the position the navigation system
+             * determines; receives the same transmissions from other aircraft, and inputs
+             * from sensors such as the radar altimeter (owner, 2026-10-08, [SME]). */
             part transponder: Transponder;
             part tcas: TCAS;
         }
@@ -773,11 +979,14 @@ package NationalAirspaceSystem {
 
         // NOTE: candidate-systems-inventory.md's "generic Functional Decomposition
         // example" (Mission System, Weapons System, Propulsion System, Airframe,
-        // Vehicle Network, Entertainment System) is intentionally NOT modeled here —
-        // the source itself frames it as a generic vehicle-decomposition teaching
-        // example, not NAS-specific content, and Weapons/Mission System are
-        // military-aircraft-specific and outside the ratified SOI boundary (D-007
-        // treats Military as a boundary actor). See knowledge/questions/open-questions.md.
+        // Vehicle Network, Entertainment System) was at first left out entirely, because
+        // the source frames it as a generic vehicle-decomposition teaching example.
+        // Changed 2026-10-08 (D-011): Propulsion and Airframe ARE now defined above, kept
+        // for reference and hidden on diagrams by default. In-flight entertainment went
+        // in with them and came out again the same day with the rest of the cabin
+        // (D-012). Mission System, Weapons System and Vehicle Network are
+        // still not modeled: Weapons/Mission System are military-aircraft-specific and
+        // outside the ratified SOI boundary (D-007 treats Military as a boundary actor).
     }
 
     package FlightCrew {
@@ -813,6 +1022,8 @@ package NationalAirspaceSystem {
              * about legal authority (14 CFR 91.3); PF/PM and PNF are not used in the model. */
             part captain: Captain;
             part firstOfficer: FirstOfficer;
+            // The crew's own decision support (D-012): the electronic flight bag (EFB).
+            part electronicFlightBag: DecisionSupport::DecisionSupportSystem;
             perform action preflightCrossCheck: PreflightCrossCheck;
         }
 
@@ -952,41 +1163,36 @@ package NationalAirspaceSystem {
         doc /* Absorbed / Abstracted per D-007: "Decision-support capability is
          * allocated to operator or ATM contexts; recommendations and information
          * dependencies remain modelable." Per this project's own framing (index.md
-         * working assumptions) and candidate-systems-inventory.md's explicit gap
-         * note, decision-support/optimization is a capability layered on top of
-         * the architecture, not a physical NAS system — which is why the vehicle
-         * dynamics model below is not under AircraftSystems: it's a simulation/
-         * analysis capability that reads and predicts Aircraft state, not a
-         * constituent onboard system. See the Environment part def's doc comment
-         * for the open question on whether this package belongs in Environment at
-         * all, given it feeds §12-§13 traceability rather than acting as an
-         * external actor. */
+         * working assumptions), decision-support/optimization is a capability layered
+         * on top of the architecture, not a physical NAS system.
+         * D-012 (2026-10-08) carries out that allocation: this package no longer has a
+         * domain in Environment. It defines the type, and each system that decides owns
+         * its own instance: AirlineOperationsCenter.decisionSupport,
+         * AirTrafficControlSystem.decisionSupport, AvionicsSystem.decisionSupport and
+         * FlightDeckCrew.electronicFlightBag. The instances are separate on purpose:
+         * each one works from what its owner knows, which is where the information
+         * gaps the project studies come from. */
 
         public import ScalarValues::*;
 
-        part def DecisionSupportDomain {
+        part def DecisionSupportSystem {
+            doc /* One actor's decision support. Each has its own model of how the aircraft
+             * will fly, so two actors can predict different trajectories for one flight. */
             part vehicleDynamicsModel: VehicleDynamicsModel;
         }
 
         part def VehicleDynamicsModel {
-            doc /* Interface only — see workflows/vehicle-simulation-model.md. The real
-             * physics is implemented in Python at
-             * projects/nas-sos-capstone/simulation/vehicle_dynamics.py
-             * (function step_dynamics), not embedded here: SysML v2's opaque
-             * `calc def` external-language bodies run through Jython in specific
-             * commercial tools, not CPython/numpy, so this project keeps the model and
-             * the interface separate and traces between them by hand. Field names on
-             * both sides are kept identical to AircraftSystems::AircraftState's
-             * attributes so the correspondence needs no translation. */
-
-            calc def StepDynamics {
-                in state: AircraftSystems::AircraftState;
-                in controlHeading: Real; // commanded heading, degrees from North
-                in controlSpeed: Real; // commanded airspeed, meters per second
-                in controlClimbRate: Real; // commanded climb rate, meters per second
-                in dt: Real; // timestep, seconds
-                return nextState: AircraftSystems::AircraftState;
-            }
+            doc /* The vehicle physics model: propulsion and aerodynamics (owner, 2026-10-08).
+             * Reads an aircraft state and predicts the next one. Implemented in Python at
+             * projects/nas-sos-capstone/simulation/vehicle_dynamics.py, function
+             * step_dynamics (see workflows/vehicle-simulation-model.md); the trace between
+             * the two is kept by hand (D-005).
+             * The time step is not a component of this model. A `calc def StepDynamics`
+             * sat here until 2026-10-08 as the interface to step_dynamics; removed (D-012)
+             * because it drew the integration step as an internal part. Its signature, for
+             * the trace: in state (AircraftSystems::AircraftState), commanded heading
+             * (deg), speed (m/s) and climb rate (m/s), dt (s); returns the next
+             * AircraftState. Field names match AircraftState's attributes. */
         }
     }
 }

@@ -61,8 +61,8 @@ package AirspaceManagementIBD {
         //   hotlines. NTML is FAA-internal, which is why it appears here and not on the
         //   context diagram's operator-facing links.
 
-        #IBDVisible connection atcsccTmu connect airspaceMgmt.atcscc to airspaceMgmt.tmu {
-            doc /* [A] National <-> local traffic flow management.
+        #IBDVisible connection atcsccTmu connect airspaceMgmt.atcscc to airspaceMgmt.tmu;
+        comment about atcsccTmu /* [A] National <-> local traffic flow management.
              * ATCSCC -> TMU: FEA/FCA, TMIs (GDP, GS, AFP, CTOP, reroutes), EDCTs, slot/rate data.
              * TMU -> ATCSCC: component outages and disruptions, weather conditions, MIT >= 25
              *   (FEA) / >= 40 (conference), TBM status, delay reports, reroute requests, runway
@@ -73,10 +73,9 @@ package AirspaceManagementIBD {
              * Hierarchy the single tmu part stands for: tower -> TRACON TMU -> ARTCC TMU -> ATCSCC.
              * Intent chain: enterprise/NAS flow objectives -> ATC constraints.
              * Sources: JO 7210.3EE CHG 3 Ch. 18. */
-        }
 
-        #IBDVisible connection tmuAtc connect airspaceMgmt.tmu to airspaceMgmt.atc {
-            doc /* [A] TMU <-> tactical controllers: how a TMI becomes the clearance the crew
+        #IBDVisible connection tmuAtc connect airspaceMgmt.tmu to airspaceMgmt.atc;
+        comment about tmuAtc /* [A] TMU <-> tactical controllers: how a TMI becomes the clearance the crew
              * receives.
              * TMU -> controllers: MIT/MINIT, metering times (TBFM), EDCT verification, departure
              *   release times, airborne reroutes (Route Amendment Dialog -> ERAM for the sector
@@ -86,7 +85,6 @@ package AirspaceManagementIBD {
              * Sources: JO 7110.65BB 4-3-4 (tower <-> TMU on EDCT and release times, ATCSCC via
              * the TMU); JO 7210.3EE 18-2-4 (TMUs direct flows in conjunction with the ATCSCC),
              * 18-7-4h5. */
-        }
 
         // TODO(missing), IBD level: controller <-> controller links (handoff, point-out, tower <-> TRACON
         // departure release; BB 5-4-x, catalog transitions 5, 7, 9, 10) once the atc umbrella

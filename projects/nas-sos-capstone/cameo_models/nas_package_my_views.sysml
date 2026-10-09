@@ -20,6 +20,7 @@ package MyViews {
         private import StandardViewDefinitions::*;
 
         view systemContext : InterconnectionView {
+            attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
             // Render only what NASContextDiagram tags #ContextVisible (parts and
             // connections). What to show is decided there, not here.
             // `*::**` exposes everything under NASContextDiagram but not NASContextDiagram
@@ -41,11 +42,33 @@ package MyViews {
         }
 
         view airspaceManagementIbd : InterconnectionView {
+            attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
             // Placeholder IBD (D-010): links internal to Airspace Management.
-            expose AirspaceManagementIBD::AirspaceManagementInternals::**[@AirspaceManagementIBD::IBDVisible];
+            // Same expose + filter form as systemContext: the inline
+            // `::**[@...IBDVisible]` form rendered an empty frame (syside viz, 2026-10-08).
+            expose AirspaceManagementIBD::AirspaceManagementInternals::*::**;
+            filter @AirspaceManagementIBD::IBDVisible;
         }
-                
+
+        view aircraftIbd : InterconnectionView {
+            attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
+            // Default aircraft IBD (D-011, D-012): crew, flight deck controls, avionics, flight
+            // controls, fuel system, boundary ports and the information / command links.
+            // Draws only #IBDVisible elements.
+            expose AircraftIBD::CommercialTransportAirlinerInternals::*::**;
+            filter @AircraftIBD::IBDVisible;
+        }
+
+        view aircraftIbdDetail : InterconnectionView {
+            attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
+            // Detailed aircraft IBD (D-011): adds everything tagged #IBDDetail (propulsion,
+            // airframe, landing gear, utilities incl. pitot-static, fuel and power links).
+            expose AircraftIBD::CommercialTransportAirlinerInternals::*::**;
+            filter @AircraftIBD::IBDVisible or @AircraftIBD::IBDDetail;
+        }
+
         view nominalOpsActivity : ActionFlowView {
+            attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
             expose NominalOpsActivity::NominalFlightOperations::**;
         }
 

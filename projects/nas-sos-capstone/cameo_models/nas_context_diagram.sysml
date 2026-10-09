@@ -41,16 +41,16 @@ package ContextDiagram {
         // ABSORBED (kept only as exchange content or capability). Rendered = on the context view.
 
         // D-007: BOUNDARY ACTORS (governance, passengers, military), CONTEXT CONSTRAINT
-        // (infrastructure), ABSORBED (informationServices, decisionSupport). The rendered
-        // environment links are at the bottom ("ENVIRONMENT"). Maintenance Suppliers
-        // (context constraint) has no part yet.
-        #ContextVisible part environment: EnvironmentDomain {
-            #ContextVisible part :>> governance;
-            #ContextVisible part :>> military;
-            #ContextVisible part :>> infrastructure {
-                #ContextVisible part :>> weatherService;
-            }
-        }
+        // (infrastructure), ABSORBED (informationServices). Maintenance Suppliers
+        // (context constraint) has no part yet. Decision support is no longer here: each
+        // deciding system owns its own (D-012).
+        // D-012 (2026-10-08): the environment is in the model but NOT drawn. "Environment"
+        // misleads when the thing outside is a passenger or a military airspace schedule
+        // rather than law or weather (owner). What comes from outside is drawn as an
+        // input port on the system that receives it (rulesIn, weatherIn,
+        // specialUseAirspaceIn, tagged below). The links from the environment parts to
+        // those ports are at the bottom ("ENVIRONMENT"), untagged.
+        part environment: EnvironmentDomain;
         #ContextVisible part airportOps: AirportOperationsDomain {
             // D-007: MODELED. Authority over gates, non-movement area, closures, and slots at
             // coordinated airports; departure readiness couples to EDCT compliance and
@@ -64,11 +64,16 @@ package ContextDiagram {
         #ContextVisible part airspaceMgmt: AirspaceManagementDomain {
             // D-007: MODELED. Tactical control authority (clearances, separation; JO 7110.65BB)
             // directly shapes the flown trajectory; safety + schedule. Rendered.
-            #ContextVisible part :>> atc;
+            #ContextVisible part :>> atc {
+                #ContextVisible port :>> rulesIn;
+            }
             // D-007: MODELED. "Final approving authority" for interfacility TMIs (7210.3EE
             // 18-2-3i); EDCT/CTOP/reroutes couple straight to airline decisions; delay cost and
             // schedule reliability. Rendered (cross-domain link: aocTfm).
-            #ContextVisible part :>> atcscc;
+            #ContextVisible part :>> atcscc {
+                #ContextVisible port :>> weatherIn;
+                #ContextVisible port :>> specialUseAirspaceIn;
+            }
             // tmu: D-007 MODELED (local TM latitude; 18-2-3 NOTE), but every tmu exchange is
             // inside Airspace Management (ATCSCC <-> TMU <-> controllers), so per D-010 it is
             // not rendered here. It and those links are on the Airspace Management IBD.
@@ -87,7 +92,10 @@ package ContextDiagram {
             // ATC coordinator, load planner, maintenance controller, crew scheduler, aircraft
             // router, duty manager) are sub-parts in the definitions for the AOC IBD; each
             // connection doc below names the role that owns it.
-            #ContextVisible part :>> airlineOperationsCenter;
+            #ContextVisible part :>> airlineOperationsCenter {
+                #ContextVisible port :>> rulesIn;
+                #ContextVisible port :>> weatherIn;
+            }
             // ticketingSystem: ABSORBED. Revenue/booking side; enters only as passenger demand
             // (a boundary-actor effect per D-007). Not rendered.
         }
@@ -206,8 +214,8 @@ package ContextDiagram {
         //       fuel, not the route, and holding vs. fuel is exactly where the dispatcher's
         //       divert decision starts (the §9 fuel/diversion friction).
 
-        #ContextVisible connection aocToCrew connect flightOps.airlineOperationsCenter to flightCrew.flightDeckCrew {
-            doc /* [B] Dispatch/operational control link (dispatcher <-> flight deck; the captain
+        #ContextVisible connection aocToCrew connect flightOps.airlineOperationsCenter to flightCrew.flightDeckCrew;
+        comment about aocToCrew /* [B] Dispatch/operational control link (dispatcher <-> flight deck; the captain
              * signs). AOC roles: dispatcher (release, amendments), flight follower (airborne
              * monitoring), load planner (closeout via ACARS).
              * AOC -> crew: dispatch release package (release, OFP, weather/NOTAMs, MEL items,
@@ -221,7 +229,6 @@ package ContextDiagram {
              * captain has final authority as PIC (14 CFR 91.3).
              * Intent chain: mission plan -> flight plan (the airline's intent reaching the crew).
              * Sources: Seamster 2011; Munro 2018; Berry & Pace 2011. */
-        }
 
         // Core operational coordination  - ATC to Crew
         //   - radio comms hand-offs & transfer info   -> [A] BB 5-4-5..5-4-8, 2-1-15; Seamster E-6#03-04
@@ -265,8 +272,8 @@ package ContextDiagram {
         //   - Comms Establishing at departure and in response to transfer
         //                                                -> [A] BB 2-9-3 (ATIS code on contact); Seamster E-5#08-10
 
-        #ContextVisible connection atcToCrew connect airspaceMgmt.atc to flightCrew.flightDeckCrew {
-            doc /* [A/B] Tactical control: the best-evidenced link in the model.
+        #ContextVisible connection atcToCrew connect airspaceMgmt.atc to flightCrew.flightDeckCrew;
+        comment about atcToCrew /* [A/B] Tactical control: the best-evidenced link in the model.
              * ATC -> crew: clearances (IFR, taxi, takeoff, altitude/heading/speed/route,
              *   approach, landing), holding instructions with EFC, weather information and
              *   deviation approvals, safety alerts, traffic advisories, altimeter settings, ATIS,
@@ -284,7 +291,6 @@ package ContextDiagram {
              * Either pilot may be the voice on the radio (the FO in E-2#07, E-4#02-04).
              * Sources: JO 7110.65BB (2-1-6, 2-1-21, 2-1-28/30, 2-6-2, 2-6-4, 2-7-1, 2-9-2/3,
              * 4-3-4, 4-6-1/4, 5-2-x, 5-4-5..8); Seamster E-1..E-13. */
-        }
 
         // Core operational coordination  - ATC to AOC (ATCSCC -> Flight Ops; ATC coordinator)
         //   - TMI advisories: GDP, GS, AFP, CTOP, reroute, diversion recovery
@@ -318,8 +324,8 @@ package ContextDiagram {
         //   (journal 2026-09-27 recommendation).
         //   - Flight plan filing: moved off this view, see aocFlightPlanFiling below.
 
-        #ContextVisible connection aocTfm connect flightOps.airlineOperationsCenter to airspaceMgmt.atcscc {
-            doc /* [A] Traffic flow management / Collaborative Decision Making link.
+        #ContextVisible connection aocTfm connect flightOps.airlineOperationsCenter to airspaceMgmt.atcscc;
+        comment about aocTfm /* [A] Traffic flow management / Collaborative Decision Making link.
              * ATCSCC -> operator: EDCTs, TMI advisories (GDP/GS/AFP/CTOP/reroute/diversion
              *   recovery), FEA/FCA publication, CTOP assignments, hotline/telcon content (weather,
              *   outages, capacity), the Operations Plan.
@@ -338,7 +344,6 @@ package ContextDiagram {
              * Intent chain: flight plan <-> ATC constraints. This is where airline objectives meet
              * NAS flow objectives (the §9 local-vs-system conflict).
              * Sources: JO 7210.3EE CHG 3 18-4-1d, 18-4-5, 18-8-2c/3d, 18-10-3/6e/12, 18-12-3/4, 18-21-4a. */
-        }
 
         // Flight plan filing: NOT rendered (D-010). The exchange stays in the model because
         // the filed plan is the intent object ATC clears against ("cleared as filed", and the
@@ -395,8 +400,8 @@ package ContextDiagram {
         //      goes to the FAA tower, not the airport operator. Add it as one item on
         //      aocFlightPlanFiling or aocTfm only if a departure-time scenario needs it.
 
-        #ContextVisible connection aocAirport connect flightOps.airlineOperationsCenter to airportOps.airport {
-            doc /* [C/B] Airline <-> airport/station coordination.
+        #ContextVisible connection aocAirport connect flightOps.airlineOperationsCenter to airportOps.airport;
+        comment about aocAirport /* [C/B] Airline <-> airport/station coordination.
              * AOC -> airport: schedules and gate requests; service orders (fuel order, catering
              *   by passenger count, water/lav, ground power / air start, de-icing plan); load
              *   plan to the ramp; maintenance work orders; target off-block time (A-CDM TOBT).
@@ -412,10 +417,9 @@ package ContextDiagram {
              * Clarke 1998 (B); Munro 2018 (B); Berry & Pace 2011 (B); EUROCONTROL A-CDM (A, but
              * European); FAA Order 5190.6C Ch. 9 (A: sponsor duties on air-carrier leases
              * and access; the per-gate split is still C). */
-        }
 
-        #ContextVisible connection aocAircraftDatalink connect flightOps.airlineOperationsCenter to aircraftSys.aircraft {
-            doc /* [B] AOC <-> aircraft over ACARS (VHF / Satcom, "if equipped"), without going
+        #ContextVisible connection aocAircraftDatalink connect flightOps.airlineOperationsCenter to aircraftSys.aircraft;
+        comment about aocAircraftDatalink /* [B] AOC <-> aircraft over ACARS (VHF / Satcom, "if equipped"), without going
              * through the crew. AOC roles: flight follower, maintenance controller, load planner.
              * Aircraft -> AOC: automated OOOI reports (Off-gate, Off-ground, On-ground, In-gate),
              *   maintenance fault messages, position reports.
@@ -426,7 +430,6 @@ package ContextDiagram {
              * Intent chain: flown trajectory -> AOC (the feedback path the AOC plans against).
              * Sources: Seamster E-3#10, E-5#06, E-13#12 (automated OOOI), E-2#20, E-10#14;
              * FAA NAS infrastructure roadmaps (ACARS services). */
-        }
 
         // ATC to Airport Operations
         //   - Runway & taxiway lighting: the tower operates the remote lighting controls
@@ -440,8 +443,8 @@ package ContextDiagram {
         //                                                          -> [C] prework hub draft
         //   - NAS component status at the field                   -> [C]
 
-        #ContextVisible connection atcAirport connect airspaceMgmt.atc to airportOps.airport {
-            doc /* [A/C] ATC (tower) <-> airport operator.
+        #ContextVisible connection atcAirport connect airspaceMgmt.atc to airportOps.airport;
+        comment about atcAirport /* [A/C] ATC (tower) <-> airport operator.
              * ATC -> airport: operation of airfield lighting (BB 3-4-x).
              * Airport -> ATC: runway/taxiway closures, field conditions and braking reports (field
              *   NOTAMs; BB 2-1-9), departure/arrival times from the airport management system
@@ -451,7 +454,6 @@ package ContextDiagram {
              * is therefore ATC-internal, not this link. The ATC/airport boundary here is movement
              * area (ATC) vs non-movement area (airport/operator), per the BB glossary and 3-7-2.
              * Intent chain: closures -> runway in use -> SID/STAR/approach -> trajectory. */
-        }
 
         // Airport Operations <-> Crew. Rendered as one summary link (airportToCrew); the
         // per-exchange set is unrendered, like aircraft <-> airport:
@@ -469,8 +471,8 @@ package ContextDiagram {
         //                              paperwork, door closure, special passengers, late-
         //                              passenger holds                             [C] / [B] Munro
 
-        #ContextVisible connection airportToCrew connect flightCrew.flightDeckCrew to airportOps.airport {
-            doc /* [A/B] Summary link, rendered in place of the per-exchange ca* set below.
+        #ContextVisible connection airportToCrew connect flightCrew.flightDeckCrew to airportOps.airport;
+        comment about airportToCrew /* [A/B] Summary link, rendered in place of the per-exchange ca* set below.
              * Airport -> crew: lighting, signs and markings (visual, BB 3-4-x); docking guidance
              *   and marshalling to the stand; fuel slip from the airport fuel carrier; gate agent
              *   paperwork and passenger status.
@@ -479,17 +481,19 @@ package ContextDiagram {
              * Pushback onto the movement area needs ATC; the captain obtains it and relays it to
              * the tug driver (Wilke 2014). Who authorizes the push itself varies by airport.
              * Sources: JO 7110.65BB 3-4-x; Seamster E-3, E-13; Wilke 2014; Munro 2018. */
-        }
 
         // Per-exchange crew <-> airport set (not rendered; see the table above). Endpoints
         // use the Airport sub-parts, so the set can be reused on an Airport Operations IBD.
+        // 2026-10-08 (D-012): marshaller, intoPlaneFueler and gateAgents are no longer
+        // parts. Their exchanges are kept and end on the part that absorbed the role
+        // (pushbackCrew, fuelDistributionSystem, gates).
         connection caLightingSignals connect airportOps.airport.airfieldLighting to flightCrew.flightDeckCrew {
             doc /* [A] Information, airport -> crew: runway/taxiway lights, stop bars, signs and markings, operated from the tower (BB 3-4-x). */
         }
         connection caDockingGuidance connect airportOps.airport.gates to flightCrew.flightDeckCrew {
             doc /* [C] Information, airport -> crew: stop guidance at the stand (visual docking guidance system). The sensing half is apDockingGuidance. */
         }
-        connection caMarshalling connect airportOps.airport.groundHandling.marshaller to flightCrew.flightDeckCrew {
+        connection caMarshalling connect airportOps.airport.groundHandling.pushbackCrew to flightCrew.flightDeckCrew {
             doc /* [B] Information, ramp -> crew: marshalling signals onto the stand where no docking guidance is used (Seamster E-13#10-13). */
         }
         connection caPushbackCoordination connect airportOps.airport.groundHandling.pushbackCrew to flightCrew.flightDeckCrew {
@@ -498,10 +502,10 @@ package ContextDiagram {
         connection caDeicingRequest connect airportOps.airport.groundHandling.deicing to flightCrew.flightDeckCrew {
             doc /* [C] Information, both directions: crew requests de-/anti-icing; de-icing crew reports fluid type, start time (the crew's holdover time runs from it) and completion. Drives apDeicing. */
         }
-        connection caFuelSlip connect airportOps.airport.fuelDistributionSystem.intoPlaneFueler to flightCrew.flightDeckCrew {
+        connection caFuelSlip connect airportOps.airport.fuelDistributionSystem to flightCrew.flightDeckCrew {
             doc /* [C] Information, fueler -> crew: the fuel slip (AirportOperations::FuelSlip). Input to FlightCrew::PreflightCrossCheck; only the cross-check result goes on to the AOC (aocToCrew). */
         }
-        connection caGateAgentCoordination connect airportOps.airport.gateAgents to flightCrew.flightDeckCrew {
+        connection caGateAgentCoordination connect airportOps.airport.gates to flightCrew.flightDeckCrew {
             doc /* [C] Information, both directions: final passenger count and paperwork, door closure, special passengers, late-passenger holds (friction with dispatch: Munro 2018). */
         }
 
@@ -569,14 +573,13 @@ package ContextDiagram {
         //   Intentionally left out: lighting/markings (airport -> CREW, caLightingSignals), surface
         //   surveillance (ASDE-X/multilateration: ATC, on atcSurveillance), OOOI (aircraft -> AOC).
 
-        #ContextVisible connection aircraftAirport connect aircraftSys.aircraft to airportOps.airport {
-            doc /* [B] Summary link, rendered in place of the per-exchange set below. Mostly
+        #ContextVisible connection aircraftAirport connect aircraftSys.aircraft to airportOps.airport;
+        comment about aircraftAirport /* [B] Summary link, rendered in place of the per-exchange set below. Mostly
              * material turnaround servicing (fuel, power, air, water, catering, bags, cargo,
              * passengers), gate docking and pushback, plus a few data exchanges (docking
              * guidance, refuel panel, gatelink). Does not affect optimality: every exchange
              * executes a decision made on another actor's link (owner, 2026-09-27), and the
              * information that carries each decision is on aocAirport or the ca* set. */
-        }
 
         // Per-exchange set (not rendered; see the table above).
         connection apFuelUplift connect aircraftSys.aircraft.fuelSystem to airportOps.airport.fuelDistributionSystem {
@@ -609,8 +612,8 @@ package ContextDiagram {
         connection apBaggage connect aircraftSys.aircraft to airportOps.airport.baggageHandlingSystem {
             doc /* [B] Material, both directions: checked baggage loaded and unloaded per the load plan (aocAirport). */
         }
-        connection apCargoMail connect aircraftSys.aircraft to airportOps.airport.cargoTerminal {
-            doc /* [B] Material, both directions: cargo and mail loaded and unloaded per the load plan (aocAirport). */
+        connection apCargoMail connect aircraftSys.aircraft to airportOps.airport.groundHandling {
+            doc /* [B] Material, both directions: cargo and mail loaded and unloaded per the load plan (aocAirport). Ends on groundHandling (the ramp loads it) since cargoTerminal was removed 2026-10-08 (D-012). */
         }
         connection apWasteService connect aircraftSys.aircraft to airportOps.airport.groundHandling.lavAndWaterService {
             doc /* [B] Material, aircraft -> airport: lavatory waste and cabin trash; cabin cleaning. */
@@ -624,7 +627,7 @@ package ContextDiagram {
         connection apDockingGuidance connect aircraftSys.aircraft to airportOps.airport.gates {
             doc /* [C] Information: the visual docking guidance system senses the aircraft's position (the crew-facing half is caDockingGuidance); can also detect in-block / off-block (A-CDM p.36). */
         }
-        connection apRefuelPanel connect aircraftSys.aircraft.fuelSystem to airportOps.airport.fuelDistributionSystem.intoPlaneFueler {
+        connection apRefuelPanel connect aircraftSys.aircraft.fuelSystem to airportOps.airport.fuelDistributionSystem {
             doc /* [C] Information, both directions: fueler presets quantity at the refuel panel; aircraft fuel quantity read back to the fueler. Source of the fuel slip (caFuelSlip). */
         }
         connection apGroundInterphone connect aircraftSys.aircraft to airportOps.airport.groundHandling.pushbackCrew {
@@ -636,7 +639,7 @@ package ContextDiagram {
         connection apNoiseMonitoring connect aircraftSys.aircraft to airportOps.airport {
             doc /* [C] Information, aircraft -> airport: noise measured by airport monitors against Airport.noiseAbatementProcedures. Driven by Governance / community. */
         }
-        connection apNavaidSignals connect aircraftSys.aircraft.navigationSystem to environment.infrastructure {
+        connection apNavaidSignals connect aircraftSys.aircraft.avionics.navigationSystem to environment.infrastructure {
             doc /* [B/C] Information, infrastructure -> aircraft: ILS localizer/glideslope, DME, GBAS signals. Physically at the airport, but D-007 places navaids in Infrastructure: most are FAA-owned and maintained (NAS roadmaps), some non-federal. Unlike lighting, which the airport owns (14 CFR 139.311) and the tower operates. */
         }
 
@@ -669,8 +672,8 @@ package ContextDiagram {
         // registered): ARINC 702A (FMC characteristic), the type's FCOM, FAA AC 120-71B
         // (SOPs and pilot monitoring duties); registered: GreAT D5.1, Mhenni 2016.
 
-        #ContextVisible connection crewAircraft connect flightCrew.flightDeckCrew to aircraftSys.aircraft {
-            doc /* [SME] Crew <-> aircraft execution.
+        #ContextVisible connection crewAircraft connect flightCrew.flightDeckCrew to aircraftSys.aircraft;
+        comment about crewAircraft /* [SME] Crew <-> aircraft execution.
              * Aircraft -> crew: status/alerting, fuel quantity (FQIS gauges), nav/avionics status,
              *   position and trajectory, FMS performance predictions (fuel at destination, ETAs,
              *   gross weight, optimum altitude) the crew checks against the release,
@@ -686,10 +689,9 @@ package ContextDiagram {
              * Intent chain: FMS intent -> guidance commands -> aircraft motion.
              * Evidence: owner's professional FMS experience; candidate citations ARINC 702A,
              * FCOM, FAA AC 120-71B (not registered); GreAT D5.1, Mhenni 2016 (registered). */
-        }
 
-        #ContextVisible connection atcSurveillance connect airspaceMgmt.atc to aircraftSys.aircraft {
-            doc /* [A] Surveillance, not command. Aircraft -> ATC: secondary-radar replies with
+        #ContextVisible connection atcSurveillance connect airspaceMgmt.atc to aircraftSys.aircraft;
+        comment about atcSurveillance /* [A] Surveillance, not command. Aircraft -> ATC: secondary-radar replies with
              * the ATC-assigned beacon code (Mode 3/A) and pressure altitude (Mode C/S), and
              * ADS-B Out broadcasts. ADS-B still requires an operable transponder, and "the
              * ATC-assigned beacon code is one of the required message elements of ADS-B Out"
@@ -709,10 +711,9 @@ package ContextDiagram {
              * on that gap.
              * Sources: JO 7110.65BB 5-1-2, 5-2-1, 5-2-10..5-2-23, 5-3-3; 09-20 lecture capture;
              * Mordecai 2018. */
-        }
 
-        #ContextVisible connection atcAircraftDatalink connect airspaceMgmt.atc to aircraftSys.aircraft {
-            doc /* [A/B/C] ATS datalink: ATC <-> aircraft through the aircraft's communication
+        #ContextVisible connection atcAircraftDatalink connect airspaceMgmt.atc to aircraftSys.aircraft;
+        comment about atcAircraftDatalink /* [A/B/C] ATS datalink: ATC <-> aircraft through the aircraft's communication
              * systems (CMU/ACARS, FANS 1/A).
              * ATC -> aircraft: pre-departure clearance (PDC over ACARS; Seamster E-2#07-09, [B]),
              *   D-ATIS (ACARS service in the FAA NAS roadmaps, [B]), CPDLC clearances: FAA Data
@@ -726,7 +727,6 @@ package ContextDiagram {
              * Intent chain: ATC constraints -> FMS intent, the machine-to-machine shortcut TBO
              * builds on (7210.3EE 18-6-1: "information exchanged between air and ground systems").
              * Sources: Seamster 2011 E-2; JO 7110.65BB 8-1-6; FAA NAS infrastructure roadmaps. */
-        }
 
 
         // ==================================================================
@@ -736,19 +736,22 @@ package ContextDiagram {
 
 
         // ==================================================================
-        // ENVIRONMENT / boundary actors (rendered drafts)
+        // ENVIRONMENT / boundary actors (in the model, not drawn: D-012)
         // ==================================================================
         //     The evidence note proposes three kinds of flow: rules (static), disturbances
         //     (dynamic scenario inputs), and feedback. Link an actor only where it changes a
-        //     decision.
+        //     decision. Each link ends on the receiving system's input port; the port is
+        //     what the context view draws.
         // Rules [A]: 14 CFR 91/121, JO 7110.65BB / 7210.3EE bind the operator and ATC.
-        #ContextVisible connection rulesToAoc connect environment.governance to flightOps.airlineOperationsCenter;
-        #ContextVisible connection rulesToAtc connect environment.governance to airspaceMgmt.atc;
+        connection rulesToAoc connect environment.governance to flightOps.airlineOperationsCenter.rulesIn;
+        connection rulesToAtc connect environment.governance to airspaceMgmt.atc.rulesIn;
         // Disturbance [A]: weather drives TMIs and SWAP (7210.3EE 18-15/16), ATIS (BB 2-9) and dispatch planning.
-        #ContextVisible connection weatherToTfm connect environment.infrastructure.weatherService to airspaceMgmt.atcscc;
-        #ContextVisible connection weatherToAoc connect environment.infrastructure.weatherService to flightOps.airlineOperationsCenter;
+        // TODO(owner, 2026-10-08): why weather and special-use airspace end on the ATCSCC
+        // and not the TMU or the controllers needs a rationale (open-questions.md).
+        connection weatherToTfm connect environment.infrastructure.weatherService to airspaceMgmt.atcscc.weatherIn;
+        connection weatherToAoc connect environment.infrastructure.weatherService to flightOps.airlineOperationsCenter.weatherIn;
         // Disturbance [C]: special-use airspace status as a scenario condition (D-007).
-        #ContextVisible connection suaToTfm connect environment.military to airspaceMgmt.atcscc;
+        connection suaToTfm connect environment.military to airspaceMgmt.atcscc.specialUseAirspaceIn;
 
 
         // ==================================================================

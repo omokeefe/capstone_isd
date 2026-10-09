@@ -6,6 +6,73 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-012 — Owner's hand review of the diagrams: crew acts through controls, outside inputs drawn as ports, decision support owned per actor, airport and aircraft trimmed
+
+**Date:** 2026-10-08
+**Status:** active. Owner direction, 2026-10-08, from hand-marked prints of the aircraft IBDs, the context diagram and the definitions tree. Transcription and the owner's responses: `inbox/2026-10-08-handwritten-notes-aircraft-and-context-diagrams.md`. Amends D-007 (item 3), D-009 (item 2) and D-011 (items 1, 4, 5).
+
+**Decision:**
+
+1. **The crew acts through the flight deck controls and the FMS.** New `Aircraft.flightDeckControls` (`yokes`, `rudderPedals`, `thrustLevers`, `configurationLevers`, `modeControlPanel`). On the aircraft IBD the crew's direct links to autoflight, the flight control system, propulsion and the landing gear are replaced by one crew-to-controls link plus a link from each control to the system it commands. Other panels are not modeled.
+2. **What comes from outside the system of interest is drawn as an input port, and the environment is not drawn.** `rulesIn` and `weatherIn` on the airline operations center, `rulesIn` on `atc`, `weatherIn` and `specialUseAirspaceIn` on `atcscc`. The `environment` part and its five links stay in the model, untagged, and now end on those ports. This replaces D-009's rendering of the environment links. Reason (owner): "environment" misleads when the outside thing is a passenger or a per-flight variable rather than law or weather. Passengers stay stored under `Environment`.
+3. **Decision support is owned by each system that decides.** `DecisionSupport::DecisionSupportDomain` and `Environment.decisionSupport` are removed. New `DecisionSupportSystem`, with instances on `AirlineOperationsCenter`, `AirTrafficControlSystem`, `AvionicsSystem` and `FlightDeckCrew` (`electronicFlightBag`). D-007 classed decision support as absorbed and "allocated to operator or ATM contexts"; this carries the allocation out in the model. `VehicleDynamicsModel` is the propulsion and aerodynamics model; the `StepDynamics` calc def is removed because the time step is not a component of it.
+4. **Aircraft changes.** Pitot-static moves from avionics to `UtilitySystems`. EICAS is removed and its function folded into the displays (engines connect to the displays). `CabinSystem` and its seven sub-parts are removed; cabin crew and passengers connect to `airframe.fuselage`. New surveillance-to-displays link, which is how traffic reaches the crew. Boundary ports `adsbOut`, `adsbIn`, `emissions`, `ambientAir`. Wake is left out as unimportant to the study.
+5. **Airport parts removed:** `weatherStation`, `cargoTerminal`, `gateAgents`, `securityServices`, `parkingAndTransportationServices`, `fuelDistributionSystem.tanks`, `fuelDistributionSystem.intoPlaneFueler`, `groundHandling.marshaller`. The exchanges that ended on them are kept and end on the part that absorbed the role: gate agents on `gates`, marshaller on `pushbackCrew`, fueler on `fuelDistributionSystem`, cargo on `groundHandling`.
+6. **Rendered connections carry their description as `comment about <name>`, not a `doc` in a body**, so that the connection's name prints on the diagram.
+
+**Rationale:** the owner could not defend several elements on the prints, and the lines were unreadable without names. Items 1 and 4 are the owner's professional knowledge of how the flight deck and the aircraft systems are arranged. Item 5 removes parts with no evidence and no role in the study.
+
+**Alternatives considered:**
+
+- Keep the environment box and only rename it. Rejected by the owner: ports say what a system receives without implying one outside "system".
+- One shared decision support system. Rejected by the owner: each actor has its own version, working from what that actor knows.
+- Hide the removed airport and cabin parts with tags, as D-011 does for detail. Rejected by the owner for these parts: they hold no value, as opposed to detail that is useful later.
+
+**Evidence / source:** owner direction and professional knowledge (`[SME]`), 2026-10-08. The label and port behavior was tested with syside viz 0.10.3 the same day (`knowledge/models/sysml-diagram-rendering.md` §6, §8).
+
+**Consequences:**
+
+- Gate agents had `[B]` evidence (Munro 2018, friction with dispatch over late passengers). The role is still described in the `Gate` doc and in the `aocAirport` and `caGateAgentCoordination` text; only the separate part is gone.
+- The airport parts that remain still need evidence for their internal structure (open question, 2026-10-08).
+- Open: why weather and special-use airspace end on the ATCSCC; where the aircraft's decision support sits relative to the FMS; whether communication media (VHF, CPDLC, Satcom) are drawn as ports or sub-parts. The direction of `navSurveillance` was confirmed by the owner the same day: navigation feeds surveillance.
+- The Python trace (D-005) now points at the `VehicleDynamicsModel` doc, which records the old calc signature.
+- New renders are in `cameo_models/print/` with the suffix `-rev2`; the earlier renders are kept because the hand-marked scans refer to them.
+
+---
+
+## D-011 — Aircraft decomposed in levels; detail kept in the model and hidden on diagrams by default
+
+**Date:** 2026-10-08
+**Status:** active. Owner direction, 2026-10-08, after reviewing a first draft of the aircraft IBD against the existing definitions (journal 2026-10-08).
+
+**Decision:**
+
+1. **`Aircraft` is decomposed in levels.** Its direct parts are now `avionics`, `flightControlSystem`, `fuelSystem`, `propulsion`, `airframe`, `landingGear`, `utilities`, `cabin`. The FMS, navigation, pitot-static, communication, surveillance, guidance and radar parts move one level down into a new `AvionicsSystem`, with displays, EICAS and standby instruments added.
+2. **Autoflight is avionics, flight control is physical.** `AutoFlightControlSystem` (autopilot, autothrottle) is avionics-hosted software logic and moves from `FlightControlSystem` to `AvionicsSystem`. `FlightControlSystem` is the controllers, servos, hydraulic actuators and surfaces: `primaryFCS`, new `secondaryFCS`, and the existing `reversionaryFCS`.
+3. **`FuelSystem` stays a direct part of `Aircraft`.** Each engine has its own fuel-supply system as well.
+4. **Propulsion is one to many engines, the APU included.** `PropulsionSystem.engines: Engine[1..*]`, with `mainEngines: TurbofanEngine[1..*]` and `apu: AuxiliaryPowerUnit[0..1]` as subsets. No left / right engine parts, so the definition is not limited to twins. Every engine has a FADEC, fuel supply, one-to-many compressor stages, a combustor and one-to-many turbine stages; a turbofan adds a fan and a nozzle.
+5. **Propulsion, airframe and in-flight entertainment are modeled.** This reverses the earlier note in `AircraftSystems` that left them out. Aerodynamic properties are an attribute of `Airframe`, not a part.
+6. **Detail is kept but not shown unless asked for.** In `cameo_models/nas_ibd_aircraft.sysml`, `#IBDVisible` marks what the default view (`MyViews::aircraftIbd`) draws: crew, avionics, flight control system, fuel system, and the information and command links. `#IBDDetail` marks what only `MyViews::aircraftIbdDetail` adds: propulsion, airframe, landing gear, utilities, cabin, cabin crew, passengers, and the fuel, power and physical-response links. Untagged parts (engine internals, cabin internals, airframe sub-parts) stay in the definitions and are drawn by neither.
+7. **Crew and passengers are referenced, not owned, by the aircraft** (`ref part`), consistent with D-007 and D-009.
+
+**Rationale:** the owner needs an airliner to be a usage of `Aircraft`, and the outline's grouping did not match the flat definition. Levels let a diagram stop where the intent chain needs it to (comms / FMS / crew → autoflight → flight controls) while the physical detail stays available for later work, such as activity diagrams, without cluttering them.
+
+**Alternatives considered:**
+
+- Leave `Aircraft` flat and build the IBD from untyped parts (the first draft). Rejected: the airliner would not be an `Aircraft`.
+- `engineLeft` / `engineRight` parts. Rejected by the owner: limits the model to twin-engine aircraft.
+- Leave propulsion, airframe and IFE out, as before. Rejected by the owner: the detail matters; it is hidden, not dropped.
+
+**Evidence / source:** owner direction and professional knowledge (`[SME]`), 2026-10-08. Individual IBD links are not yet graded.
+
+**Consequences:**
+
+- Paths change: `aircraft.navigationSystem` is now `aircraft.avionics.navigationSystem` (and likewise for the other moved parts). The one existing use, `apNavaidSignals` in `nas_context_diagram.sysml`, is updated. `aircraft.fuelSystem` is unchanged.
+- Open: whether `GuidanceSystem` stays a separate part (recommendation: no, it is a function shared by the FMS and autoflight) and whether `Radar` is renamed `weatherRadar`. Whether the APU belongs under propulsion is the owner's call and is modeled that way; ATA numbering treats it separately (chapter 49).
+- The airspace IBD view had the same empty-render problem as the first aircraft view and now uses the `expose …::*::**` plus `filter` form.
+
+---
+
 ## D-010 — Context diagram rendering rule, datalink split, role naming, and supporting definitions
 
 **Date:** 2026-09-27

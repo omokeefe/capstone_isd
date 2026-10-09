@@ -704,7 +704,7 @@ and one weight sweep for the prototype, per that note.)*
 "Traceability links," metric "End-to-end scenario.")*
 
 - [x] Trace simulation entities to SysML blocks. *(First pass 2026-09-19: `DecisionSupport`
-  package's `VehicleDynamicsModel::StepDynamics` calc def in `cameo_models/nas_sysml_package_definitions.sysml`
+  package's `VehicleDynamicsModel::StepDynamics` calc def (removed 2026-10-08, D-012; the trace is now the `VehicleDynamicsModel` doc) in `cameo_models/nas_sysml_package_definitions.sysml`
   names the Python module/function that implements it; `simulation/vehicle_dynamics.py`
   uses the same field names as `AircraftSystems::AircraftState`. Doc-comment trace, not a
   language-level binding — see `workflows/vehicle-simulation-model.md` for why.)*
