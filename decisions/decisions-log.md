@@ -6,6 +6,114 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-019 — The proposed airline-to-ATC data share is modeled as an improved-architecture interface; security is an assumption, not a mechanism
+
+**Date:** 2026-10-10
+**Status:** active. Owner direction from the review of the 2026-10-10 improvement plan (`projects/nas-sos-capstone/project-plan-proposal-2026-10-10.md` and the plan file reviewed in session). Applies D-007's "absorbed information services" rule to one specific exchange.
+
+**Decision:**
+
+1. **One new item definition, `AirlinePerformanceShare`,** carries what the airline (or the FMS on its behalf) would share with the party deciding a trajectory change: gross weight, cost index, connection priority, and identifiers for the thrust, drag and fuel-flow models the airline would expose. Only weight, cost index and connection priority are exercised by the experiment; the three model identifiers are present so the digital-thread vision is in the model, and are marked unexercised.
+2. **One `interface def` with typed ports** joins the airline operations center (or FMS) to ATC decision support. It is tagged as part of the improved architecture (D-018). The existing context-diagram connection it refines is retyped; the other connections are untouched.
+3. **Security and confidentiality are stated as an assumption,** satisfied by SLR-INF-05 (disclosure only to the deciding party) and by reference to existing practice (SWIM, commercial software-as-a-service data exchange). No encryption, authentication or key-management mechanism is modeled.
+4. **The three thread exchanges get typed interfaces; nothing else does.** FMS → AOC (`FmsPerformancePrediction`), AOC → ATC decision support (`AirlinePerformanceShare`), ATC → crew (clearance).
+
+**Rationale:** the project's thesis names a digital thread in which airlines expose performance data through APIs, but until this decision nothing in the model, requirements or report named that interface. A thesis about standardized interfaces needs at least one typed interface in the model. Three is the number the experiment's thread needs; typing all 103 connections would not be finished by 2026-12-13 and would not change the argument. Security is out of reach for a one-term capstone and is the kind of thing a reviewer accepts as an assumption when it is stated as one.
+
+**Alternatives considered:** type every connection (rejected: schedule); keep the share as a doc comment on the existing connection (rejected: the report could not point at a model element); model a security layer (rejected: cannot be verified here, and the course does not ask for it).
+
+**Evidence / source:** owner's statement of intent (2026-10-10 review); `schultz2012adaptiveClimb` p. 2 (weight and speed intent treated as competitive); `coppenbarger1999climbPrediction` Table 2 (candidate exchange items: take-off weight, thrust and drag factors, speed profile); D-007; D-012 item 3 (decision support owned per actor).
+
+**Consequences:** new `port def`, `interface def` and `item def` elements in `cameo_models/nas_sysml_package_definitions.sysml` (turn 2 of the plan); SN-AIR-06 and SLR-INF-05 become the stated security requirement; the report's Section 3 gets a "Proposed interface" subsection; future work names the full model-sharing API.
+
+---
+
+## D-018 — Requirements carry an architecture state: `baseline` (today's NAS) or `improved` (the proposed change)
+
+**Date:** 2026-10-10
+**Status:** active. Owner direction from the 2026-10-10 plan review. The owner chose the names `baseline` and `improved` over `asIs` and `toBe`.
+
+**Decision:**
+
+1. `requirements_definitions.sysml` gains `enum def ArchitectureState { baseline; improved; }` and every requirement carries `architectureState`, defaulting to `baseline`.
+2. The five requirements the current system does not meet are set to `improved`: SLR-CLR-10, SLR-CLR-13, SLR-INF-02, SLR-INF-03, SLR-INF-04. They describe the proposed architecture, not today's.
+3. **Case A of the experiment is the measurement of the `baseline` requirements; cases C and D are the measurement of the `improved` ones.** Case A's row of the outcome table is the course's required current-state metric; the improved rows are the required improvement claim.
+
+**Rationale:** the course's minimum requirements ask for a current-state metric and an improvement claim; INCOSE practice keeps an as-built baseline distinct from a proposed change under configuration control. One attribute does both without a second requirements file. It also answers the open item in `knowledge/models/requirements-and-traceability.md` section 9 (item 3: are the five unmet requirements requirements or proposals?). They are requirements on the improved architecture.
+
+**Alternatives considered:** a separate "proposed" package (rejected: duplicates the schema and the trace); `status = withdrawn` for the five (rejected: they are not withdrawn, they are the point).
+
+**Evidence / source:** `prework/course-info-canvas.md` (course minimum requirements); `knowledge/models/requirements-and-traceability.md` section 9; INCOSE SE Handbook on baselines.
+
+**Consequences:** the course's "current-state metric" open question in `knowledge/questions/open-questions.md` is answered and removed; `tools/check_model.py` (turn 5) asserts every `improved` requirement has a verification case.
+
+---
+
+## D-017 — OpenAP is the experiment's scoring model, at three selectable fidelities
+
+**Date:** 2026-10-10
+**Status:** active. Owner direction: "Perfect. Implement it!" (2026-10-10 plan review).
+
+**Decision:**
+
+1. **OpenAP** (TU Delft open aircraft performance model, LGPL-3.0, `pip install openap`, version 2.6.2 installed in `.venv` on Python 3.14.2 on 2026-10-10) supplies fuel flow, thrust and drag for the experiment. Calls: `FuelFlow(ac).enroute(mass_kg, tas_kt, alt_ft, vs)` in kg/s; `Thrust(ac).cruise(tas, alt)` and `.climb(tas, alt, roc)` in N; `Drag(ac).clean(mass, tas, alt)` in N; `prop.aircraft(ac)` for limits.
+2. **The aircraft type code is `B39M`** (737 MAX 9, D-015). OpenAP holds the type's properties (MTOW 88,000 kg, OEW 45,000 kg, MFC 26,000 kg, MMO 0.82, ceiling 12,500 m, LEAP-1B) but no drag polar for it, so it is constructed with `use_synonym=True` and **borrows the 737 MAX 8 polar**. This is stated as a limitation wherever a number from it is reported.
+3. **Three fidelity levels, selected at run time** (`--fidelity`), modeled as `FidelityLevel` in the analysis package: `conceptual` (option feasibility and instruction counts only, no fuel numbers), `nominalMass` (OpenAP at the type's nominal mass), `actualMass` (OpenAP at each aircraft's actual mass). The decider's case (A to D) and the truth model's fidelity are independent settings.
+4. **The experiment needs no trajectory integration.** Each option is scored as steady cruise at the option's altitude for the time until the conflict clears, plus a climb or descent increment. `simulation/vehicle_dynamics.py` is kept but not used by the experiment.
+5. **Fallback, decided on 2026-11-08 at the latest:** if OpenAP gives implausible numbers, a lookup table built from `mori2022massCruise` replaces it, stated as a limitation.
+
+**Smoke test, 2026-10-10 (Mach 0.80, ISA):** at 66,000 kg fuel flow falls from 2,283 kg/h at FL320 to 2,049 kg/h at FL400 and the thrust margin holds at every level; at 78,000 kg the fuel flow bottoms out at FL380 (2,402 kg/h) and OpenAP's maximum cruise thrust is below drag at FL380 and FL400. So the light aircraft can take the climb to FL400 and the heavy one cannot, which is the asymmetry the experiment is built on (D-013 item 4).
+
+**Rationale:** the plan's largest schedule risk was a scoring model with no chosen source. OpenAP is open, documented, supports the type, and gives the three quantities (thrust, drag, fuel flow) the digital-thread vision names, so the same library stands in for what an airline would expose. BADA needs a licence. A hand-built Breguet model would have to be validated from nothing.
+
+**Alternatives considered:** EUROCONTROL BADA (licence); extend `vehicle_dynamics.py` with a drag polar (more work, no validation); lookup table from the Mori paper (kept as the fallback).
+
+**Evidence / source:** OpenAP documentation (`openap.dev`), API checked 2026-10-10; Sun, Hoekstra and Ellerbroek 2020 (to be registered); smoke test output in `projects/nas-sos-capstone/journal/2026-10-10.md`.
+
+**Consequences:** `simulation/openap_smoke.py`, `b739_envelope.py`, `experiment_scoring.py`, `scenario_base.yaml`; `cameo_models/nas_analysis.sysml`; the scenario's heavy and light weights are chosen so that the asymmetry above holds (about 74,000 kg and 66,000 kg; see `knowledge/models/experiment-scenario-numbers.md`).
+
+---
+
+## D-016 — Plan adopted: four tracks, nine weekly turns, artifact states, documented tailoring of the August plan
+
+**Date:** 2026-10-10
+**Status:** active in principle. The owner approved the 2026-10-10 improvement plan after a line-by-line review; each tailoring row below was spelled out at the owner's request. **Owner to confirm any row they want changed** before the corresponding "Future work" move is treated as final.
+
+**Decision:**
+
+1. **The working loop is the plan of record:** draft, print, hand-review, transcribe to `handwritten/`, apply, log the decision, re-render with a revision suffix, carry into the report, note the lesson.
+2. **Each diagram and experiment table has one of five states** in place of a checkbox: 0 not started, 1 drafted (renders or reads clean), 2 hand-reviewed (transcription exists, directions applied), 3 evidence-graded (every link or number has a source, an `[SME]` mark or a stated assumption), 4 in the report (owner-written body text refers to it).
+3. **Four tracks** run in parallel: A model, B experiment, C report, D evidence on demand. **Nine one-week turns** end on Sundays from 2026-10-18 to 2026-12-13, built around the graded dates (Interim Report #2 Oct 25, presentation upload Nov 20, Review #3 Nov 22, Final Report Dec 13), at 10 to 20 owner-hours a week.
+4. **One traced thread carries the project:** airline cost objective → SN-AIR-05 → SLR-INF-02/03/04 and SLR-CLR-13 → the airline-to-ATC interface (D-019) → the conflict-resolution sequence → verification cases → the experiment's outcome table. Work off the thread is appendix or future work.
+5. **Tailoring of `to-do-list.md`** (ISO/IEC/IEEE 15288 allows documented tailoring; the reason is recorded per row and dropped items move to a "Future work" section, not deleted):
+   - §1 closed; its four open report fixes move to Track C.
+   - §2 and §3 (per-paper literature checklists, about 160 boxes) replaced by Track D; the sources stay registered.
+   - §4 keeps only the en-route ARTCC control and handoff transitions and the crew-to-FMS source lead; the rest to Future work.
+   - §5 ConOps reduced to the activity diagram at phase level, with `FlyEnroute` decomposed one level, plus the experiment scenario as the one worked scenario.
+   - §6 alternative decompositions reduced to one report paragraph on why D-002/D-007 was kept.
+   - §7 reduced to one RACCI table for the six decisions on the thread.
+   - §8 done; add rows for airline data protection, passenger safety and Governance so every stakeholder requirement traces.
+   - §9 reduced to the one conflict the experiment measures; the other eight named as future work.
+   - §10 becomes Track A; the five trace lines become the one thread.
+   - §11 and §12 become Track B; weighted sums, normalization, weighting schemes, weight sweeps, Pareto fronts, sensitivity and tipping points dropped (D-013 item 2); the optional Pareto-front yes/no column stays if the owner wants it.
+   - §13 becomes the analysis package, verification cases and results file.
+   - §14 becomes the presentation and Section 4; re-weighting dropped.
+   - §15 reduced to the final-turn checklist (every body diagram at state 3; every thread requirement verified or marked qualitative; limitations from the lessons file).
+   - §16 becomes Track C.
+6. **Two dated guards:** scoring-model fallback decision on 2026-11-08 (D-017 item 5); model freeze on 2026-11-29, corrections only after.
+7. **A lessons-learned file** (`projects/nas-sos-capstone/lessons-learned.md`) is kept, with one question added to the sign-off workflow.
+8. **"Slipped" is redefined** in `personas/project-manager.md`: an artifact is slipped only when its state has not advanced since its date, not when its checkbox is open while it is being revised.
+
+**Rationale:** the August plan was a one-pass list in a fixed order with one date per item. The work since late September runs in review turns across model, experiment and report at once, and the list reported improving artifacts as slipped. About 250 of its boxes feed nothing on the thread. The adviser endorsed a scope that varies with schedule (reported 2026-10-10). The thread is what can be finished and defended by 2026-12-13.
+
+**Alternatives considered:** keep the 16 sections and re-date them (rejected: the ordering and the weighted-sum content are wrong, not only the dates); drop the dropped items outright (rejected: the report's limitations and future work need them named).
+
+**Evidence / source:** `projects/nas-sos-capstone/project-plan-proposal-2026-10-10.md`; the 2026-10-10 plan review (owner comments recorded in `journal/2026-10-10.md`); `prework/course-info-canvas.md`.
+
+**Consequences:** `to-do-list.md` restructured (turns at the top, four tracks, Future work at the bottom); `task-board.md`, `index.md` and the report's timing subsection follow; the report's Section 3 gets a "Systems engineering approach" table and a tailoring paragraph citing this decision.
+
+---
+
 ## D-015 — Experiment starts from one aircraft type; ICAO calculator accepted for the CO2 factor; arrival-time effect of speed acknowledged
 
 **Date:** 2026-10-09

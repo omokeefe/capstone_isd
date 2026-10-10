@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-10-04 (one file added and processed on its own 2026-10-09; not a full sweep)
-**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 75 of 75 after the two 2026-10-09 additions
+**Last full sweep:** 2026-10-04 (files added and processed on their own 2026-10-09 and 2026-10-10; not full sweeps)
+**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 75 of 75 after the two 2026-10-09 additions; 81 of 81 after the six 2026-10-10 additions
 
 **PDF highlight extraction (2026-10-09):** ran the extractor on the one file added today, `engility2014tasarAlaska`. 38 highlights (PDF pp. 3–12), no typed comments, no ink. Merged into its summary's `## Highlighted passages` section. The other PDFs were not re-run.
 
@@ -134,8 +134,44 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | coppenbarger-2012-en-route-climb-trajectory-prediction-enhancement-using-airline-flight-planning-information.pdf | `coppenbarger1999climbPrediction` (1999 paper; file name says 2012) | 4 | [4 - coppenbarger1999climbPrediction.md](literature-notes/summaries/4%20-%20coppenbarger1999climbPrediction.md) | 2026-10-04 |
 | tasar_ntrs_20140012787.pdf | `engility2014tasarAlaska` (corporate author; NASA technical monitor David Wing) | 4 | [4 - engility2014tasarAlaska.md](literature-notes/summaries/4%20-%20engility2014tasarAlaska.md) | 2026-10-09 |
 | ICEC_Methodology_Passengers_v13.pdf | `icao2024icecMethodology` (Version 13.1, Aug 2024) | 3 | [3 - icao2024icecMethodology.md](literature-notes/summaries/3%20-%20icao2024icecMethodology.md) | 2026-10-09 |
+| FAA-H-8083-16B_Chapter_3.pdf | `faa2017iphCh3` (Chapter 3 only) | 4 | [4 - faa2017iphCh3.md](literature-notes/summaries/4%20-%20faa2017iphCh3.md) | 2026-10-10 |
+| airbus-fobn-aircraft-energy-management-approach.pdf | `airbus2005energyMgmtApproach` (Airbus, not 737 data) | 3 | [3 - airbus2005energyMgmtApproach.md](literature-notes/summaries/3%20-%20airbus2005energyMgmtApproach.md) | 2026-10-10 |
+| b737orguk-rulesofthumb.html | `brady2026b737RulesOfThumb` (unofficial web page snapshot; author not on the page) | 2 | [2 - brady2026b737RulesOfThumb.md](literature-notes/summaries/2%20-%20brady2026b737RulesOfThumb.md) | 2026-10-10 |
+| aircraft-commerce-137-737max-8-9-fuel-burn.pdf | `britchford2021max89FuelBurn` (trade magazine) | 4 | [4 - britchford2021max89FuelBurn.md](literature-notes/summaries/4%20-%20britchford2021max89FuelBurn.md) | 2026-10-10 |
+| icao-engine-emissions-databank-v32.xlsx | `icao2026engineEmissionsDatabank` (issue 32, Mar 2026) | 3 | [3 - icao2026engineEmissionsDatabank.md](literature-notes/summaries/3%20-%20icao2026engineEmissionsDatabank.md) | 2026-10-10 |
+| boeing-aero-2007q2-cost-index-explained.pdf | `roberson2007costIndex` | 4 | [4 - roberson2007costIndex.md](literature-notes/summaries/4%20-%20roberson2007costIndex.md) | 2026-10-10 |
+| sheth-et-al-2012-simulations-of-credits-concept-with-user-input-for-collaborative-air-traffic-management.pdf | `sheth2010creditsConcept` (AIAA 2010-8079; file name's 2012 is a download label) | 4 | [4 - sheth2010creditsConcept.md](literature-notes/summaries/4%20-%20sheth2010creditsConcept.md) | 2026-10-10 |
+| Analysis of Factors for Incorporating User Preferences in Air Traffic Management - A system Perspective (Sheth).pdf | `sheth2010userPreferencesIcas` | 3 | [3 - sheth2010userPreferencesIcas.md](literature-notes/summaries/3%20-%20sheth2010userPreferencesIcas.md) | 2026-10-10 |
+| SESAR_Solutions_Catalogue_2019_web.pdf | `sesarju2019solutionsCatalogue` (3rd edition) | 2 | [2 - sesarju2019solutionsCatalogue.md](literature-notes/summaries/2%20-%20sesarju2019solutionsCatalogue.md) | 2026-10-10 |
 
-**Distribution as of 2026-10-09 (computed from the ledger rows above):** 17 x 5, 24 x 4, 17 x 3, 13 x 2, 3 x 1, 1 x 0 — 75 rows.
+**Distribution as of 2026-10-10, evening (computed from the ledger rows above):** 17 x 5, 28 x 4, 20 x 3, 15 x 2, 3 x 1, 1 x 0 — 84 rows. Every file in `evidence/sources/` now has a ledger row.
+
+### Flags raised 2026-10-10, evening (3 files held since 2026-10-05 registered; 4 web-only method entries)
+
+- **`sheth2010creditsConcept` (rated 4)** and **`sheth2010userPreferencesIcas` (rated 3).** The two Sheth papers held since 2026-10-05, registered at last. The credits paper is the source of the ten-factor dispatcher table (Figure 7, PDF p. 11) that SLR-INF-04 and case D rest on; the ICAS paper is cited for its problem statement (one route filed, replaced without the user's preferences; no mechanism to state a flight's importance; proprietary-data concerns). Read depth: first two pages and the figure; the owner's highlights are on those pages. The question of 17 responses from five dispatchers is still open; check Section VI of the credits paper before citing a count.
+- **`sesarju2019solutionsCatalogue` (rated 2).** Registered from the title page, imprint and table of contents only. Held to cite specific European solutions (ADS-C EPP and the like) when the report positions the proposed airline-to-ATC share (D-019) against prior work.
+- **Web-only entries, no file and no ledger row:** `sun2020openap` (the experiment's scoring model, D-017; software installed, paper not read; summary at [4 - sun2020openap.md](literature-notes/summaries/4%20-%20sun2020openap.md)); `incose2023gtwr` (INCOSE Guide to Writing Requirements v4) and `iso2023sysLifecycle15288` (ISO/IEC/IEEE 15288:2023), both catalogue entries written from memory of the documents and marked so in the bib; `incose2023seHandbook` already existed. Confirm the GtWR document number before citing.
+- Nothing rated 0–1.
+
+### Flags raised 2026-10-10 (6 files downloaded at the owner's request: pilot rules of thumb for the 737 MAX 9)
+
+- **Purpose.** The owner asked for a web search for 737 MAX 9 pilot rules of thumb (deceleration on a 3 degree path, fuel per mile and the like), cited and documented. The collected rules are in `knowledge/models/b737-max9-rules-of-thumb.md`. None of the six belongs to the §2–§4 annotation tables. The owner has read none of them; there are no highlights.
+- **Only two of the six hold 737 MAX 9 data:** `britchford2021max89FuelBurn` (flight-planning block fuel and weights) and `icao2026engineEmissionsDatabank` (LEAP-1B28 test-stand fuel flow). The other four are generic-jet, older-737 or Airbus material.
+- **`faa2017iphCh3` (rated 4).** The government source for the 3 NM per 1,000 ft rule, its 2 NM per 10 knots wind correction, groundspeed x 5, and 1 NM per 10 knots of deceleration. Chapter 3 only; the handbook's other chapters are not held.
+- **`britchford2021max89FuelBurn` (rated 4).** Trade press and software output. Its tables name the 737-9 engine LEAP-1B27B1 while its text says LEAP-1B28B1.
+- **`roberson2007costIndex` (rated 4).** Boeing's definition of cost index. Predates the MAX. It is one of a series; the cruise and descent articles in the series were not located.
+- **`airbus2005energyMgmtApproach` (rated 3).** An Airbus document offering "typical values". Never to be cited as 737 data.
+- **`icao2026engineEmissionsDatabank` (rated 3).** Sea-level static values with no cruise point. The spreadsheet holds superseded rows for the same engine; the summary names the row used.
+- **`brady2026b737RulesOfThumb` (rated 2).** Unofficial page; the author's name is not on the page; its two tables cite a Boeing manual that was not seen; nothing on it is stated for the MAX. Saved as an HTML snapshot because the page changes.
+- **Web-only bib entry, no file and no ledger row:** `eurocontrol2026b39mPerformance` (EUROCONTROL Aircraft Performance Database page for the type). Read through an automated summary; re-read the page before citing its figures.
+- **Looked for and not obtained (no file, no bib entry):**
+  - The Boeing 737 Flight Crew Training Manual: proprietary, no copy found.
+  - Boeing's fuel conservation slides by Dave Anderson (ICAO/Transport Canada workshop, 2006): the ICAO addresses did not resolve or returned HTTP 404.
+  - AirInsight's 737 MAX fuel burn analysis (`airinsight.com/boeings-737-max-delivers-market-leading-fuel-burn/`): HTTP 403.
+  - A NASA cruise altitude and speed study (NTRS 20110014792): the automated read returned unreadable content. Not downloaded into `evidence/sources/`.
+- Nothing rated 0–1.
+
+**Distribution as of 2026-10-09:** 17 x 5, 24 x 4, 17 x 3, 13 x 2, 3 x 1, 1 x 0 — 75 rows.
 
 ### Flags raised 2026-10-09 (1 file promoted from the prior-work folder at the owner's request)
 
