@@ -43,6 +43,8 @@ questions it didn't resolve:
   need → objective → requirement → system trace (to-do-list.md §10) is not started for
   this content.
 
+- [ ] **Requirements draft awaiting the owner's review (2026-10-10).** 27 stakeholder requirements and 53 system requirements were drafted by Claude in `projects/nas-sos-capstone/cameo_models/requirements_stakeholders.sysml` and `projects/nas-sos-capstone/cameo_models/requirements_nas_system.sysml`, with the trace from objective to stakeholder requirement to system requirement to constituent system. The twelve open items are listed in `knowledge/models/requirements-and-traceability.md` section 9. The three that change the shape of the set: whether "The NAS shall" is the right subject, whether the five requirements the current system does not meet belong in the baseline, and the numbers still to be confirmed against a source. The item above (constituent systems not traced to a requirement) is answered in draft only: the Allocation package traces requirements to 23 parts, and the parts that received no requirement have not been listed.
+
 ## Scenario / simulation content (§10, §12-§13)
 
 - [ ] `cameo_models/scenarios/hub-to-hub-example.sysml` (2026-09-19) is a pattern demo,

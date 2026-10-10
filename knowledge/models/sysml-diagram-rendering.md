@@ -77,6 +77,8 @@ From the methods note (§2); not re-verified with the `*::**` expose:
 
 ## 4. Rendering with the CLI (report figures)
 
+**For the report, use the script (added 2026-10-10):** `python tools/render_sysml_diagrams.py` renders every view and regenerates the figure list the appendix reads, so nothing has to be copied or renamed by hand. Steps are in [render-sysml-diagrams.md](../../workflows/render-sysml-diagrams.md). The commands below are for one-off and test renders.
+
 Run from the repo root. Write test renders to a scratch folder; write report figures to `projects/nas-sos-capstone/report/figures/` (or `cameo_models/print/`) once you're happy with them.
 
 ```powershell

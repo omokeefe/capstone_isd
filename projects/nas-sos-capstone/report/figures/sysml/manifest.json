@@ -1,0 +1,22 @@
+{
+  "systemContext": {
+    "sha256": "b8fe286c52a985631eb4c6e5e87119882177a8dce1a9eada64c67b048238129f",
+    "rendered": "2026-10-10"
+  },
+  "airspaceManagementIbd": {
+    "sha256": "8431a9d8889123f1c8d0b1e52d43ddba1eca25c98a2428f74a23b1a72959af93",
+    "rendered": "2026-10-10"
+  },
+  "aircraftIbd": {
+    "sha256": "3cb2d74670066c4f29f8b14380314a54ebab038871e694e2b5f99cac233993ba",
+    "rendered": "2026-10-10"
+  },
+  "aircraftIbdDetail": {
+    "sha256": "ae61ec7e5d9baaed4505bf6b227d74dff46e84c19ea05802bc3bca0992a50e0d",
+    "rendered": "2026-10-10"
+  },
+  "nominalOpsActivity": {
+    "sha256": "afaf27adc0be461b6025d9d7c857ffa3a6135d1a2df6474d171c789259c25b49",
+    "rendered": "2026-10-10"
+  }
+}

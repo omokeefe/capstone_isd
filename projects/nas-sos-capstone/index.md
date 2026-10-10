@@ -42,14 +42,17 @@ optimization study) should trace back to this chain somewhere.
 
 ## Current state
 
-ISD 503 Interim Report #1 (Introduction and Current State + References) was submitted
-2026-09-17, ahead of its 2026-09-20 ECD. Working through `to-do-list.md` §1 ("Establish
-Research Framework") — the SOI boundary and research questions were ratified/closed on
-2026-09-21 through D-007. The resulting scope baseline is documented in
-`knowledge/models/system_of_interest_definition.md`; §2-§16 otherwise remain in
-progress or not yet started. All 29 files in `evidence/sources/` are processed (bib + summary + rating); three of the
-newest ten (all rated 4/5) also have a full deep annotation. Details:
-[[task-board]] (`task-board.md`) for active/blocked cross-session focus.
+_As of 2026-10-10._ Interim Report #2 is due 2026-10-25; the full list of graded dates is in `to-do-list.md` §1.
+
+- **Scope.** The system-of-interest boundary and research questions were closed on 2026-09-21 (D-007); the baseline is `knowledge/models/system_of_interest_definition.md`. Interim Report #1 was submitted 2026-09-17.
+- **Adviser.** The meeting with Mark Petrotta has happened (reported by the owner 2026-10-10; date not recorded). He endorsed the project, its focus, and a scope that varies with schedule and availability. The owner found it less informative than hoped. The scope option (a/b/c) is therefore the owner's to set against the schedule. The owner did not report an answer on the course's current-state metric; it is treated as still open (`knowledge/questions/open-questions.md`, "Course minimum requirements fit").
+- **Model (`to-do-list.md` §10).** The context diagram and the aircraft internal block diagrams have been through the owner's hand review (D-009 to D-012) and are rendered in `cameo_models/print/` (`-rev2`). Their links are not yet evidence-graded. The airspace management diagram is a placeholder and the nominal-operations activity diagram is partly built. Sequence diagrams and traceability are not started.
+- **Experiment (`to-do-list.md` §11).** A crossing conflict among four aircraft in one en-route sector, comparing four cases that differ in what the decider knows (D-013 to D-015). Design files: `knowledge/models/experiment-definition.md` and `knowledge/models/experiment-options-and-scoring.md`. The central claim is still undecided, and no scoring model exists, so there are no numbers yet.
+- **Report.** `report/main.tex` builds (23 pages). The appendix holds the four current diagram renders. Sections 3 and 4 are placeholders and table skeletons.
+- **Evidence.** `evidence/source-register.md` has 75 rows. Three PDFs in `evidence/sources/` are still unregistered.
+- **Plan.** A replacement for the 16-section plan is proposed in `project-plan-proposal-2026-10-10.md` and awaits the owner's decisions. Until then `to-do-list.md` stands unchanged.
+
+Details: [[task-board]] (`task-board.md`) for active/blocked cross-session focus.
 
 ## Candidate top-level domains
 
@@ -79,6 +82,9 @@ information-flow, and decision-authority decompositions before committing.
 Latest first — full rationale and history in
 [[decisions-log]] (`../../decisions/decisions-log.md`):
 
+- **D-015** — The experiment starts from one aircraft type (B737-900 MAX) for both crossing aircraft; ICAO's calculator is the source for CO2 per kg of fuel; the effect of a speed change on arrival time is acknowledged.
+- **D-014** — Experiment second review: the speed lever is built to fail within ±0.04 Mach, a fourth case adds the airline's connection information, every aircraft's cost is listed, and emissions are priced for the airline only.
+- **D-013** — Experiment scoring: altitude options and the climb rule come from the TASAR study, and system-level impacts are stated side by side with no weighted sum.
 - **D-012** — Owner's hand review of the diagrams: the crew acts through flight deck controls, outside inputs are drawn as ports, decision support is owned per actor, and the airport and aircraft were trimmed.
 - **D-011** — Aircraft decomposed in levels; the detail stays in the model and is hidden on diagrams by default.
 - **D-010** — Context diagram rendering rule, datalink split, role naming, and supporting definitions.
@@ -110,10 +116,7 @@ Latest first — full rationale and history in
 
 ## Open questions
 
-Parking lot, grouped by to-do section, in
-[[open-questions]] (`../../knowledge/questions/open-questions.md`). Current groups: SOI
-boundary (§1), decomposition finality (§6), literature gaps (missing PDFs for several bib
-entries), optimization study scope (§11-§14 vs. the report's page cap).
+Parking lot, grouped by topic, in [[open-questions]] (`../../knowledge/questions/open-questions.md`). Current groups: reconciling the model to the ratified boundary, scenario and simulation content, course minimum requirements (current-state metric, improvement claim, sponsor value), decomposition finality (§6), literature gaps, actor abstraction, unregistered sources, the experiment's scope and central claim (§11), and the diagram review questions from D-012.
 
 ## Working assumptions (guardrails)
 
@@ -185,9 +188,7 @@ to the authorities/services that constrain it.
 
 ## Next actions
 
-Maintained in [[task-board]] (`task-board.md#next-session-priority`) — currently: close
-out §1 (finalize research questions, resolve the SOI boundary), then start §2-§4
-literature-review sessions prioritizing the 5-rated sources.
+Maintained in [[task-board]] (`task-board.md#next-session-priority`) — currently (2026-10-10): decide the experiment's central claim (`knowledge/models/experiment-definition.md` §1); decide on the proposed plan (`project-plan-proposal-2026-10-10.md` §7); grade the context-diagram and aircraft-diagram links; and write Assumptions and Methodology and preliminary Results for Interim Report #2 (2026-10-25).
 
 ## AI operating instructions
 

@@ -16,3 +16,4 @@ deliverable itself. Python 3, dependencies in `tools/requirements.txt`
   `--verify` (runs ~1 minute; deterministic). If `seamster2011collabSystems-bb-rules.csv` exists it also fills a candidate
   JO 7110.65BB paragraph column by keyword rule. Specific to that one report — not a general table extractor. See the annotation
   note `seamster2011collabSystems.md` for what it does and does not cover.
+- **`render_sysml_diagrams.py`** — draws every SysML v2 `view` in `projects/nas-sos-capstone/cameo_models/` with the Syside CLI and writes the images plus a generated `sysml_figures.tex` to `projects/nas-sos-capstone/report/figures/sysml/`, which the report appendix inputs. Standard library only; needs the Syside CLI and its license key. `--check` shows what would change without writing. See `workflows/render-sysml-diagrams.md`.

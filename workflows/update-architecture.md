@@ -39,7 +39,8 @@ through §6-§9.
    bullets). Partial traces are fine mid-project; note the gap in
    `knowledge/questions/open-questions.md`.
 6. Check off the corresponding `projects/nas-sos-capstone/to-do-list.md` §10 box(es).
-7. Sign off per `workflows/session-signoff.md`.
+7. If a `.sysml` file or a view changed, re-render per `workflows/render-sysml-diagrams.md` so the report's diagrams match the model.
+8. Sign off per `workflows/session-signoff.md`.
 
 ## Getting the model into Cameo (not planned)
 

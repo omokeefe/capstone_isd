@@ -50,6 +50,10 @@ repo root) should be referenced from their original location, not copied in
 `\includegraphics{filename}` finds a file in any of those three locations by
 plain filename without needing a relative path or a duplicate copy.
 
+### SysML diagrams (generated)
+
+`figures/sysml/` is written by `tools/render_sysml_diagrams.py`: one PNG per `view` in the SysML model, plus `sysml_figures.tex`, which `sections/08_appendices.tex` inputs. Do not edit that folder or add SysML figures to a `.tex` file by hand. Change the view in the model and rerun the script; see [workflows/render-sysml-diagrams.md](../../../workflows/render-sysml-diagrams.md). Figure labels are `fig:sysml-<viewName>`.
+
 ## Removing TODO markers for a final submission
 
 Once a section is fully populated, delete its `\plantodo{...}` calls. To

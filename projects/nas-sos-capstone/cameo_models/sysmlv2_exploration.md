@@ -152,9 +152,9 @@ what exists in the repo today.
 |---|---|---|
 | [nas_sysml_package_definitions.sysml](nas_sysml_package_definitions.sysml) | NAS + 9 domain packages, constituent systems, `StepDynamics` interface | draft; source of truth (not in Cameo) |
 | [scenarios/hub-to-hub-example.sysml](scenarios/hub-to-hub-example.sysml) | instance-level pattern demo | placeholder city pair, not a decided ConOps |
-| [requirements_definitions.sysml](requirements_definitions.sysml) | shared requirement schema: `NasRequirement`, `StakeholderNeed`, `SystemLevelRequirement`, status/kind/verification enums | unlinted |
-| [requirements_stakeholders.sysml](requirements_stakeholders.sysml) | stakeholder needs | 10 needs in 8 stakeholder sub-packages; unlinted |
-| [requirements_nas_system.sysml](requirements_nas_system.sysml) | SLRs | 6 SLRs; unlinted, not yet traced to needs |
+| [requirements_definitions.sysml](requirements_definitions.sysml) | shared requirement schema: `NasRequirement`, `StakeholderNeed`, `SystemLevelRequirement`, status/kind/verification/evidence-grade enums | passes `syside check` (2026-10-10) |
+| [requirements_stakeholders.sysml](requirements_stakeholders.sysml) | stakeholder requirements | 27 in 8 stakeholder sub-packages (`SN-<group>-nn`), each naming its objective rows; AI draft 2026-10-10, not reviewed; passes `syside check` |
+| [requirements_nas_system.sysml](requirements_nas_system.sysml) | system requirements and their allocation | 53 in 7 packages (`SLR-<area>-nn`), each traced to a stakeholder requirement or marked derived with a rationale; `Allocation` package of `satisfy` lines; AI draft 2026-10-10, not reviewed; passes `syside check`. Readable copy: [requirements-and-traceability.md](../../../knowledge/models/requirements-and-traceability.md) |
 | `../simulation/` | Python vehicle dynamics + tests | code, not model content |
 
 ## 7. Known issues (flagged, not fixed)
@@ -165,7 +165,7 @@ what exists in the repo today.
    `requirements_definitions.sysml` (status, stakeholder group / kind now set). Not yet
    linted (no diagnostics surfaced). Still unset, because they are judgment calls:
    `rationale`, `evidenceRefs`, `parentNeeds`, `verificationMethod`, and `satisfy` links —
-   those are what put them in the trace.
+   those are what put them in the trace. **Replaced 2026-10-10** by an AI draft (27 stakeholder, 53 system requirements) with those attributes set and the files checked; see the file map above. The `satisfy` form the checker accepts when more than one system satisfies a requirement is `satisfy requirement <name> :> <requirement> by <part>;` (two unnamed `satisfy` lines for the same requirement are rejected).
 2. **Stale filename — fixed 2026-09-19.** The structure file was `tutorial.sysml`; it is
    now `nas_sysml_package_definitions.sysml`, and live docs, workflows, skills, and
    `simulation/vehicle_dynamics.py` cite the new name. The old name remains only in

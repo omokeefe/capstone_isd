@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-08 (see `journal/2026-10-08.md`, 22:38 Sign-Off, written 2026-10-09). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
+**Last updated:** 2026-10-10 (adviser-meeting and plan-proposal entries only; see `journal/2026-10-10.md`). The last sign-off was 2026-10-08 (`journal/2026-10-08.md`, 22:38). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
 
 ## Current phase
 
@@ -35,6 +35,8 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Active
 
+- Requirements (§10, ECD 10-12 and 10-20): AI draft 2026-10-10 of 27 stakeholder and 53 system requirements with trace and allocation. Awaiting the owner's review; no boxes checked. Open items: `knowledge/models/requirements-and-traceability.md` section 9. See journal 2026-10-10.
+
 - Operational IBDs (§10, ECD 10-25): aircraft IBD built and hand-reviewed 2026-10-08 (D-011, D-012); links not evidence-graded. Airspace IBD is a placeholder with the `atc` umbrella question open. See journal 2026-10-08.
 
 - Context diagram (§10, slipped from 09-07): revised per the owner's hand review 2026-10-08 (D-012). Box still open: the reason behind each link is not written. See `open-questions.md` "Diagram review".
@@ -49,11 +51,11 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 - Three unregistered PDFs in `evidence/sources/` (two Sheth papers, SESAR Solutions Catalogue 2019). See `open-questions.md` "Reference-register housekeeping".
 
-- Blocked on adviser: scope option (a/b/c) and current-state metric. No record that the meeting happened.
+- Adviser meeting held (reported by the owner 2026-10-10; meeting date not recorded). The adviser endorsed the project, its focus, and a scope that varies with schedule and availability. No longer blocked on the scope option (a/b/c): the owner sets scope against the schedule. The owner did not report an answer on the current-state metric, so it is treated as still open and the owner's to propose.
 
 - JO 7110.65BB: ~65 ¶ read in full 2026-09-26 and approved by user. Admin follow-through deferred to 09-27 (to-do §4 status/boxes, source-register, interaction-catalog §7, exchange-evidence, open-questions). See journal 2026-09-26 19:25. Seamster crosswalk "owner to confirm" rows (ATC Coordinator, TMU/Command Center, Radar Associate, load planner) are still open.
 
-- Advisor meeting this week, date TBD. Goal: arrive with the context diagram closed and BDD questions written down.
+- Proposed new project plan awaiting the owner's decisions: `project-plan-proposal-2026-10-10.md` (section 7). Not adopted; `to-do-list.md` is unchanged.
 
 - First-pass SysML v2 BDD in the model (file map: `cameo_models/sysmlv2_exploration.md`;
   2026-09-19): NAS + 9 D-002 domains as packages, constituent systems populated from

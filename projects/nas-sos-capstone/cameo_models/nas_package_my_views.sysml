@@ -19,6 +19,10 @@ package MyViews {
 
         private import StandardViewDefinitions::*;
 
+        // A `// caption:` line directly above a view is the figure caption used in the
+        // report appendix (tools/render_sysml_diagrams.py reads it). Keep it on one line.
+
+        // caption: NAS context diagram
         view systemContext : InterconnectionView {
             attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
             // Render only what NASContextDiagram tags #ContextVisible (parts and
@@ -41,6 +45,7 @@ package MyViews {
             // attribute exposeMode = "flat";
         }
 
+        // caption: Airspace management internal block diagram
         view airspaceManagementIbd : InterconnectionView {
             attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
             // Placeholder IBD (D-010): links internal to Airspace Management.
@@ -50,6 +55,7 @@ package MyViews {
             filter @AirspaceManagementIBD::IBDVisible;
         }
 
+        // caption: Aircraft internal block diagram, default level of detail
         view aircraftIbd : InterconnectionView {
             attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
             // Default aircraft IBD (D-011, D-012): crew, flight deck controls, avionics, flight
@@ -59,6 +65,7 @@ package MyViews {
             filter @AircraftIBD::IBDVisible;
         }
 
+        // caption: Aircraft internal block diagram, detailed level: adds propulsion, airframe, landing gear, utilities, and the fuel and power links
         view aircraftIbdDetail : InterconnectionView {
             attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
             // Detailed aircraft IBD (D-011): adds everything tagged #IBDDetail (propulsion,
@@ -67,6 +74,7 @@ package MyViews {
             filter @AircraftIBD::IBDVisible or @AircraftIBD::IBDDetail;
         }
 
+        // caption: Nominal flight operations activity diagram (draft: no swimlanes, sub-actions are placeholders)
         view nominalOpsActivity : ActionFlowView {
             attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
             expose NominalOpsActivity::NominalFlightOperations::**;

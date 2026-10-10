@@ -50,7 +50,7 @@ front-loaded.
     11:59 pm ET; these graded dates supersede the proposal's self-set ECDs where they
     conflict, e.g. Final Paper 12-18 / Submittal 12-20 fall after the real Dec 13 due date.)*
     - [x] Interim Report #1 + Progress Update #1 — Sep 20 (submitted Sep 17).
-    - [ ] Interim Report #2 + Progress Update #2 — **Oct 25**. Adds Introduction,
+    - [X] Interim Report #2 + Progress Update #2 — **Oct 25**. Adds Introduction,
       Assumptions and Methodology, Results and Discussion (preliminary), References to
       Report #1. Schedule the adviser review meeting; submit to adviser, then confirm in
       Canvas. Word format.
@@ -635,10 +635,10 @@ window if a firmer date is needed.)*
 - [ ] Create nominal-flight activity diagram. *(ECD 2026-10-01 — "Activity Diagrams," metric "Scenario walkthrough")*
 - [ ] Create responsibility swimlanes. *(ECD 2026-09-10 — "Authority & Responsibility Models")*
 - [ ] Create critical sequence diagrams. *(ECD 2026-09-22 — "Sequence Diagrams," metric "Message completeness")*
-- [ ] Create requirements model. *(ECD 2026-10-20 — "Requirements Definition," metric "Trace to stakeholders")*
-- [ ] Trace stakeholder needs → objectives. *(ECD 2026-10-12 — "Requirement Traceability," metric "Complete allocation")*
-- [ ] Trace objectives → requirements. *(ECD 2026-10-12)*
-- [ ] Trace requirements → systems. *(ECD 2026-10-12)*
+- [ ] Create requirements model. *(ECD 2026-10-20 — "Requirements Definition," metric "Trace to stakeholders". AI draft 2026-10-10, not reviewed by the owner, so not checked: 27 stakeholder and 53 system requirements in `cameo_models/requirements_stakeholders.sysml` and `cameo_models/requirements_nas_system.sysml`; readable copy and open items in `knowledge/models/requirements-and-traceability.md`.)*
+- [ ] Trace stakeholder needs → objectives. *(ECD 2026-10-12 — "Requirement Traceability," metric "Complete allocation". AI draft 2026-10-10: attribute `objectiveRefs` on each stakeholder requirement names its rows in `knowledge/models/stakeholder-objective-ontology.md`; three have no matching row. Not checked until the owner reviews it.)*
+- [ ] Trace objectives → requirements. *(ECD 2026-10-12. AI draft 2026-10-10: attribute `parentNeeds` on each system requirement; 5 derived requirements carry `derivedFrom` and a rationale. Objective rows with no requirement are listed in `knowledge/models/requirements-and-traceability.md` section 7. Not checked until the owner reviews it.)*
+- [ ] Trace requirements → systems. *(ECD 2026-10-12. AI draft 2026-10-10: package `Allocation` in `cameo_models/requirements_nas_system.sysml`, one `satisfy` line per system. A first proposal; not checked until the owner reviews it.)*
 - [ ] Trace systems → activities. *(ECD 2026-10-12)*
 - [ ] Trace activities → information exchanges. *(ECD 2026-10-12)*
 - [ ] Trace decisions → resulting aircraft behavior. *(ECD 2026-11-24 — "Integration of MBSE Architecture," metric "End-to-end scenario")*

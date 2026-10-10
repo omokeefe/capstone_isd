@@ -16,8 +16,14 @@ package RequirementDefinitions {
      * 'objective', 'analysis', 'interface', and 'constraint' are keywords and cannot be
      * plain feature or enum-literal names.
      *
-     * DRAFT: authored without a linter pass — no diagnostics surfaced in the session that
-     * wrote it. Check the IDE Problems panel before relying on it.
+     * Terms: a "stakeholder requirement" is a StakeholderNeed here (IDs SN-<group>-nn); a
+     * "system requirement" is a SystemLevelRequirement (IDs SLR-<area>-nn).
+     *
+     * Checked with `syside check` on 2026-10-10, together with the two instance files and
+     * nas_sysml_package_definitions.sysml: no errors.
+     * Added 2026-10-10 (draft, for the owner's review): EvidenceGrade and `basis`,
+     * `objectiveRefs` on StakeholderNeed, `derivedFrom` on SystemLevelRequirement, and
+     * the `military` stakeholder group.
      */
 
     public import ScalarValues::*;
@@ -35,13 +41,23 @@ package RequirementDefinitions {
          * that file's sub-packages so needs can be queried by group without relying on
          * package structure. */
         enum governmentsAndStandardsOrganizations;
-        enum operators; // airlines, charter operators, cargo operators
-        enum airTrafficControl;
-        enum aircraftAndEngineManufacturers;
+        enum operators; // Part 121 scheduled passenger airlines (D-007)
+        enum airTrafficControl; // includes traffic flow management
+        enum aircraftAndEngineManufacturers; // no requirements at present: not in D-007 or the objective ontology
         enum airportAuthority;
         enum flightCrews;
         enum passengers;
         enum environmentalAndSocietalOrganizations;
+        enum military; // boundary actor under D-007; the coupling is special use airspace
+    }
+
+    enum def EvidenceGrade {
+        doc /* Where a requirement comes from. Same grades as the review key in
+         * nas_context_diagram.sysml ([A], [B], [SME], [C]). */
+        enum normativeSource; // [A] a rule or FAA order held in the source register
+        enum literature; // [B] a published study held in the source register
+        enum ownerExpertise; // [SME] the owner's industry knowledge
+        enum generalKnowledge; // [C] general domain knowledge, not yet tied to a held source
     }
 
     enum def RequirementKind {
@@ -71,6 +87,7 @@ package RequirementDefinitions {
         attribute status: RequirementStatus;
         attribute rationale: String[0..1]; // why it exists; what breaks if it is dropped
         attribute evidenceRefs: String[0..*]; // references.bib keys / source-register entries
+        attribute basis: EvidenceGrade[0..1];
     }
 
     requirement def StakeholderNeed :> NasRequirement {
@@ -79,14 +96,22 @@ package RequirementDefinitions {
          * not verified, so they carry no verification method. */
 
         attribute stakeholderGroup: StakeholderGroup;
+        // Objective rows this need comes from, written "<category>: <objective>" as they
+        // appear in knowledge/models/stakeholder-objective-ontology.md. Empty only when no
+        // row matches, in which case rationale says where the interest comes from.
+        attribute objectiveRefs: String[0..*];
     }
 
     requirement def SystemLevelRequirement :> NasRequirement {
-        doc /* A system-level requirement on the NAS as a whole, derived from one or more
-         * stakeholder needs and verified by a stated method. */
+        doc /* A system-level requirement on the NAS as a whole, verified by a stated method.
+         * It either answers one or more stakeholder needs (parentNeeds) or it is derived:
+         * it has no stakeholder parent and exists because of a design choice or because
+         * other system requirements cannot be met without it. A derived requirement must
+         * carry derivedFrom and a rationale. */
 
         attribute kind: RequirementKind;
-        ref requirement parentNeeds: StakeholderNeed[0..*]; // needs this SLR is derived from
+        ref requirement parentNeeds: StakeholderNeed[0..*]; // needs this SLR answers
+        ref requirement derivedFrom: SystemLevelRequirement[0..*]; // only when parentNeeds is empty
         attribute verificationMethod: VerificationMethod[0..*];
 
         // Only for quantifiable requirements (typically kind = performance). Leave unset
