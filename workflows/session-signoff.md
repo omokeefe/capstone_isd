@@ -26,6 +26,11 @@ a guess) with:
 - **What changed** — files touched, decisions made, boxes checked in `to-do-list.md`,
   facts updated in knowledge/evidence/decisions.
 - **What's blocked**, and why, if anything is.
+- **Did anything this session change how the work should be done?** Most sessions answer
+  "no" in one word. When the answer is yes, add one dated entry to
+  `projects/nas-sos-capstone/lessons-learned.md` (what happened, what was learned, what
+  changes from now on, where it appears in the report) and, if it changes the plan, edit
+  `to-do-list.md` in the same sitting. Added 2026-10-10 (D-016).
 
 ## Step 3 — PM persona status check (`persona-pm`)
 

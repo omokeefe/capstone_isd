@@ -46,11 +46,12 @@ _As of 2026-10-10._ Interim Report #2 is due 2026-10-25; the full list of graded
 
 - **Scope.** The system-of-interest boundary and research questions were closed on 2026-09-21 (D-007); the baseline is `knowledge/models/system_of_interest_definition.md`. Interim Report #1 was submitted 2026-09-17.
 - **Adviser.** The meeting with Mark Petrotta has happened (reported by the owner 2026-10-10; date not recorded). He endorsed the project, its focus, and a scope that varies with schedule and availability. The owner found it less informative than hoped. The scope option (a/b/c) is therefore the owner's to set against the schedule. The owner did not report an answer on the course's current-state metric; it is treated as still open (`knowledge/questions/open-questions.md`, "Course minimum requirements fit").
-- **Model (`to-do-list.md` §10).** The context diagram and the aircraft internal block diagrams have been through the owner's hand review (D-009 to D-012) and are rendered in `cameo_models/print/` (`-rev2`). Their links are not yet evidence-graded. The airspace management diagram is a placeholder and the nominal-operations activity diagram is partly built. Sequence diagrams and traceability are not started.
-- **Experiment (`to-do-list.md` §11).** A crossing conflict among four aircraft in one en-route sector, comparing four cases that differ in what the decider knows (D-013 to D-015). Design files: `knowledge/models/experiment-definition.md` and `knowledge/models/experiment-options-and-scoring.md`. The central claim is still undecided, and no scoring model exists, so there are no numbers yet.
-- **Report.** `report/main.tex` builds (23 pages). The appendix holds the four current diagram renders. Sections 3 and 4 are placeholders and table skeletons.
-- **Evidence.** `evidence/source-register.md` has 75 rows. Three PDFs in `evidence/sources/` are still unregistered.
-- **Plan.** A replacement for the 16-section plan is proposed in `project-plan-proposal-2026-10-10.md` and awaits the owner's decisions. Until then `to-do-list.md` stands unchanged.
+- **Plan.** Adopted 2026-10-10 as D-016: four tracks (model, experiment, report, evidence on demand), nine weekly turns to 2026-12-13, five artifact states in place of checkboxes, and documented tailoring of the August plan. `to-do-list.md` opens with the turn table. One traced thread carries the project: airline cost objective → SN-AIR-05 → SLR-INF-02/03/04 and SLR-CLR-13 → the airline-to-ATC interface (D-019) → the conflict-resolution sequence → verification cases → the experiment's outcome table.
+- **Model (Track A).** Context diagram and aircraft IBDs hand-reviewed (D-009 to D-012), links not yet evidence-graded. New 2026-10-10: `nas_analysis.sysml` (fidelity levels, performance calcs, the scoring analysis), `nas_verification.sysml` (six verification cases), the `AirlinePerformanceShare` item, ports and interface (D-019), and `architectureState = baseline | improved` on every requirement (D-018). Whole folder passes `syside check`. Airspace IBD still a placeholder; sequence view untested; swimlane answer in `knowledge/models/sysml-diagram-rendering.md` §9.
+- **Experiment (Track B).** Four aircraft, one sector, cases A to D (D-013 to D-015). Scoring model is OpenAP (D-017), installed and running: `simulation/experiment_scoring.py` scores the base scenario end to end at three fidelities, 14 tests pass. First run: case A descends the heavy aircraft 4,000 ft; B, C and D all choose the 2,000 ft descent with the in-trail aircraft slowed, so C minus B = 0 in the base scenario (`knowledge/models/experiment-options-and-scoring.md` §8). Every scenario number is a Decide item (`experiment-scenario-numbers.md`).
+- **Requirements.** 27 stakeholder and 53 system requirements drafted; the owner's review is in progress per the `#TODO` block in `knowledge/models/requirements-and-traceability.md`. "The NAS shall" stays the subject at the system-of-systems tier; a next tier is written for the thread only.
+- **Report (Track C).** `report/main.tex` builds. Every part Interim Report #2 needs is marked with a red `\irtwo` note; the checklist is in `report/README.md`. Section 3 has the systems-engineering-approach table skeleton, the two-claims and proposed-interface subsections; Section 4 has the two OpenAP figures and the experiment tables. The owner writes the prose.
+- **Evidence.** `evidence/source-register.md` has 84 rows; every file in `evidence/sources/` is registered. Web-only method entries: OpenAP, the INCOSE Guide to Writing Requirements, ISO/IEC/IEEE 15288.
 
 Details: [[task-board]] (`task-board.md`) for active/blocked cross-session focus.
 
@@ -82,6 +83,10 @@ information-flow, and decision-authority decompositions before committing.
 Latest first — full rationale and history in
 [[decisions-log]] (`../../decisions/decisions-log.md`):
 
+- **D-019** — The proposed airline-to-ATC data share is modeled as an improved-architecture `interface def` with the `AirlinePerformanceShare` item (weight, cost index, connection priority; thrust, drag and fuel-flow model references present but unexercised); security is a stated assumption.
+- **D-018** — Every requirement carries `architectureState`: `baseline` (today's NAS) or `improved`; the five unmet requirements are `improved`; case A is the course's current-state metric, cases C and D the improvement claim.
+- **D-017** — OpenAP is the experiment's scoring model at three selectable fidelities (conceptual, nominal mass, actual mass); B39M borrows the MAX 8 drag polar; fallback decision 2026-11-08.
+- **D-016** — The plan: four tracks, nine weekly turns, five artifact states, one traced thread, documented tailoring of the August plan, a lessons file, model freeze 2026-11-29.
 - **D-015** — The experiment starts from one aircraft type (B737-900 MAX) for both crossing aircraft; ICAO's calculator is the source for CO2 per kg of fuel; the effect of a speed change on arrival time is acknowledged.
 - **D-014** — Experiment second review: the speed lever is built to fail within ±0.04 Mach, a fourth case adds the airline's connection information, every aircraft's cost is listed, and emissions are priced for the airline only.
 - **D-013** — Experiment scoring: altitude options and the climb rule come from the TASAR study, and system-level impacts are stated side by side with no weighted sum.
@@ -188,7 +193,18 @@ to the authorities/services that constrain it.
 
 ## Next actions
 
-Maintained in [[task-board]] (`task-board.md#next-session-priority`) — currently (2026-10-10): decide the experiment's central claim (`knowledge/models/experiment-definition.md` §1); decide on the proposed plan (`project-plan-proposal-2026-10-10.md` §7); grade the context-diagram and aircraft-diagram links; and write Assumptions and Methodology and preliminary Results for Interim Report #2 (2026-10-25).
+Maintained in [[task-board]] (`task-board.md#next-session-priority`) — currently (2026-10-10, evening, turn 1): confirm the experiment's scenario numbers and re-run it; review the 27 stakeholder requirements; draft Assumptions and Methodology for Interim Report #2 (2026-10-25) from the red call-outs in the report; re-word the view captions; restate the candidate lessons.
+
+## Risks (D-016, reviewed at each turn)
+
+| Risk | Guard |
+|---|---|
+| OpenAP numbers implausible for the type (it borrows the MAX 8 polar) | Fallback to a `mori2022massCruise` lookup table, decided by 2026-11-08 (D-017). |
+| Owner hours (10 to 20 a week) | Each turn carries about 12 owner-hours; "if time" items are marked in `to-do-list.md`. |
+| Adviser asks how the experiment tests MBSE | The two claims are separated in Section 3 (`sec:two-claims`); the model's contribution is the interface, the ownership map, the unmet requirement and the fidelity swap. |
+| Requirements too many to defend | Only the 27 stakeholder and the 15 thread requirements are reviewed; the rest are appendix, marked unreviewed. |
+| Diagrams unreadable at page size | Each report figure is a view designed for its page (lessons-learned 2026-10-10); render at every welcome. |
+| Syside Python licence or renderer limits (sequence view untested) | Licence works for `load_model` (2026-10-10); sequence view tested before turn 3; fallback is a hand-drawn sequence marked as such. |
 
 ## AI operating instructions
 

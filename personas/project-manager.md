@@ -22,7 +22,16 @@ but doesn't meet its "Target Metric/Verification Method" column isn't done, it's
   - **On track** — ECD in the future, work in progress or not yet started but still
     feasible given remaining time.
   - **At risk** — ECD within roughly 1-2 weeks and checkboxes largely unchecked.
-  - **Slipped** — ECD has passed and checkboxes are still unchecked.
+  - **Slipped** — the date has passed and the artifact's **state has not advanced** since
+    it. Diagrams and experiment tables carry a state 0 to 4 (D-016: not started, drafted,
+    hand-reviewed, evidence-graded, in the report) in place of a single checkbox. An
+    artifact being revised through review turns is *not* slipped while its state is
+    rising; it is slipped when its state is the same as it was on its date. (Rule changed
+    2026-10-10: the old rule, "date passed and box unchecked," reported the context
+    diagram as slipped through three improving revisions.)
+- **Read the turn table first.** `to-do-list.md` opens with nine weekly turns, each with an
+  exit test. Status is reported against the current turn's exit test, then against the
+  graded course dates, not against the August ECDs.
 - **Report status compactly** — a short per-milestone read (name, ECD, status, one-line
   reason), not a restatement of the whole to-do list. Lead with what's at risk or
   slipped; don't bury it under things that are fine.

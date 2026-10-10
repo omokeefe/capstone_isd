@@ -43,7 +43,9 @@ questions it didn't resolve:
   need → objective → requirement → system trace (to-do-list.md §10) is not started for
   this content.
 
-- [ ] **Requirements draft awaiting the owner's review (2026-10-10).** 27 stakeholder requirements and 53 system requirements were drafted by Claude in `projects/nas-sos-capstone/cameo_models/requirements_stakeholders.sysml` and `projects/nas-sos-capstone/cameo_models/requirements_nas_system.sysml`, with the trace from objective to stakeholder requirement to system requirement to constituent system. The twelve open items are listed in `knowledge/models/requirements-and-traceability.md` section 9. The three that change the shape of the set: whether "The NAS shall" is the right subject, whether the five requirements the current system does not meet belong in the baseline, and the numbers still to be confirmed against a source. The item above (constituent systems not traced to a requirement) is answered in draft only: the Allocation package traces requirements to 23 parts, and the parts that received no requirement have not been listed.
+- [ ] **Requirements draft under the owner's review (started 2026-10-10).** 27 stakeholder requirements and 53 system requirements were drafted by Claude in `projects/nas-sos-capstone/cameo_models/requirements_stakeholders.sysml` and `projects/nas-sos-capstone/cameo_models/requirements_nas_system.sysml`, with the trace from objective to stakeholder requirement to system requirement to constituent system. The review plan is the `#TODO` block at the top of `knowledge/models/requirements-and-traceability.md`. Two of the three shape questions are settled: "The NAS shall" stays the subject at the system-of-systems tier, with a next tier for the thread (owner, 2026-10-10); the five unmet requirements are requirements on the improved architecture, tagged `architectureState = improved` (D-018). Still open: the numbers to confirm against a source (section 9, item 7), and the parts that received no requirement have not been listed.
+- [ ] **Experiment scenario Decide items (2026-10-10).** `knowledge/models/experiment-scenario-numbers.md` lists every number the first scoring run used and which are the owner's to confirm: the city pairs (MCO-LAX crossing IAH-DEN near DFW, or MIA-LAX crossing SAT-DEN), the nominal mass (70,000 kg) and ±6 percent spread, cost indexes, schedule deltas, the 15-minute hold, the vector's extra miles, the case A tie-breaker, the fuel and carbon prices. The first run's result (C minus B = 0) depends on the hold length and the pair's level; see `experiment-options-and-scoring.md` §8.
+- [ ] **Sequence view in Syside (2026-10-10).** `SequenceView` is listed as supported, but the docs give no example of the elements it needs. Test a small occurrence/message example before drawing the conflict-resolution sequence (plan turn 3); record the result in `knowledge/models/sysml-diagram-rendering.md` §9.
 
 ## Scenario / simulation content (§10, §12-§13)
 
@@ -67,14 +69,14 @@ questions it didn't resolve:
 The course sets minimum requirements for academic credit. Each needs an explicit answer
 in the report; none is answered anywhere in the repo yet.
 
-- [ ] **Current-state metric.** The course requires "a metric (or set of quantifiable
-  measurables) to summarize current state conditions" that can also show improvement or
-  potential for improvement. What is the metric for an architecture project? Candidates
-  live in the §11 optimization study (e.g. airline fuel cost vs. ATC/ANSP sector
-  workload), but the study scenario is still undecided.
-- [ ] **Improvement claim.** The course accepts actual improvement or "evidence and/or
-  effective logic-based arguments" of potential improvement, including via simulation.
-  Which of those will this project rely on? This is the adviser's call to confirm.
+- [x] **Current-state metric.** Answered 2026-10-10 (D-018): case A of the experiment, the
+  rule-based decision with today's information, measured as fuel, time, CO2 and clearance
+  count per conflict at the four stakeholder levels, is the current-state metric. The
+  requirements it measures carry `architectureState = baseline`.
+- [x] **Improvement claim.** Answered 2026-10-10 (D-018): potential improvement shown by
+  simulation (the course accepts this): cases C and D measure the five `improved`
+  requirements. The adviser's endorsement of the project (reported 2026-10-10) is taken
+  as acceptance of this form; confirm when Interim Report #2 is reviewed.
 - [ ] **Value to the sponsor.** Who is the sponsor for this project (faculty adviser only?),
   and what does "value-added" mean to them? Dollar benefits are preferred but the report's
   Impact section already flags that a literal dollar figure may not be meaningful (see

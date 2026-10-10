@@ -45,9 +45,9 @@ Each option is scored at four levels (aircraft, airline, sector, system) in one 
 
 A draft of that table, the list of resolution options it scores, and one cost/benefit statement per level are in `experiment-options-and-scoring.md` (2026-10-09, from the owner's hand review; nothing in it is decided).
 
-## 7. Truth model (Decide)
+## 7. Truth model (decided 2026-10-10, D-017)
 
-One model scores every case, at higher fidelity than the model any case used to decide. Not chosen. It must give fuel flow as a function of weight, altitude and speed. The existing `simulation/vehicle_dynamics.py` uses a constant placeholder fuel flow, so it cannot do this as it stands.
+One model scores every case, at higher fidelity than the model any case used to decide. **OpenAP** (`sun2020openap`) supplies fuel flow, thrust and drag as functions of mass, speed and altitude for the B737-9, at three selectable fidelities (`conceptual`, `nominalMass`, `actualMass`). Implemented in `projects/nas-sos-capstone/simulation/experiment_scoring.py`; scenario numbers in `experiment-scenario-numbers.md` and `simulation/scenario_base.yaml`; model-side declaration in `cameo_models/nas_analysis.sysml`. The earlier `simulation/vehicle_dynamics.py` (constant fuel flow) is not used. First run 2026-10-10: case A descends the heavy aircraft 4,000 ft; cases B, C and D all pick the 2,000 ft descent with the in-trail aircraft slowed, so in the base scenario sharing weight and cost index did not change the choice. See `experiment-options-and-scoring.md` §8.
 
 ## 8. Possible results
 

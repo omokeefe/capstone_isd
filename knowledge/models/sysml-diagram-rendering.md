@@ -155,4 +155,21 @@ To keep detail in the model but off the default picture, use two tags and two vi
 
 **Not possible:** placing parts by hand (for example around an outline of the aircraft). Syside lays the diagram out itself. The only route is to export SVG and arrange it in a drawing tool, which makes a picture that is no longer generated from the model.
 
-Sources: [Syside — Diagram Views](https://docs.sensmetry.com/modeler/diagram-views.html); [Syside — CLI diagram generation](https://docs.sensmetry.com/modeler/cli/diagram-generation.html); [Syside — Install Modeler](https://docs.sensmetry.com/modeler/install/); `syside --help` output, v0.10.3.
+## 9. Swimlanes, allocation and what each view kind draws (tested 2026-10-10, syside viz 0.10.3; docs read the same day)
+
+**What the docs say.** Syside supports five of the eight standard view definitions: `GeneralView`, `InterconnectionView` (parts wired through ports), `ActionFlowView` (actions and control flow), `StateTransitionView`, `SequenceView` (lifelines and messages). The docs do not say what the action-flow and sequence views draw beyond that, and name no swimlane or partition support ([Configure diagram views](https://docs.sensmetry.com/modeler/diagram-views/configuring/)). Diagram generation is a Labs feature and "may change." Relationship edges need both ends rendered as nodes, and `depth` can demote elements into compartment rows, which turns arrows into text.
+
+**What was tested** (`syside viz element ... -n NominalOpsActivity::NominalOpsContext`, the part def that `perform`s the nominal-flight actions per domain, in `nas_activity_diagram-nominal_ops.sysml`):
+
+| Render | Result |
+| --- | --- |
+| `-v general -d 3` and `-v interconnection -d 3` | Each domain part is a box; inside it, every performed action draws as its own `«perform action»` box (`planFlight ::> nominalFlight.planFlight`), beside the domain's inherited sub-parts. **This is the allocation picture: lanes as boxes.** |
+| `-v action_flow -d 3` | Same boxes, no flow lines. |
+| Flows restated inside `NominalOpsContext` (`flow nominalFlight.planFlight.release to nominalFlight.prepareForDeparture.release;`), any view | No lines drawn between the performed actions. Reverted. |
+| `-d 2` | Performed actions drop to compartment rows and vanish. Use depth 3 or more. |
+
+**What to do.** Two views, not one: (1) `nominalOpsActivity` (`ActionFlowView` over `NominalFlightOperations`) for the ordering and item flows; (2) a `GeneralView` over `NominalOpsContext` for who performs what. To keep (2) readable, tag the domain parts and the `perform` usages with a metadata tag and filter, as the IBDs do, so the inherited sub-parts and attributes stay off it; untested. For a reviewer-facing allocation matrix, Syside's grid views give one: `view :> MVD::AllocationMatrixView` with rows exposing the actions and columns the domain parts, exported with `syside table export` ([Matrix views](https://docs.sensmetry.com/modeler/grid-views/matrix-views/)). The preset recognizes `allocate` usages, not `perform`, so the matrix needs `allocate nominalFlight.planFlight to flightOps;` lines beside the performs; untested.
+
+**Sequence view.** `SequenceView` is listed as supported (lifelines and messages). The docs give no example of the model elements it needs. Before drawing the conflict-resolution sequence (plan turn 3), test one small `occurrence`/`message` example from the SysML v2 specification against `syside viz element -v sequence` and record the result here.
+
+Sources: [Syside — Diagram Views](https://docs.sensmetry.com/modeler/diagram-views.html); [Syside — Configure diagram views](https://docs.sensmetry.com/modeler/diagram-views/configuring/); [Syside — CLI commands](https://docs.sensmetry.com/modeler/cli/commands/); [Syside — CLI diagram generation](https://docs.sensmetry.com/modeler/cli/diagram-generation.html); [Syside — Matrix views](https://docs.sensmetry.com/modeler/grid-views/matrix-views/); [Syside — Install Modeler](https://docs.sensmetry.com/modeler/install/); `syside --help` output, v0.10.3.

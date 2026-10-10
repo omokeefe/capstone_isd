@@ -6,36 +6,23 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-10 (adviser-meeting and plan-proposal entries only; see `journal/2026-10-10.md`). The last sign-off was 2026-10-08 (`journal/2026-10-08.md`, 22:38). The "Active" list below was last fully reviewed 2026-09-26 and has stale entries.
+**Last updated:** 2026-10-10, evening (plan adopted as D-016; see `journal/2026-10-10.md`). The "Active" list was rewritten the same evening.
 
 ## Current phase
 
-**ISD 503 Interim Report #1 was submitted 2026-09-17**, ahead of its 2026-09-20 ECD —
-the user rewrote the six required subsections into their own judgment before
-submitting, emailed the Word copy to faculty adviser Mark Petrotta, and completed
-Progress Status Update #1 on Canvas. See `to-do-list.md` §1 for the full checkbox
-state.
+**Turn 1 of the nine-turn plan (Oct 10 to 18; D-016).** Interim Report #2 is due Sun 2026-10-25. The plan of record is the turn table at the top of `to-do-list.md`; each turn has an exit test. Report #1 was submitted 2026-09-17 with all content reviewed and finalized by the owner.
 
-`to-do-list.md` §1 ("Establish Research Framework") remains the current phase, but its
-SOI boundary and research-question work were ratified and closed on 2026-09-21 through
-D-007. §8 (Objective / Cost / Value Ontology) is fully drafted out of sequence;
-§2-§7, §9-§16 otherwise remain in progress or not yet started.
-
-**Resolved (2026-09-17) — AI-drafted content in the report (flagged 2026-09-14):**
-the ghostwriting concern from 2026-09-14 (Claude drafted full prose for all six
-required subsections in `report/sections/02_introduction.tex` without being asked) is
-now resolved — the user rewrote that content into their own judgment/words before
-submitting. See memory `feedback_coach-not-ghostwrite-coursework` and
-`project_interim-report-1-2026-09-20` (now marked closed).
-
-**Still open — independent capstone work:** the literature-review
-annotation-coverage claim, citation spot-checks against skimmed-only sources, the
-1998-dollar disruption-cost figure, and the §11 optimization-study scenario choice.
-The SOI boundary is no longer provisional; see D-007 and the SOI definition.
+**Still open from Report #1 (Track C edits):** the literature-review annotation-coverage claim, citation spot-checks against skimmed-only sources, the 1998-dollar disruption-cost figure.
 
 ## Active
 
-- Requirements (§10, ECD 10-12 and 10-20): AI draft 2026-10-10 of 27 stakeholder and 53 system requirements with trace and allocation. Awaiting the owner's review; no boxes checked. Open items: `knowledge/models/requirements-and-traceability.md` section 9. See journal 2026-10-10.
+- Requirements (Track A): owner's review in progress per the `#TODO` block at the top of `knowledge/models/requirements-and-traceability.md` (27 stakeholder requirements first, then the 15 on the thread, then the three-to-five next-tier ones). Five requirements tagged `improved` (D-018). See journal 2026-10-10.
+
+- Experiment (Track B): OpenAP chosen and installed (D-017); `simulation/experiment_scoring.py` runs the base scenario end to end, 14 tests pass; first result C minus B = 0 (`experiment-options-and-scoring.md` §8). Every scenario number is a Decide item in `knowledge/models/experiment-scenario-numbers.md`. Two OpenAP figures in `report/figures/`.
+
+- Model (Track A): `nas_analysis.sysml` (fidelity levels, calc defs, analysis def), `nas_verification.sysml` (six verification cases), and the D-019 interface (`AirlinePerformanceShare`, ports on the AOC and ATC, unrendered interface usage on the context diagram) added 2026-10-10; whole folder passes `syside check`. The other two thread interfaces (FMS → AOC, ATC → crew) are turn 2. Swimlane answer recorded in `sysml-diagram-rendering.md` §9; sequence view untested.
+
+- Report (Track C): `\irtwo` call-outs mark every part Interim Report #2 needs; checklist in `report/README.md`. Section 3 has the SE-approach table skeleton, the two-claims and proposed-interface subsections; Section 4 has the two figure slots and the experiment tables. Owner writes the prose.
 
 - Operational IBDs (§10, ECD 10-25): aircraft IBD built and hand-reviewed 2026-10-08 (D-011, D-012); links not evidence-graded. Airspace IBD is a placeholder with the `atc` umbrella question open. See journal 2026-10-08.
 
@@ -49,13 +36,13 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 - §11 central claim questioned (2026-10-05): candidate reframing is a model-wide check for decisions made without needed information, with the simulation as one measured example. Not decided. Sheth dispatcher-ratings evidence added. See journal 2026-10-05 and `open-questions.md` §11.
 
-- Three unregistered PDFs in `evidence/sources/` (two Sheth papers, SESAR Solutions Catalogue 2019). See `open-questions.md` "Reference-register housekeeping".
+- Sources: every file in `evidence/sources/` has a ledger row as of 2026-10-10 (the two Sheth papers and the SESAR catalogue registered; OpenAP, the INCOSE Guide to Writing Requirements and ISO/IEC/IEEE 15288 as web-only entries). Confirm the GtWR document number before citing.
 
 - Adviser meeting held (reported by the owner 2026-10-10; meeting date not recorded). The adviser endorsed the project, its focus, and a scope that varies with schedule and availability. No longer blocked on the scope option (a/b/c): the owner sets scope against the schedule. The owner did not report an answer on the current-state metric, so it is treated as still open and the owner's to propose.
 
 - JO 7110.65BB: ~65 ¶ read in full 2026-09-26 and approved by user. Admin follow-through deferred to 09-27 (to-do §4 status/boxes, source-register, interaction-catalog §7, exchange-evidence, open-questions). See journal 2026-09-26 19:25. Seamster crosswalk "owner to confirm" rows (ATC Coordinator, TMU/Command Center, Radar Associate, load planner) are still open.
 
-- Proposed new project plan awaiting the owner's decisions: `project-plan-proposal-2026-10-10.md` (section 7). Not adopted; `to-do-list.md` is unchanged.
+- Plan adopted 2026-10-10 as D-016 after the owner's line-by-line review; `to-do-list.md` restructured (turns, four tracks, Future work). `project-plan-proposal-2026-10-10.md` is superseded and kept as history. The owner may still change any tailoring row.
 
 - First-pass SysML v2 BDD in the model (file map: `cameo_models/sysmlv2_exploration.md`;
   2026-09-19): NAS + 9 D-002 domains as packages, constituent systems populated from
@@ -115,9 +102,10 @@ The SOI boundary is no longer provisional; see D-007 and the SOI definition.
 
 ## Next session priority
 
-See `journal/2026-10-08.md` (22:38 Sign-Off) for reasoning; item 1's detail is in `journal/2026-10-05.md` (21:26 Sign-Off).
+Turn 1 exit test (by Sun 2026-10-18): the central claim and four decisions logged (done, D-016 to D-019); OpenAP returns B39M numbers and both figures render (done); the owner has reviewed the 27 stakeholder requirements; Assumptions and Methodology drafted. See `journal/2026-10-10.md`.
 
-1. Review the drafted experiment one-pager (`knowledge/models/experiment-definition.md`, AI draft 2026-10-06) and make its four "Decide" items, central claim first. Capped at one hour. Do the hand check on three or four context-diagram decisions. Take it and the scope question (a/b/c) to the adviser.
-2. Re-date the traceability chain (ECD 10-12, not started) and its dependents (10-17, 10-20) against Interim Report #2 (10-25).
-3. Grade the default aircraft IBD links and work the "Diagram review" questions in `open-questions.md`; then the `atc` umbrella question on the airspace IBD.
-4. Carried over: finish the activity diagram (connect `Prework`, real sub-actions, swimlanes, hub-to-hub walkthrough); confirm the Syside licence from Python in `.venv`; register the three new PDFs and confirm the ten-factor table's source; deferred §4 admin updates; sequence diagrams.
+1. Owner: confirm or change the Decide items in `knowledge/models/experiment-scenario-numbers.md` (city pairs, masses, cost indexes, hold length, tie-breaker) and re-run `tools/run_experiment.py`. The first run's C minus B = 0 hangs on the hold length and the pair's level.
+2. Owner: the 27 stakeholder requirements (`requirements-and-traceability.md`, `#TODO` item (a)), about 3 hours; then draft Assumptions and Methodology from the `\irtwo` call-outs in `report/sections/03_assumptions_methodology.tex`.
+3. Owner: re-word the five view captions in `cameo_models/nas_package_my_views.sysml` and the appendix lead-in; restate or strike the eight candidate entries in `lessons-learned.md`.
+4. Claude, turn 2: the FMS → AOC and ATC → crew interface defs; test one `SequenceView` example; `tools/check_model.py` on the Syside Python API.
+5. Carried over: the two hand checks (`experiment-definition.md` §9); grade the aircraft IBD links; the `atc` umbrella question; whether the adviser meeting counts as the Report #2 review meeting.

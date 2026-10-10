@@ -44,10 +44,11 @@ TEX_NAME = "sysml_figures.tex"
 MANIFEST_NAME = "manifest.json"
 SCRATCH = REPO / ".tmp" / "sysml-render"
 
-# Files with known model errors that no view uses. `syside viz` draws nothing if any
-# included file has an error (sysml-diagram-rendering.md section 6). Remove a line
-# here once that file checks clean.
-EXCLUDES = ["**/requirements_*.sysml", "**/scenarios/**"]
+# Files to leave out of the render. `syside viz` draws nothing if any included file has
+# an error or an unresolved reference (sysml-diagram-rendering.md section 6). As of
+# 2026-10-10 the whole folder checks clean and nas_verification.sysml refers to the
+# requirements files, so nothing is excluded. Add a glob here only while a file is broken.
+EXCLUDES: list[str] = []
 
 DEFAULT_EXE = Path.home() / "AppData" / "Local" / "Programs" / "Syside" / "syside.exe"
 
