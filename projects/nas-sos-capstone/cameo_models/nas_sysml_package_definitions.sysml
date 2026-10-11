@@ -127,6 +127,10 @@ package NationalAirspaceSystem {
             part decisionSupport: DecisionSupport::DecisionSupportSystem;
             // Inputs from outside the SoI (D-012). Drawn as ports; the sender is not drawn.
             port rulesIn;   // Governance: 14 CFR, JO 7110.65 / 7210.3
+            // IMPROVED ARCHITECTURE (D-019): receives the airline's performance share for the
+            // flights it decides about (SLR-INF-02). That it discloses it to no one else is an
+            // assumption, not a requirement (D-020). Conjugate of the AOC's supplier port.
+            port performanceShareIn: ~FlightOperations::AirlinePerformanceSharePort;
         }
 
         part def TRACON {
@@ -313,6 +317,46 @@ package NationalAirspaceSystem {
             // Inputs from outside the SoI (D-012). Drawn as ports; the sender is not drawn.
             port rulesIn;     // Governance: 14 CFR 91 / 121
             port weatherIn;   // Infrastructure: weather service
+            // IMPROVED ARCHITECTURE (D-019): the airline's performance share to the party
+            // deciding a trajectory change. Not part of today's NAS; the experiment's cases
+            // C and D assume it exists. Typed by AirlinePerformanceSharePort below.
+            port performanceShareOut: AirlinePerformanceSharePort;
+        }
+
+        item def AirlinePerformanceShare {
+            doc /* IMPROVED ARCHITECTURE (D-019, 2026-10-10). What the airline, or the FMS on
+             * its behalf, shares with the party that decides a change to one flight's
+             * trajectory. The digital-thread payload the project's thesis names. The first
+             * three attributes are what the experiment exercises (cases C and D; requirement
+             * SLR-INF-02, which covers all three since D-020). The three model references are present so the full
+             * vision (thrust, drag and fuel-flow models exposed through an airline API) is in
+             * the model; they are NOT exercised by the experiment. Confidentiality is an
+             * assumption (D-019 item 3 as amended by D-020), not a mechanism modeled here.
+             * Compare coppenbarger1999climbPrediction Table 2 (take-off weight, thrust and
+             * drag factors, speed profile, offered from the AOC to ground automation) and
+             * SESAR's ADS-C EPP (the FMS's predicted profile, downlinked to ATC): same items,
+             * a different receiver and a different decision. */
+            attribute grossWeightKg: Real;            // the FMS's current gross weight
+            attribute costIndex: Real;                // the flight's cost index (kg of fuel per minute, or the airline's own units)
+            attribute connectionPriority: Integer;    // how close the flight is to its connection threshold (case D)
+            attribute thrustModelRef: String[0..1];   // unexercised: identifier of the airline's thrust model
+            attribute dragModelRef: String[0..1];     // unexercised: identifier of the airline's drag model
+            attribute fuelFlowModelRef: String[0..1]; // unexercised: identifier of the airline's fuel-flow model
+        }
+
+        port def AirlinePerformanceSharePort {
+            doc /* Supplier side of the share (D-019). The consumer uses the conjugate,
+             * ~AirlinePerformanceSharePort, on AirspaceManagement::AirTrafficControlSystem. */
+            out item share: AirlinePerformanceShare;
+        }
+
+        interface def AirlinePerformanceShareInterface {
+            doc /* IMPROVED ARCHITECTURE (D-019). The one typed interface the experiment's thread
+             * needs: airline operations center (or FMS) to ATC decision support. Used by
+             * ContextDiagram::NASContextDiagram::airlinePerformanceShare, unrendered by
+             * default. Security is an assumption (D-019 item 3). */
+            end supplierEnd: AirlinePerformanceSharePort;
+            end consumerEnd: ~AirlinePerformanceSharePort;
         }
 
         part def Dispatcher {

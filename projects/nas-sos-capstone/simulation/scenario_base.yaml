@@ -1,0 +1,115 @@
+# Base scenario for the conflict-resolution experiment (D-013 to D-015, D-017).
+# One snapshot of four aircraft in one en-route sector. Numbers: see
+# knowledge/models/experiment-scenario-numbers.md for the source and grade of each.
+# Every item marked "Decide" there is a proposal until the owner confirms it.
+
+name: base
+sector: "Fort Worth Center (ZFW) high-altitude airspace, crossing about 42 NM southwest of DFW"
+
+type:
+  icao: B39M                 # 737 MAX 9 (D-015); OpenAP borrows the MAX 8 drag polar
+  nominal_mass_kg: 70000     # the one weight per type that the nominal model (case B) uses
+  mass_spread_fraction: 0.06 # heavy/light = nominal x (1 +/- 0.06); coppenbarger1999climbPrediction Table 3
+  mmo: 0.82
+
+geometry:
+  crossing_level_ft: 38000          # FL380, westbound even level (D-014 item 3)
+  blocked_levels_ft: [36000]        # AC3 and AC4 under the crossing point at FL360
+  time_to_crossing_min: 12          # decision made this far ahead of the crossing
+  maneuver_hold_min: 15             # an altitude or vector change is held this long before the conflict has cleared
+  reclimb_available: true           # a descended aircraft is cleared back up afterwards (second instruction)
+  vector_extra_nm: 6.0              # extra track miles for a "pass behind" vector (30 deg for ~40 NM, then direct)
+  speed_change_mach: 0.04           # lever built to fail (D-014 item 2): cannot separate the pair
+  speed_lever_separates: false
+  climb_rule_ft: 35000              # climbs offered only at or below FL350 when weight is unknown (engility2014tasarAlaska p. 8)
+  altitude_steps_ft: [2000, -2000, -4000]
+  slow_ac3_mach: 0.02               # option O9: AC3 slows this much for slow_ac3_min minutes
+  slow_ac3_min: 10
+
+costs:
+  fuel_price_usd_per_kg: 0.85       # Decide; placeholder [C]
+  co2_per_kg_fuel: 3.16             # icao2024icecMethodology p. 6 (D-015)
+  connection_threshold_min: 12      # arrival slot spacing 10 to 15 min [SME]
+  missed_connection_cost_usd: null  # K, unsourced; the table reports yes/no until a value is held
+  carbon_price_usd_per_t: 15.0      # CORSIA-style credit, Decide; trade-press range 10 to 22 USD/t, unsourced
+
+aircraft:
+  - id: AC1
+    airline: X
+    role: "crossing pair, heavy, late with connections"
+    route: "MCO-LAX"
+    mass_kg: 74200
+    level_ft: 38000
+    mach: 0.80
+    heading_deg: 281
+    distance_to_go_nm: 1069
+    cost_index_kg_per_min: 2.5      # high: time valued at 2.5 kg of fuel per minute
+    schedule_delta_min: 8           # positive = late on entry
+    has_connections: true
+  - id: AC2
+    airline: Y
+    role: "crossing pair, light, on time"
+    route: "IAH-DEN"
+    mass_kg: 65800
+    level_ft: 38000
+    mach: 0.80
+    heading_deg: 324
+    distance_to_go_nm: 584
+    cost_index_kg_per_min: 0.8
+    schedule_delta_min: 0
+    has_connections: false
+  - id: AC3
+    airline: X
+    role: "in trail under the crossing, early"
+    route: "TPA-LAX"
+    mass_kg: 70000
+    level_ft: 36000
+    mach: 0.80
+    heading_deg: 281
+    distance_to_go_nm: 1000
+    cost_index_kg_per_min: 0.8
+    schedule_delta_min: -6
+    has_connections: false
+  - id: AC4
+    airline: Z
+    role: "in trail behind AC3; context"
+    route: "TPA-LAX"
+    mass_kg: 70000
+    level_ft: 36000
+    mach: 0.80
+    heading_deg: 281
+    distance_to_go_nm: 1030
+    cost_index_kg_per_min: 1.5
+    schedule_delta_min: 0
+    has_connections: false
+
+# Resolution options (experiment-options-and-scoring.md section 2). "maneuvers" maps
+# aircraft id -> maneuver; instructions/follow-ups per fothergill2013resolutionHeuristics.
+options:
+  - id: O1
+    maneuvers: {AC1: {kind: altitude, delta_ft: -2000}}
+    instructions_now: 1
+  - id: O2
+    maneuvers: {AC2: {kind: altitude, delta_ft: -2000}}
+    instructions_now: 1
+  - id: O3
+    maneuvers: {AC1: {kind: altitude, delta_ft: 2000}}
+    instructions_now: 1
+  - id: O4
+    maneuvers: {AC2: {kind: altitude, delta_ft: 2000}}
+    instructions_now: 1
+  - id: O5
+    maneuvers: {AC1: {kind: vector}}
+    instructions_now: 1
+  - id: O6
+    maneuvers: {AC2: {kind: vector}}
+    instructions_now: 1
+  - id: O7
+    maneuvers: {AC1: {kind: speed}}
+    instructions_now: 1
+  - id: O8
+    maneuvers: {AC1: {kind: altitude, delta_ft: -4000}}
+    instructions_now: 1
+  - id: O9
+    maneuvers: {AC1: {kind: altitude, delta_ft: -2000}, AC3: {kind: slow}}
+    instructions_now: 2

@@ -2,19 +2,97 @@
 \section{Assumptions and Methodology}
 \label{sec:methodology}
 
+\irtwo{Assumptions and Methodology. This whole section is new for Interim
+Report \#2. The minimum: (1) the working assumptions; (2) the systems
+engineering approach subsection (Section~\ref{sec:se-approach}) with its
+table and the tailoring paragraph; (3) the two claims
+(Section~\ref{sec:two-claims}); (4) the proposed interface
+(Section~\ref{sec:proposed-interface}); (5) the experiment design
+(Section~\ref{sec:experiment-method}) as far as it is decided. Every
+\texttt{plantodo} note below names the source file for that part.}
+
 \plantodo{S1}{State the working assumptions carried through the project --
 see README.md "Working Assumptions" and
 \texttt{projects/nas-sos-capstone/index.md} "Working assumptions (guardrails)"
 (e.g., emphasis on structure/behavior/interfaces/traceability rather than
 optimization math; decision-support/optimization treated as a capability
-inside the architecture, not the whole subject).}
+inside the architecture, not the whole subject). Add the security assumption
+from D-019: confidentiality of shared airline data is assumed (existing
+SWIM and commercial software-as-a-service practice; D-020), not
+modeled.}
 
-\plantodo{S6}{Describe the methodology for exploring and comparing
-alternative system decompositions (organization/authority-based,
-lifecycle/process-based, physical-system, information-flow,
-decision-authority, intent-to-trajectory) and the criteria used to evaluate
-them (what each exposes/obscures, where boundaries are ambiguous, which
-best supports optimization-impact analysis).}
+% ---- Added 2026-10-10 (AI-drafted scaffolding, not report prose). Source: D-016.
+\subsection{Systems Engineering Approach}
+\label{sec:se-approach}
+
+\plantodo{Track C (D-016)}{\textbf{Map the project's artifacts to the
+ISO/IEC/IEEE 15288 technical processes as the INCOSE Systems Engineering
+Handbook describes them}, in one table (skeleton below), then state the
+tailoring in one paragraph: which process activities were reduced or
+omitted and why (per-paper literature checklists, full gate-to-gate ConOps,
+alternative decompositions, nine conflict analyses, weighted-sum
+optimization), citing D-016 and naming them as future work. Tailoring is a
+15288 activity in its own right; say so. Cite the Handbook and the INCOSE
+Guide for Writing Requirements once they are registered.}
+
+\begin{table}[h]
+\centering
+\small
+\caption{PLACEHOLDER -- systems engineering processes and the artifacts that
+realize them. Wording to be the author's.}
+\label{tab:se-processes}
+\begin{tabular}{@{}p{4.2cm}p{6.2cm}p{4.6cm}@{}}
+\toprule
+Process (15288 / INCOSE) & Artifact in this project & Where \\
+\midrule
+Stakeholder needs and requirements & 27 stakeholder requirements, each traced to an objective row & \texttt{requirements\_stakeholders.sysml}; Appendix \\
+System requirements & 53 system requirements, baseline or improved (D-018), allocated to constituent systems & \texttt{requirements\_nas\_system.sysml} \\
+Architecture definition & Context diagram, internal block diagrams, typed interfaces on the thread (D-019), activity and sequence views & \texttt{cameo\_models/}; Section~\ref{sec:results} \\
+System analysis & Experiment at three fidelities (D-017), outcome table & \texttt{simulation/}; Section~\ref{sec:experiment-results} \\
+Verification & Verification cases for the improved requirements, run by the experiment & \texttt{nas\_verification.sysml} \\
+Validation & Stakeholder-level reading of the outcome table (who pays) & Section~\ref{sec:results} \\
+Technical measurement & MoEs (outcome-table columns), MoPs (requirement measures) & Section~\ref{sec:experiment-method} \\
+Configuration management & Decisions log, model text as the authoritative source (D-006), model freeze & \texttt{decisions-log.md} \\
+Tailoring & D-016 & this subsection \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\plantodo{S6}{\textbf{Decomposition kept, alternatives named.} One paragraph:
+why the authority / responsibility / information-ownership decomposition
+(D-002, D-007) was kept, naming the alternatives (organization-based,
+lifecycle-based, physical, information-flow, decision-authority) and the
+criterion (which one makes the decider, the information owner and the
+authority visible on the same picture). Building the alternatives is future
+work (D-016).}
+
+\subsection{The Two Claims}
+\label{sec:two-claims}
+
+\plantodo{Track C (D-016, D-017)}{\textbf{Separate the two claims and say
+which the numbers support.} Claim 1, tested by the experiment: replacing the
+decider's low-fidelity rule of thumb with a higher-fidelity model fed by
+weight and cost index across the airline-to-ATC interface changes which
+aircraft is moved and lowers total system cost (whether one extra clearance
+is worth it is a result, not an assumption). Claim 2, shown by the model:
+the architecture locates that interface, names who owns the decision and the
+data, states the unmet requirement, and lets the scoring model's fidelity be
+swapped (conceptual, nominal mass, actual mass) with the structure
+unchanged. The simulation would give the same numbers without the model;
+say so, and say what the model contributes that the numbers do not.}
+
+\subsection{Proposed Airline-to-ATC Interface}
+\label{sec:proposed-interface}
+
+\plantodo{Track C (D-019)}{\textbf{Name the digital-thread artifact.}
+Describe \texttt{AirlinePerformanceShare}: what it carries (gross weight,
+cost index, connection priority; thrust, drag and fuel-flow model
+identifiers present but not exercised), who sends it (airline operations
+center or FMS), who receives it (ATC decision support, per D-012 owned by
+the system that decides), and which requirements it satisfies
+(SLR-INF-02) and the goal it serves (SLR-CLR-13). Position it against
+ADS-C EPP and Coppenbarger's Table 2 (the same items, a different
+receiver). State that security is an assumption.}
 
 \plantodo{S10}{Describe the MBSE methodology used to build the architecture
 in SysML v2 (textual notation authored in Syside Modeler in VS Code, with
@@ -23,15 +101,14 @@ IBD, activity, sequence, requirements), and the traceability approach
 (stakeholder needs -> objectives -> requirements -> systems -> activities ->
 information exchanges -> aircraft behavior). Note per
 \texttt{workflows/update-architecture.md} (decision D-006) that the SysML v2
-text is the source of truth; Cameo is not used as the source of truth.}
+text is the source of truth; Cameo is not used as the source of truth.
+Describe the working loop (draft, print, hand review, transcribe, apply,
+log, re-render) and the artifact states 0 to 4 (D-016).}
 
-\plantodo{S11}{Describe the optimization-study methodology: scenario
-selection criteria, system-state and decision-variable definitions,
-constraint definitions, the multi-objective formulation
-$J = w_1 J_1 + w_2 J_2 + \dots + w_n J_n$, normalization approach for
-objectives with different units/scales, and the stakeholder weighting
-scheme. This section should be detailed enough that the scenario and
-formulation could be reproduced.}
+% The August plan's weighted-sum formulation ($J = \sum w_i J_i$), normalization
+% and weighting schemes were dropped by D-013 item 2 and D-016; impacts are
+% stated side by side. The placeholder that asked for them was removed 2026-10-10.
+% ---- end 2026-10-10 additions
 
 % ---- Placeholders added 2026-10-09 (AI-drafted scaffolding, not report prose).
 % Source of the structure: knowledge/models/experiment-definition.md and
@@ -129,10 +206,15 @@ its source (not yet held). State how CO2 becomes dollars at the airline
 level and why that route was chosen (credit price, passenger value, or both;
 undecided), and why the system level keeps CO2 in kg.}
 
-\plantodo{S11, S12}{\textbf{Truth model.} One model scores every case. State
-what it is and its fidelity relative to the models the cases decide with.
-Not chosen; \texttt{simulation/vehicle\_dynamics.py} uses a constant
-placeholder fuel flow and cannot do this yet.}
+\plantodo{S11, S12}{\textbf{Truth model (decided, D-017).} OpenAP (open
+aircraft performance model, TU Delft) scores every option: fuel flow, thrust
+and drag for the B737-9 at the aircraft's actual mass. State the three
+selectable fidelities (conceptual: feasibility and instruction counts only;
+nominal mass; actual mass) and that the decider's case (A to D) and the
+truth model's fidelity are independent settings. State the limitation: OpenAP
+has no drag polar for the 737 MAX 9 and borrows the MAX 8's. Cite OpenAP
+(Sun, Hoekstra and Ellerbroek 2020) once registered. The earlier kinematic
+model (\texttt{vehicle\_dynamics.py}) is not used by the experiment.}
 
 \plantodo{S11}{\textbf{Abstractions made and why.} One short table: each
 simplification, the reason, and the risk. A draft list is in

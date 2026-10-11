@@ -24,6 +24,12 @@ package RequirementDefinitions {
      * Added 2026-10-10 (draft, for the owner's review): EvidenceGrade and `basis`,
      * `objectiveRefs` on StakeholderNeed, `derivedFrom` on SystemLevelRequirement, and
      * the `military` stakeholder group.
+     * Added 2026-10-10 from the owner's hand review (D-020): Obligation and `obligation`,
+     * so that a statement the owner judges a goal and not a requirement stays in the
+     * model without being a "shall".
+     * Added 2026-10-11 (D-022): MeansOfAchievement and ConstituentSystemRequirement, for
+     * the tier below the system requirements (IDs HLR-<system>-nn; instances in
+     * requirements_constituent_systems.sysml).
      */
 
     public import ScalarValues::*;
@@ -44,11 +50,11 @@ package RequirementDefinitions {
         enum operators; // Part 121 scheduled passenger airlines (D-007)
         enum airTrafficControl; // includes traffic flow management
         enum aircraftAndEngineManufacturers; // no requirements at present: not in D-007 or the objective ontology
-        enum airportAuthority;
+        enum airportAuthority; // no requirements at present (hand review 2026-10-10, D-020)
         enum flightCrews;
-        enum passengers;
+        enum passengers; // no requirements at present (D-020)
         enum environmentalAndSocietalOrganizations;
-        enum military; // boundary actor under D-007; the coupling is special use airspace
+        enum military; // boundary actor under D-007; no requirements at present (D-020)
     }
 
     enum def EvidenceGrade {
@@ -81,13 +87,46 @@ package RequirementDefinitions {
         enum byTest; // instrumented measurement against a quantified criterion
     }
 
+    enum def ArchitectureState {
+        doc /* Which architecture a requirement describes (D-018, 2026-10-10). `baseline` is
+         * the NAS as it operates today; `improved` is the proposed change the experiment
+         * measures. Case A of the experiment measures the baseline set (the course's
+         * current-state metric); cases C and D measure the improved set (the improvement
+         * claim). Names chosen by the owner. */
+        enum baseline;
+        enum improved;
+    }
+
+    enum def Obligation {
+        doc /* Whether a statement binds (D-020, 2026-10-10). A `mandatory` statement is a
+         * requirement and is written with "shall". A `goal` is something the system should
+         * pursue once the mandatory ones are met; it is written with "should" and is
+         * measured, not passed or failed. */
+        enum mandatory;
+        enum goal;
+    }
+
     abstract requirement def NasRequirement {
         doc /* Attributes common to every requirement in this project. */
 
         attribute status: RequirementStatus;
+        attribute architectureState: ArchitectureState default ArchitectureState::baseline;
+        attribute obligation: Obligation default Obligation::mandatory;
         attribute rationale: String[0..1]; // why it exists; what breaks if it is dropped
         attribute evidenceRefs: String[0..*]; // references.bib keys / source-register entries
         attribute basis: EvidenceGrade[0..1];
+    }
+
+    enum def MeansOfAchievement {
+        doc /* The different ways one objective can be achieved (D-022, 2026-10-11). They
+         * differ in what the party deciding works from. Each is one case of the experiment
+         * (knowledge/models/experiment-options-and-scoring.md section 2), so the experiment
+         * scores them side by side. Not the same thing as NasAnalysis::FidelityLevel, which
+         * is the fidelity of the truth model that does the scoring (D-017 item 3). */
+        enum ruleOfThumb; // case A: today's information and a rule (one descent; climb only at or below FL350)
+        enum lowFidelityModel; // case B: a performance model with one nominal weight per aircraft type
+        enum highFidelityModel; // case C: each aircraft's own weight and cost index, shared by the airline
+        enum highFidelityModelWithConnections; // case D: case C plus the airline's connection priority
     }
 
     requirement def StakeholderNeed :> NasRequirement {
@@ -120,5 +159,26 @@ package RequirementDefinitions {
         attribute unitOfMeasure: String[0..1]; // e.g. "seconds"
         attribute thresholdValue: Real[0..1]; // minimum acceptable
         attribute objectiveValue: Real[0..1]; // desired
+    }
+
+    requirement def ConstituentSystemRequirement :> NasRequirement {
+        doc /* A requirement on one constituent system of the NAS (one of D-007's five modeled
+         * systems, or a named part of one), with that system as the subject of the
+         * sentence. The owner's name for this tier is HLR. It comes from one or more system
+         * requirements (parentRequirements) and states what it is for (objectiveStatement).
+         * Where the objective can be achieved in more than one way, candidateMeans lists
+         * the ways; meansScoredInExperiment says whether the experiment compares them. */
+
+        attribute kind: RequirementKind;
+        attribute constituentSystem: String; // the D-007 system this is a requirement on
+        attribute objectiveStatement: String; // what the requirement is for, in one sentence
+        ref requirement parentRequirements: SystemLevelRequirement[1..*];
+        attribute candidateMeans: MeansOfAchievement[0..*];
+        attribute meansScoredInExperiment: Boolean default false;
+        attribute verificationMethod: VerificationMethod[0..*];
+
+        attribute measureOfPerformance: String[0..1];
+        attribute unitOfMeasure: String[0..1];
+        attribute thresholdValue: Real[0..1];
     }
 }

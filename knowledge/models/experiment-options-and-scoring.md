@@ -277,4 +277,19 @@ The first review (note 8.1) names three parts. They are kept as three reported i
    - a passenger-choice study, a social cost of carbon, and a nationwide cost and count of missed connections. No leads yet.
 6. **The Decide items still open in this file:** the heavy and light weights for the crossing pair (§1); FL370 or FL380 for the crossing pair (§2); whether to add the Pareto-front column (§4.4); whether case D is separate from case C (§5).
 
+## 8. First run (2026-10-10, D-017; numbers are preliminary and every Decide item in `experiment-scenario-numbers.md` is still open)
+
+`simulation/experiment_scoring.py --fidelity actualMass` on `scenario_base.yaml` (crossing pair at FL380, Mach 0.80, 74,200 kg and 65,800 kg; AC3 and AC4 at FL360 under the crossing; 15-minute hold; re-climb available). Tables: `report/figures/tables/options_base_actualMass.csv` and `cases_base_actualMass.csv`.
+
+| Case | Option chosen | Why | System fuel (kg, vs undisturbed) | Calls (now + later) |
+|---|---|---|---|---|
+| A | O8: AC1 descends 4,000 ft | rule, one descent; O1 blocked (FL360 occupied); AC1 moved as the one with farther to go | +18.4 | 1 + 1 |
+| B | O9: AC1 descends 2,000 ft, AC3 slows | lowest estimated cost at the nominal mass | +11.4 | 2 + 2 |
+| C | O9 | lowest estimated cost at actual mass and cost index | +11.4 | 2 + 2 |
+| D | O9 | as C; no connection crossed its threshold | +11.4 | 2 + 2 |
+
+What it shows so far: **B minus A** is 7 kg of fuel for two extra calls (automation finds the cheaper combined option); **C minus B is zero** in this scenario. The climb the light aircraft could take (O4, open only to C and D) costs 15.7 kg because the climb itself burns more than the 15-minute hold at FL400 saves, so the shared weight opened an option that was not worth taking. That is result 1 of §8 in `experiment-definition.md` ("the information is worth nothing here"), reached before any variation was run. Things that would change it, all Decide items: a longer hold (the climb pays back with time), a crossing pair at or below FL350 (climbs open to A and B too), a lower nominal mass (B would think the heavy aircraft can climb and be wrong), and the vector option's extra miles. The similar-weights variation (`--variation similar-weights`) makes C choose B's option, as required.
+
+**Not rigged, and not yet a result either.** The run is one afternoon old. Before any of it goes in the report: confirm the Decide items, run the variations, and read across the rows for who pays (AC3 and airline X carry O9's second instruction).
+
 A scope note: §4 is as far as the scoring should go as a capability inside the architecture. The owner's own note says the same: this is not an optimization paper, it is an exploration of what interchangeable models are worth. If the next step looks like tuning weights or searching a larger option space, that is the pull to flag.

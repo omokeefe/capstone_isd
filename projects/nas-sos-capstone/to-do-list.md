@@ -1,810 +1,195 @@
-# NAS System-of-Systems Capstone — Project To-Do List
-
-**Target ECD (Expected Completion Date) tags** below are sourced from the Project
-Milestones & ECD table in `prework/ISD 503 Submittal.pdf`. Where one proposal milestone
-covers several checklist bullets, the date is attached to each; where a bullet is more
-granular than the proposal's milestone, the milestone's date is used as a shared target
-for the whole group. Three sections have **no corresponding milestone** in the submittal
-and are marked "(unscheduled)" rather than given a fabricated date: §6 (Alternative
-Decompositions), §9 (Myopic Optimization), §14 (Capstone Demonstration). Also note the
-submittal schedules the Literature Review milestone (2026-11-17) *after* most of the
-architecture milestones (2026-09-07 through 2026-11-03) — later than this list's own
-§2-§4-before-§5-§10 ordering assumes; not reconciled here, flagged for the user to decide
-whether literature work should in practice run continuously in the background rather than
-front-loaded.
-
-## 1. Establish Research Framework
-
-- [x] Finalize project research questions *(ECD 2026-09-07 — "PESTLE Analysis & System Definition"; scope baseline ratified 2026-09-21)*
-  - [x] How should the NAS be decomposed into constituent systems and Systems-of-Systems?
-  - [x] Where do authority, responsibility, ownership, and lifecycle boundaries occur?
-  - [x] How does operational intent propagate from enterprise objectives to physical aircraft behavior?
-  - [x] How do stakeholder definitions of "optimal" differ?
-  - [x] When does subsystem optimization produce undesirable System-of-Systems outcomes?
-  - [x] How can an MBSE architecture support analysis of those tradeoffs?
-
-- [x] Define initial System of Interest (SOI)* *(ratified 2026-09-21; see D-007 and `knowledge/models/system_of_interest_definition.md`)*
-  - [x] Define what is explicitly included.
-  - [x] Define what is explicitly excluded.
-  - [x] Define level(s) of abstraction.
-  - [x] Establish criteria for creating a system boundary.
-  - [x] Establish criteria for creating a stakeholder/actor boundary.
-  - [x] Document assumptions and unresolved boundary questions.
-
-- [x] Create research evidence/source register *(feeds ECD 2026-11-17 "Literature Review" milestone — see §2 note)*
-  - [x] Source
-  - [x] Publication type
-  - [ ] NAS lifecycle phase addressed
-  - [x] Systems addressed
-  - [x] Stakeholders addressed
-  - [ ] Architectural evidence extracted
-  - [ ] Optimization/objective evidence extracted
-  - [ ] Relevant SysML artifact(s)
-  - [ ] Confidence / limitations
-
-- [ ] Establish project milestone timeline *(done 2026-08-29 — dates below sourced from `prework/ISD 503 Submittal.pdf`)*
-  - [x] Revisit the timeline from the 503 Proposal submittal (`prework/ISD 503 Submittal.pdf`).
-  - [x] Map major sections (§1-§16 of this list) to target completion dates.
-  - [x] Identify milestone checkpoints for interim review(s). *(2026-09-21, from the
-    Canvas course page, saved verbatim at `prework/course-info-canvas.md`. All due
-    11:59 pm ET; these graded dates supersede the proposal's self-set ECDs where they
-    conflict, e.g. Final Paper 12-18 / Submittal 12-20 fall after the real Dec 13 due date.)*
-    - [x] Interim Report #1 + Progress Update #1 — Sep 20 (submitted Sep 17).
-    - [X] Interim Report #2 + Progress Update #2 — **Oct 25**. Adds Introduction,
-      Assumptions and Methodology, Results and Discussion (preliminary), References to
-      Report #1. Schedule the adviser review meeting; submit to adviser, then confirm in
-      Canvas. Word format.
-    - [ ] Peer Project Presentation — upload by **Nov 20**; ~10 min, by-program slot
-      (Nov 17-19), sign up on the Canvas calendar; use
-      `prework/503 Project Presentation Template-v26.pptx`.
-    - [ ] Project Review #3 + Progress Update #3 — **Nov 22**. Option 1: short progress
-      update (adviser may ask for email/report/presentation). Option 2: final-report draft
-      with Results and Discussion, adviser only. Ask the adviser which one they want.
-    - [ ] Final Report #4 — **Dec 13**; adviser gets it first, upload to Canvas (PDF or
-      Word) only after adviser approval. Optional draft to adviser about Dec 6.
-    - [ ] Report Synopsis (1-2 paragraph short summary, Word, Canvas naming format) — Dec 13
-      or on adviser approval; no confidential content.
-
-- [x] Submit Interim Report #1 (Introduction and Current State + References) *(ECD
-  2026-09-20 — course syllabus deliverable, not in the 503 Submittal ECD table;
-  unscheduled there like §6/§9/§14)*. **Submitted 2026-09-17**, ahead of the ECD — the
-  2026-09-14 AI-drafted synthesis in `report/sections/02_introduction.tex` was rewritten
-  into the user's own judgment/words before submission (ghostwriting concern from
-  `task-board.md`/`sessions/2026-09-14-interim-report-1-scope-correction.md` resolved for
-  this deliverable). The syllabus requirement is satisfied; the sub-items below are *not*
-  all closed by that — several are ongoing capstone-quality work, not submission
-  blockers, and stay open on their own merits:
-  - [x] Ratify the SOI boundary for real (resolves the "Define initial System of
-    Interest" bullet above and `knowledge/questions/open-questions.md` §1) — ratified
-    2026-09-21 as D-007; Part 121 scheduled passenger operations are the modeled
-    operator population, with other traffic represented only as background when KPI-
-    relevant.
-  - [x] Once the SOI is ratified, close "Finalize project research questions" above and
-    log the boundary decision in `decisions/decisions-log.md` — completed through D-007.
-  - [x] Rewrite all six subsections (Overview, Current State/Literature Review,
-    Stakeholders, Scope, Project Deliverables, Project Timing) in own judgment/words —
-    done as part of the 2026-09-17 submission.
-  - [ ] Fix the literature-review section's annotation-coverage claim — it currently
-    overstates deep-annotated sources; check the real count against
-    `evidence/source-register.md`'s own annotation-status tables before restating it.
-  - [ ] Spot-check every citation sourced to a skimmed-only reference (per that
-    source's own "Processing metadata" in `evidence/literature-notes/summaries/`)
-    against the actual paper before repeating its claim as settled fact — flagged
-    examples: `castro2013aoccMasThesis` (MASDIMA architecture detail),
-    `great2020d21tboConcept`/`great2021d22operationalArch`, `hu2024disruptionOptReview`.
-  - [ ] Replace or explicitly caveat the 1998-dollar disruption-cost figures
-    (`clarke1998irregular`) used to motivate the problem statement.
-  - [ ] Decide (don't default to the draft's phrasing) on the §11 optimization-study
-    candidate scenario referenced in the Project Deliverables subsection.
-  - [x] Resolve a LaTeX-to-Word conversion approach (no pandoc/LibreOffice found
-    installed as of 2026-09-14) and produce the Word copy — resolved for this
-    submission.
-  - [x] Email the Word copy to faculty adviser Mark Petrotta (mpetrott@umich.edu) —
-    done 2026-09-17.
-  - [x] Complete Progress Status Update #1 (Canvas); upload the report there too
-    unless it's deemed confidential — done 2026-09-17.
-
-
-# 2. Literature Review — Airline Planning and Operations
-
-*(§2-§4 collectively target ECD 2026-11-17 — "Literature Review" milestone, deliverable
-"Annotated Bibliography," metric "10-20 papers categorized." See the top-of-file note on
-this date's sequencing relative to §5-§10.)*
-
-## Airline Schedule Planning: A Review and Future Directions — Eltoukhy, Chan & Chung
-
-- [ ] Read and annotate paper
-  - [ ] Identify actors/stakeholders.
-  - [ ] Identify systems/organizations.
-  - [ ] Identify objectives.
-  - [ ] Identify costs / penalties.
-  - [ ] Identify decisions.
-  - [ ] Identify decision authority.
-  - [ ] Identify activities/processes.
-  - [ ] Identify resources.
-  - [ ] Identify information inputs.
-  - [ ] Identify information outputs.
-  - [ ] Identify constraints.
-  - [ ] Identify interfaces/handoffs.
-  - [ ] Identify timescales of decisions.
-  - [ ] Identify upstream dependencies.
-  - [ ] Identify downstream consequences.
-  - [ ] Identify optimization variables.
-  - [ ] Identify objective functions / measures of effectiveness.
-  - [ ] Identify evidence of conflicts between local and system-level objectives.
-  - [ ] Map findings to candidate SysML elements.
-
-
-## Airline Scheduling Optimization: Literature Review and Discussion of Modelling Methodologies — Deng & Santos
-
-- [ ] Read and annotate paper
-  - [ ] Identify actors/stakeholders.
-  - [ ] Identify systems/organizations.
-  - [ ] Identify objectives.
-  - [ ] Identify costs / penalties.
-  - [ ] Identify decisions.
-  - [ ] Identify decision authority.
-  - [ ] Identify activities/processes.
-  - [ ] Identify resources.
-  - [ ] Identify information inputs/outputs.
-  - [ ] Identify constraints.
-  - [ ] Identify interfaces.
-  - [ ] Identify decision timescales.
-  - [ ] Identify optimization variables.
-  - [ ] Identify objective functions.
-  - [ ] Compare sequential versus integrated optimization.
-  - [ ] Identify examples of locally optimal decisions creating downstream impacts.
-  - [ ] Identify coupling among schedule, fleet, aircraft routing, and crew decisions.
-  - [ ] Map findings to SysML elements.
-
-
-## Integrated Airline Scheduling
-
-- [ ] Read and annotate paper
-  - [ ] Identify actors/stakeholders.
-  - [ ] Identify systems.
-  - [ ] Identify objectives and costs.
-  - [ ] Identify decisions.
-  - [ ] Identify activities.
-  - [ ] Identify resources.
-  - [ ] Identify information exchanges.
-  - [ ] Identify constraints.
-  - [ ] Identify optimization variables/objectives.
-  - [ ] Identify which planning functions are traditionally decomposed.
-  - [ ] Document consequences of decomposition.
-  - [ ] Document benefits/costs of integrated optimization.
-  - [ ] Map findings to architecture.
-
-
-## Airline Timetable Development and Fleet Assignment Incorporating Passenger Choice
-
-- [ ] Read and annotate paper
-  - [ ] Identify airline objectives.
-  - [ ] Identify passenger objectives.
-  - [ ] Identify passenger-choice model.
-  - [ ] Identify decision variables.
-  - [ ] Identify costs/revenues.
-  - [ ] Identify constraints.
-  - [ ] Identify information requirements.
-  - [ ] Identify conflict between airline and passenger definitions of optimality.
-  - [ ] Identify network-level consequences.
-  - [ ] Map findings to architecture and objective model.
-
-
-## Airline Crew Scheduling: Models, Algorithms, and Data Sets
-
-- [ ] Read and annotate paper
-  - [ ] Identify crew-related stakeholders.
-  - [ ] Identify crew-planning systems.
-  - [ ] Separate crew pairing from rostering/assignment.
-  - [ ] Identify objectives.
-  - [ ] Identify costs.
-  - [ ] Identify regulatory/contractual constraints.
-  - [ ] Identify qualifications and resource constraints.
-  - [ ] Identify information inputs/outputs.
-  - [ ] Identify interfaces with flight scheduling.
-  - [ ] Identify interfaces with aircraft routing.
-  - [ ] Identify impacts of upstream schedule decisions on crew optimization.
-  - [ ] Identify effects of crew optimization on broader airline objectives.
-  - [ ] Map findings to architecture.
-
-
-## Aircraft Maintenance Routing Literature
-
-- [ ] Read and annotate aircraft-maintenance-routing review
-  - [ ] Identify maintenance stakeholders.
-  - [ ] Identify aircraft-routing stakeholders.
-  - [ ] Identify objectives.
-  - [ ] Identify costs.
-  - [ ] Identify aircraft/resource states.
-  - [ ] Identify maintenance requirements.
-  - [ ] Identify decisions.
-  - [ ] Identify constraints.
-  - [ ] Identify information exchanges.
-  - [ ] Identify schedule dependencies.
-  - [ ] Identify impacts of aircraft routing on future flights.
-  - [ ] Map findings to architecture.
-
-
-# 3. Literature Review — Day-of-Operations and Turnaround
-
-## A Review of Aircraft Turnaround Operations and Simulations — Schultz
-
-- [ ] Read and annotate paper
-  - [ ] Identify actors/stakeholders.
-  - [ ] Identify systems.
-  - [ ] Identify physical resources.
-  - [ ] Identify activities.
-  - [ ] Identify activity precedence.
-  - [ ] Identify parallel/concurrent activities.
-  - [ ] Identify objectives.
-  - [ ] Identify costs/penalties.
-  - [ ] Identify constraints.
-  - [ ] Identify information exchanges.
-  - [ ] Identify milestones/events.
-  - [ ] Identify decision authority.
-  - [ ] Identify turnaround performance metrics.
-  - [ ] Identify dependencies with inbound flight.
-  - [ ] Identify dependencies with outbound flight.
-  - [ ] Map findings to activity diagrams and IBDs.
-
-
-## Managing Turnaround Performance through Collaborative Decision Making
-
-- [ ] Read and annotate paper
-  - [ ] Identify participating stakeholders.
-  - [ ] Identify individual stakeholder objectives.
-  - [ ] Identify shared objectives.
-  - [ ] Identify conflicting objectives.
-  - [ ] Identify information shared.
-  - [ ] Identify information ownership.
-  - [ ] Identify decision authority.
-  - [ ] Identify collaboration mechanisms.
-  - [ ] Identify KPIs/MOEs.
-  - [ ] Identify consequences of information delay/error.
-  - [ ] Map findings to RACCI and information model.
-
-
-## EUROCONTROL Airport Collaborative Decision Making Specification
-
-- [ ] Read and annotate specification
-  - [ ] Identify actors.
-  - [ ] Identify systems.
-  - [ ] Identify operational milestones.
-  - [ ] Identify information objects.
-  - [ ] Identify producer of each information object.
-  - [ ] Identify consumer(s) of each information object.
-  - [ ] Identify decision authority.
-  - [ ] Identify target/estimated/actual times.
-  - [ ] Identify dependencies among milestones.
-  - [ ] Identify network ATM interfaces.
-  - [ ] Identify airport interfaces.
-  - [ ] Identify airline interfaces.
-  - [ ] Map milestones to SysML events/states/activities.
-  - [ ] Map exchanges to IBD item flows.
-
-
-## EUROCONTROL A-CDM Implementation Manual
-
-- [ ] Read relevant portions
-  - [ ] Compare implementation view with formal specification.
-  - [ ] Identify operational responsibilities.
-  - [ ] Identify system interfaces.
-  - [ ] Identify implementation assumptions.
-  - [ ] Identify measures of successful implementation.
-  - [ ] Capture useful examples for ConOps.
-
-
-## Weight & Balance / Load Control Research
-
-- [ ] Review identified load-control/W&B literature
-  - [ ] Identify actors.
-  - [ ] Identify responsible authority.
-  - [ ] Identify systems.
-  - [ ] Identify passenger/baggage/cargo inputs.
-  - [ ] Identify fuel inputs.
-  - [ ] Identify aircraft configuration inputs.
-  - [ ] Identify weight constraints.
-  - [ ] Identify CG constraints.
-  - [ ] Identify outputs/loadsheet.
-  - [ ] Identify recipient(s).
-  - [ ] Identify last-minute-change process.
-  - [ ] Identify implications for aircraft performance/FMS.
-  - [ ] Map to architecture.
-
-
-# 4. Literature Review — OCC, Dispatch and Flight Execution
-
-## Airline Operations Control / Disruption Management Literature
-
-- [ ] Review Clarke and subsequent disruption-management literature
-  - [ ] Identify OCC actors.
-  - [ ] Identify responsibilities.
-  - [ ] Identify authority.
-  - [ ] Identify aircraft decisions.
-  - [ ] Identify crew decisions.
-  - [ ] Identify passenger decisions.
-  - [ ] Identify flight decisions.
-  - [ ] Identify objectives.
-  - [ ] Identify costs.
-  - [ ] Identify information required.
-  - [ ] Identify optimization timescale.
-  - [ ] Identify interaction with dispatch.
-  - [ ] Identify interaction with ATC/ATM.
-  - [ ] Identify local versus network-level optimization conflicts.
-
-
-## Flight Dispatcher Research
-
-- [ ] Review flight-dispatch literature
-  - [ ] Identify dispatcher responsibilities.
-  - [ ] Identify pilot/dispatcher shared responsibilities.
-  - [ ] Identify planning inputs.
-  - [ ] Identify weather inputs.
-  - [ ] Identify aircraft-performance inputs.
-  - [ ] Identify route constraints.
-  - [ ] Identify fuel decisions.
-  - [ ] Identify outputs.
-  - [ ] Identify flight-monitoring responsibilities.
-  - [ ] Identify interactions with ATC.
-  - [ ] Identify interactions with AOC/OCC.
-  - [ ] Map to RACCI.
-
-
-## Nominal ATC Flight Execution
-
-_Status 2026-09-20: JO 7110.65BB is now in the register and the Seamster et al. (2011) interaction matrix has been extracted and mapped to these transitions with BB paragraph pointers — see [[interaction-catalog-flight-execution]] §3. Boxes below are deliberately left unchecked: BB's text was located, not yet read for decision authority / required information, and pushback/ramp and gate transitions have no BB paragraph._
-
-- [ ] Research FAA sources for nominal IFR operation
-  - [ ] Clearance delivery.
-  - [ ] Pushback/ramp coordination.
-  - [ ] Ground control.
-  - [ ] Taxi clearance.
-  - [ ] Local/tower control.
-  - [ ] Takeoff clearance.
-  - [ ] Departure control.
-  - [ ] Enroute ARTCC control.
-  - [ ] Sector-to-sector handoffs.
-  - [ ] Arrival control.
-  - [ ] Approach clearance.
-  - [ ] Tower/local control.
-  - [ ] Landing clearance.
-  - [ ] Ground control.
-  - [ ] Ramp/gate transition.
-
-- [ ] For each control transition identify:
-  - [ ] Responsible actor.
-  - [ ] Controlling organization/system.
-  - [ ] Decision authority.
-  - [ ] Required information.
-  - [ ] Information exchanged.
-  - [ ] Communications mechanism.
-  - [ ] Trigger for responsibility transfer.
-  - [ ] Resulting aircraft action.
-
-- [ ] Acquire and register traffic-flow-management sources beyond JO 7210.3EE *(added 2026-09-27 from the context-diagram review; leads in `inbox/2026-09-27-tfm-research-leads.md`)*:
-  - [ ] CTOP: FAA CDM / CTOP concept or user material, so TOS content (options, preferences) and the CTOP assignment logic can be cited beyond 7210.3EE §18-12.
-  - [ ] FAA SMART (Strategic Management of Airspace, Routes and Trajectories): what it is, who uses it (ATCSCC/TMUs, airlines?), and whether it changes the TFM decision-support picture (Decision Support, absorbed per D-007).
-  - [ ] US gate-assignment authority (airline-leased vs common-use gates) for the AOC ↔ Airport link.
-  - [ ] Crew ↔ aircraft / FMS: a citable source (ARINC 702A, an FCOM, FAA AC 120-71B), or state the owner's professional experience in the write-up.
-
-
-# 5. Construct the Nominal-Flight ConOps
-
-*(ECD 2026-11-08 — "Operational Scenarios" milestone, deliverable "ConOps document,"
-metric "1-3 representative scenarios.")*
-
-- [ ] Develop nominal commercial-flight ConOps
-
-### Strategic / Commercial Planning
-- [ ] Customer/passenger demand.
-- [ ] Market identification.
-- [ ] Network design.
-- [ ] Frequency planning.
-- [ ] Timetable/connection design.
-
-### Resource Planning
-- [ ] Fleet assignment.
-- [ ] Aircraft routing.
-- [ ] Maintenance planning.
-- [ ] Crew pairing.
-- [ ] Crew rostering/assignment.
-
-### Day-of-Operations
-- [ ] Tail assignment/confirmation.
-- [ ] Crew confirmation.
-- [ ] Weather/NOTAM assessment.
-- [ ] Dispatch flight planning.
-- [ ] Route selection.
-- [ ] Fuel planning.
-- [ ] ATC flight-plan submission.
-- [ ] Flight release.
-
-### Turnaround
-- [ ] Gate assignment.
-- [ ] Deplaning.
-- [ ] Baggage/cargo unloading.
-- [ ] Maintenance.
-- [ ] Cleaning.
-- [ ] Catering.
-- [ ] Fueling.
-- [ ] Baggage/cargo loading.
-- [ ] Boarding.
-- [ ] Weight and balance.
-- [ ] Final loadsheet.
-- [ ] Aircraft ready.
-
-### Flight Execution
-- [ ] Pushback.
-- [ ] Engine start.
-- [ ] Taxi-out.
-- [ ] Takeoff.
-- [ ] Departure.
-- [ ] Climb.
-- [ ] Cruise.
-- [ ] Descent.
-- [ ] Arrival.
-- [ ] Approach.
-- [ ] Landing.
-- [ ] Taxi-in.
-- [ ] Gate arrival.
-- [ ] Shutdown.
-
-### Postflight / Continuation
-- [ ] Passenger transfer.
-- [ ] Crew continuation.
-- [ ] Aircraft continuation.
-- [ ] Maintenance-state update.
-- [ ] Next turnaround.
-
-
-# 6. Explore Alternative System Decompositions
-
-*(unscheduled — no corresponding milestone in `prework/ISD 503 Submittal.pdf`. Logically
-sits between "Draft Architecture" (2026-11-03) and the SOI/system-definition work; pick a
-working target in that window if a firmer date is needed.)*
-
-- [ ] Develop organization/authority-based decomposition.
-- [ ] Develop lifecycle/process-based decomposition.
-- [ ] Develop physical-system decomposition.
-- [ ] Develop information-flow decomposition.
-- [ ] Develop decision-authority decomposition.
-- [ ] Develop intent-to-trajectory decomposition.
-
-- [ ] Compare decompositions
-  - [ ] What question does each decomposition answer well?
-  - [ ] What stakeholder concerns does it expose?
-  - [ ] What interactions does it obscure?
-  - [ ] Where are boundaries unambiguous?
-  - [ ] Where are boundaries gray?
-  - [ ] Where does authority cross a physical system boundary?
-  - [ ] Where does information cross an organizational boundary?
-  - [ ] Where does lifecycle ownership change?
-  - [ ] Which decomposition best supports optimization impact analysis?
-
-- [ ] Document rationale for retaining multiple architectural viewpoints rather than selecting a single "correct" decomposition.
-
-
-# 7. Stakeholder and Responsibility Analysis
-
-*(RACCI/authority-transition bullets below missed their 2026-09-10 ECD, still
-unstarted as of 2026-09-14 — PM check-in recommends deferring them until after
-Interim Report #1 ships 2026-09-20 rather than attempting both at once; see
-`task-board.md`.)*
-
-- [x] Complete PESTLE stakeholder discovery. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition")*
-- [x] Create stakeholder register. *(ECD 2026-09-07)*
-- [ ] Identify each stakeholder's:
-  - [ ] Needs.
-  - [ ] Goals.
-  - [ ] Responsibilities.
-  - [ ] Authorities.
-  - [ ] Resources.
-  - [ ] Constraints.
-  - [ ] Information needs.
-  - [ ] Measures of value.
-
-- [ ] Develop RACCI matrix around operational decisions. *(ECD 2026-09-10 — "Authority & Responsibility Models," metric "All decisions assigned")*
-- [ ] Identify responsibility transitions. *(ECD 2026-09-10)*
-- [ ] Identify authority transitions. *(ECD 2026-09-10)*
-- [ ] Identify ambiguous/shared authority. *(ECD 2026-09-10)*
-- [ ] Identify where decision authority differs from computational responsibility. *(ECD 2026-09-10)*
-- [ ] Identify where execution responsibility differs from decision authority. *(ECD 2026-09-10)*
-
-
-# 8. Develop Objective / Cost / Value Ontology
-
-*(ECD 2026-10-17 — "Measures of Effectiveness" milestone, deliverable "MOE/MOP
-hierarchy," metric "Quantifiable metrics defined." Applies to the whole section; the
-"Classify objectives as..." bullet below is this milestone's most literal match.)*
-
-- [x] Define what "optimal" means for each major stakeholder. *(see [[stakeholder-objective-ontology]])*
-
-### Airline
-- [x] Fuel cost.
-- [x] Crew cost.
-- [x] Aircraft utilization.
-- [x] Maintenance.
-- [x] Schedule integrity.
-- [x] Passenger connections.
-- [x] Delay cost.
-- [x] Revenue.
-- [x] Dispatch reliability.
-
-### Passenger
-- [x] Ticket price.
-- [x] Travel time.
-- [x] Connection reliability.
-- [x] Schedule convenience.
-- [x] Comfort.
-- [x] Disruption risk.
-
-### ATC / ANSP
-- [x] Safety/separation.
-- [x] Sector workload.
-- [x] Capacity.
-- [x] Predictability.
-- [x] Delay.
-- [x] Traffic complexity.
-
-### Airport
-- [x] Gate utilization.
-- [x] Runway utilization.
-- [x] Surface congestion.
-- [x] Turnaround performance.
-- [x] Passenger throughput.
-
-### Flight Crew
-- [x] Safety.
-- [x] Workload.
-- [x] Procedural compliance.
-- [x] Schedule/duty constraints.
-- [x] Operational flexibility.
-
-### Environmental / Societal
-- [x] CO2.
-- [x] NOx.
-- [x] Contrail/climate effects.
-- [x] Noise.
-- [x] Local air quality.
-- [x] Community impacts.
-
-### Military
-- [x] Mission effectiveness.
-- [x] Mission timing.
-- [x] Fuel availability.
-- [x] Airspace access.
-- [x] Operational security.
-- [x] Resilience.
-
-- [x] Classify objectives as:
-  - [x] Hard constraint.
-  - [x] Optimization objective.
-  - [x] Cost/penalty.
-  - [x] Measure of effectiveness.
-  - [x] Measure of performance.
-
-- [x] Identify conflicting objectives.
-- [x] Identify aligned objectives.
-- [x] Identify objectives whose costs are externalized onto another stakeholder.
-- [x] Identify objectives operating on different timescales.
-
-
-# 9. Analyze Myopic Optimization
-
-*(unscheduled — no corresponding milestone in `prework/ISD 503 Submittal.pdf`. Likely
-needs to land between "Measures of Effectiveness" (2026-10-17) and "Optimization
-Prototype" (2026-11-21) to feed the optimization work; pick a working target in that
-window if a firmer date is needed.)*
-
-- [ ] Define "local optimum" within the SoS context.
-- [ ] Define candidate System-of-Systems measures of value.
-- [ ] Identify examples where optimizing one subsystem may degrade another.
-
-- [ ] Analyze candidate conflicts:
-  - [ ] Airline fuel burn vs passenger delay.
-  - [ ] Individual-aircraft fuel efficiency vs sector capacity.
-  - [ ] Minimum flight time vs fuel/emissions.
-  - [ ] Airline schedule integrity vs ATC workload.
-  - [ ] Airport throughput vs aircraft taxi fuel.
-  - [ ] Military mission effectiveness vs civil-airspace capacity.
-  - [ ] Individual optimal trajectory vs network congestion.
-  - [ ] CO2 optimization vs non-CO2 climate impacts.
-  - [ ] Airline slot/priority ranking vs ATCSCC system efficiency: GDP slot substitution (JO 7210.3EE ¶18-10-12) and diversion recovery priorities (¶18-4-5). The operator ranks its own flights, and the ATCSCC keeps delay factors equal and may modify priorities. Explore as a disruption scenario (GDP at a hub → EDCTs → cancellations/substitutions → a diversion → recovery request), not as an allocation-math deep dive. *(added 2026-09-27)*
-
-- [ ] For each conflict document:
-  - [ ] Decision maker.
-  - [ ] Decision variable.
-  - [ ] Local objective.
-  - [ ] Local constraints.
-  - [ ] Affected stakeholders.
-  - [ ] Externalized costs.
-  - [ ] SoS consequence.
-  - [ ] Information needed to recognize the consequence.
-
-
-# 10. Build the SysML Architecture
-
-- [ ] Create NAS context diagram. *(ECD 2026-09-07 — "PESTLE Analysis & System Definition," deliverable "Context diagram")*
-- [x] Create package/model organization. *(ECD 2026-11-03 — "Draft Architecture," deliverable "BDDs & package structure". First pass 2026-09-19: the model (file map: `cameo_models/sysmlv2_exploration.md`) now has a package per D-002 domain, plus a `Common` package for shared value types. SysML v2 text is the source of truth (D-006); not in Cameo.)*
-- [x] Create stakeholder model. *(ECD 2026-09-07, deliverable "stakeholder map")*
-- [x] Create system BDDs. *(ECD 2026-11-03. First pass 2026-09-19: NAS + 9 domains + constituent systems populated in the model (file map: `cameo_models/sysmlv2_exploration.md`), filtered to the pre-ratification SOI boundary. Reconciled to D-007 on 2026-09-22 (D-008): `NationalAirspaceSystem` now composes only the five ratified Modeled System domains (added a missing Flight Crew domain); Governance/Passengers/Military/Infrastructure/Information Services/Decision Support moved to a new `Environment` part def, undecomposed. Source of truth is the SysML v2 text (D-006), not Cameo; no IBDs/interfaces/requirements traced yet.)*
-- [ ] Create operational IBDs. *(ECD 2026-10-25 — "Internal Block Diagrams," metric "Critical interfaces connected")*
-- [ ] Create information-object model. *(ECD 2026-10-29 — "Interface Definition," deliverable "ICD")*
-- [ ] Create interface/item-flow model. *(ECD 2026-10-29)*
-- [ ] Create nominal-flight activity diagram. *(ECD 2026-10-01 — "Activity Diagrams," metric "Scenario walkthrough")*
-- [ ] Create responsibility swimlanes. *(ECD 2026-09-10 — "Authority & Responsibility Models")*
-- [ ] Create critical sequence diagrams. *(ECD 2026-09-22 — "Sequence Diagrams," metric "Message completeness")*
-- [ ] Create requirements model. *(ECD 2026-10-20 — "Requirements Definition," metric "Trace to stakeholders". AI draft 2026-10-10, not reviewed by the owner, so not checked: 27 stakeholder and 53 system requirements in `cameo_models/requirements_stakeholders.sysml` and `cameo_models/requirements_nas_system.sysml`; readable copy and open items in `knowledge/models/requirements-and-traceability.md`.)*
-- [ ] Trace stakeholder needs → objectives. *(ECD 2026-10-12 — "Requirement Traceability," metric "Complete allocation". AI draft 2026-10-10: attribute `objectiveRefs` on each stakeholder requirement names its rows in `knowledge/models/stakeholder-objective-ontology.md`; three have no matching row. Not checked until the owner reviews it.)*
-- [ ] Trace objectives → requirements. *(ECD 2026-10-12. AI draft 2026-10-10: attribute `parentNeeds` on each system requirement; 5 derived requirements carry `derivedFrom` and a rationale. Objective rows with no requirement are listed in `knowledge/models/requirements-and-traceability.md` section 7. Not checked until the owner reviews it.)*
-- [ ] Trace requirements → systems. *(ECD 2026-10-12. AI draft 2026-10-10: package `Allocation` in `cameo_models/requirements_nas_system.sysml`, one `satisfy` line per system. A first proposal; not checked until the owner reviews it.)*
-- [ ] Trace systems → activities. *(ECD 2026-10-12)*
-- [ ] Trace activities → information exchanges. *(ECD 2026-10-12)*
-- [ ] Trace decisions → resulting aircraft behavior. *(ECD 2026-11-24 — "Integration of MBSE Architecture," metric "End-to-end scenario")*
-
-
-# 11. Define Optimization Study
-
-*(ECD 2026-11-21 — "Optimization Prototype" milestone, deliverable "Working code," metric
-"Unit test cases." The submittal bundles study definition and implementation into one
-milestone; this section's definition work should be substantially done before that date
-so there's a study left to implement — see §12.)*
-
-- [ ] Select a tractable representative operational scenario.
-- [ ] Define participating systems/stakeholders.
-- [ ] Define system state.
-- [ ] Define decision variables.
-- [ ] Define constraints.
-- [ ] Define stakeholder objective functions.
-
-- [ ] Construct multi-objective formulation:
-
-  J = w₁J₁ + w₂J₂ + ... + wₙJₙ
-
-- [ ] Define normalization for objectives with different units/scales.
-- [ ] Define stakeholder weighting schemes.
-- [ ] Define baseline/reference case.
-- [ ] Define feasibility criteria.
-- [ ] Define experiment matrix.
-
-
-# 12. Implement Simulation / Analysis Capability
-
-*(ECD 2026-11-21 — "Optimization Prototype" milestone. See the §11-§12 scope note in
-`knowledge/questions/open-questions.md` — the full experiment-matrix/Pareto/sensitivity
-scope below is unlikely to all fit before this date; consider narrowing to one scenario
-and one weight sweep for the prototype, per that note.)*
-
-- [x] Develop minimum viable simulation. *(First pass 2026-09-19: point-mass kinematic
-  vehicle dynamics model in `simulation/vehicle_dynamics.py` — speed/heading rate-limited
-  toward commanded values, altitude from commanded climb rate, position via
-  equirectangular projection, placeholder constant fuel burn. Not aerodynamic; extend
-  rather than replace if higher fidelity is needed later.)*
-- [x] Validate constituent models independently. *(First pass 2026-09-19:
-  `simulation/test_vehicle_dynamics.py` smoke tests — holding commanded state holds
-  track, climb command changes altitude correctly, speed change is rate-limited, fuel
-  burns while engine on. All passing.)*
-- [ ] Establish baseline scenario. *(`cameo_models/scenarios/hub-to-hub-example.sysml` is
-  an illustrative pattern-demo, explicitly not the decided ConOps baseline — see that
-  file's header comment and `open-questions.md`.)*
-- [ ] Execute single-stakeholder optimizations.
-- [ ] Execute balanced/SoS optimization.
-- [ ] Sweep objective weights.
-- [ ] Generate Pareto fronts where appropriate.
-- [ ] Perform sensitivity analysis.
-- [ ] Identify tipping points where preferred solutions change.
-- [ ] Quantify externalities imposed on other stakeholders.
-- [ ] Compare local-optimum and SoS-optimum solutions.
-
-
-# 13. Connect Simulation Back to MBSE
-
-*(ECD 2026-11-24 — "Integration of MBSE Architecture" milestone, deliverable
-"Traceability links," metric "End-to-end scenario.")*
-
-- [x] Trace simulation entities to SysML blocks. *(First pass 2026-09-19: `DecisionSupport`
-  package's `VehicleDynamicsModel::StepDynamics` calc def (removed 2026-10-08, D-012; the trace is now the `VehicleDynamicsModel` doc) in `cameo_models/nas_sysml_package_definitions.sysml`
-  names the Python module/function that implements it; `simulation/vehicle_dynamics.py`
-  uses the same field names as `AircraftSystems::AircraftState`. Doc-comment trace, not a
-  language-level binding — see `workflows/vehicle-simulation-model.md` for why.)*
-- [ ] Trace decision variables to system properties/actions.
-- [ ] Trace optimization objectives to stakeholder goals.
-- [ ] Trace constraints to requirements.
-- [x] Trace simulation inputs to information objects/interfaces. *(First pass 2026-09-19:
-  `cameo_models/scenarios/hub-to-hub-example.sysml`'s `exampleAircraft.flightState` is a
-  concrete `AircraftState` usage shaped to seed `vehicle_dynamics.step_dynamics` directly.)*
-- [ ] Trace optimized decisions through intent-to-trajectory chain.
-- [ ] Show resulting effects on affected stakeholders.
-- [ ] Demonstrate how architecture exposes impacts that a standalone optimizer would omit.
-
-
-# 14. Capstone Demonstration
-
-*(unscheduled — no corresponding milestone in `prework/ISD 503 Submittal.pdf`. Falls
-naturally between "Integration of MBSE Architecture" (2026-11-24) and "Final Paper"
-(2026-12-18); pick a working target in that window if a firmer date is needed.)*
-
-- [ ] Select representative optimization result.
-- [ ] Show initial operational state.
-- [ ] Identify initiating stakeholder/objective.
-- [ ] Trace required information through architecture.
-- [ ] Show local optimization result.
-- [ ] Show consequences to other stakeholders.
-- [ ] Change stakeholder objective weights.
-- [ ] Re-optimize.
-- [ ] Show changed system behavior.
-- [ ] Compare stakeholder costs/MOEs.
-- [ ] Demonstrate tradeoff/Pareto relationship.
-- [ ] Trace final decision to aircraft trajectory/behavior.
-
-
-# 15. Verification and Final Analysis
-
-*(ECD 2026-12-26 — "Final Baseline & Draft Paper" milestone, deliverable "Versioned model
-& draft paper," metric "Draft." This is the last milestone in the table, dated after
-"Paper Submittal" (2026-12-20) — worth confirming with your advisor whether that ordering
-is intentional, e.g. a post-submission archival/versioning step.)*
-
-- [ ] Verify architecture against nominal-flight ConOps.
-- [ ] Verify architecture against additional off-nominal scenarios.
-- [ ] Verify stakeholder coverage.
-- [ ] Verify interface coverage.
-- [ ] Verify requirements traceability.
-- [ ] Verify objective-function traceability.
-- [ ] Identify known model omissions.
-- [ ] Identify limitations of selected decomposition.
-- [ ] Identify limitations of optimization demonstration.
-- [ ] Document opportunities for future expansion.
-
-
-# 16. Paper / Final Deliverables
-
-Ordered to match the report structure in `report/main.tex` (built from
-`prework/503_ReportTemplate_v26.docx`). Items marked "(new)" were added
-during the 2026-08-29 report-outline session to close gaps where the 503
-template expects content this list didn't previously have an explicit home
-for — see `report/README.md` for the full section-to-plan mapping.
-
-*(ECD 2026-12-18 — "Final Paper" milestone, deliverable "Thesis/Paper," metric
-"Revisions" — target for a complete draft of everything below. ECD 2026-12-20 —
-"Paper Submittal" milestone, metric "Official" — hard deadline for final submission.)*
-
-- [ ] Executive summary. (new)
-- [ ] Introduction and motivation.
-- [ ] Project scope (in/out of scope, boundaries). (new)
-- [ ] Stakeholder overview (summary of PESTLE/stakeholder register for report body). (new)
-- [ ] Project deliverables and success metrics. (new)
-- [ ] Project timeline / milestone schedule. (new — see §1 "Establish project milestone timeline")
-- [ ] Literature review.
-- [ ] Research gap.
-- [ ] Assumptions and methodology. (new)
-- [ ] System-of-Systems definition.
-- [ ] ConOps.
-- [ ] Alternative decomposition discussion.
-- [ ] MBSE methodology.
-- [ ] Stakeholder / PESTLE analysis.
-- [ ] RACCI analysis.
-- [ ] Architecture.
-- [ ] Stakeholder objective/cost analysis.
-- [ ] Myopic optimization discussion.
-- [ ] Simulation methodology.
-- [ ] Optimization experiment.
-- [ ] Results.
-- [ ] Multi-stakeholder tradeoff analysis.
-- [ ] Architecture evaluation.
-- [ ] Recommendations. (new)
-- [ ] Impact / quantified benefits (operational, financial-where-applicable). (new — see scope flag in `report/sections/06_impact_financial_benefits.tex`)
-- [ ] Limitations.
-- [ ] Conclusions and future work.
-- [ ] Appendices (detailed stakeholder register, RACCI matrix, source register, full diagram set). (new)
-- [ ] GenAI-use citation. (new, 2026-09-21) The course GenAI policy
-  (`prework/course-info-canvas.md`) says GenAI tools must be cited when used, and points to
-  the UM Library GenAI citation guide. Nothing in the report or `references.bib` does this
-  yet, and Claude Code has been used throughout. Decide the citation style (APA/IEEE
-  examples are in the course page), what to cite (tool + version + date, prompts?), and
-  where it appears (References and/or a short disclosure), and check it with the adviser.
-- [ ] Course minimum requirements check. (new, 2026-09-21) Before Interim #2, confirm the
-  report shows a current-state metric plus demonstrated or argued potential improvement
-  (simulation counts), and value to the sponsor. See the open question in
-  `knowledge/questions/open-questions.md` ("Course minimum requirements fit").
+# NAS System-of-Systems Capstone — To-Do List (plan of record)
+
+**Restructured 2026-10-10 under D-016** (`decisions/decisions-log.md`). This file is still the single source of truth for task state. What changed: the 16 fixed-order sections of the August plan are replaced by four parallel tracks and nine weekly turns built around the graded course dates; diagrams and experiment tables carry a **state** (0 to 4) instead of a single checkbox; sections tailored out of the plan are kept at the bottom under "Future work" (collapsible blocks hold the moved checklists verbatim). The August section numbers (§1 to §16) are kept in parentheses so older journal entries and `\plantodo` notes still resolve. Every tailoring row is the owner's to change (D-016).
+
+**Artifact states** (D-016): 0 not started · 1 drafted (renders or reads clean) · 2 hand-reviewed (transcription in `handwritten/`, directions applied) · 3 evidence-graded (every link or number has a source, an `[SME]` mark or a stated assumption) · 4 in the report (owner-written body text refers to it).
+
+**Graded dates** (`prework/course-info-canvas.md`, all 11:59 pm ET): Interim Report #2 **Sun 2026-10-25**; peer presentation slot Nov 17 to 19, upload by **Fri 2026-11-20**; Project Review #3 **Sun 2026-11-22**; Final Report #4 and synopsis **Sun 2026-12-13** (optional draft to the adviser about Dec 6). Owner budget: 10 to 20 hours a week, about 12 per turn.
+
+## Turns (each ends on a Sunday)
+
+| Turn | Dates | Model (Track A) | Experiment (Track B) | Report and course (Track C) | Exit test |
+|---|---|---|---|---|---|
+| 1 | Oct 10 to 18 | ✅ D-016 to D-019 logged. ✅ `architectureState` on requirements, five tagged `improved`. ✅ Swimlane test and Syside Python licence test. ✅ Owner hand-reviewed the requirements; 27 + 53 cut to 12 + 28 (D-020), then to 13 + 23 in a second review 2026-10-11 (D-021). ☐ Owner reads section 7 of `requirements-and-traceability.md` (`#TODO` item (f)). | ✅ Central claim and scenario numbers proposed (D-016; `experiment-scenario-numbers.md`). ✅ OpenAP installed; smoke and envelope scripts run; first scoring run. ☐ Owner confirms the Decide items and re-runs. | ✅ Housekeeping. ✅ `\irtwo` call-outs in place. ☐ Owner drafts Assumptions and Methodology (5 h). | Four decisions logged ✅; OpenAP returns B39M numbers ✅; both figures render ✅; stakeholder requirements reviewed ☐. |
+| 2 | Oct 19 to 25 | ☐ Interface defs for the FMS → AOC and ATC → crew exchanges (AOC → ATC done, D-019). ☐ Caption re-wording. | ☐ Both hand checks (`experiment-definition.md` §9). ☐ Preliminary number and baseline row in Section 4. | ☐ **Interim Report #2** to the adviser; Progress Update #2. ☐ Ask which Review #3 option. | Report sent. |
+| 3 | Oct 26 to Nov 1 | ☐ Test `SequenceView`; draft the conflict-resolution sequence. ☐ `atc` umbrella decided. | ☐ `experiment_scoring.py` passes its tests at `nominalMass` (done for base) and the first variation. | ☐ Apply adviser comments. | Tests pass; sequence renders. |
+| 4 | Nov 2 to 8 | ☐ Hand-review the sequence diagram. ☐ Owner names a verification case and measure for the nine thread system requirements and reviews the 28 next-tier requirements Claude drafted 2026-10-11 (D-022). ☐ Verification cases filled with measured values. | ☐ Run A to D at `actualMass` on the confirmed scenario; fill tables. **Fallback decision Nov 8** (D-017). | ☐ Tables into Section 4. | Tables have confirmed numbers. |
+| 5 | Nov 9 to 15 | ☐ Grade the airspace IBD and the thread links. ☐ `tools/check_model.py` passes. | ☐ Similar-weights variation written up. | ☐ Presentation from the diagrams and tables (course template). | Slides complete. |
+| 6 | Nov 16 to 22 | Corrections only. | ☐ What the result shows and does not. | ☐ **Presentation** and **Review #3**. | Both submitted. |
+| 7 | Nov 23 to 29 | ☐ Final diagram review. **Model freeze Nov 29.** | Closed. | ☐ Results and Discussion in full; architecture evaluation; SE-approach table. | No body diagram below state 3. |
+| 8 | Nov 30 to Dec 6 | ☐ Final renders. | Closed. | ☐ Recommendations, Impact, Conclusions, Executive Summary, GenAI citation. ☐ Draft to the adviser. | Whole draft sent. |
+| 9 | Dec 7 to 13 | None. | None. | ☐ Adviser comments, synopsis, **Final Report #4**. | Submitted. |
+
+"If time" items (not in any exit test): the Pareto-front yes/no column; the two-type variation (B777 and 737, D-014); the at-or-below-FL350 variation; RACCI beyond the six thread decisions; typing connections beyond the three on the thread.
+
+## Track A — Model (§10, §13)
+
+**One traced thread carries the project:** airline cost objective → SN-AIR-05 → SLR-INF-02 and the goal SLR-CLR-13 (D-020) → `AirlinePerformanceShare` interface (D-019) → conflict-resolution sequence → verification cases (`nas_verification.sysml`) → outcome table. Everything off the thread is appendix or future work.
+
+| Artifact | File or view | State now | Target by Oct 25 | Nov 22 | Dec 13 |
+|---|---|---|---|---|---|
+| Context diagram | `cameo_models/nas_context_diagram.sysml`, view `systemContext` | 2 (D-009 to D-012; the reason behind each link not yet written) | 4 | 4 | 4 |
+| Definitions tree | `cameo_models/nas_sysml_package_definitions.sysml` | 2 | 2 | 3 | 4 |
+| Aircraft IBD, default view | `nas_ibd_aircraft.sysml`, view `aircraftIbd` | 2 (links not graded) | 3 | 4 | 4 |
+| Aircraft IBD, detail view | same file, view `aircraftIbdDetail` | 2 | 2 | 2 | appendix only |
+| Airspace management IBD | `nas_ibd_airspace_management.sysml` | 1 (placeholder; `atc` umbrella question open) | 1 | 3 | 4 |
+| Nominal operations activity diagram | `nas_activity_diagram-nominal_ops.sysml`, view `nominalOpsActivity` | 1 (phase level; `Prework` unconnected; swimlanes answered in `sysml-diagram-rendering.md` §9) | 1 | 2 | 4 |
+| Sequence diagram, case C conflict resolution | new file | 0 (`SequenceView` untested) | 1 | 3 | 4 |
+| Typed interfaces on the thread | `AirlinePerformanceShare` (D-019) done; FMS → AOC and ATC → crew | 1 of 3 | 3 of 3 | 3 | 4 |
+| Analysis package | `nas_analysis.sysml` (D-017) | 1 | 1 | 3 | 4 |
+| Verification cases | `nas_verification.sysml` (D-018) | 1 (no measured values yet) | 1 | 3 | 4 |
+| Requirements model | `requirements_*.sysml` | 1 (owner review in progress) | 2 (stakeholder set reviewed) | 3 (thread set reviewed, next tier written) | 4 |
+| Trace thread | the chain above, read end to end in one appendix table | 1 | 1 | 3 | 4 |
+
+Kept items from the August §10 list, with their state above:
+
+- [x] Create package/model organization. *(2026-09-19; D-002 domains, `Common` package.)*
+- [x] Create stakeholder model. *(stakeholder requirements by group, 2026-10-10 draft.)*
+- [x] Create system BDDs. *(2026-09-19; reconciled to D-007 on 2026-09-22, D-008.)*
+- [ ] Create NAS context diagram. *(state 2; box closes at state 4.)*
+- [ ] Create operational IBDs. *(aircraft state 2, airspace state 1.)*
+- [ ] Information-object and item-flow model → the three typed interfaces on the thread (D-019). *(1 of 3.)*
+- [ ] Create nominal-flight activity diagram. *(state 1; swimlanes = lanes-as-boxes general view plus an allocation matrix, §9 of the rendering note.)*
+- [ ] Create the conflict-resolution sequence diagram. *(state 0.)*
+- [ ] Create requirements model. *(AI draft 2026-10-10 of 27 + 53, cut to 13 + 23 by the owner's hand reviews of 2026-10-10 and 2026-10-11 (D-020, D-021); open points in the `#TODO` block in `knowledge/models/requirements-and-traceability.md`; "The NAS shall" stays the subject at the SoS tier, owner 2026-10-10.)*
+- [ ] Trace the one thread end to end: objective row → stakeholder requirement → system requirement → interface → sequence step → verification case → outcome-table cell. *(Replaces the five separate trace lines of the August plan.)*
+- [ ] `tools/check_model.py`: every `improved` requirement has a `verify`; every thread requirement has a `satisfy`; every thread interface has two typed ports (turn 5, Syside Python API; licence confirmed 2026-10-10).
+- [ ] Model freeze 2026-11-29; corrections only after.
+
+## Track B — Experiment (§11, §12, §13)
+
+Design files: `knowledge/models/experiment-definition.md`, `experiment-options-and-scoring.md`, `experiment-scenario-numbers.md`; code: `simulation/experiment_scoring.py`, `scenario_base.yaml`, `b739_envelope.py`, `openap_smoke.py`; runner: `tools/run_experiment.py`.
+
+- [x] Select a tractable representative scenario. *(Crossing conflict, four aircraft, one sector; D-013 to D-015.)*
+- [x] Define participating systems and stakeholders, decision variables (the nine options), constraints (separation, blocked levels, climb rule, thrust limit). *(`experiment-options-and-scoring.md` §2.)*
+- [x] Define stakeholder objective functions, one statement per level, no weighted sum. *(§4; D-013 item 2.)*
+- [x] Define the baseline (case A) and the experiment matrix (cases A to D × base scenario and the similar-weights variation).
+- [x] Choose the truth model. *(OpenAP, D-017, 2026-10-10.)*
+- [x] Develop the minimum viable simulation. *(`experiment_scoring.py`, first run 2026-10-10; 14 tests pass.)*
+- [ ] Central claim: the owner's sentence. *(Proposed wording in D-016 / the 2026-10-10 plan; log it when confirmed.)*
+- [ ] Confirm every Decide item in `experiment-scenario-numbers.md` (city pairs, masses, cost indexes, schedule deltas, hold length, vector miles, tie-breaker, prices).
+- [ ] Do the two checks before trusting any number (`experiment-definition.md` §9): effect size by hand; the information check by hand on three or four context-diagram decisions.
+- [ ] Establish the baseline scenario as confirmed and re-run cases A to D at `actualMass`.
+- [ ] Run the similar-weights variation (the not-rigged check).
+- [ ] Quantify externalities: who pays, read across the rows (largest cost to any one aircraft; AC3 and airline X carry O9's second instruction).
+- [ ] Compare the local and system-level readings of the table (the sub-system against system discussion).
+- [ ] Write what the result shows and does not show, including the limits in `experiment-definition.md` §10 and the OpenAP polar limitation.
+- [ ] Fallback decision by 2026-11-08: keep OpenAP or switch to a `mori2022massCruise` lookup (D-017).
+- [ ] Fill the verification cases' measured values from `cameo_models/results/experiment_results.sysml`.
+
+## Track C — Report and course (§1 report fixes, §16)
+
+Interim Report #2 checklist: `report/README.md`. Red `\irtwo` notes in the compiled PDF mark every required part.
+
+- [ ] **Interim Report #2 (Oct 25):** Introduction updated; Assumptions and Methodology; Results and Discussion (preliminary); References; GenAI disclosure; review meeting; Word copy to the adviser; Progress Update #2 in Canvas; ask which Review #3 option.
+- [ ] **Peer presentation** (upload by Nov 20; sign up for a Nov 17 to 19 slot; `prework/503 Project Presentation Template-v26.pptx`).
+- [ ] **Project Review #3** (Nov 22): option per the adviser.
+- [ ] **Final Report #4 and synopsis** (Dec 13): adviser first, then Canvas.
+- [ ] Report fixes carried from §1: the literature-review annotation-coverage claim (check the real count in `evidence/source-register.md`); spot-check citations sourced to skimmed-only references (`castro2013aoccMasThesis`, `great2020d21tboConcept`, `great2021d22operationalArch`, `hu2024disruptionOptReview`); replace or caveat the 1998-dollar `clarke1998irregular` figures.
+- [ ] Section 3: working assumptions (including the security assumption, D-019); systems-engineering-approach table and tailoring paragraph (D-016); decomposition kept, alternatives named (§6 as one paragraph); the two claims; the proposed interface; MBSE methodology and the working loop; experiment design.
+- [ ] Section 2: research-gap paragraph (what this project adds beyond Coppenbarger, ADS-C EPP, TASAR); current-state paragraphs updated to October; timing subsection shows the turns.
+- [ ] Section 4: architecture (context diagram, aircraft IBD, the three improved requirements as the measured gap); the one worked conflict (§9); the experiment results and discussion; trace back to the model.
+- [ ] Section 5 Recommendations; Section 6 Impact (emissions at the airline and system level; who pays; scaled honestly); Section 7 Summary and Conclusions (limitations from `lessons-learned.md` and the Future work section below); Executive Summary last.
+- [ ] Appendices: full options table and four-level scoring; the thread trace table; stakeholder requirements (reviewed) and system requirements (reviewed on the thread, unreviewed marked); the one RACCI table (§7, six thread decisions); diagrams not in the body; source register; GenAI disclosure.
+- [ ] GenAI-use citation and disclosure (course policy; owner drafts; check with the adviser).
+- [ ] Course minimum requirements check: current-state metric = case A (D-018); improvement claim = cases C and D by simulation; value to the sponsor stated in operational terms with a caveated dollar figure (`report/sections/06_impact_financial_benefits.tex` scope flag).
+- [ ] Owner re-words the five view captions in `cameo_models/nas_package_my_views.sysml` and the appendix lead-in; restates or strikes the eight candidate entries in `lessons-learned.md`.
+
+## Track D — Evidence on demand (§2 to §4 replaced)
+
+A source is read when a diagram link, an experiment number or a requirement needs it, and registered when it is used (`workflows/process-references.md`, `annotate-source.md`). The August literature milestone's metric, "10 to 20 papers categorized," is met: 84 ledger rows.
+
+- [x] Register the three PDFs held since 2026-10-05 (two Sheth papers, SESAR Solutions Catalogue 2019). *(2026-10-10.)*
+- [x] Register OpenAP, the INCOSE Guide to Writing Requirements and ISO/IEC/IEEE 15288 as web-only entries. *(2026-10-10; confirm the GtWR document number before citing.)*
+- [ ] Kept from §4: the en-route ARTCC control and sector-to-sector handoff transitions (responsible actor, decision authority, required information, communications mechanism, trigger, resulting aircraft action) from JO 7110.65BB, for the sequence diagram and SN-CRW-08 (SLR-CLR-07 was struck in the 2026-10-10 hand review, D-020).
+- [ ] Kept from §4: a citable crew ↔ FMS source (ARINC 702A, an FCOM, or FAA AC 120-71B), or state the owner's `[SME]` experience in the write-up.
+- [ ] Fill the source register's four unchecked columns (lifecycle phase, architectural evidence, optimization evidence, SysML artifact) for sources cited on the thread only.
+- [ ] Sources still needed for the experiment: a dated jet fuel price; a dated CORSIA credit price; a social cost of carbon with its year and discount rate; a passenger-choice study on emissions labels; the altitude dependence of non-CO2 effects; the Sheth response count (Section VI).
+- [ ] Read OpenAP's validation section (`sun2020openap`) and note its stated accuracy before the final report.
+
+## Verification checklist (§15 reduced; run in turn 7)
+
+- [ ] Every diagram in the report body is at state 3 or above.
+- [ ] Every thread requirement has a `measureOfPerformance` or an explicit "qualitative" mark; every `improved` requirement has a `verify` and a measured value.
+- [ ] The thread reads end to end in one appendix table.
+- [ ] Limitations in Section 7 are drawn from `lessons-learned.md`, the Future work section below, and the experiment's own limits.
+- [ ] `tools/run_experiment.py --fidelity actualMass` reproduces the report's tables and figures from one command.
+
+## Done and closed
+
+- [x] §1 Establish Research Framework: research questions, SOI definition (D-007), source register, milestone timeline, Interim Report #1 (submitted 2026-09-17; all content reviewed and finalized by the owner). The four report fixes it left open are in Track C.
+- [x] §8 Objective / Cost / Value Ontology (`knowledge/models/stakeholder-objective-ontology.md`). The three proposed rows (airline data protection, passenger safety, Governance) are not added: the owner judged them not relevant in the 2026-10-10 hand review (D-020). Remaining: name the outcome-table columns as measures of effectiveness.
+
+## Future work (tailored out under D-016; named in the report's limitations and future work)
+
+Each block below holds what the August plan asked for, moved here verbatim so nothing is lost. None of it is scheduled.
+
+<details>
+<summary>§2 Literature Review — Airline Planning and Operations (six per-paper checklists, about 90 boxes)</summary>
+
+Papers: Eltoukhy, Chan and Chung (airline schedule planning review); Deng and Santos (airline scheduling optimization review); Integrated Airline Scheduling; Airline Timetable Development and Fleet Assignment Incorporating Passenger Choice; Airline Crew Scheduling: Models, Algorithms, and Data Sets; aircraft maintenance routing literature. For each: read and annotate, identifying actors/stakeholders, systems/organizations, objectives, costs/penalties, decisions, decision authority, activities/processes, resources, information inputs and outputs, constraints, interfaces/handoffs, timescales of decisions, upstream dependencies, downstream consequences, optimization variables, objective functions / measures of effectiveness, evidence of conflicts between local and system-level objectives, and a map of findings to candidate SysML elements. Paper-specific items: sequential versus integrated optimization and the coupling among schedule, fleet, routing and crew decisions (Deng and Santos); which planning functions are traditionally decomposed and the consequences (Integrated Airline Scheduling); the passenger-choice model and the conflict between airline and passenger optimality (timetable paper); crew pairing versus rostering, regulatory and contractual constraints, interfaces with flight scheduling and aircraft routing (crew paper); maintenance requirements, aircraft states and the impact of routing on future flights (maintenance routing). The sources stay registered in `evidence/source-register.md`.
+
+</details>
+
+<details>
+<summary>§3 Literature Review — Day-of-Operations and Turnaround (five sources, about 70 boxes)</summary>
+
+Sources: Schultz, A Review of Aircraft Turnaround Operations and Simulations (actors, systems, physical resources, activities and their precedence and concurrency, objectives, costs, constraints, information exchanges, milestones, decision authority, turnaround performance metrics, dependencies with inbound and outbound flights, map to activity diagrams and IBDs); Managing Turnaround Performance through Collaborative Decision Making (participating stakeholders, individual, shared and conflicting objectives, information shared and its ownership, decision authority, collaboration mechanisms, KPIs/MOEs, consequences of information delay or error, map to RACCI and the information model); EUROCONTROL A-CDM Specification (actors, systems, operational milestones, information objects with producer and consumers, decision authority, target/estimated/actual times, milestone dependencies, network ATM, airport and airline interfaces, map of milestones to SysML events/states/activities and exchanges to IBD item flows); EUROCONTROL A-CDM Implementation Manual (implementation versus specification, responsibilities, interfaces, assumptions, measures of success, ConOps examples); weight and balance / load control literature (actors, responsible authority, systems, passenger/baggage/cargo, fuel and configuration inputs, weight and CG constraints, loadsheet outputs and recipients, last-minute-change process, implications for aircraft performance and the FMS, map to architecture). `schultz2017turnaround` and `eurocontrolACDMSpec` remain cited for airport links on the context diagram.
+
+</details>
+
+<details>
+<summary>§4 Literature Review — OCC, Dispatch and Flight Execution (the parts not kept in Track D)</summary>
+
+Airline operations control / disruption management (Clarke and later): OCC actors, responsibilities, authority, aircraft/crew/passenger/flight decisions, objectives, costs, information required, optimization timescale, interaction with dispatch and with ATC/ATM, local versus network-level conflicts. Flight dispatcher research: responsibilities, pilot/dispatcher shared responsibilities, planning, weather, aircraft-performance inputs, route constraints, fuel decisions, outputs, flight-monitoring responsibilities, interactions with ATC and the AOC, map to RACCI. Nominal ATC flight execution, the transitions not on the thread: clearance delivery, pushback/ramp coordination, ground control, taxi clearance, local/tower control, takeoff clearance, departure control, arrival control, approach clearance, landing clearance, ground control, ramp/gate transition (JO 7110.65BB paragraph pointers are in `knowledge/models/interaction-catalog-flight-execution.md` §3). Traffic-flow source leads from 2026-09-27 (`inbox/2026-09-27-tfm-research-leads.md`): CTOP concept and user material; FAA SMART; US gate-assignment authority for the AOC ↔ Airport link.
+
+</details>
+
+<details>
+<summary>§5 Construct the Nominal-Flight ConOps (gate-to-gate checklist)</summary>
+
+Strategic / commercial planning: customer demand, market identification, network design, frequency planning, timetable and connection design. Resource planning: fleet assignment, aircraft routing, maintenance planning, crew pairing, crew rostering. Day-of-operations: tail assignment, crew confirmation, weather/NOTAM assessment, dispatch flight planning, route selection, fuel planning, ATC flight-plan submission, flight release. Turnaround: gate assignment, deplaning, baggage/cargo unloading, maintenance, cleaning, catering, fueling, loading, boarding, weight and balance, final loadsheet, aircraft ready. Flight execution: pushback, engine start, taxi-out, takeoff, departure, climb, cruise, descent, arrival, approach, landing, taxi-in, gate arrival, shutdown. Postflight / continuation: passenger transfer, crew continuation, aircraft continuation, maintenance-state update, next turnaround. What is kept: the activity diagram at phase level with `FlyEnroute` decomposed one level, and the experiment scenario as the one worked scenario. Drafts not reviewed: `knowledge/models/conops-nominal-domestic_flight.md`, `conops-hub-to-hub-trajectory-cost.md`, `conops-scenarios.md`.
+
+</details>
+
+<details>
+<summary>§6 Explore Alternative System Decompositions</summary>
+
+Develop organization/authority-based, lifecycle/process-based, physical-system, information-flow, decision-authority and intent-to-trajectory decompositions; compare them (what question each answers well, what stakeholder concerns it exposes, what interactions it obscures, where boundaries are unambiguous or gray, where authority crosses a physical boundary, where information crosses an organizational boundary, where lifecycle ownership changes, which best supports optimization impact analysis); document the rationale for retaining multiple viewpoints rather than one decomposition. What is kept: one paragraph in Section 3 on why D-002/D-007 was kept, naming the alternatives.
+
+</details>
+
+<details>
+<summary>§7 Stakeholder and Responsibility Analysis (beyond the six thread decisions)</summary>
+
+For each stakeholder: needs, goals, responsibilities, authorities, resources, constraints, information needs, measures of value (answered in part by the 27 stakeholder requirements). RACCI matrix around all operational decisions; responsibility transitions; authority transitions; ambiguous or shared authority; where decision authority differs from computational responsibility; where execution responsibility differs from decision authority. What is kept: one RACCI table for the six decisions on the thread (file the plan, set the cost index, detect the conflict, choose the resolution, issue the clearance, execute it).
+
+</details>
+
+<details>
+<summary>§9 Analyze Myopic Optimization (the eight conflicts not worked)</summary>
+
+Define "local optimum" in the SoS context and candidate SoS measures of value. Candidate conflicts: airline fuel burn vs passenger delay; minimum flight time vs fuel/emissions; airline schedule integrity vs ATC workload; airport throughput vs aircraft taxi fuel; military mission effectiveness vs civil-airspace capacity; individual optimal trajectory vs network congestion; CO2 optimization vs non-CO2 climate impacts; airline slot/priority ranking vs ATCSCC system efficiency (GDP slot substitution, JO 7210.3EE ¶18-10-12, and diversion recovery priorities, ¶18-4-5, explored as a disruption scenario). For each: decision maker, decision variable, local objective, local constraints, affected stakeholders, externalized costs, SoS consequence, information needed to recognize the consequence. What is kept: the one conflict the experiment measures, individual-aircraft fuel efficiency vs sector capacity and workload.
+
+</details>
+
+<details>
+<summary>§11 and §12 items dropped by D-013 and D-016</summary>
+
+The multi-objective formulation J = w₁J₁ + w₂J₂ + ... + wₙJₙ; normalization for objectives with different units; stakeholder weighting schemes; single-stakeholder and balanced/SoS optimizations as separate runs; objective-weight sweeps; Pareto fronts across the experiment matrix; sensitivity analysis; tipping points where the preferred solution changes. The optional Pareto-front yes/no column (no weights needed) is an "if time" item.
+
+</details>
+
+<details>
+<summary>§13 and §14 items not carried</summary>
+
+Trace decision variables to system properties/actions, optimization objectives to stakeholder goals and constraints to requirements as separate trace lines (folded into the one thread). The twelve-step live demonstration (select a result, show the initial state, the initiating stakeholder, the required information through the architecture, the local result, the consequences to others, change weights, re-optimize, show changed behaviour, compare MOEs, show the tradeoff, trace to the trajectory) becomes the presentation and Section 4; re-weighting and re-optimizing are dropped.
+
+</details>
+
+<details>
+<summary>§15 items beyond the reduced checklist</summary>
+
+Verify the architecture against the full nominal-flight ConOps and additional off-nominal scenarios; verify stakeholder coverage and interface coverage across the whole model; verify objective-function traceability for every objective row; document limitations of the selected decomposition and opportunities for expansion in full.
+
+</details>

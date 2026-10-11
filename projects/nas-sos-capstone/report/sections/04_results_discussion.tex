@@ -2,6 +2,17 @@
 \section{Results and Discussion}
 \label{sec:results}
 
+\irtwo{Results and Discussion (preliminary). For Interim Report \#2 this
+section needs: (1) the architecture as it stands (context diagram, aircraft
+IBD, the five improved requirements as the measured gap), with the figures
+already in Appendix~\ref{app:architecture}; (2) the two hand checks from
+\texttt{experiment-definition.md} \S9 written up as preliminary results;
+(3) the first OpenAP numbers (Figure~\ref{fig:fuelflow-altitude}: fuel flow
+against altitude for the heavy and light aircraft) and the baseline row of
+Table~\ref{tab:outcomes} if the scoring run is done; (4) one paragraph on what
+is not yet done. Mark the section ``preliminary'' in its heading or first
+line, as the course asks.}
+
 \plantodo{S5}{Present the nominal-flight ConOps (strategic/commercial
 planning through day-of-operations, turnaround, flight execution, and
 postflight/continuation) as the operational backbone the architecture
@@ -145,6 +156,44 @@ priority.}
 \plantodo{S12}{\textbf{Figure: the options on a Pareto front} (owner's note,
 second hand review, 5.4), if that column is kept. Also needed: a figure of
 the scenario itself (note 1.1).}
+
+% ---- Figure slots added 2026-10-10 (AI-generated analysis figures; captions to
+% be the author's). Files are written by simulation/b739_envelope.py (D-017).
+\begin{figure}[h]
+\centering
+\IfFileExists{figures/b739_fuelflow_altitude.png}{%
+\includegraphics[width=0.85\textwidth]{b739_fuelflow_altitude.png}}{%
+\fbox{\parbox{0.85\textwidth}{\centering PLACEHOLDER: run
+\texttt{simulation/b739\_envelope.py} to produce
+\texttt{report/figures/b739\_fuelflow\_altitude.png}}}}
+\caption{PLACEHOLDER -- fuel flow and specific range against altitude at Mach
+0.80 for the heavy and light B737-9 (OpenAP, D-017). The mechanism the
+experiment rests on: the light aircraft's optimum sits higher and it can
+climb where the heavy one cannot.}
+\label{fig:fuelflow-altitude}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\IfFileExists{figures/b739_envelope.png}{%
+\includegraphics[width=0.85\textwidth]{b739_envelope.png}}{%
+\fbox{\parbox{0.85\textwidth}{\centering PLACEHOLDER: run
+\texttt{simulation/b739\_envelope.py} to produce
+\texttt{report/figures/b739\_envelope.png}}}}
+\caption{PLACEHOLDER -- cruise envelope of the heavy B737-9 (74.2 t) assuming
+lift equals weight: low-speed boundary at an assumed clean maximum lift
+coefficient, maximum operating Mach, and the line where maximum cruise thrust
+equals drag, with the aircraft's present level and Mach and each altitude and
+speed instruction the scenario offers it marked as inside or outside the
+envelope. Right: width of the usable speed band and rate of climb left at
+Mach 0.80, by flight level (OpenAP, D-017).}
+\label{fig:envelope}
+\end{figure}
+
+\plantodo{Track A}{\textbf{Figure slot: sequence diagram} of case C's conflict
+resolution (controller, ATC decision support, airline operations center,
+FMS, crew), rendered from the model once drafted (turn 3).}
+% ---- end figure slots 2026-10-10
 
 \plantodo{S12}{\textbf{The case where nothing changes.} Report the variation
 with similar weights and cost indexes, where case C picks the same option as

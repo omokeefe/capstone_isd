@@ -362,6 +362,18 @@ package ContextDiagram {
              * Sources: JO 7210.3EE 6-5, 18-7-4h2; Seamster E-7#14, T2.7#35. */
         }
 
+        // IMPROVED ARCHITECTURE (D-019, 2026-10-10): the airline's performance share to ATC
+        // decision support. Not in today's NAS, so NOT tagged #ContextVisible: the context
+        // view shows the baseline. Cases C and D of the experiment assume this interface;
+        // requirement SLR-INF-02 (architectureState = improved, D-018; D-020) is what it
+        // satisfies. One of the three typed interfaces on the thread (the other two, FMS ->
+        // AOC and ATC -> crew, are plan turn 2). Evidence that the items are the right ones:
+        // [B] coppenbarger1999climbPrediction Table 2; [B] schultz2012adaptiveClimb p. 2
+        // (why they are not shared today: competitive sensitivity).
+        interface airlinePerformanceShare : AirlinePerformanceShareInterface
+            connect supplierEnd ::> flightOps.airlineOperationsCenter.performanceShareOut
+            to consumerEnd ::> airspaceMgmt.atc.performanceShareIn;
+
         // AOC <-> Airport / station (dispatcher, load planner, maintenance controller)
         //   AOC -> airport / station
         //     - schedule, gate requests                              [C] hub draft; Clarke 1998 [B]

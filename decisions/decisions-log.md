@@ -6,6 +6,81 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-022 — A third requirements tier: one set per constituent system, each with a stated objective and, where there is more than one way, named means scored by the experiment
+
+**Date:** 2026-10-11
+**Status:** active as a draft. Owner direction in session ("Author the next level of requirements, where each system is allocated requirements... the HLR should state an objective explicitly and the 3+ ways of achieving it will be scored in the experiment"). The 28 requirements are Claude's wording except HLR-CRW-01, which is the owner's sentence. **Not reviewed by the owner.**
+
+**Decision:**
+
+1. **A tier below the system requirements is added,** with the constituent system as the subject of each sentence: `ConstituentSystemRequirement` in `requirements_definitions.sysml`, instances in the new `cameo_models/requirements_constituent_systems.sysml`, IDs `HLR-<system>-nn`. "Constituent system" is read as D-007's five modeled systems: flight crew (5 requirements), flight operations (7), air traffic control (9), aircraft (5), airport operations (2). Each is allocated to named parts of the model.
+2. **Every requirement at this tier states its objective** (`objectiveStatement`) and names the system requirement(s) it comes from (`parentRequirements`). Every one of the 23 system requirements has at least one requirement under it.
+3. **Means of achievement are named in the model.** `enum def MeansOfAchievement { ruleOfThumb; lowFidelityModel; highFidelityModel; highFidelityModelWithConnections; }`. They are the experiment's cases A, B, C and D. They are distinct from `NasAnalysis::FidelityLevel`, which is the fidelity of the truth model that scores (D-017 item 3).
+4. **Three requirements have means the experiment scores side by side:** HLR-ATC-04 (the clearance is flyable), HLR-ATC-05 (lowest impact; a goal) and HLR-ATC-06 (instructions within workload). `nas_verification.sysml` gains one verification case per means for each, twelve in all. HLR-OPS-01 (flight planning) lists three means and is not scored.
+5. **Three owner answers of 2026-10-11 are applied at the tiers above.** (a) SLR-PLN-05: "DES" in the hand note is descent. A descent can always be achieved; a climb cannot be assumed, and the joint release is what leads to that conclusion in the rule-of-thumb case. (b) SN-AIR-03 is carried by the crew and the dispatchers coordinating: SLR-CLR-04 now answers it too, with HLR-CRW-04 and HLR-OPS-06 below. (c) SN-CRW-07 reads "weather, traffic and other safety considerations"; traffic management initiatives are removed from it.
+
+**Rationale:** the owner's cuts left the system requirements general on purpose ("the information needed to preserve safety and pursue optimality", "lowest impact"). This tier is where they become checkable, and naming the means is what ties the requirements to the experiment: the same objective, achieved four ways, scored by one truth model. That is the project's interchangeable-fidelity claim stated as requirements.
+
+**Alternatives considered:** requirements on every part of every system (rejected: D-020's test; parts with nothing in the study are listed with the reason instead); the means as separate requirements (rejected: they are ways of meeting one requirement, not four requirements; the owner's "test cases/verifications, I guess" points the same way); folding case D into the high-fidelity means (left open for the owner).
+
+**Evidence / source:** owner direction, 2026-10-11; `knowledge/models/experiment-options-and-scoring.md` section 2 (what each case knows); D-013 (FL350 rule); D-017; D-019.
+
+**Consequences:** `knowledge/models/requirements-and-traceability.md` gains section 11. `simulation/experiment_scoring.py` is unchanged; its cases already are the four means. This supersedes the plan's "owner writes the next-tier three to five" (D-016, turn 4): the owner's task is now to review the 28. Airport operations is the weakest fit under D-020 and is flagged in section 11.
+
+---
+
+## D-021 — Second requirements review: the study is tactical; workload is a ceiling, not a goal; airline cost is not mandated
+
+**Date:** 2026-10-11
+**Status:** active. Owner direction from the hand review of the second requirements print (`projects/nas-sos-capstone/handwritten/2026-10-11_requirements-and-traceability_v2.pdf`). Amends D-020 (items 2 and 3). Item 3's new requirement is Claude's wording and is the **owner's to confirm**.
+
+**Decision:**
+
+1. **No traffic flow management requirement remains.** SLR-FLW-03 and SLR-PLN-08 are struck. Owner: "While relevant to the NAS, the TMIs aren't relevant to tactical interventions. The same look @ MBSE applies to TMIs, but they're not my focus." The study is about tactical interventions; initiatives are named as a place the same method could be applied, not examined.
+2. **The NAS does not mandate what the airline optimizes.** SLR-PLN-03 (select the plan to minimize the airline's cost) is struck, and "at its lowest operating cost" is struck from SN-AIR-01. Owner: "This is an airline's prerogative. Maximize revenue, profit, or min cost."
+3. **Controller workload is a stakeholder requirement again, as a ceiling.** SN-ATC-04 is restored. The goal SLR-CLR-12 (fewest instructions) is struck: "This isn't a safety objective. If not overworked, controllers can give as many as they want!" A new SLR-CLR-15, written by Claude so SN-ATC-04 has an answer, says the instructions needed to resolve a conflict stay within what the sector team can sustain. It carries no number.
+4. **The remaining goal is about impact, not cost.** SLR-CLR-13 now reads "the one with the lowest impact on the aircraft involved", without "with the same number of control instructions". Owner: "'impact' is generic and leaves that up to each controller to decide." The experiment's cost formula (fuel plus cost index times time) is the experiment's chosen measure of impact and is no longer stated in any requirement. D-020 item 3 becomes: one goal.
+5. **Also struck:** SLR-INF-06 (weather to dispatcher and crew: "Winds & weather 'should' be factored into account by controllers, but that's not a SLR") and SLR-APT-02 (runway capacity).
+6. **Re-worded:** SLR-CLR-04 ("for the whole flight"), SLR-EXE-02 (adds speed), SLR-EXE-03 (no longer "on board"), SLR-EXE-06 (alerts dispatchers and controllers as well as the crew).
+7. **Objective rows with no stakeholder requirement are derived requirements at the next tier down,** where they matter to the thread (owner's note on section 8 of the print).
+
+The count is now 13 stakeholder and 23 system requirements; one goal (SLR-CLR-13); three `improved` (SLR-CLR-10, SLR-CLR-13, SLR-INF-02).
+
+**Rationale:** each cut removes a statement the NAS does not owe anyone in a tactical conflict, or one that told a constituent system how to run its own business. Restoring SN-ATC-04 closes the gap named in D-020's consequences.
+
+**Alternatives considered:** leave SN-ATC-04 restored with no system requirement under it (rejected by Claude: the trace would be broken and the experiment's workload column would hang from nothing; the owner may still prefer it).
+
+**Evidence / source:** the marked-up PDF named above.
+
+**Consequences:** `requirements_stakeholders.sysml`, `requirements_nas_system.sysml`, `nas_verification.sysml` edited; `knowledge/models/requirements-and-traceability.md` regenerated. Two gaps are recorded in its section 7: SN-AIR-03 is answered only by the arrival-estimate update (SLR-INF-07), and SN-CRW-07 still names initiatives though nothing below it does.
+
+---
+
+## D-020 — Requirements are limited to the study's decision; two statements become goals; data confidentiality is an assumption only
+
+**Date:** 2026-10-10
+**Status:** active in principle. Owner direction from the hand review of the first requirements draft (`projects/nas-sos-capstone/handwritten/2026-10-10_requirements-and-traceability.pdf`) and the instruction that followed ("I want something focused on my systems, concerning my study. This is a D-007 must."). The wording of item 1 is Claude's statement of the owner's marks; **owner to confirm**. Amends D-018 (item 2), D-019 (item 3 and consequences) and D-016 (items 4 and 5, §8 row).
+
+**Decision:**
+
+1. **D-007's test is applied to each requirement, not only to each stakeholder group.** "In-scope decisions" is read as the decision the project studies: how a conflict between two aircraft in en-route cruise is resolved, and what the party that decides is told. A requirement stays only if it states what that decision must achieve or not break, what the deciding party knows, or something the experiment takes as given and uses in its numbers. Each kept requirement's `rationale` says which.
+2. **The draft is cut from 27 stakeholder and 53 system requirements to 12 and 28.** 18 stakeholder requirements struck and 3 added (SN-CRW-06, -07, -08, written by the owner); 25 system requirements struck. Airport operator, passengers and military airspace users have no requirements. No requirement is derived any longer. The list of what was struck, with the owner's mark on each, is section 6 of `knowledge/models/requirements-and-traceability.md`.
+3. **Two statements are goals, not requirements:** SLR-CLR-12 (fewest instructions) and SLR-CLR-13 (lowest combined cost). They are written with "should" and carry a new attribute, `obligation = goal` (`enum def Obligation { mandatory; goal; }` in `requirements_definitions.sysml`). The experiment measures them; it does not pass or fail them.
+4. **Confidentiality of shared airline data is an assumption and no longer a requirement.** SN-AIR-06 and SLR-INF-05 are struck (owner: "Important & real, but not pertinent to my project per D-007"; "Maybe not needed if exposed as API"). D-019 item 3 stands as an assumption with nothing in the requirements model behind it.
+5. **The three information requirements become one.** SLR-INF-02 now reads "the information needed to preserve safety and pursue optimality"; the first draft's SLR-INF-03 (cost index) and SLR-INF-04 (connection priority) are struck as implied. **The `improved` set of D-018 is therefore three, not five:** SLR-CLR-10, SLR-CLR-13, SLR-INF-02. Weight, cost index and connection priority remain as the attributes of `AirlinePerformanceShare` and as three verification cases on SLR-INF-02.
+6. **The thread of D-016 item 4 now reads:** airline objective rows → SN-AIR-05 → SLR-INF-02 and the goal SLR-CLR-13 → the airline-to-ATC interface (D-019) → the conflict-resolution sequence → verification cases → the outcome table.
+7. **The three objective rows proposed for the ontology (airline data protection, passenger safety, Governance) are not added** (owner: "Not relevant to D-007", "Not important").
+
+**Rationale:** the first draft followed the detail in the model packages and so described the NAS in general. The owner judged about nine in ten of its statements to be partial captures of real requirements that distract from the project. A requirement set that a reader can check against one studied decision is defensible in a one-term capstone; a general one is neither complete nor relevant.
+
+**Alternatives considered:** keep the struck requirements in the model with `status = withdrawn` (rejected: they would still print in every table and diagram drawn from the model; the marked-up PDF is the record); keep SLR-CLR-13 as a "shall" tagged `improved` (rejected by the owner: no source makes least cost a duty; `kirwan2001coraStrategies` p. 4 gives the controller's aim as separation "first safely, and then expeditiously").
+
+**Evidence / source:** the marked-up PDF named above; D-007; `evidence/literature-notes/summaries/5 - faa2025jo72103ee.md` (paragraph 18-10-12 is a ground delay program option, which settles the owner's fact check on SN-AIR-04); `evidence/literature-notes/summaries/4 - kirwan2001coraStrategies.md`.
+
+**Consequences:** `requirements_stakeholders.sysml`, `requirements_nas_system.sysml`, `requirements_definitions.sysml` and `nas_verification.sysml` rewritten or edited; `knowledge/models/requirements-and-traceability.md` regenerated from the model; comments citing the struck IDs corrected in `nas_sysml_package_definitions.sysml`, `nas_context_diagram.sysml` and the report's scaffolding notes. The first draft was never committed, so its text survives only in the PDF. Open points for the owner are section 7 of the traceability file; the one with the most weight is that striking SN-ATC-04 leaves controller workload, one of the experiment's two scored columns, without a stakeholder requirement of its own.
+
+---
+
 ## D-019 — The proposed airline-to-ATC data share is modeled as an improved-architecture interface; security is an assumption, not a mechanism
 
 **Date:** 2026-10-10

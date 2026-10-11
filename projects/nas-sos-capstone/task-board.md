@@ -16,7 +16,7 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Active
 
-- Requirements (Track A): owner's review in progress per the `#TODO` block at the top of `knowledge/models/requirements-and-traceability.md` (27 stakeholder requirements first, then the 15 on the thread, then the three-to-five next-tier ones). Five requirements tagged `improved` (D-018). See journal 2026-10-10.
+- Requirements (Track A): hand-reviewed by the owner 2026-10-10 and cut to 12 stakeholder + 28 system requirements (D-020), then hand-reviewed again 2026-10-11: 13 + 23 (D-021); one goal, three tagged `improved`. A third tier of 28 constituent system requirements drafted by Claude 2026-10-11, not reviewed (D-022). Open: `#TODO` items (d) to (f) at the top of `knowledge/models/requirements-and-traceability.md`. See journal 2026-10-10.
 
 - Experiment (Track B): OpenAP chosen and installed (D-017); `simulation/experiment_scoring.py` runs the base scenario end to end, 14 tests pass; first result C minus B = 0 (`experiment-options-and-scoring.md` §8). Every scenario number is a Decide item in `knowledge/models/experiment-scenario-numbers.md`. Two OpenAP figures in `report/figures/`.
 
@@ -102,10 +102,10 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Next session priority
 
-Turn 1 exit test (by Sun 2026-10-18): the central claim and four decisions logged (done, D-016 to D-019); OpenAP returns B39M numbers and both figures render (done); the owner has reviewed the 27 stakeholder requirements; Assumptions and Methodology drafted. See `journal/2026-10-10.md`.
+Turn 1 exit test (by Sun 2026-10-18): the central claim and four decisions logged (done, D-016 to D-019); OpenAP returns B39M numbers and both figures render (done); the owner has reviewed the stakeholder requirements (done by hand 2026-10-10, D-020; section 7 of `requirements-and-traceability.md` still to answer); Assumptions and Methodology drafted. See `journal/2026-10-10.md`.
 
 1. Owner: confirm or change the Decide items in `knowledge/models/experiment-scenario-numbers.md` (city pairs, masses, cost indexes, hold length, tie-breaker) and re-run `tools/run_experiment.py`. The first run's C minus B = 0 hangs on the hold length and the pair's level.
-2. Owner: the 27 stakeholder requirements (`requirements-and-traceability.md`, `#TODO` item (a)), about 3 hours; then draft Assumptions and Methodology from the `\irtwo` call-outs in `report/sections/03_assumptions_methodology.tex`.
+2. Owner: answer section 7 of `requirements-and-traceability.md` (`#TODO` items (a) to (c)), under an hour; then draft Assumptions and Methodology from the `\irtwo` call-outs in `report/sections/03_assumptions_methodology.tex`.
 3. Owner: re-word the five view captions in `cameo_models/nas_package_my_views.sysml` and the appendix lead-in; restate or strike the eight candidate entries in `lessons-learned.md`.
 4. Claude, turn 2: the FMS → AOC and ATC → crew interface defs; test one `SequenceView` example; `tools/check_model.py` on the Syside Python API.
 5. Carried over: the two hand checks (`experiment-definition.md` §9); grade the aircraft IBD links; the `atc` umbrella question; whether the adviser meeting counts as the Report #2 review meeting.

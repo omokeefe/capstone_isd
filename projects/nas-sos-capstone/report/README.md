@@ -8,6 +8,22 @@ section carries `\plantodo{...}` markers (visible in the compiled PDF via the
 number(s), so it's traceable which plan item feeds which report section. The
 mapping table is also in a comment block at the top of `main.tex`.
 
+## Interim Report #2 checklist (due Sun 2026-10-25, 11:59 pm ET)
+
+From `prework/course-info-canvas.md`. The compiled PDF shows every required part as a red
+`REQUIRED FOR INTERIM REPORT #2` note (the `\irtwo` macro in `main.tex`); delete each note
+when the owner has written that part.
+
+- [ ] **Introduction** updated (Section 1): current-state paragraphs describe October, research-gap paragraph written, timing shows the nine turns.
+- [ ] **Assumptions and Methodology** (Section 2): working assumptions, systems engineering approach table and tailoring paragraph, the two claims, the proposed interface, the experiment design as decided.
+- [ ] **Results and Discussion (preliminary)** (Section 3): architecture figures referenced from the body, the two hand checks, first OpenAP figure, baseline row if run; marked preliminary.
+- [ ] **References**: every cited key exists in `evidence/sources/references.bib`; remove `\nocite{*}` from `main.tex` if the list should show only what is cited.
+- [ ] **Generative AI disclosure** drafted (Appendix).
+- [ ] Review meeting with the adviser held (or confirm the earlier meeting counts).
+- [ ] Word copy produced and sent to the adviser (Mark Petrotta, mpetrott@umich.edu).
+- [ ] Progress Update #2 confirmed in Canvas.
+- [ ] Ask the adviser which Project Review #3 option (Nov 22) they want.
+
 ## Compiling
 
 Requires a LaTeX distribution with `biber` and `latexmk` (TeX Live or

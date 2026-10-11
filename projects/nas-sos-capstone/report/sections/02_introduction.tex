@@ -1,6 +1,15 @@
 \section{Introduction and Current State}
 \label{sec:introduction}
 
+\irtwo{Introduction. Interim Report \#2 re-submits this section updated. Three
+edits are needed: (1) the ``current state of the project'' paragraphs in
+Section~\ref{sec:litreview} still describe mid-September (``off-track, but
+recoverable'', state machines due 9/15) and should describe October: the
+experiment defined (D-013 to D-015), the plan re-based on four tracks and nine
+turns (D-016), the scoring model chosen (D-017); (2) the research-gap
+placeholder below needs the owner's paragraph; (3) the project timing
+subsection should show the nine turns, not only the August table.}
+
 \plantodo{S1}{Briefly state the subject, purpose, and scope of the report:
 the NAS modeled as a System of Systems, centered on how operational intent
 propagates from enterprise objectives to aircraft trajectory/behavior.}
@@ -61,6 +70,21 @@ literature-review workflow into
 \texttt{evidence/source-register.md} rather than re-deriving them
 here. Identify the research gap this capstone addresses (see also
 Project\_To-Do List.md S16 "Research gap").}
+
+% ---- Placeholder added 2026-10-10 (AI-drafted scaffolding, not report prose).
+\plantodo{Track C (research gap)}{\textbf{What this project adds that prior work
+does not.} The opportunity itself is documented: \cite{coppenbarger1999climbPrediction}
+measured what airline-supplied weight does for climb prediction; SESAR's ADS-C
+EPP downlinks the FMS's predicted profile; \cite{engility2014tasarAlaska} gives
+the aircraft a picture of the traffic. State the three things this project does
+that those do not: (1) scores one decision at four stakeholder levels side by
+side (aircraft, airline, sector, system) with no weighted sum, so who pays is
+visible; (2) maps the decision to its authority and its information owner in a
+system-of-systems model, so the missing exchange is a named interface
+(\texttt{AirlinePerformanceShare}, D-019) and an unmet requirement
+(SLR-INF-02, D-018), not a finding in prose; (3) swaps the scoring
+model's fidelity under a fixed architecture (D-017), which is the MBSE claim.}
+% ---- end placeholder 2026-10-10
 
 % ---- Placeholders added 2026-10-09 (AI-drafted scaffolding, not report prose).
 % Context the experiment discussion in Sections 2 and 3 leans on. Each item

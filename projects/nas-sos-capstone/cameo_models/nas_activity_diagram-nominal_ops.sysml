@@ -153,5 +153,12 @@ package NominalOpsActivity {
             perform nominalFlight.closeOutFlight;
         }
         part aircraft : AircraftSystemsDomain;
+
+        // Swimlanes (tested 2026-10-10, syside viz 0.10.3): a general or interconnection
+        // render of this part def draws each domain as a box that lists its performed
+        // actions, which is the allocation picture. No view draws the flows between the
+        // performed actions across those boxes (restating the flows here did not help), so
+        // the ordering stays on the nominalOpsActivity action-flow view. See
+        // knowledge/models/sysml-diagram-rendering.md section 9.
     }
 }
