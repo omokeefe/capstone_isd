@@ -2,25 +2,33 @@
 \section{Assumptions and Methodology}
 \label{sec:methodology}
 
-\irtwo{Assumptions and Methodology. This whole section is new for Interim
-Report \#2. The minimum: 
-(1) the working assumptions; 
-(2) the systems engineering approach subsection (Section~\ref{sec:se-approach}) with its
-table and the tailoring paragraph; 
-(3) the two claims
-(Section~\ref{sec:two-claims}); 
-(4) the proposed interface
-(Section~\ref{sec:proposed-interface}); 
-(5) the experiment design
-(Section~\ref{sec:experiment-method}) as far as it is decided. Every
-\texttt{plantodo} note below names the source file for that part.}
-
 The problem is: the inertia of past, piecemeal designs and the high cost of upgrading 
 the NAS make it hard to change the system. The project proposes a new airline-to-ATC 
 interface and a new way of deciding which aircraft to move in a conflict, that together 
 have the ability to lower the cost of air traffic management. 
 
-The methodology is: 
+Towards those ends, the projet employs a model-based systems engineering (MBSE) approach 
+to design the architecture and the decision-making process, and a simulation-based experiment 
+to test the proposed interface and decision-making process. First, a literature review was conducted to: 
+\begin{enumerate}
+    \item Identify the current state of air traffic management,
+    \item Identify the relevant stakeholders and their objectives,
+    \item Identify the requirements that are necessary to meet those objectives, and
+    \item Identify the gaps in the current system that the proposed interface and decision-making process can address.
+\end{enumerate}
+
+\subsection{Systems Engineering Approach}
+\label{sec:se-approach}
+
+Standard systems engineering methods of systems analysis and decomposition were used on the collected evidence, including 
+generating a context diagram, internal block diagrams, and activity and sequence views. 
+These methods were used to identify the relevant systems and the interactions amongst them 
+that are necessary to meet the stakeholders' objectives. These were 
+used to generate the stakeholder requirements that are necessary to meet those objectives, which were
+then decomposed into NAS systems-level requirements. The NAS SLRs were then allocated to the 
+relevant sub-systems and HLRs decomposed those one level further. 
+
+This enabled the project to:
 (1) build a model of the architecture and the decision-making process, 
 (2) Compare the current air traffic management practice, which leverages
 general rules of thumb and knowledge of successful historical actions \cite{ref:TBD_TODO}, with a 
@@ -32,40 +40,56 @@ The working assumptions can be categorized in two ways:
 (2) assumptions about the methodology.
 The problem statement assumes that:
 \begin{itemize}
-\item The current air traffic management practice is based on general rules of thumb and 
-knowledge of successful historical actions.
-\item The proposed model-based decision support approach will provide a more accurate and efficient alternative to the current practice.
+    \item the abstractions used in the model are sufficient to capture the relevant behavior of the system
+    \item the stakeholders' objectives are comprehensively captured and accurately represented in the model
+\end{itemize}
+Every abstraction was done with the expressed goal of capturing the relevant behavior of the system, as defined
+by the stakeholders' objectives. The decision was made to ratify the NAS-as-SoS System of Interest around the 
+trajectory-intent lifecycle from enterprise objectives through aircraft motion. An entity is modeled when it 
+has distinct decision authority or execution
+behavior dynamically coupled to in-scope decisions and materially affects cost, safety,
+workload, schedule reliability, or passenger value. Boundary actors supply objectives,
+demand, feedback, or rules without being decomposed as decision mechanisms. Exogenous
+influences enter as constraints or scenario parameters. This criterion preserves the
+authority and responsibility relationships needed for a systems-of-systems architecture
+without expanding the project into a model of every NAS participant.
+
+The methodology does not assume that the proposed methods are better, which is tested
+as part of the experiment. Instead, it assumes that:
+\begin{itemize}
+\item models of every required aircraft type are available
+\item the security concerns of sharing airline data can be mitigated
+\item the proposed interface can be implemented in the NAS
+\item digital communication channels exist between the airline and ATC
+\item the specific scenario presented in the experiment is representative of 
+a larger set of scenarios which generalize to the NAS as a whole
 \end{itemize}
 
-\plantodo{S1}{State the working assumptions carried through the project --
-see README.md "Working Assumptions" and
-\texttt{projects/nas-sos-capstone/index.md} "Working assumptions (guardrails)"
-(e.g., emphasis on structure/behavior/interfaces/traceability rather than
-optimization math; decision-support/optimization treated as a capability
-inside the architecture, not the whole subject). Add the security assumption
-from D-019: confidentiality of shared airline data is assumed (existing
-SWIM and commercial software-as-a-service practice; D-020), not
-modeled.}
+An emphasis is put on structure/behavior/interfaces/traceability rather than optimization math, 
+as the project's commercial value for the author lies in it furthering their understanding of
+the systems, their interactions, and the complex series of responsibility divisions that 
+inhibit information flow and lead to sub-optimal outcomes. In order to explore this concept
+in a meaningful way, decision-support/optimization is treated as a capability inside the
+architecture, which is enabled by following MBSE principles. 
 
-% ---- Added 2026-10-10 (AI-drafted scaffolding, not report prose). Source: D-016.
-\subsection{Systems Engineering Approach}
-\label{sec:se-approach}
+While more detailed documentations of the systems and their constituent systems are possible 
+(with examples contained in \cite{appendix_what_TODO}), 
+and more formal mathematical models can be employed, such an effort was deemed outside the 
+scope of the work required to achieve the commercial value for the customer. In true customer-focused
+MBSE fasion, the project's artifacts are tailored to the customer's needs. 
 
-\plantodo{Track C (D-016)}{\textbf{Map the project's artifacts to the
-ISO/IEC/IEEE 15288 technical processes as the INCOSE Systems Engineering
-Handbook describes them}, in one table (skeleton below), then state the
-tailoring in one paragraph: which process activities were reduced or
-omitted and why (per-paper literature checklists, full gate-to-gate ConOps,
-alternative decompositions, nine conflict analyses, weighted-sum
-optimization), citing D-016 and naming them as future work. Tailoring is a
-15288 activity in its own right; say so. Cite the Handbook and the INCOSE
-Guide for Writing Requirements once they are registered.}
+As such, individual steps in the process were tailored to the availability of the author, including 
+a continuous, ad-hoc review of relevant literature, after an initial review was conducted. A full 
+gate-to-gate conops was unofficially constructed and refined with publicly available general 
+information/knowledge of the NAS. No alternative system decompositions were formall explored
+past initial abstraction decisiosn. In this way, the ISO/IEC/IEEE 15288 technical processes
+were followed, which includes tailoring them to the application. 
 
+The following table summarizes the systems engineering processes and the artifacts that realize them. 
 \begin{table}[h]
 \centering
 \small
-\caption{PLACEHOLDER -- systems engineering processes and the artifacts that
-realize them. Wording to be the author's.}
+\caption{Systems engineering processes and the artifacts that realize them.}
 \label{tab:se-processes}
 \begin{tabular}{@{}p{4.2cm}p{6.2cm}p{4.6cm}@{}}
 \toprule
