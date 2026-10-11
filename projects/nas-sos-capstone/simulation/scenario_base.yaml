@@ -8,7 +8,7 @@ sector: "Fort Worth Center (ZFW) high-altitude airspace, crossing about 42 NM so
 
 type:
   icao: B39M                 # 737 MAX 9 (D-015); OpenAP borrows the MAX 8 drag polar
-  nominal_mass_kg: 70000     # the one weight per type that the nominal model (case B) uses
+  nominal_mass_kg: 67000     # the one weight per type that the nominal model (case B) uses
   mass_spread_fraction: 0.06 # heavy/light = nominal x (1 +/- 0.06); coppenbarger1999climbPrediction Table 3
   mmo: 0.82
 
@@ -23,6 +23,7 @@ geometry:
   speed_lever_separates: false
   climb_rule_ft: 35000              # climbs offered only at or below FL350 when weight is unknown (engility2014tasarAlaska p. 8)
   altitude_steps_ft: [2000, -2000, -4000]
+  min_climb_rate_ft_min: 150        # a level is flown only with this much climb left there [SME]; the service-ceiling definition is 100 (faa2015ac61107b para. 1-4r)
   slow_ac3_mach: 0.02               # option O9: AC3 slows this much for slow_ac3_min minutes
   slow_ac3_min: 10
 
@@ -38,7 +39,7 @@ aircraft:
     airline: X
     role: "crossing pair, heavy, late with connections"
     route: "MCO-LAX"
-    mass_kg: 74200
+    mass_kg: 71020                  # nominal x 1.06; holds FL380 with the climb margin, cannot hold FL400
     level_ft: 38000
     mach: 0.80
     heading_deg: 281
@@ -50,7 +51,7 @@ aircraft:
     airline: Y
     role: "crossing pair, light, on time"
     route: "IAH-DEN"
-    mass_kg: 65800
+    mass_kg: 62980                  # nominal x 0.94; holds FL400 with the climb margin
     level_ft: 38000
     mach: 0.80
     heading_deg: 324
@@ -62,7 +63,7 @@ aircraft:
     airline: X
     role: "in trail under the crossing, early"
     route: "TPA-LAX"
-    mass_kg: 70000
+    mass_kg: 67000
     level_ft: 36000
     mach: 0.80
     heading_deg: 281
@@ -74,7 +75,7 @@ aircraft:
     airline: Z
     role: "in trail behind AC3; context"
     route: "TPA-LAX"
-    mass_kg: 70000
+    mass_kg: 67000
     level_ft: 36000
     mach: 0.80
     heading_deg: 281

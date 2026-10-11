@@ -54,6 +54,8 @@ or conversation — don't let definitions live only in someone's head or a singl
 - **ATC** — Air Traffic Control.
 - **ATM** — Air Traffic Management.
 - **ANSP** — Air Navigation Service Provider.
+- **Service ceiling** — "The maximum height above MSL at which an airplane can maintain a rate of climb of 100 ft per minute (ft/min) under normal conditions" (`faa2015ac61107b` para. 1-4r, p. 2). It depends on weight: a heavier aircraft has a lower one. The experiment asks for 150 ft/min, an operator margin [SME] (D-023).
+- **Coffin corner (Q-corner)** — the top of the envelope for a given weight, where the low-speed and high-speed limits close in and a disturbance can push the aircraft past either (`faa2015ac61107b` para. 1-4q, p. 2).
 - **ARTCC** — Air Route Traffic Control Center (enroute control).
 - **ATFM** — Air Traffic Flow Management.
 - **NOTAM** — Notice to Air Missions (formerly Notice to Airmen).

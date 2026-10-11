@@ -216,6 +216,190 @@ has no drag polar for the 737 MAX 9 and borrows the MAX 8's. Cite OpenAP
 (Sun, Hoekstra and Ellerbroek 2020) once registered. The earlier kinematic
 model (\texttt{vehicle\_dynamics.py}) is not used by the experiment.}
 
+% ---- Added 2026-10-11 (AI-drafted PLACEHOLDER write-up, requested by the owner;
+% written from the code as it stood that day, D-017 and D-023). It describes
+% simulation/experiment_scoring.py and simulation/b739_envelope.py with OpenAP
+% 2.6.2. The equations for OpenAP were read from the package source, not from
+% the journal paper. To be checked and rewritten by the author.
+\subsection{Scoring Model Calculations}
+\label{sec:scoring-method}
+
+\plantodo{S11, S12}{\textbf{PLACEHOLDER, AI-drafted 2026-10-11.} This subsection states what \texttt{simulation/experiment\_scoring.py} and \texttt{simulation/b739\_envelope.py} calculate. Check each equation against the code, confirm the two cited sources by reading them (the OpenAP paper and Bartel and Young are cited here from the package source code), then rewrite in the author's words. The limitations in Section~\ref{sec:scoring-limits} are findings from writing this up and need a decision each.}
+
+\subsubsection{Equations of motion}
+
+Each aircraft is a point mass in steady flight in still air in the International Standard Atmosphere. OpenAP \cite{sun2020openap} uses the point-mass equations along and normal to the flight path,
+\begin{align}
+T - D - m g \sin\gamma &= m \frac{dV}{dt}, \label{eq:eom-along}\\
+L &= m g \cos\gamma, \label{eq:eom-normal}
+\end{align}
+where $T$ is total thrust, $D$ drag, $L$ lift, $m$ mass, $V$ true airspeed and $\gamma$ the flight path angle, with $\tan\gamma = \dot h / V$ for a vertical speed $\dot h$. The experiment sets $dV/dt = 0$ everywhere: every aircraft holds its Mach number. In level cruise $\gamma = 0$, so $T = D$ and $L = mg$.
+
+True airspeed comes from the Mach number $M$ and the standard temperature $\Theta(h)$ at the altitude $h$:
+\begin{equation}
+V = M \sqrt{\kappa R\, \Theta(h)}, \qquad
+\Theta(h) = \begin{cases} 288.15 - 0.0019812\,h & h < 36{,}089 \text{ ft} \\ 216.65 & \text{otherwise} \end{cases}
+\label{eq:tas}
+\end{equation}
+with $\kappa = 1.4$, $R = 287.05$ J/(kg K), $h$ in feet and $\Theta$ in kelvin.
+
+\subsubsection{Drag, thrust and fuel flow (OpenAP)}
+
+\textbf{Drag.} OpenAP computes clean-configuration drag from a two-term drag polar:
+\begin{equation}
+C_L = \frac{m g \cos\gamma}{\tfrac{1}{2}\rho V^2 S}, \qquad
+C_D = C_{D0} + k\, C_L^2, \qquad
+D = \tfrac{1}{2}\rho V^2 S\, C_D .
+\label{eq:drag}
+\end{equation}
+The values used are in Table~\ref{tab:openap-params}. This is where aircraft mass enters: a heavier aircraft needs a higher $C_L$ and its drag rises with $C_L^2$.
+
+\textbf{Assumption: no compressibility drag.} Eq.~\ref{eq:drag} has no Mach-number term, so the extra drag from shock waves on the wing is left out. The FAA circular classes flight below Mach 0.75 as subsonic and Mach 0.75 to 1.20 as transonic \cite{faa2015ac61107b} (para.~1-4e), so the scenario's Mach 0.80 is at the low end of the transonic range. OpenAP has an optional wave-drag term, off by default and marked experimental by its authors. Switching it on is the only estimate of the size of this assumption held so far: at the scenario's weights and levels, drag rises by 2 to 4 percent at Mach 0.80 and by less than 1 percent at Mach 0.76. Fuel flow in level cruise moves by about the same few percent. The rate of climb left (Eq.~\ref{eq:roc}) moves much more, because it is a small difference between thrust and drag; see Section~\ref{sec:scoring-limits}.
+
+\textbf{Maximum thrust.} Above 30,000 ft OpenAP uses the high-altitude segment of the two-shaft turbofan model of Bartel and Young \cite{bartel2008thrustFuel}, which scales a reference thrust at the top of climb by pressure and Mach number:
+\begin{equation}
+T_{\max} = T_{cr} \left[ d \,\ln\!\frac{p}{p_{cr}} + \left(\frac{M}{M_{cr}}\right)^{-0.11} \right], \qquad
+d = -0.4204\,\frac{M}{M_{cr}} + 1.0824 ,
+\label{eq:thrust}
+\end{equation}
+where $p$ is the ambient pressure, and $p_{cr}$ and $M_{cr}$ are the pressure and Mach number at the type's reference cruise condition. The package returns the same value for its cruise and climb thrust at these altitudes, so there is one thrust limit, not two.
+
+\textbf{Fuel flow.} OpenAP finds the thrust the manoeuvre needs from Eq.~\ref{eq:eom-along},
+\begin{equation}
+T_{req} = D + m g \sin\gamma ,
+\label{eq:treq}
+\end{equation}
+and converts it to fuel flow with an empirical curve of thrust ratio, scaled by the engine's take-off fuel flow from the ICAO engine emissions databank:
+\begin{equation}
+\dot m_f = n\, s \left[ c_1 - \exp\!\left( -c_2 \left( x\, e^{c_3 x} - \frac{\ln c_1}{c_2} \right) \right) \right], \qquad
+x = \frac{T_{req}}{n\, T_{0}} ,
+\label{eq:fuelflow}
+\end{equation}
+where $n$ is the number of engines, $T_0$ the sea-level static thrust of one engine, $s$ the engine's take-off fuel flow, and $x$ is limited smoothly to between 0.03 and 1.2. In level cruise $T_{req} = D$, so fuel flow depends on mass only through the drag of Eq.~\ref{eq:drag}.
+
+\begin{table}[h]
+\centering
+\small
+\caption{PLACEHOLDER -- values OpenAP 2.6.2 uses for the B737-9 (type code B39M), read from the installed package on 2026-10-11.}
+\label{tab:openap-params}
+\begin{tabular}{@{}p{5.6cm}p{3.6cm}p{5.6cm}@{}}
+\toprule
+Quantity & Value & Note \\
+\midrule
+Wing area $S$ & 124.6 m$^2$ & type data \\
+Zero-lift drag coefficient $C_{D0}$ & 0.020 & 737 MAX 8 polar, borrowed \\
+Induced drag factor $k$ & 0.042 & 737 MAX 8 polar, borrowed \\
+Engines $n$, type & 2, LEAP-1B & type data \\
+Static thrust per engine $T_0$ & 111,300 N & engine data \\
+Reference thrust $T_{cr}$ & 46,300 N (both engines) & $0.2\,T_0 + 890$ N per engine \\
+Reference cruise $M_{cr}$, altitude & 0.79, 11,000 m & type data \\
+Take-off fuel flow $s$ & 0.877 kg/s per engine & ICAO databank \\
+Fuel curve $c_1$, $c_2$, $c_3$ & 0.9376, 1.9768, 1.3955 & package default curve, not fitted to this type \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Whether an aircraft can be cleared to a level}
+
+The rate of climb an aircraft has left in level flight at a mass, Mach number and altitude is its excess thrust times its speed, divided by its weight:
+\begin{equation}
+RC = \frac{\left( T_{\max} - D \right) V}{m g} .
+\label{eq:roc}
+\end{equation}
+This is Eq.~\ref{eq:eom-along} with $dV/dt = 0$, solved for $\dot h = V \sin\gamma$. A level is available to an aircraft only if
+\begin{equation}
+RC(m, M, h) \ge RC_{\min} .
+\label{eq:feasible}
+\end{equation}
+$RC = 0$ is the level above which the aircraft cannot hold altitude. $RC = 100$ ft/min is the definition of the service ceiling \cite{faa2015ac61107b}. The experiment uses $RC_{\min} = 150$ ft/min, the margin the author has seen airlines keep for clear air turbulence and other unknowns (industry experience, no document held; D-023). The envelope figure (Figure~\ref{fig:envelope}) draws all three lines for the heavy aircraft.
+
+The low-speed side of that figure is not from OpenAP. It is 1.3 times the speed at which lift equals weight at an assumed maximum lift coefficient $C_{L\max} = 1.45$:
+\begin{equation}
+V_{\min} = 1.3 \sqrt{\frac{2 m g}{\rho S\, C_{L\max}}} .
+\label{eq:vmin}
+\end{equation}
+The high-speed side is the lower of the maximum operating Mach number (0.82) and the maximum operating calibrated airspeed (340 kt).
+
+Which mass goes into Eq.~\ref{eq:feasible} is the experiment. Cases A and B do not know the mass, so they do not evaluate it: they offer a climb only at or below FL350. Cases C and D evaluate it at the aircraft's actual mass. The scoring then checks every chosen option again at the actual mass; an option the aircraft cannot fly is reported as ``unable''.
+
+\subsubsection{Cost of one manoeuvre}
+
+Every cost is a difference from flying on undisturbed. Write $\dot m_f(h, \dot h)$ for the fuel flow of Eq.~\ref{eq:fuelflow} at the aircraft's mass and Mach number, $h_0$ for the present level, $h_1$ for the new one, $t_h$ for the time the manoeuvre is held (15 min) and $\dot m_{f0} = \dot m_f(h_0, 0)$.
+
+\textbf{Altitude change.} A descent is flown at 1,500 ft/min. A climb is flown at maximum thrust, at the rate that thrust allows: Eq.~\ref{eq:roc} evaluated at the mid-altitude, and no more than 1,500 ft/min (D-024):
+\begin{equation}
+\dot h = \begin{cases} -1{,}500 \text{ ft/min} & \text{descent} \\ \min\!\left( 1{,}500,\; RC\!\left(m, M, \tfrac{h_0+h_1}{2}\right) \right) & \text{climb} \end{cases}
+\qquad t_c = \frac{|h_1 - h_0|}{|\dot h|} .
+\label{eq:climb-rate}
+\end{equation}
+At the scenario's weights and levels the climb rate is 250 to 500 ft/min, so a 2,000 ft climb takes four to eight minutes. Fuel flow during the change is evaluated at the mid-altitude:
+\begin{equation}
+\Delta m_f = \underbrace{\left[ \dot m_f\!\left(\tfrac{h_0+h_1}{2}, \dot h\right) - \dot m_{f0} \right] t_c}_{\text{the level change}}
++ \underbrace{\left[ \dot m_f(h_1, 0) - \dot m_{f0} \right] t_h}_{\text{the hold at the new level}}
++ \underbrace{\left[ \dot m_f\!\left(\tfrac{h_0+h_1}{2}, \dot h_b\right) - \dot m_{f0} \right] t_b}_{\text{climb back, after a descent only}} .
+\label{eq:alt-fuel}
+\end{equation}
+Here $\dot h_b$ and $t_b$ are the rate and time of the climb back to $h_0$, from Eq.~\ref{eq:climb-rate}. The time difference is the same ground distance flown at a different true airspeed,
+\begin{equation}
+\Delta t = t_h \left( \frac{V(h_0)}{V(h_1)} - 1 \right),
+\label{eq:alt-time}
+\end{equation}
+which is zero between levels above 36,089 ft, where the standard temperature is constant. The return to the original level after a climb is counted as an instruction but given no fuel term.
+
+\textbf{Vector.} A pass-behind vector adds a fixed track distance $d_x$ (6 NM) at the cruise speed and fuel flow:
+\begin{equation}
+\Delta t = \frac{d_x}{V(h_0)}, \qquad \Delta m_f = \dot m_{f0}\, \Delta t .
+\label{eq:vector}
+\end{equation}
+
+\textbf{Slow-down} (the in-trail aircraft in option O9). The aircraft flies at $M - \Delta M$ the distance it would have covered in $t_s$ minutes at $M$:
+\begin{equation}
+t_s' = t_s \frac{V(M)}{V(M - \Delta M)}, \qquad
+\Delta t = t_s' - t_s, \qquad
+\Delta m_f = \dot m_f(M - \Delta M)\, t_s' - \dot m_{f0}\, t_s .
+\label{eq:slow}
+\end{equation}
+
+\textbf{Speed change on the crossing pair.} Not calculated. It is marked unable to separate the pair by construction (D-014).
+
+\subsubsection{From manoeuvre cost to the outcome table}
+
+For aircraft $i$ the cost of an option is extra fuel plus the cost index times extra time, in kilograms of fuel, the form used in \cite{mori2022massCruise}:
+\begin{equation}
+c_i = \Delta m_{f,i} + CI_i\, \Delta t_i .
+\label{eq:ac-cost}
+\end{equation}
+Each case chooses, among the options it is allowed to offer, the one with the lowest estimate
+\begin{equation}
+J = \sum_i \left( \Delta m_{f,i}(\hat m_i) + \widehat{CI}_i\, \Delta t_i(\hat m_i) \right),
+\label{eq:decider}
+\end{equation}
+where the hats mark what the case believes. Case A does not use Eq.~\ref{eq:decider}; it applies its rule (one descent). Case B uses the type's nominal mass for every aircraft and values time at 1 kg/min. Cases C and D use each aircraft's actual mass and cost index. Case D also rejects an option that pushes a flight with connections past the connection threshold. Whatever a case chooses is then scored at the actual masses, and that score is what the tables report.
+
+The other columns follow from Eq.~\ref{eq:alt-fuel} to \ref{eq:ac-cost}. Carbon dioxide is $3.16\, \Delta m_f$ \cite{icao2024icecMethodology}. An airline's cost in dollars is the sum over its aircraft of $c_i\, p_f + 3.16\, \Delta m_{f,i}\, p_c$, with $p_f$ the fuel price and $p_c$ the carbon price. System fuel is $\sum_i \Delta m_{f,i}$. Instructions are counted, now and later, and are not converted to anything.
+
+\subsubsection{Worked example: option O4, the light aircraft climbs 2,000 ft}
+
+The light aircraft is at 62,980 kg, FL380, Mach 0.80. Eq.~\ref{eq:roc} gives 322 ft/min left at FL400, above 150, so the level is available to a case that knows the mass. Eq.~\ref{eq:climb-rate} gives a climb rate of 409 ft/min at FL390, so the climb takes $2{,}000 / 409$ min, or 294 s. Fuel flows from Eq.~\ref{eq:fuelflow}: 0.5572 kg/s at FL380 (2,006 kg/h), 0.5465 kg/s at FL400 (1,968 kg/h), and 0.6321 kg/s in the climb. Eq.~\ref{eq:alt-fuel} gives
+\begin{equation*}
+\Delta m_f = (0.6321 - 0.5572)(294) + (0.5465 - 0.5572)(900) = 22.0 - 9.6 = 12.4 \text{ kg},
+\end{equation*}
+and $\Delta t = 0$ because both levels are above 36,089 ft. This is the 12.4 kg in the options table.
+
+\subsubsection{Limitations found in writing this up}
+\label{sec:scoring-limits}
+
+\begin{enumerate}
+\item \textbf{No compressibility drag, and the climb left is sensitive to it.} With OpenAP's experimental wave-drag term switched on, drag at Mach 0.80 is 2 to 4 percent higher. That is 1.3 kN for the heavy aircraft at FL380, against 2.7 kN of excess thrust, so its climb left falls from 181 to 93 ft/min, under the 100 ft/min of the service ceiling. The light aircraft at FL400 falls from 322 to 239 ft/min and still clears 150. The weights in the scenario were set with the term off. Not decided: whether to switch the term on and set the weights again.
+\item \textbf{One climb rate per climb.} The rate is taken at the mid-altitude and held; the climb is not integrated. A climb is not checked against the time left before the crossing (12 min); the longest in the base scenario is the heavy aircraft's 4,000 ft climb back after option O8, about 12 min, which happens after the conflict.
+\item \textbf{The fuel curve is the package default.} OpenAP has no fuel model fitted to the 737 MAX 9 or MAX 8; Eq.~\ref{eq:fuelflow} uses its default coefficients scaled by the LEAP-1B take-off fuel flow.
+\item \textbf{The drag polar is the 737 MAX 8's} (D-017).
+\item \textbf{Mass is constant.} Fuel burned during the manoeuvre does not reduce the mass.
+\item \textbf{The low-speed limit rests on an assumed $C_{L\max}$} and is a stall margin, not a buffet boundary.
+\item \textbf{Standard atmosphere, no wind}; time differences come only from true airspeed and added track distance.
+\end{enumerate}
+% ---- end 2026-10-11 addition
+
 \plantodo{S11}{\textbf{Abstractions made and why.} One short table: each
 simplification, the reason, and the risk. A draft list is in
 \texttt{experiment-options-and-scoring.md} \S6.}

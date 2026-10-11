@@ -1,35 +1,51 @@
 # Requirements and Traceability
 
-**Status: draft, after the owner's second hand review (2026-10-11, decision D-021).** The first draft (27 stakeholder requirements, 53 system requirements, written by Claude on 2026-10-10) has been printed and marked up by the owner twice: `projects/nas-sos-capstone/handwritten/2026-10-10_requirements-and-traceability.pdf` (D-020) and `projects/nas-sos-capstone/handwritten/2026-10-11_requirements-and-traceability_v2.pdf` (D-021). This file has both sets of marks applied. Every requirement still has status `draft` in the model. Nothing is baselined. Not report text.
+**Status: draft.** 13 stakeholder requirements and 23 system requirements, reviewed by the owner by hand twice (D-020, D-021), and 28 constituent system requirements written by Claude and not yet reviewed (D-022). Every requirement has status `draft` in the model. Nothing is baselined. Not report text.
 
-## #TODO (owner) — what is left to review
+## Who wrote what
 
-- [x] **(a) Read section 7 of the second print.** *(Ticked by the owner on the 2026-10-11 print.)*
-- [x] **(b) Confirm the three flight crew requirements you wrote** (SN-CRW-06, SN-CRW-07, SN-CRW-08) and their objective rows. *(Ticked on the 2026-10-11 print.)*
-- [x] **(c) Decide the four weak ones.** *(2026-10-11 print: SLR-PLN-08 and SLR-FLW-03 struck; SLR-PLN-05 kept with a reason; SLR-INF-07 left standing.)*
-- [ ] **(d) Review the next tier, section 11.** Claude wrote it on 2026-10-11 at your request (D-022): 28 requirements with a constituent system as the subject, each stating its objective, three of them with four means the experiment scores. It has not been reviewed. Start with "Things to check in this draft" at the end of section 11. Your note that the objective rows in section 8 are "derived reqts @ the HLR level" was not acted on: no requirement in section 11 was written from those rows.
-- [ ] **(e) For each system requirement on the thread, name the verification case** (`cameo_models/nas_verification.sysml`) and give a measure and unit, or write "qualitative". On the thread: SLR-CLR-01, SLR-CLR-02, SLR-CLR-10, SLR-CLR-13, SLR-CLR-15, SLR-INF-01, SLR-INF-02, SLR-EXE-03, SLR-MEA-02.
-- [ ] **(f) Read section 7.** It is short: what Claude added or decided in applying the second print. Your answers of 2026-10-11 on three of its points are applied and noted there.
+| Part of this file | Whose it is |
+|---|---|
+| Sections 3 and 4: stakeholder and system requirements | **The owner's, after two hand reviews.** Claude wrote the first draft; the owner marked up two prints of it and the marks are applied. The Wording column says, for each sentence, whether the owner wrote it, edited it, or read it twice and kept it. One system requirement (SLR-CLR-15) is the exception. |
+| Section 2: the test each requirement had to pass | The owner's criterion, in Claude's words. The owner read it on the second print and did not mark it. |
+| Notes under the tables in sections 3 and 4 | Claude's words, saying why each requirement is in the study. A point marked "(owner)" is the owner's, taken from the handwriting. |
+| Section 7 | Four things Claude added after the second print. **The owner has not reviewed them.** |
+| Section 11: constituent system requirements (HLRs) | **Claude's draft. Not reviewed by the owner.** HLR-CRW-01 is the owner's sentence. |
+| Trace, allocation, check, measure and basis columns; sections 8 to 10 | Claude's. Printed with the requirements and read by the owner, except where section 7 says otherwise. |
 
-**The model is the source of truth (D-006).** This file is a readable copy of two model files:
+The Wording column in sections 3 and 4 uses four values:
 
-- `projects/nas-sos-capstone/cameo_models/requirements_stakeholders.sysml` holds the 13 stakeholder requirements.
-- `projects/nas-sos-capstone/cameo_models/requirements_nas_system.sysml` holds the 23 system requirements and their allocation to systems.
-- `projects/nas-sos-capstone/cameo_models/requirements_constituent_systems.sysml` holds the constituent system requirements of section 11.
-- `projects/nas-sos-capstone/cameo_models/requirements_definitions.sysml` holds the attributes all three use.
+- **Owner**: the owner wrote the sentence.
+- **Owner edit**: Claude's sentence, changed by the owner by hand.
+- **Claude, kept**: Claude's sentence, read by the owner on both prints and left as it was.
+- **Claude, unreviewed**: written by Claude after the second print.
+
+The two marked-up prints are `projects/nas-sos-capstone/handwritten/2026-10-10_requirements-and-traceability.pdf` and `projects/nas-sos-capstone/handwritten/2026-10-11_requirements-and-traceability_v2.pdf`.
+
+## #TODO (owner)
+
+- [ ] **Review section 11**, the constituent system requirements. Start with "Things to check in this draft" at its end. The owner's note that the objective rows in section 8 are "derived reqts @ the HLR level" was not acted on: no requirement in section 11 was written from those rows.
+- [ ] **Review the four items in section 7.** Re-word or strike SLR-CLR-15 first.
+- [ ] **For each system requirement on the thread, name the verification case** (`projects/nas-sos-capstone/cameo_models/nas_verification.sysml`) and give a measure and unit, or write "qualitative". On the thread: SLR-CLR-01, SLR-CLR-02, SLR-CLR-10, SLR-CLR-13, SLR-CLR-15, SLR-INF-01, SLR-INF-02, SLR-EXE-03, SLR-MEA-02.
+- [ ] **Confirm the three numbers and tags marked "Unconfirmed"** in section 4: the 45-minute reserve (SLR-PLN-04), the separation minimum (SLR-CLR-01), and whether a controller is alerted to low predicted fuel today (SLR-EXE-06).
+
+**The model is the source of truth (D-006).** This file is a readable copy of four model files in `projects/nas-sos-capstone/cameo_models/`:
+
+- `requirements_stakeholders.sysml` holds the 13 stakeholder requirements.
+- `requirements_nas_system.sysml` holds the 23 system requirements and their allocation to systems.
+- `requirements_constituent_systems.sysml` holds the 28 constituent system requirements of section 11.
+- `requirements_definitions.sysml` holds the attributes all three use.
 
 If this file and those disagree, the `.sysml` files win. Mark changes here by hand, then apply them to the `.sysml` files.
 
 ## 1. What is here
 
-- **13 stakeholder requirements** in 5 stakeholder groups (27 in 8 in the first draft; 12 after the first review). Each says what that group wants from the NAS and names the objective rows it comes from in `knowledge/models/stakeholder-objective-ontology.md`.
-- **23 system requirements** in 6 areas that follow the lifecycle of trajectory intent (53 in the first draft; 28 after the first review).
+- **13 stakeholder requirements** in 5 stakeholder groups. Each says what that group wants from the NAS and names the objective rows it comes from in `knowledge/models/stakeholder-objective-ontology.md`.
+- **23 system requirements** in 6 areas that follow the lifecycle of trajectory intent. Each is allocated to parts of `NationalAirspaceSystem` in `projects/nas-sos-capstone/cameo_models/nas_sysml_package_definitions.sysml`.
+- **28 constituent system requirements** (section 11), one tier down, on the five systems D-007 models.
 - **Every stakeholder requirement is answered by at least one system requirement, and every system requirement traces to a stakeholder requirement.** None is derived.
 - **One of the 23 is a goal, not a requirement** (SLR-CLR-13). It is written with "should". Section 5.
 - **Three describe what today's NAS does not do** (SLR-CLR-10, SLR-CLR-13, SLR-INF-02) and are tagged `improved` (D-018). They are what the experiment in `knowledge/models/experiment-definition.md` is about.
-- Every system requirement is allocated to parts of `NationalAirspaceSystem` in `projects/nas-sos-capstone/cameo_models/nas_sysml_package_definitions.sysml`.
-
-- **Below the system requirements there is now a third tier** (section 11): requirements on each of the five constituent systems, written by Claude on 2026-10-11 and not yet reviewed.
 
 The trace runs: objective row, then stakeholder requirement, then system requirement, then constituent system requirement, then the part of the model that carries it out.
 
@@ -37,9 +53,7 @@ The trace runs: objective row, then stakeholder requirement, then system require
 
 ## 2. The test each requirement had to pass
 
-The owner's complaint about the first draft was that it described the NAS in general: it followed the detail in the model packages, and so held many true statements that have nothing to do with the project. The mark written most often on the first print is "Not D-007".
-
-D-007 (`decisions/decisions-log.md`) says an entity is modeled when it has "distinct decision authority or execution behavior dynamically coupled to in-scope decisions" and materially affects cost, safety, workload, schedule reliability or passenger value. The first draft used D-007 only to decide which stakeholder groups to include. The hand reviews apply the same test to each requirement, with "in-scope decisions" read as the decision the project studies:
+D-007 (`decisions/decisions-log.md`) says an entity is modeled when it has "distinct decision authority or execution behavior dynamically coupled to in-scope decisions" and materially affects cost, safety, workload, schedule reliability or passenger value. The hand reviews apply that test to each requirement, with "in-scope decisions" read as the decision the project studies:
 
 > **How is a conflict between two aircraft in en-route cruise resolved, and what is the party that decides told about each aircraft?**
 
@@ -49,265 +63,214 @@ A requirement stays if it does one of three things:
 2. It states what the party deciding knows, today or under the proposed change.
 3. It fixes something the experiment takes as given and uses in its numbers (the flight plan, the fuel load, the CO2 factor).
 
-Requirements that are true of the NAS but do none of these were struck. Each kept requirement carries a note that says how it bears on the study. The owner read this statement of the test on the second print and did not mark it.
+Requirements that are true of the NAS but do none of these were struck (section 6).
 
-The second review drew the line more sharply in one place: **the study is about tactical interventions.** In the owner's words on the second print, "While relevant to the NAS, the TMIs aren't relevant to tactical interventions. The same look @ MBSE applies to TMIs, but they're not my focus." No traffic flow management requirement remains.
+**The study is about tactical interventions.** In the owner's words on the second print: "While relevant to the NAS, the TMIs aren't relevant to tactical interventions. The same look @ MBSE applies to TMIs, but they're not my focus." No traffic flow management requirement remains.
 
 ## 3. Stakeholder requirements (on the NAS)
 
-The note under each table says why each requirement is in the study. It is the `rationale` attribute in the model.
+The Wording column is explained under "Who wrote what". The note under each table says why each requirement is in the study. It is shortened from the `rationale` attribute in the model, which also records what each hand review changed.
 
 ### Airline (Part 121 scheduled passenger operator)
 
 D-007 treatment: Modeled system (Flight Operations).
 
-| ID | The stakeholder wants | Objective rows it comes from | Answered by | Basis |
-|---|---|---|---|---|
-| SN-AIR-01 | The NAS shall provide a means for the airline to plan and fly each flight on the route, altitude and speed it chooses, so that the flight is flown within safety and capacity limits. | Airline: Fuel cost; Airline: Delay cost | SLR-PLN-01, SLR-PLN-02, SLR-CLR-09, SLR-EXE-03, SLR-MEA-02 | [B] `mori2022massCruise`, `munro2018managingVariability` |
-| SN-AIR-02 | The NAS shall provide a means for each flight to achieve arrival at its destination gate at its scheduled arrival time. | Airline: Schedule integrity; Airline: Aircraft utilization; Airline: Passenger connections | SLR-INF-07, SLR-APT-04 | [C] |
-| SN-AIR-03 | The NAS shall inform the airline of airspace and airport constraints that will delay or reroute its flights early enough for the airline to re-plan. | Airline: Delay cost; Airline: Schedule integrity | SLR-CLR-04, SLR-INF-07 | [A] `faa2025jo72103ee` |
-| SN-AIR-05 | The NAS shall take the airline's priorities for a flight (fuel against time, and protected connections) into account when a change to that flight's trajectory is required. | Airline: Fuel cost; Airline: Schedule integrity; Airline: Passenger connections | SLR-CLR-13, SLR-INF-02 | [B] `schultz2012adaptiveClimb`, `coppenbarger1999climbPrediction` |
+| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+|---|---|---|---|---|---|
+| SN-AIR-01 | The NAS shall provide a means for the airline to plan and fly each flight on the route, altitude and speed it chooses, so that the flight is flown within safety and capacity limits. | Owner edit | Airline: Fuel cost; Airline: Delay cost | SLR-PLN-01, SLR-PLN-02, SLR-CLR-09, SLR-EXE-03, SLR-MEA-02 | [B] `mori2022massCruise`, `munro2018managingVariability` |
+| SN-AIR-02 | The NAS shall provide a means for each flight to achieve arrival at its destination gate at its scheduled arrival time. | Owner | Airline: Schedule integrity; Airline: Aircraft utilization; Airline: Passenger connections | SLR-INF-07, SLR-APT-04 | [C] |
+| SN-AIR-03 | The NAS shall inform the airline of airspace and airport constraints that will delay or reroute its flights early enough for the airline to re-plan. | Claude, kept | Airline: Delay cost; Airline: Schedule integrity | SLR-CLR-04, SLR-INF-07 | [A] `faa2025jo72103ee` |
+| SN-AIR-05 | The NAS shall take the airline's priorities for a flight (fuel against time, and protected connections) into account when a change to that flight's trajectory is required. | Owner | Airline: Fuel cost; Airline: Schedule integrity; Airline: Passenger connections | SLR-CLR-13, SLR-INF-02 | [B] `schultz2012adaptiveClimb`, `coppenbarger1999climbPrediction` |
 
-- **SN-AIR-01**: In the study: the planned cruise altitude and speed are what a conflict resolution takes the aircraft away from, so this is what the experiment scores a resolution against. The owner struck 'at its lowest operating cost' (hand review 2026-10-11): what the airline optimizes for is the airline's own business.
-- **SN-AIR-02**: In the study: the time side of the fuel-against-time trade, and the reason one flight's connections can outweigh its fuel (case D of the experiment). Owner's wording, hand review 2026-10-10.
-- **SN-AIR-03**: In the study: flights are separated as filed; as uncertainty is realized, aircraft deviate and interventions are needed (owner, hand review 2026-10-11). The intervention is the constraint the airline needs to hear about, and the crew and the dispatchers are the ones who coordinate to make that happen (owner, 2026-10-11). Traffic management initiatives are outside the study (D-021).
-- **SN-AIR-05**: In the study: this is the requirement the experiment is about (knowledge/models/experiment-definition.md section 2). It is not met today: the controller does not receive weight or cost index. Owner's wording, hand review 2026-10-10.
+- **SN-AIR-01**: The planned cruise altitude and speed are what a conflict resolution takes the aircraft away from, so this is what the experiment scores a resolution against. The owner struck "at its lowest operating cost": what the airline optimizes for is the airline's own business.
+- **SN-AIR-02**: The time side of the fuel-against-time trade, and the reason one flight's connections can outweigh its fuel (case D of the experiment).
+- **SN-AIR-03**: Flights are separated as filed; as uncertainty is realized, aircraft deviate and interventions are needed. The intervention is the constraint the airline needs to hear about, and the crew and the dispatchers are the ones who coordinate to make that happen (both points are the owner's). Traffic management initiatives are outside the study (D-021).
+- **SN-AIR-05**: The requirement the experiment is about (`knowledge/models/experiment-definition.md` section 2). Not met today: the controller does not receive weight or cost index.
 
 ### Air traffic control and traffic flow management (FAA Air Traffic Organization)
 
 D-007 treatment: Modeled system (Airspace Management).
 
-| ID | The stakeholder wants | Objective rows it comes from | Answered by | Basis |
-|---|---|---|---|---|
-| SN-ATC-01 | The NAS shall keep every controlled aircraft separated from every other aircraft by at least the applicable separation minimum. | ATC / ANSP: Safety/separation | SLR-PLN-06, SLR-CLR-01, SLR-CLR-02, SLR-INF-01, SLR-EXE-02 | [A] `faa2025jo711065bb` |
-| SN-ATC-02 | The NAS shall keep the number of aircraft in each sector and at each airport within its declared capacity. | ATC / ANSP: Capacity | SLR-PLN-06 | [A] `faa2025jo72103ee` |
-| SN-ATC-04 | The NAS shall keep the number of control actions a sector controller must take within what one sector team can sustain. | ATC / ANSP: Sector workload; ATC / ANSP: Traffic complexity | SLR-CLR-15 | [B] `rantanen2012conflictManeuvers`, `kirwan2001coraStrategies` |
+| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+|---|---|---|---|---|---|
+| SN-ATC-01 | The NAS shall keep every controlled aircraft separated from every other aircraft by at least the applicable separation minimum. | Claude, kept | ATC / ANSP: Safety/separation | SLR-PLN-06, SLR-CLR-01, SLR-CLR-02, SLR-INF-01, SLR-EXE-02 | [A] `faa2025jo711065bb` |
+| SN-ATC-02 | The NAS shall keep the number of aircraft in each sector and at each airport within its declared capacity. | Claude, kept | ATC / ANSP: Capacity | SLR-PLN-06 | [A] `faa2025jo72103ee` |
+| SN-ATC-04 | The NAS shall keep the number of control actions a sector controller must take within what one sector team can sustain. | Claude, kept | ATC / ANSP: Sector workload; ATC / ANSP: Traffic complexity | SLR-CLR-15 | [B] `rantanen2012conflictManeuvers`, `kirwan2001coraStrategies` |
 
-- **SN-ATC-01**: In the study: the hard constraint every resolution option must meet. It is never traded against cost (knowledge/models/experiment-definition.md section 6).
-- **SN-ATC-02**: In the study: context. It is the capacity limit named in SN-AIR-01. Not marked in either hand review. The workload rows moved back to SN-ATC-04 (D-021).
-- **SN-ATC-04**: Struck in the first hand review and brought back in the second (owner, 2026-10-11: 'Let's bring back SN-ATC-04'). In the study: instruction count is one of the experiment's two scored columns. Workload is a ceiling, not something to minimize: a controller who is not overworked can give as many instructions as wanted (owner, same review).
+- **SN-ATC-01**: The hard constraint every resolution option must meet. It is never traded against cost (`knowledge/models/experiment-definition.md` section 6).
+- **SN-ATC-02**: Context: it is the capacity limit named in SN-AIR-01.
+- **SN-ATC-04**: Instruction count is one of the experiment's two scored columns. Workload is a ceiling, not something to minimize: a controller who is not overworked can give as many instructions as wanted (owner). Struck in the first review and restored by the owner in the second.
 
 ### Flight crew (captain and first officer)
 
 D-007 treatment: Modeled system (Flight Crew).
 
-| ID | The stakeholder wants | Objective rows it comes from | Answered by | Basis |
-|---|---|---|---|---|
-| SN-CRW-03 | The NAS shall give the flight crew only trajectory instructions that the aircraft can fly, with enough time to set them up. | Flight Crew: Workload; Flight Crew: Safety | SLR-CLR-10, SLR-INF-02, SLR-EXE-03, SLR-EXE-06 | [SME] |
-| SN-CRW-06 | The NAS shall provide the flight crew clearances that account for air traffic. | Flight Crew: Safety | SLR-CLR-01, SLR-CLR-02 | [SME] |
-| SN-CRW-07 | The NAS shall inform the flight crew of weather, traffic and other safety considerations. | Flight Crew: Safety; Flight Crew: Procedural compliance | SLR-PLN-07 | [SME] |
-| SN-CRW-08 | The NAS shall facilitate control of the aircraft across regional sectors, coordinating controls, clearances and handoffs. | Flight Crew: Workload; Flight Crew: Procedural compliance | SLR-CLR-04 | [SME] |
+| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+|---|---|---|---|---|---|
+| SN-CRW-03 | The NAS shall give the flight crew only trajectory instructions that the aircraft can fly, with enough time to set them up. | Claude, kept | Flight Crew: Workload; Flight Crew: Safety | SLR-CLR-10, SLR-INF-02, SLR-EXE-03, SLR-EXE-06 | [SME] |
+| SN-CRW-06 | The NAS shall provide the flight crew clearances that account for air traffic. | Owner | Flight Crew: Safety | SLR-CLR-01, SLR-CLR-02 | [SME] |
+| SN-CRW-07 | The NAS shall inform the flight crew of weather, traffic and other safety considerations. | Owner | Flight Crew: Safety; Flight Crew: Procedural compliance | SLR-PLN-07 | [SME] |
+| SN-CRW-08 | The NAS shall facilitate control of the aircraft across regional sectors, coordinating controls, clearances and handoffs. | Owner | Flight Crew: Workload; Flight Crew: Procedural compliance | SLR-CLR-04 | [SME] |
 
-- **SN-CRW-03**: In the study: a climb the aircraft is too heavy to make is the clearance the baseline can issue and the improved architecture avoids. The only flight crew requirement of the first draft the owner kept.
-- **SN-CRW-06**: Written by the owner in the hand review of 2026-10-10 (flight crew note 1). In the study: the clearance that resolves the conflict is the thing the crew receives. Objective row confirmed by the owner (hand review 2026-10-11).
-- **SN-CRW-07**: Written by the owner in the hand review of 2026-10-10 (flight crew note 2). In the study: what the crew knows when it accepts, refuses or asks to change a clearance. On 2026-10-11 the owner replaced 'traffic management initiatives' with 'other safety considerations', as a catch-all. Objective rows confirmed by the owner (hand review 2026-10-11).
-- **SN-CRW-08**: Written by the owner in the hand review of 2026-10-10 (flight crew note 3). In the study: the conflict is resolved by one sector controller, whose authority ends at the sector boundary. Objective rows confirmed by the owner (hand review 2026-10-11).
+- **SN-CRW-03**: A climb the aircraft is too heavy to make is the clearance the baseline can issue and the improved architecture avoids.
+- **SN-CRW-06**: The clearance that resolves the conflict is the thing the crew receives.
+- **SN-CRW-07**: What the crew knows when it accepts, refuses or asks to change a clearance. "Other safety considerations" is the owner's catch-all.
+- **SN-CRW-08**: The conflict is resolved by one sector controller, whose authority ends at the sector boundary.
 
 ### Regulator (FAA as rule maker; Department of Transportation)
 
 D-007 treatment: Boundary actor.
 
-| ID | The stakeholder wants | Objective rows it comes from | Answered by | Basis |
-|---|---|---|---|---|
-| SN-GOV-01 | The NAS shall conduct every flight within the operating rules of 14 CFR and the FAA's air traffic orders. | none (see note) | SLR-PLN-04, SLR-PLN-05, SLR-CLR-08, SLR-EXE-06, SLR-MEA-01 | [A] `faa2025jo711065bb`, `faa2025jo72103ee`, 14 CFR 91, 14 CFR 121 |
+| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+|---|---|---|---|---|---|
+| SN-GOV-01 | The NAS shall conduct every flight within the operating rules of 14 CFR and the FAA's air traffic orders. | Claude, kept | none (see note) | SLR-PLN-04, SLR-PLN-05, SLR-CLR-08, SLR-EXE-06, SLR-MEA-01 | [A] `faa2025jo711065bb`, `faa2025jo72103ee`, 14 CFR 91, 14 CFR 121 |
 
-- **SN-GOV-01**: In the study: the rules are held fixed (D-007), so both the baseline and the improved architecture must stay inside them. Governance has no table in knowledge/models/stakeholder-objective-ontology.md; the objective is 'Regulatory Compliance' in the enterprise objective hierarchy in knowledge/models/stakeholder-register.md. The owner judged adding a Governance table not important (hand review 2026-10-10).
+- **SN-GOV-01**: The rules are held fixed (D-007), so both the baseline and the improved architecture must stay inside them. Governance has no table in `knowledge/models/stakeholder-objective-ontology.md`; the objective is "Regulatory Compliance" in the enterprise objective hierarchy in `knowledge/models/stakeholder-register.md`. The owner judged adding a Governance table not important.
 
 ### Communities and environmental organizations
 
 D-007 treatment: Boundary actor (acts through Governance per D-007).
 
-| ID | The stakeholder wants | Objective rows it comes from | Answered by | Basis |
-|---|---|---|---|---|
-| SN-ENV-01 | The NAS shall keep the CO2 emitted by each flight as low as safety, economics and capacity allow. | Environmental / Societal: CO2 | SLR-CLR-13, SLR-MEA-02 | [C] `icao2024icecMethodology` |
+| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+|---|---|---|---|---|---|
+| SN-ENV-01 | The NAS shall keep the CO2 emitted by each flight as low as safety, economics and capacity allow. | Owner edit | Environmental / Societal: CO2 | SLR-CLR-13, SLR-MEA-02 | [C] `icao2024icecMethodology` |
 
-- **SN-ENV-01**: In the study: CO2 is fuel burned times 3.16 (D-015), so the experiment's fuel column is also this stakeholder's column. 'Economics' was added by the owner (hand review 2026-10-10) and left standing in the second review.
+- **SN-ENV-01**: CO2 is fuel burned times 3.16 (D-015), so the experiment's fuel column is also this stakeholder's column. "Economics" is the owner's addition.
 
-**Groups with no requirement after the review:** Airport operator, Passengers, Military airspace users. See section 6 for what was struck and section 8 for the objective rows left without a requirement.
+**Groups with no requirement:** Airport operator, Passengers, Military airspace users. Section 8 lists the objective rows left without a requirement.
 
 ## 4. System requirements
 
-Columns: **Traces to** is the stakeholder requirement it answers. **Allocated to** names the constituent systems, the accountable one first. **Check** is how it would be verified: inspection of the model, analysis (calculation or simulation), or demonstration (a scenario walked through on the activity diagram). **Measure** is filled only where there is something to measure; a number appears only where a source gives it. **State** is `improved` where today's NAS does not do it (D-018), otherwise `baseline`. A statement written with "should" is a goal (section 5). The note under each table says why each one is in the study and records the owner's marks.
+Columns: **Wording** is explained under "Who wrote what". **Traces to** is the stakeholder requirement it answers. **Allocated to** names the constituent systems, the accountable one first. **Check** is how it would be verified: inspection of the model, analysis (calculation or simulation), or demonstration (a scenario walked through on the activity diagram). **Measure** is filled only where there is something to measure; a number appears only where a source gives it. **State** is `improved` where today's NAS does not do it (D-018), otherwise `baseline`. A statement written with "should" is a goal (section 5). The note under each table says why each one is in the study; it is shortened from the `rationale` attribute in the model.
 
 ### Flight planning and release
 
 Place on the trajectory-intent chain: mission plan -> flight plan.
 
-| ID | Requirement | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
-|---|---|---|---|---|---|---|---|---|
-| SLR-PLN-01 | The NAS shall produce for each scheduled flight a flight plan that states its route, cruise altitude, cruise speed and fuel load. | Functional | baseline | SN-AIR-01 | Dispatcher | Inspection |  | [B] `berry2011aocActors` |
-| SLR-PLN-02 | The NAS shall compute each flight plan from the performance of the aircraft assigned to the flight. | Functional | baseline | SN-AIR-01 | AOC decision support (flight planning system); Load planner | Analysis |  | [B] `mori2022massCruise` |
-| SLR-PLN-04 | The NAS shall load each flight with fuel to reach its destination, then its most distant alternate, then fly 45 minutes at normal cruise. | Constraint | baseline | SN-GOV-01 | Dispatcher | Inspection | fuel remaining after destination and alternate (minutes at normal cruise). Value: 45 | [C] 14 CFR 121.639 |
-| SLR-PLN-05 | The NAS shall release a flight only when the dispatcher and the captain both agree that it can be flown safely as planned. | Functional | baseline | SN-GOV-01 | Dispatcher; Flight deck crew | Inspection |  | [A] 14 CFR 121.533 |
-| SLR-PLN-06 | The NAS shall file each flight plan with air traffic control before the flight departs. | Interface | baseline | SN-ATC-01, SN-ATC-02 | Dispatcher; Air traffic control | Inspection |  | [A] `faa2025aim`, `faa2025jo72103ee` |
-| SLR-PLN-07 | The NAS shall deliver the dispatch release, flight plan, weather, notices to airmen (NOTAMs) and load sheet to the flight crew before departure. | Interface | baseline | SN-CRW-07 | Dispatcher; Load planner | Inspection |  | [B] `seamster2011collabSystems` |
+| ID | Requirement | Wording | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
+|---|---|---|---|---|---|---|---|---|---|
+| SLR-PLN-01 | The NAS shall produce for each scheduled flight a flight plan that states its route, cruise altitude, cruise speed and fuel load. | Claude, kept | Functional | baseline | SN-AIR-01 | Dispatcher | Inspection |  | [B] `berry2011aocActors` |
+| SLR-PLN-02 | The NAS shall compute each flight plan from the performance of the aircraft assigned to the flight. | Owner edit | Functional | baseline | SN-AIR-01 | AOC decision support (flight planning system); Load planner | Analysis |  | [B] `mori2022massCruise` |
+| SLR-PLN-04 | The NAS shall load each flight with fuel to reach its destination, then its most distant alternate, then fly 45 minutes at normal cruise. | Claude, kept | Constraint | baseline | SN-GOV-01 | Dispatcher | Inspection | fuel remaining after destination and alternate (minutes at normal cruise). Value: 45 | [C] 14 CFR 121.639 |
+| SLR-PLN-05 | The NAS shall release a flight only when the dispatcher and the captain both agree that it can be flown safely as planned. | Claude, kept | Functional | baseline | SN-GOV-01 | Dispatcher; Flight deck crew | Inspection |  | [A] 14 CFR 121.533 |
+| SLR-PLN-06 | The NAS shall file each flight plan with air traffic control before the flight departs. | Claude, kept | Interface | baseline | SN-ATC-01, SN-ATC-02 | Dispatcher; Air traffic control | Inspection |  | [A] `faa2025aim`, `faa2025jo72103ee` |
+| SLR-PLN-07 | The NAS shall deliver the dispatch release, flight plan, weather, notices to airmen (NOTAMs) and load sheet to the flight crew before departure. | Claude, kept | Interface | baseline | SN-CRW-07 | Dispatcher; Load planner | Inspection |  | [B] `seamster2011collabSystems` |
 
-- **SLR-PLN-01**: In the study: the flight plan sets the cruise altitude, speed and fuel load each aircraft has when the conflict occurs.
-- **SLR-PLN-02**: The owner struck 'the planned take-off weight' (hand review 2026-10-10). In the study: the cost-optimal altitude depends on mass (mori2022massCruise, Figure 1), which is why two aircraft of one type can want different levels. Owner (hand review 2026-10-11): the next tier can hold several requirements under this one, one per customer or way of computing it: low fidelity, high fidelity, and rules of thumb per aircraft type.
-- **SLR-PLN-04**: The owner asked whether this is relevant for the weight assumptions. It is: the fuel load is part of the take-off weight, and the reserve sets the least fuel, and so the least weight, an aircraft can have in cruise. Owner (hand review 2026-10-11): it goes into the low-fidelity model's assumptions. Number and paragraph are from general knowledge; confirm against 14 CFR 121.639 before baselining.
-- **SLR-PLN-05**: Kept by the owner (hand review 2026-10-11). In the study: it is why a controller will issue a descent as a tactical change without negotiation and will not issue a climb. There is no question that a descent can be achieved. A climb is different: the released plan vouches for the planned level and nothing above it. That is the reasoning behind the rule of thumb (owner, 2026-10-11; 'DES' in the hand note is descent).
-- **SLR-PLN-06**: In the study: the filed plan is the only statement of the airline's intent the controller has today, so it is the baseline that the proposed data share adds to. No lead time is set; the summary of faa2025aim records a 45 to 46 minute point before departure after which a filed plan is locked.
-- **SLR-PLN-07**: In the study: the load sheet is how the actual weight reaches the crew and the flight management system.
+- **SLR-PLN-01**: The flight plan sets the cruise altitude, speed and fuel load each aircraft has when the conflict occurs.
+- **SLR-PLN-02**: The cost-optimal altitude depends on mass (`mori2022massCruise`, Figure 1), which is why two aircraft of one type can want different levels. The owner struck "the planned take-off weight". Owner: the next tier can hold several requirements under this one, one per way of computing it (low fidelity, high fidelity, rules of thumb per aircraft type).
+- **SLR-PLN-04**: The fuel load is part of the take-off weight, and the reserve sets the least fuel, and so the least weight, an aircraft can have in cruise. Owner: it goes into the low-fidelity model's assumptions. **Unconfirmed:** the 45 minutes and the paragraph number are from general knowledge; check against 14 CFR 121.639 before baselining.
+- **SLR-PLN-05**: It is why a controller will issue a descent as a tactical change without negotiation and will not issue a climb. There is no question that a descent can be achieved. A climb is different: the released plan vouches for the planned level and nothing above it. That is the reasoning behind the rule of thumb (owner).
+- **SLR-PLN-06**: The filed plan is the only statement of the airline's intent the controller has today, so it is the baseline that the proposed data share adds to. No lead time is set.
+- **SLR-PLN-07**: The load sheet is how the actual weight reaches the crew and the flight management system.
 
 ### Clearance, separation and tactical trajectory change
 
 Place on the trajectory-intent chain: ATC constraints -> trajectory negotiation.
 
-| ID | Requirement | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
-|---|---|---|---|---|---|---|---|---|
-| SLR-CLR-01 | The NAS shall keep each pair of controlled aircraft separated by at least the minimum that JO 7110.65BB sets for the airspace they are in. | Performance | baseline | SN-ATC-01, SN-CRW-06 | Air traffic control; En-route center (ARTCC); Terminal approach control (TRACON) | Analysis | lateral and vertical distance between each pair of aircraft (NM and ft) | [A] `faa2025jo711065bb` |
-| SLR-CLR-02 | The NAS shall predict a loss of separation between controlled aircraft before it occurs. | Functional | baseline | SN-ATC-01, SN-CRW-06 | ATC decision support | Analysis |  | [B] `engility2014tasarAlaska` |
-| SLR-CLR-04 | The NAS shall provide a two-way communication path from the flight crew to the controlling facility and to the dispatcher for the whole flight. | Interface | baseline | SN-CRW-08, SN-AIR-03 | Aircraft communication system; Air traffic control; Dispatcher | Inspection |  | [SME] |
-| SLR-CLR-08 | The NAS shall allow the captain to deviate from a clearance when safety requires it, with air traffic control told as soon as practical. | Functional | baseline | SN-GOV-01 | Flight deck crew | Inspection |  | [A] 14 CFR 91.3 |
-| SLR-CLR-09 | The NAS shall answer each flight crew request for a route, altitude or speed change with an approval, an amended clearance or a refusal. | Functional | baseline | SN-AIR-01 | Air traffic control; Flight deck crew | Demonstration |  | [B] `engility2014tasarAlaska` |
-| SLR-CLR-10 | The NAS shall issue only clearances that the aircraft can fly. | Constraint | improved | SN-CRW-03 | Air traffic control | Analysis |  | [B] `coppenbarger1999climbPrediction`, `engility2014tasarAlaska` |
-| SLR-CLR-13 | The NAS should choose, among the maneuvers that restore separation, the one with the lowest impact on the aircraft involved. | Performance (goal) | improved | SN-AIR-05, SN-ENV-01 | ATC decision support; Air traffic control | Analysis | the experiment's measure of impact: sum over the aircraft involved of fuel cost plus cost index x time (USD per conflict) | [B] `schultz2012adaptiveClimb`, `mori2022massCruise`, `kirwan2001coraStrategies` |
-| SLR-CLR-15 | The NAS shall keep the control instructions needed to resolve a conflict within what the sector team can sustain. | Performance | baseline | SN-ATC-04 | Air traffic control | Analysis | instructions issued plus follow-up instructions, per conflict (count) | [B] `rantanen2012conflictManeuvers`, `kirwan2001coraStrategies` |
+| ID | Requirement | Wording | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
+|---|---|---|---|---|---|---|---|---|---|
+| SLR-CLR-01 | The NAS shall keep each pair of controlled aircraft separated by at least the minimum that JO 7110.65BB sets for the airspace they are in. | Claude, kept | Performance | baseline | SN-ATC-01, SN-CRW-06 | Air traffic control; En-route center (ARTCC); Terminal approach control (TRACON) | Analysis | lateral and vertical distance between each pair of aircraft (NM and ft) | [A] `faa2025jo711065bb` |
+| SLR-CLR-02 | The NAS shall predict a loss of separation between controlled aircraft before it occurs. | Claude, kept | Functional | baseline | SN-ATC-01, SN-CRW-06 | ATC decision support | Analysis |  | [B] `engility2014tasarAlaska` |
+| SLR-CLR-04 | The NAS shall provide a two-way communication path from the flight crew to the controlling facility and to the dispatcher for the whole flight. | Owner edit | Interface | baseline | SN-CRW-08, SN-AIR-03 | Aircraft communication system; Air traffic control; Dispatcher | Inspection |  | [SME] |
+| SLR-CLR-08 | The NAS shall allow the captain to deviate from a clearance when safety requires it, with air traffic control told as soon as practical. | Claude, kept | Functional | baseline | SN-GOV-01 | Flight deck crew | Inspection |  | [A] 14 CFR 91.3 |
+| SLR-CLR-09 | The NAS shall answer each flight crew request for a route, altitude or speed change with an approval, an amended clearance or a refusal. | Claude, kept | Functional | baseline | SN-AIR-01 | Air traffic control; Flight deck crew | Demonstration |  | [B] `engility2014tasarAlaska` |
+| SLR-CLR-10 | The NAS shall issue only clearances that the aircraft can fly. | Owner edit | Constraint | improved | SN-CRW-03 | Air traffic control | Analysis |  | [B] `coppenbarger1999climbPrediction`, `engility2014tasarAlaska` |
+| SLR-CLR-13 | The NAS should choose, among the maneuvers that restore separation, the one with the lowest impact on the aircraft involved. | Owner edit | Performance (goal) | improved | SN-AIR-05, SN-ENV-01 | ATC decision support; Air traffic control | Analysis | the experiment's measure of impact: sum over the aircraft involved of fuel cost plus cost index x time (USD per conflict) | [B] `schultz2012adaptiveClimb`, `mori2022massCruise`, `kirwan2001coraStrategies` |
+| SLR-CLR-15 | The NAS shall keep the control instructions needed to resolve a conflict within what the sector team can sustain. | Claude, kept | Performance | baseline | SN-ATC-04 | Air traffic control | Analysis | instructions issued plus follow-up instructions, per conflict (count) | [B] `rantanen2012conflictManeuvers`, `kirwan2001coraStrategies` |
 
-- **SLR-CLR-01**: In the study: the hard constraint every resolution option must meet; it is not traded (knowledge/models/experiment-definition.md section 6). For en-route radar the minimum is commonly 5 NM or 1,000 ft; those numbers are from general knowledge and are left out of the threshold until the paragraph is confirmed.
-- **SLR-CLR-02**: In the study: the conflict has to be predicted before any option can be chosen. No look-ahead time is set; engility2014tasarAlaska page 9 uses an eight-minute probe in its own model, which is a candidate.
-- **SLR-CLR-04**: 'Dispatcher too' was added by the owner (hand review 2026-10-10). In the study: the clearance, the crew's 'unable' and any crew request cross this path. It was a derived requirement in the first draft; it now answers SN-CRW-08. 'Of controlled' was struck by the owner (hand review 2026-10-11). It also answers SN-AIR-03: the crew and the dispatchers are the ones who coordinate so that the airline is informed (owner, 2026-10-11).
-- **SLR-CLR-08**: 14 CFR 91.3. In the study: the owner asks whether leaving the choice to the crew, with a response delay, should be one of the experiment's options. Open.
-- **SLR-CLR-09**: The owner asked what its relevance is. In the study: a crew request is the only way today that what the aircraft knows about its own weight and best altitude reaches the controller, so it is the baseline counterpart of the proposed data share. Left standing in the second review.
-- **SLR-CLR-10**: The owner struck 'at its current weight': weight is not required, but it helps when it is included in the model behind a decision aid. Not fully met today: the ground system assumes one nominal weight per aircraft type (coppenbarger1999climbPrediction), and the crew answers 'unable' when a clearance cannot be flown. The rule in D-013 (offer a climb only at or below FL350) stands in for the missing knowledge. Kept as improved (D-018); left standing in the second review.
-- **SLR-CLR-13**: A goal, not a requirement (owner, hand review 2026-10-10). Re-worded by the owner on 2026-10-11: 'impact' replaces 'combined cost' because it is generic and leaves what counts to each controller, and 'with the same number of control instructions' is struck. The held sources agree it is not a duty: the controller's aim is to separate aircraft 'first safely, and then expeditiously' (kirwan2001coraStrategies, p. 4). Not pursued today, because the deciding party lacks the information in SLR-INF-02. In the study: the experiment has to pick one measure of impact to score with; it uses fuel cost plus cost index times time (mori2022massCruise), which is the experiment's choice and not part of this goal.
-- **SLR-CLR-15**: New, proposed by Claude on 2026-10-11 so that the restored SN-ATC-04 has an answer; not written by the owner. It replaces the struck goal SLR-CLR-12 (fewest instructions), which the owner rejected: instruction count is not a safety objective, and a controller who is not overworked can give as many as wanted. So the count is a ceiling. No ceiling is set, because no held source gives one. In the study: the experiment's workload column (instructions issued plus follow-ups).
+- **SLR-CLR-01**: The hard constraint every resolution option must meet; it is not traded (`knowledge/models/experiment-definition.md` section 6). **Unconfirmed:** for en-route radar the minimum is commonly 5 NM or 1,000 ft; those numbers are from general knowledge and are left out of the measure until the paragraph of JO 7110.65BB is confirmed.
+- **SLR-CLR-02**: The conflict has to be predicted before any option can be chosen. No look-ahead time is set; `engility2014tasarAlaska` page 9 uses an eight-minute probe in its own model, which is a candidate.
+- **SLR-CLR-04**: The clearance, the crew's "unable" and any crew request cross this path. The owner added the dispatcher and struck "of controlled". It also answers SN-AIR-03, because the crew and the dispatchers are the ones who coordinate so that the airline is informed (owner).
+- **SLR-CLR-08**: 14 CFR 91.3. **Open (owner's question):** should leaving the choice to the crew, with a response delay, be one of the experiment's options?
+- **SLR-CLR-09**: A crew request is the only way today that what the aircraft knows about its own weight and best altitude reaches the controller, so it is the baseline counterpart of the proposed data share.
+- **SLR-CLR-10**: Not fully met today: the ground system assumes one nominal weight per aircraft type (`coppenbarger1999climbPrediction`), and the crew answers "unable" when a clearance cannot be flown. The rule in D-013 (offer a climb only at or below FL350) stands in for the missing knowledge. The owner struck "at its current weight": weight is not required, but it helps when it is in the model behind a decision aid.
+- **SLR-CLR-13**: A goal, not a requirement (section 5). Not pursued today, because the deciding party lacks the information in SLR-INF-02. "Impact" is the owner's word: it is generic and leaves what counts to each controller. The measure is not the owner's (section 7, item 2).
+- **SLR-CLR-15**: **Claude's wording, not yet reviewed (section 7, item 1).** It gives the restored SN-ATC-04 an answer and the experiment's workload column (instructions issued plus follow-ups) a requirement to trace to. The count is a ceiling, following the owner's note on SN-ATC-04. No ceiling is set, because no held source gives one.
 
 ### Information for trajectory decisions
 
 Place on the trajectory-intent chain: what the party making each decision must be given.
 
-| ID | Requirement | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
-|---|---|---|---|---|---|---|---|---|
-| SLR-INF-01 | The NAS shall give the sector controller the filed route, requested altitude and requested speed of each aircraft before it enters the sector. | Interface | baseline | SN-ATC-01 | Air traffic control; En-route center (ARTCC) | Inspection |  | [A] `faa2025jo711065bb` |
-| SLR-INF-02 | The NAS shall give the party that decides a change to an aircraft's trajectory the information needed to preserve safety and pursue optimality. | Interface | improved | SN-AIR-05, SN-CRW-03 | Flight management system; Airline operations center; ATC decision support; Air traffic control | Analysis |  | [B] `schultz2012adaptiveClimb`, `coppenbarger1999climbPrediction`, `sheth2010creditsConcept` |
-| SLR-INF-07 | The NAS shall send the airline and the destination airport an updated arrival estimate whenever a flight's estimate changes by more than 5 minutes. | Interface | baseline | SN-AIR-02, SN-AIR-03 | Flight management system; Flight deck crew; Airline operations center; Airport management system | Inspection | change in estimated arrival time that triggers an update (minutes). Value: 5 | [B] `seamster2011collabSystems` |
+| ID | Requirement | Wording | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
+|---|---|---|---|---|---|---|---|---|---|
+| SLR-INF-01 | The NAS shall give the sector controller the filed route, requested altitude and requested speed of each aircraft before it enters the sector. | Claude, kept | Interface | baseline | SN-ATC-01 | Air traffic control; En-route center (ARTCC) | Inspection |  | [A] `faa2025jo711065bb` |
+| SLR-INF-02 | The NAS shall give the party that decides a change to an aircraft's trajectory the information needed to preserve safety and pursue optimality. | Owner | Interface | improved | SN-AIR-05, SN-CRW-03 | Flight management system; Airline operations center; ATC decision support; Air traffic control | Analysis |  | [B] `schultz2012adaptiveClimb`, `coppenbarger1999climbPrediction`, `sheth2010creditsConcept` |
+| SLR-INF-07 | The NAS shall send the airline and the destination airport an updated arrival estimate whenever a flight's estimate changes by more than 5 minutes. | Claude, kept | Interface | baseline | SN-AIR-02, SN-AIR-03 | Flight management system; Flight deck crew; Airline operations center; Airport management system | Inspection | change in estimated arrival time that triggers an update (minutes). Value: 5 | [B] `seamster2011collabSystems` |
 
-- **SLR-INF-01**: In the study: this is what the controller knows about each aircraft today (case A of the experiment).
-- **SLR-INF-02**: Owner's wording (hand review 2026-10-10). It replaces three statements that named gross weight, cost index and connection priority one at a time (the first draft's SLR-INF-02, SLR-INF-03 and SLR-INF-04); the owner judged them implied. Those three items are the attributes of AirlinePerformanceShare in nas_sysml_package_definitions.sysml (D-019) and are where the next tier of requirements starts. Not met today: the controller does not receive weight or cost index (schultz2012adaptiveClimb, page 2). Cases C and D of the experiment.
-- **SLR-INF-07**: In the study: how the airline learns what a trajectory change did to the arrival time. It answers SN-AIR-03 together with SLR-CLR-04: the crew and the dispatcher coordinate over that path, and this is what they pass. The 5 minutes is the crew-to-dispatch practice in seamster2011collabSystems (survey item: notify dispatch of ETA changes greater than 5 minutes). Extending the same trigger to the airport is this draft's proposal, not the source's.
+- **SLR-INF-01**: This is what the controller knows about each aircraft today (case A of the experiment).
+- **SLR-INF-02**: Not met today: the controller does not receive weight or cost index (`schultz2012adaptiveClimb`, page 2). Cases C and D of the experiment. The owner wrote it to replace three statements that named gross weight, cost index and connection priority one at a time, which the owner judged implied. Those three items are the attributes of `AirlinePerformanceShare` in `nas_sysml_package_definitions.sysml` (D-019), and they reappear one tier down in HLR-OPS-05 and HLR-ATC-08.
+- **SLR-INF-07**: How the airline learns what a trajectory change did to the arrival time. It answers SN-AIR-03 together with SLR-CLR-04: the crew and the dispatcher coordinate over that path, and this is what they pass. The 5 minutes is the crew-to-dispatch practice in `seamster2011collabSystems`. **Claude's proposal, not the source's:** extending the same trigger to the airport.
 
 ### Onboard execution
 
 Place on the trajectory-intent chain: FMS intent -> guidance commands -> aircraft motion.
 
-| ID | Requirement | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
-|---|---|---|---|---|---|---|---|---|
-| SLR-EXE-02 | The NAS shall fly each aircraft along its cleared route and at its cleared altitude and speed within the navigation and altitude tolerances of the airspace. | Performance | baseline | SN-ATC-01 | Auto flight control system; Flight management system | Analysis | cross-track distance from the cleared route; difference from the cleared altitude (NM and ft) | [SME] |
-| SLR-EXE-03 | The NAS shall predict each flight's arrival time, fuel at destination, optimum altitude and maximum altitude from the aircraft's estimated performance. | Functional | baseline | SN-AIR-01, SN-CRW-03 | Flight management system; AOC decision support (flight planning system) | Inspection |  | [SME] `mori2022massCruise` |
-| SLR-EXE-06 | The NAS shall alert the flight crew, dispatchers and controllers when the fuel predicted at the destination falls below the required reserve. | Functional | baseline | SN-GOV-01, SN-CRW-03 | Flight management system; Dispatcher; Air traffic control | Inspection |  | [SME] |
+| ID | Requirement | Wording | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
+|---|---|---|---|---|---|---|---|---|---|
+| SLR-EXE-02 | The NAS shall fly each aircraft along its cleared route and at its cleared altitude and speed within the navigation and altitude tolerances of the airspace. | Owner edit | Performance | baseline | SN-ATC-01 | Auto flight control system; Flight management system | Analysis | cross-track distance from the cleared route; difference from the cleared altitude (NM and ft) | [SME] |
+| SLR-EXE-03 | The NAS shall predict each flight's arrival time, fuel at destination, optimum altitude and maximum altitude from the aircraft's estimated performance. | Owner edit | Functional | baseline | SN-AIR-01, SN-CRW-03 | Flight management system; AOC decision support (flight planning system) | Inspection |  | [SME] `mori2022massCruise` |
+| SLR-EXE-06 | The NAS shall alert the flight crew, dispatchers and controllers when the fuel predicted at the destination falls below the required reserve. | Owner edit | Functional | baseline | SN-GOV-01, SN-CRW-03 | Flight management system; Dispatcher; Air traffic control | Inspection |  | [SME] |
 
-- **SLR-EXE-02**: Owner (hand review 2026-10-10): this has to be accounted for in the separation requirements. In the study: how far an aircraft may stray from its clearance is part of the margin a resolution must leave. 'And speed' was added by the owner (hand review 2026-10-11); no speed tolerance is named yet. No tolerance is set; it depends on the navigation specification of the route, which the scenario has not chosen.
-- **SLR-EXE-03**: 'Estimated performance' is the owner's wording. 'On board' was struck by the owner (hand review 2026-10-11: 'Why on-board? This info is what factors into the FL350 number'): the prediction matters wherever it is made, and it is what sits behind the rule in D-013 that a climb is offered only at or below FL350. On board it is the item FmsPerformancePrediction in nas_sysml_package_definitions.sysml. The airline's flight planning system was added to the allocation by Claude for the same reason.
-- **SLR-EXE-06**: 'Dispatchers and controllers' was added by the owner (hand review 2026-10-11). In the study: fuel at the destination is a limit on which resolution an aircraft can accept. The dispatcher and air traffic control were added to the allocation by Claude to match. Whether a controller is alerted this way today was not checked against a source, so the baseline tag is unconfirmed.
+- **SLR-EXE-02**: How far an aircraft may stray from its clearance is part of the margin a resolution must leave, so it has to be accounted for in the separation requirements (owner). The owner added "and speed". No tolerance is set: it depends on the navigation specification of the route, which the scenario has not chosen, and no speed tolerance is named.
+- **SLR-EXE-03**: The prediction matters wherever it is made, and it is what sits behind the rule in D-013 that a climb is offered only at or below FL350; that is why the owner struck "on board". "Estimated performance" is the owner's wording. On board it is the item `FmsPerformancePrediction` in `nas_sysml_package_definitions.sysml`. The allocation to the airline's flight planning system is Claude's (section 7, item 3).
+- **SLR-EXE-06**: Fuel at the destination is a limit on which resolution an aircraft can accept. The owner added "dispatchers and controllers". The allocation to the dispatcher and air traffic control is Claude's, and the `baseline` tag is **unconfirmed** (section 7, item 3).
 
 ### Airport and surface
 
 Place on the trajectory-intent chain: start and end of the chain on the ground.
 
-| ID | Requirement | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
-|---|---|---|---|---|---|---|---|---|
-| SLR-APT-04 | The NAS shall have each aircraft fuelled, loaded and sealed by its scheduled off-block time. | Performance | baseline | SN-AIR-02 | Ground handling; Fuel distribution system; Flight deck crew | Demonstration | actual off-block time minus scheduled off-block time (minutes) | [B] `schultz2017turnaround` |
+| ID | Requirement | Wording | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
+|---|---|---|---|---|---|---|---|---|---|
+| SLR-APT-04 | The NAS shall have each aircraft fuelled, loaded and sealed by its scheduled off-block time. | Owner edit | Performance | baseline | SN-AIR-02 | Ground handling; Fuel distribution system; Flight deck crew | Demonstration | actual off-block time minus scheduled off-block time (minutes) | [B] `schultz2017turnaround` |
 
-- **SLR-APT-04**: Owner (hand review 2026-10-10): this speaks to the unknowns in weights and to when the information is available. The final weight is known only when loading ends. 'Sealed' replaces 'closed up' (owner).
+- **SLR-APT-04**: It speaks to the unknowns in weights and to when the information is available (owner): the final weight is known only when loading ends. "Sealed" is the owner's word.
 
 ### Measurement and records
 
 Place on the trajectory-intent chain: back up the chain: what is reported to the authorities and stakeholders.
 
-| ID | Requirement | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
-|---|---|---|---|---|---|---|---|---|
-| SLR-MEA-01 | The NAS shall record each change to an aircraft's trajectory, to its clearance, or to the constraints imposed on it, with the authority that issued it and the time. | Functional | baseline | SN-GOV-01 | Dispatcher; Air traffic control; Command Center (ATCSCC) | Inspection |  | [A] `faa2025jo72103ee` |
-| SLR-MEA-02 | The NAS shall report the fuel burned and the CO2 emitted by each flight, at 3.16 kg of CO2 per kg of fuel. | Performance | baseline | SN-ENV-01, SN-AIR-01 | Flight management system; Airline operations center | Analysis | CO2 emitted per kg of fuel burned (kg CO2 per kg fuel). Value: 3.16 | [A] `icao2024icecMethodology` |
+| ID | Requirement | Wording | Kind | State | Traces to | Allocated to | Check | Measure | Basis |
+|---|---|---|---|---|---|---|---|---|---|
+| SLR-MEA-01 | The NAS shall record each change to an aircraft's trajectory, to its clearance, or to the constraints imposed on it, with the authority that issued it and the time. | Claude, kept | Functional | baseline | SN-GOV-01 | Dispatcher; Air traffic control; Command Center (ATCSCC) | Inspection |  | [A] `faa2025jo72103ee` |
+| SLR-MEA-02 | The NAS shall report the fuel burned and the CO2 emitted by each flight, at 3.16 kg of CO2 per kg of fuel. | Claude, kept | Performance | baseline | SN-ENV-01, SN-AIR-01 | Flight management system; Airline operations center | Analysis | CO2 emitted per kg of fuel burned (kg CO2 per kg fuel). Value: 3.16 | [A] `icao2024icecMethodology` |
 
-- **SLR-MEA-01**: Re-worded from the owner's note (hand review 2026-10-10) and left standing in the second review. In the study: the record is what lets a resolution be scored after the fact.
-- **SLR-MEA-02**: In the study: the experiment's fuel column, and the CO2 figure derived from it. icao2024icecMethodology page 6, accepted in D-015. The number is a conversion factor, not a limit.
+- **SLR-MEA-01**: The record is what lets a resolution be scored after the fact. Claude's sentence, written from the owner's note on the first print and left standing on the second.
+- **SLR-MEA-02**: The experiment's fuel column, and the CO2 figure derived from it. `icao2024icecMethodology` page 6, accepted in D-015. The number is a conversion factor, not a limit.
 
 ## 5. Goals
 
 A goal is a statement the owner judged "not required". It stays in the model because the experiment measures it, but it is written with "should" and carries `obligation = goal` (attribute in `requirements_definitions.sysml`, D-020). A goal is measured; it is not passed or failed.
 
-- **SLR-CLR-13** (the maneuver with the lowest impact on the aircraft involved). Owner's note on the first print: "Not required, but a goal. What do sources say?" The held sources agree. Kirwan and Flynn record the controller's aim as to separate aircraft "first safely, and then expeditiously" (`kirwan2001coraStrategies`, p. 4, as quoted in `evidence/literature-notes/summaries/4 - kirwan2001coraStrategies.md`). The summaries of JO 7110.65BB and JO 7210.3EE held here record no duty to pick the cheapest maneuver for the aircraft. The summaries were searched for this; the orders themselves were not re-read. On the second print the owner changed "lowest combined cost to" into "lowest impact on" and struck "with the same number of control instructions": "'impact' is generic and leaves that up to each controller to decide."
+- **SLR-CLR-13** (the maneuver with the lowest impact on the aircraft involved). The owner's note on the first print: "Not required, but a goal. What do sources say?" The held sources agree. Kirwan and Flynn record the controller's aim as to separate aircraft "first safely, and then expeditiously" (`kirwan2001coraStrategies`, p. 4, as quoted in `evidence/literature-notes/summaries/4 - kirwan2001coraStrategies.md`). The summaries of JO 7110.65BB and JO 7210.3EE held here record no duty to pick the cheapest maneuver for the aircraft. The summaries were searched for this; the orders themselves were not re-read.
 
-SLR-CLR-12 (fewest control instructions) was a goal after the first review. The owner struck it on the second print (section 6).
+## 6. What was struck
 
-## 6. What was struck, and the owner's reason
+The owner struck 17 of the first draft's 27 stakeholder requirements and 31 of its 53 system requirements, and wrote three new stakeholder requirements. Claude added one system requirement afterwards (SLR-CLR-15, section 7). IDs were not renumbered, so a gap in the numbering is a struck requirement.
 
-The full text of each struck requirement is in the two marked-up prints named at the top of this file. Neither draft was committed to git, so those PDFs are the record. "Owner's mark" quotes the handwriting. Where the column says "no mark", the cut was Claude's, made because the requirement's only purpose went with something the owner did strike; the owner read these on the second print and let them stand, except SN-ATC-04, which is restored.
+What went, by the owner's reason:
 
-### Struck in the second review, 2026-10-11 (6 system requirements)
+- **Traffic management initiatives** (the whole SLR-FLW area, SLR-PLN-08, SN-ATC-05, SLR-MEA-04): not tactical interventions (section 2).
+- **True of the NAS, but not the studied decision** ("Not D-007", "Not relevant to project"): the airport, passenger and military requirements; surveillance, readback, handoff and holding; onboard navigation and controls; crew duty time; noise.
+- **The airline's own business:** SLR-PLN-03 (minimize the airline's stated cost). "This is an airline's prerogative."
+- **Not a safety objective:** SLR-CLR-12 (fewest control instructions). Workload is a ceiling (SN-ATC-04).
+- **Implied by another requirement:** SLR-INF-03 and SLR-INF-04, merged into SLR-INF-02.
 
-| ID | It said, in short | Owner's mark |
-|---|---|---|
-| SLR-PLN-03 | Select each flight plan's route, altitude and speed to minimize the airline's stated cost. | crossed out. "This is an airline's prerogative. Maximize revenue, profit, or min cost. I don't think I need to mandate this." |
-| SLR-PLN-08 | Plan each flight to comply with published traffic management initiatives. | crossed out |
-| SLR-FLW-03 | Notify each affected airline of a traffic management initiative before departure. | whole section crossed out. "While relevant to the NAS, the TMIs aren't relevant to tactical interventions. The same look @ MBSE applies to TMIs, but they're not my focus." |
-| SLR-CLR-12 | Resolve each conflict with the fewest control instructions (a goal). | crossed out. "Why? This isn't a safety objective. If not overworked, controllers can give as many as they want!" |
-| SLR-INF-06 | Reported and forecast weather to the dispatcher and the crew. | crossed out. "Not relevant to my study. Winds & weather 'should' be factored into account by controllers, but that's not a SLR." |
-| SLR-APT-02 | Use each runway at its declared capacity. | crossed out, "Remove." |
+Two cuts leave something behind. Keeping the airline's shared data private (SN-AIR-06, SLR-INF-05) is "important & real, but not pertinent"; it is carried as an assumption (D-020 item 4). SN-AIR-04 (the airline chooses which of its flights takes a delay) was fact-checked before it was struck: `evidence/literature-notes/summaries/5 - faa2025jo72103ee.md` records it as an option inside a ground delay program, settled before departure.
 
-**Restored in the second review:** SN-ATC-04 (controller workload). "Let's bring back SN-ATC-04."
+The full list, with the text of each struck requirement and the owner's handwriting quoted against it, is in the two marked-up prints and in section 6 of this file as committed on 2026-10-11 (`git show 43a454d:knowledge/models/requirements-and-traceability.md`).
 
-### Stakeholder requirements struck in the first review, 2026-10-10 (17 of 27 still struck)
+## 7. Added by Claude after the second print: not yet reviewed by the owner
 
-| ID | It said, in short | Owner's mark |
-|---|---|---|
-| SN-AIR-04 | The airline chooses which of its own flights takes an assigned delay. | "Fact check. This is about slot swapping, I think... seems like it's only on strategic timelines, not tactical like I'm studying." Checked: `evidence/literature-notes/summaries/5 - faa2025jo72103ee.md` records JO 7210.3EE paragraph 18-10-12 as a user option inside a ground delay program, coordinated with the Command Center before departure. |
-| SN-AIR-06 | Keep the airline's commercially sensitive flight data private. | "Important & real, but not pertinent to my project per D-007!" It is an assumption (D-020 item 4). |
-| SN-ATC-03 | The path each aircraft will fly is known to its controller in advance. | "Not D-007" |
-| SN-ATC-05 | Unavoidable delay is shared equitably among airspace users. | no mark. Its only system requirements were about traffic management initiatives. |
-| SN-APT-01, SN-APT-02, SN-APT-03 | Reliable times for gates; declared runway capacity used; short taxi queues. | "All of these are not D-007" |
-| SN-CRW-01 | The captain's final authority is preserved. | crossed out |
-| SN-CRW-02 | The crew has the information for each phase before it begins. | crossed out; replaced by the owner's SN-CRW-07 |
-| SN-CRW-04 | The crew can ask for a trajectory change and get an answer. | crossed out |
-| SN-CRW-05 | Flight and duty time limits are kept. | crossed out, "Not D-007" |
-| SN-PAX-01, SN-PAX-02, SN-PAX-03 | No injury; itinerary completed on time; known turbulence avoided. | crossed out, "Not D-007" |
-| SN-GOV-02 | One identified authority is accountable for each trajectory decision. | crossed out. "IDK about this one... the Note is an exception!" |
-| SN-ENV-02 | Noise near airports within published procedures. | crossed out, "Not important for cruise." |
-| SN-MIL-01 | Military operations have sole use of active special use airspace. | crossed out |
+These four are not on either print. Everything else in sections 3 and 4 is.
 
-### System requirements struck in the first review, 2026-10-10 (25 of 53)
-
-| ID | It said, in short | Owner's mark |
-|---|---|---|
-| SLR-PLN-09 | Crew duty period within 14 CFR Part 117. | crossed out, "Not important to project." |
-| SLR-FLW-01, SLR-FLW-02, SLR-FLW-04, SLR-FLW-05 | Forecast demand against capacity; issue an initiative; slot substitution; assign delay equitably. | no mark on the rows. On the section: "TMIs aren't what I'm studying. Should they be? Miles/Minutes in trail sub-optimal... I don't think I want to." |
-| SLR-FLW-06, SLR-FLW-07 | Depart within the EDCT window; publish the special use airspace schedule. | crossed out |
-| SLR-CLR-03 | Position, altitude and identity of each aircraft to the controlling facility. | crossed out, "of course. Not relevant to project." |
-| SLR-CLR-05 | A cleared trajectory changes only by a clearance from the controlling facility. | crossed out, "Not relevant to project." |
-| SLR-CLR-06 | The crew reads back each clearance. | crossed out, "Not relevant" |
-| SLR-CLR-07 | Control is transferred only when the receiving controller accepts. | crossed out, "Not relevant" |
-| SLR-CLR-11 | Holding instructions at least 5 minutes ahead. | crossed out, "Not Relevant!" |
-| SLR-CLR-14 | Civil aircraft kept out of active special use airspace. | crossed out, "Not Relevant." |
-| SLR-INF-03, SLR-INF-04 | Cost index, and connection priority, to the party that decides. | crossed out. Merged into SLR-INF-02: "Implied. Why add separately?" |
-| SLR-INF-05 | Shared airline data disclosed only to the deciding parties. | crossed out, "Maybe not needed if exposed as API." |
-| SLR-INF-08 | One flight identifier and one time reference on every exchange. | crossed out, "Sure, but why relevant for my project?" |
-| SLR-EXE-01 | The cleared path is held in the flight management system. | crossed out, "why needed?" |
-| SLR-EXE-04 | The flown trajectory changes only through flight deck controls. | crossed out, "of course. Why needed?" |
-| SLR-EXE-05 | Onboard position determined to the accuracy the route requires. | crossed out, "Not needed." |
-| SLR-APT-01 | A gate is assigned before landing. | crossed out, "Not relevant" |
-| SLR-APT-03 | A known departure delay is absorbed at the gate. | crossed out, "I didn't list this, as the SME. Ground delay isn't my focus!" |
-| SLR-APT-05 | Noise abatement procedures are assigned. | crossed out, "Not needed." |
-| SLR-MEA-03 | Gate arrival time reported against schedule. | crossed out, "Relevance?" |
-| SLR-MEA-04 | Delay from initiatives reported by airline. | no mark. It existed only so SLR-FLW-05 could be checked. |
-
-## 7. What Claude added or decided in applying the second print
-
-The list of questions and readings from the first review was on the second print as section 7; the owner ticked it as read and corrected what needed correcting. What follows is only what is new.
-
-1. **SLR-CLR-15 is new and is Claude's wording, not yours.** You brought SN-ATC-04 (workload) back and struck SLR-CLR-12 (fewest instructions) on the same print. That left the restored requirement with nothing answering it, and the experiment's workload column with nothing to hang from. SLR-CLR-15 turns your note ("If not overworked, controllers can give as many as they want!") into a ceiling: instructions per conflict stay within what the sector team can sustain. It carries no number, because no held source gives one. Re-word it or strike it.
-2. **SLR-CLR-13's measure.** The goal now says "lowest impact", which you left for each controller to judge. The experiment still has to score with something, so the measure column names fuel cost plus cost index times time as the experiment's choice, not as part of the goal. With SLR-PLN-03 struck, that cost formula no longer appears in any requirement; its source is `mori2022massCruise` and it lives in `knowledge/models/experiment-definition.md` section 6.
-3. **Allocation changes that follow from your wording.** SLR-EXE-03 lost "on board", so the airline's flight planning system was added beside the flight management system. SLR-EXE-06 now alerts dispatchers and controllers, so the dispatcher and air traffic control were added. SLR-EXE-06 is still tagged `baseline`; whether a controller is alerted to low predicted fuel today was not checked against a source.
-4. **SLR-PLN-05, the last word of your note.** Corrected by you on 2026-10-11: "DES" is descent. A descent can always be achieved, so it needs no negotiation; a climb is different, and the joint release is what leads to that conclusion in the rule-of-thumb case. The note under SLR-PLN-05 and the requirement HLR-OPS-04 now say this.
-
-**Two gaps the cuts left, both closed by your answers of 2026-10-11.**
-
-5. **SN-AIR-03.** You said the crew and the dispatchers are the ones who coordinate to make it happen. SLR-CLR-04 (the communication path between them) now answers SN-AIR-03 alongside SLR-INF-07, and two requirements in section 11 carry it: HLR-CRW-04 (the crew tells the dispatcher of a trajectory change) and HLR-OPS-06 (the dispatcher re-plans with the crew).
-6. **SN-CRW-07.** "Traffic management initiatives" is replaced by "other safety considerations", as you directed. Its only answer is still SLR-PLN-07 (the pre-departure package).
+1. **SLR-CLR-15 is Claude's wording.** The owner brought SN-ATC-04 (workload) back and struck SLR-CLR-12 (fewest instructions) on the same print. That left the restored requirement with nothing answering it, and the experiment's workload column with no requirement to trace to. SLR-CLR-15 turns the owner's note ("If not overworked, controllers can give as many as they want!") into a ceiling: instructions per conflict stay within what the sector team can sustain. It carries no number, because no held source gives one. Re-word it or strike it.
+2. **The measure on SLR-CLR-13.** The goal says "lowest impact", which the owner left for each controller to judge. The experiment still has to score with something, so the Measure column names fuel cost plus cost index times time. That is the experiment's choice, not part of the goal. Its source is `mori2022massCruise`, and it is set out in `knowledge/models/experiment-definition.md` section 6.
+3. **Two allocations and one tag.** SLR-EXE-03 lost "on board", so the airline's flight planning system was added beside the flight management system. SLR-EXE-06 now alerts dispatchers and controllers, so the dispatcher and air traffic control were added. SLR-EXE-06 is still tagged `baseline`; whether a controller is alerted to low predicted fuel today was not checked against a source.
+4. **SLR-CLR-04 now also answers SN-AIR-03.** This applies the owner's answer of 2026-10-11, that the crew and the dispatchers are the ones who coordinate so the airline is informed. The trace link itself has not been seen on a print. Two requirements in section 11 carry it: HLR-CRW-04 and HLR-OPS-06.
 
 ## 8. Objectives with no requirement
 
-Rows of `knowledge/models/stakeholder-objective-ontology.md` that no stakeholder requirement picks up, and the reason. The rows are not judged unimportant to the NAS; they are outside the study (section 2). Owner's note on the second print: "These are derived reqts @ the HLR level", that is, where one of these matters to the thread it enters as a derived requirement at the next tier down (#TODO item d), not as a stakeholder requirement on the NAS.
+Rows of `knowledge/models/stakeholder-objective-ontology.md` that no stakeholder requirement picks up, and the reason. The rows are not judged unimportant to the NAS; they are outside the study (section 2). The owner's note on the second print: "These are derived reqts @ the HLR level". That is, where one of these matters to the thread, it enters as a derived requirement one tier down, not as a stakeholder requirement on the NAS. This has not been done yet (#TODO, first item).
 
 | Category | Objective rows | Why not carried |
 |---|---|---|
@@ -321,27 +284,7 @@ Rows of `knowledge/models/stakeholder-objective-ontology.md` that no stakeholder
 
 ## 9. How the two example workbooks were used
 
-The owner's earlier workbooks were written for an airline operations center (AOC) as the system. They were used for their form, not their content.
-
-**Carried over from `projects/nas-sos-capstone/prework/Stakeholder Requirements.xlsx`, worksheet "Stakeholder Requirements Groupi":**
-
-- Requirements are grouped by the stakeholder who wants them.
-- Each is one sentence with the system as the subject and one "shall".
-- Broad wishes are allowed at this level ("maximize profits", "minimize delays"); the number comes later.
-- Rows that repeat another row are merged, as the workbook did with its "already captured" comments.
-
-**Carried over from `projects/nas-sos-capstone/prework/1 System Requirements_10-26_v1.xlsx`, worksheet "Report":**
-
-- A compound stakeholder requirement is split into single statements (the workbook split "accurate and up-to-date flight plans" into two).
-- A vague word is replaced by something that can be checked (the workbook turned "significant changes in fuel status" into "in excess of 5% of expected fuel burned").
-- A rule is named by its paragraph where one is known (the workbook named the CFR part for crew fatigue).
-- There are more system requirements than stakeholder requirements.
-
-**Not carried over:**
-
-- The content. Most workbook rows say what the AOC owes another party. Here that other party is usually inside the system, so the row becomes an exchange between two constituent systems.
-- Rows about how an airline runs itself (budget, corporate values, IT approval, cybersecurity training, record keeping). They do not touch the trajectory-intent chain.
-- Numbers. The workbook's 60 minutes for filing a flight plan and 5 percent fuel deviation are not reused, because no source held in this repository gives them.
+The owner's earlier workbooks (`projects/nas-sos-capstone/prework/Stakeholder Requirements.xlsx` and `projects/nas-sos-capstone/prework/1 System Requirements_10-26_v1.xlsx`) were written for an airline operations center (AOC) as the system. They were used for their form: requirements grouped by stakeholder, one "shall" per sentence, compound statements split, vague words replaced by something that can be checked. Their content and their numbers were not reused, because most rows say what the AOC owes another party, and here that party is usually inside the system.
 
 **How the workbook's stakeholders map onto this project's.** Each row states the abstraction and the reason, so it can be defended or changed.
 
@@ -368,18 +311,15 @@ Names in `code font` in the Basis column are keys in `evidence/sources/reference
 
 ## 10. Coverage check
 
-Run when these files were regenerated on 2026-10-11, after the second hand review:
+Run on 2026-10-11, after the second hand review and the addition of section 11:
 
 - Stakeholder requirements with no system requirement: 0 of 13.
 - System requirements with no stakeholder parent: 0 of 23.
 - System requirements with no allocation: 0 of 23.
-- System requirements with no note on why they are in the study: 0 of 23.
 - System requirements with no constituent system requirement under them: 0 of 23.
 - Constituent system requirements with no system requirement above them: 0 of 28.
 - The five constituent systems with no requirement: 0.
 - `syside check` over the whole `projects/nas-sos-capstone/cameo_models/` folder: "All checks passed!"
-
-The table of what became of the ten placeholder needs and six placeholder requirements of 2026-09-19 (old section 8) was dropped from this file; it is on page 13 of the first marked-up PDF.
 
 ## 11. Constituent system requirements (HLRs)
 

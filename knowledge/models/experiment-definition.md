@@ -51,7 +51,7 @@ One model scores every case, at higher fidelity than the model any case used to 
 
 ## 8. Possible results
 
-1. Same answer as the baseline: the information is worth nothing here. One such case is included on purpose (similar weights and cost indexes).
+1. Same answer as the baseline: the information is worth nothing here. One such case is included on purpose (similar weights and cost indexes). **Changed 2026-10-11 (D-024):** similar weights alone no longer give this result. Case C knows the weight, so the FL350 climb rule does not bind it, and at 67,000 kg it climbs where case B cannot. The "worth nothing" case is now similar weights with the level above occupied; see the third run in `experiment-options-and-scoring.md` section 8.
 2. Descend the other aircraft: lower cost at the same workload. The strongest result.
 3. A different maneuver: lower cost, more workload.
 

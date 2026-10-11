@@ -1,6 +1,6 @@
 # Experiment scenario numbers
 
-**Status: proposal, 2026-10-10.** Drafted by Claude after the owner's direction in the 2026-10-10 plan review (FL380, westbound, Mach 0.80, a Miami-to-Los-Angeles flight with the conflict near DFW, a 6 percent weight spread, both aircraft B737-9). The machine-readable copy is `projects/nas-sos-capstone/simulation/scenario_base.yaml`; if the two disagree, the YAML is what the scoring ran. Every row marked **Decide** is the owner's call. Grades: [A] rule or order held, [B] published study held, [SME] owner's industry knowledge, [C] general knowledge or a computation here, not yet sourced.
+**Status: proposal, 2026-10-10; weights and the climb margin changed 2026-10-11 (D-023).** Drafted by Claude after the owner's direction in the 2026-10-10 plan review (FL380, westbound, Mach 0.80, a Miami-to-Los-Angeles flight with the conflict near DFW, a 6 percent weight spread, both aircraft B737-9). The machine-readable copy is `projects/nas-sos-capstone/simulation/scenario_base.yaml`; if the two disagree, the YAML is what the scoring ran. Every row marked **Decide** is the owner's call. Grades: [A] rule or order held, [B] published study held, [SME] owner's industry knowledge, [C] general knowledge or a computation here, not yet sourced.
 
 ## 1. Geometry
 
@@ -18,23 +18,33 @@
 | Decision point | 12 minutes before the crossing | [C] within the 8 to 20 minute range of the interview studies (journal 2026-10-04) |
 | Maneuver hold | 15 minutes before the conflict has cleared and the aircraft can be returned | [C] **Decide** |
 | Re-climb available | yes, as a second instruction | experiment-options-and-scoring.md §2 (second review notes 1.9, 2.5) |
+| Climb that must be left at a level before an aircraft is cleared to it | **150 ft/min** | Owner [SME]: many airlines keep 150 ft/min for clear air turbulence and other unknowns. The service-ceiling definition is 100 ft/min, `faa2015ac61107b` para. 1-4r [A]. D-023. |
 
 ## 2. Aircraft
 
 Type: B737-9 (737 MAX 9), both crossing aircraft and, for simplicity, both in-trail aircraft (D-015). OpenAP data for the type (`prop.aircraft("B39M")`, 2026-10-10): MTOW 88,000 kg; OEW 45,000 kg; max fuel 26,000 kg; MLW 71,000 kg; MMO 0.82; VMO 340 kt; ceiling 12,500 m; 178 to 220 seats; LEAP-1B.
 
-**Nominal mass (the one weight per type the nominal model uses, case B): 70,000 kg.** [C] A mid-cruise mass: OEW 45,000 plus about 18,000 kg of payload (180 passengers and bags at 100 kg) plus about 7,000 kg of fuel remaining. The idea of one weight per type is `coppenbarger1999climbPrediction` p. 4. **Decide.**
+**Nominal mass (the one weight per type the nominal model uses, case B): 67,000 kg** (was 70,000 until 2026-10-11, D-023). [C] A mid-cruise mass: OEW 45,000 plus about 16,000 kg of payload (160 passengers and bags at 100 kg) plus about 6,000 kg of fuel remaining. The idea of one weight per type is `coppenbarger1999climbPrediction` p. 4. **Decide.**
 
 **Spread: ±6 percent of the nominal mass.** Owner direction 2026-10-10 ("use 6 percent as a middle figure"). Source: `coppenbarger1999climbPrediction` Table 3, standard deviations of take-off weight for about 8,000 flights out of DFW and Denver in 1999: B737 4.5 percent, B757 6.4 percent, MD80 7.1 percent. The 4.5 to 7 percent range in `experiment-definition.md` §3 is these three narrow-body rows. Note for the report: the row for the 737 itself is 4.5 percent; 6 percent is the middle of the narrow-body range, and the heavy and light aircraft are one standard deviation either side of the mean under that choice.
 
 | Aircraft | Airline | Route | Mass | Level | Cost index | Schedule on entry | Connections | Role |
 |---|---|---|---|---|---|---|---|---|
-| AC1 | X | MCO-LAX | **74,200 kg** (heavy, +6 %) | FL380 | 2.5 kg/min (high) | 8 min late | yes | crossing pair |
-| AC2 | Y | IAH-DEN | **65,800 kg** (light, −6 %) | FL380 | 0.8 kg/min (low) | on time | no | crossing pair |
-| AC3 | X | TPA-LAX | 70,000 kg | FL360 | 0.8 kg/min | 6 min early | no | in trail, under the crossing; same airline as AC1 |
-| AC4 | Z | TPA-LAX | 70,000 kg | FL360 | 1.5 kg/min | on time | no | in trail behind AC3; context |
+| AC1 | X | MCO-LAX | **71,020 kg** (heavy, +6 %) | FL380 | 2.5 kg/min (high) | 8 min late | yes | crossing pair |
+| AC2 | Y | IAH-DEN | **62,980 kg** (light, −6 %) | FL380 | 0.8 kg/min (low) | on time | no | crossing pair |
+| AC3 | X | TPA-LAX | 67,000 kg | FL360 | 0.8 kg/min | 6 min early | no | in trail, under the crossing; same airline as AC1 |
+| AC4 | Z | TPA-LAX | 67,000 kg | FL360 | 1.5 kg/min | on time | no | in trail behind AC3; context |
 
-**Why these masses work (OpenAP smoke test, 2026-10-10, Mach 0.80, ISA):** at 65,800 kg the aircraft can hold FL400 (maximum cruise thrust above drag) and its best specific range is at or above FL400; at 74,200 kg it can hold FL380 but not FL400. So the light aircraft can take the climb option and the heavy one cannot, which is the asymmetry D-013 item 4 asks for and which only a case that knows the weight can see. Cost index values are in the fuel-equivalent form of `mori2022massCruise` Eq. 1 to 3 (kg of fuel per minute); the specific numbers are **Decide** [C]. Schedule deltas and the 12-minute connection threshold (arrival slots 10 to 15 minutes apart [SME]) are **Decide**.
+**Why these masses work (OpenAP, 2026-10-11, Mach 0.80, ISA; D-023).** The test is climb left at a level, not thrust against drag: 100 ft/min defines the service ceiling (`faa2015ac61107b` para. 1-4r) and the scenario asks for 150 ft/min [SME].
+
+| Mass | Climb left at FL360 | at FL380 | at FL400 |
+|---|---|---|---|
+| 71,020 kg (heavy) | 329 ft/min | **181** | **8** |
+| 67,000 kg (nominal) | 474 | 330 | 160 |
+| 62,980 kg (light) | 630 | 489 | **322** |
+| 74,200 kg (the old heavy weight) | 221 | 70 | below zero |
+
+The old heavy weight left 70 ft/min at FL380, under both numbers, so that aircraft could not have been at FL380. Changing Mach does not help: the most it has at any Mach at FL380 is 87 ft/min. The heaviest the model allows at FL380 and Mach 0.80 is 73,300 kg for 100 ft/min and 71,900 kg for 150 ft/min. So the light aircraft can take the climb option and the heavy one cannot, which is the asymmetry D-013 item 4 asks for and which only a case that knows the weight can see. Cost index values are in the fuel-equivalent form of `mori2022massCruise` Eq. 1 to 3 (kg of fuel per minute); the specific numbers are **Decide** [C]. Schedule deltas and the 12-minute connection threshold (arrival slots 10 to 15 minutes apart [SME]) are **Decide**.
 
 ## 3. Options and rules
 

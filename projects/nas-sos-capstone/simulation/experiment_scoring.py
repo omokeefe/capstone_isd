@@ -22,7 +22,10 @@ The decider's case and the truth model's fidelity are independent settings.
 
 Scoring of one maneuver (steady cruise, ISA, still air):
   altitude change   climb or descent increment (OpenAP enroute fuel flow with a
-                    vertical speed) + cruise at the new level for the hold period
+                    vertical speed; a descent at 1,500 ft/min, a climb at the rate
+                    maximum thrust allows at the mid-altitude, capped at 1,500 ft/min,
+                    D-024) 
+                    + cruise at the new level for the hold period
                     - cruise at the old level for the same period; then a re-climb
                     (second instruction) if the scenario allows it, else cruise at
                     the new level for the rest of the flight
@@ -32,8 +35,10 @@ Scoring of one maneuver (steady cruise, ISA, still air):
 Feasibility of an altitude: the level must not be occupied under the crossing
 (``blocked_levels_ft``); a climb must be within the aircraft's thrust limit at the
 mass the DECIDER believes (cases A and B: climb only at or below the climb rule
-level, because they do not know the mass; cases C and D: OpenAP thrust >= drag at
-the actual mass). The truth model checks the real thrust limit afterwards; an option
+level, because they do not know the mass; cases C and D: at the actual mass, OpenAP
+thrust must leave ``min_climb_rate_ft_min`` of climb at the new level, 150 ft/min in
+the base scenario [SME], against the 100 ft/min that defines the service ceiling in
+faa2015ac61107b para. 1-4r). The truth model checks the same limit afterwards; an option
 a case chose that the aircraft cannot fly is reported as "unable".
 
 Run from the repo root:
@@ -58,7 +63,7 @@ HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parent
 TABLE_DIR = PROJECT / "report" / "figures" / "tables"
 RESULTS_SYSML = PROJECT / "cameo_models" / "results" / "experiment_results.sysml"
-KT = 0.514444
+KT = 0.514444 # m/s per kt
 FIDELITIES = ("conceptual", "nominalMass", "actualMass")
 CASES = ("A", "B", "C", "D")
 CASE_LABEL = {
@@ -67,7 +72,7 @@ CASE_LABEL = {
     "C": "automation, shared weight and cost index",
     "D": "case C plus connection information",
 }
-CLIMB_RATE_FPM = 1500.0
+CLIMB_RATE_FPM = 1500.0  # cap; a climb is flown at the rate maximum thrust allows when that is less (D-024)
 DESCENT_RATE_FPM = -1500.0
 EFFORT = {"A": 1, "B": 3, "C": 3, "D": 3}  # 1 rule from memory, 2 mental estimate, 3 automation proposes
 RISK = {"altitude": "low", "vector": "medium", "speed": "high", "slow": "medium"}
@@ -98,9 +103,18 @@ class Performance:
     def fuel_flow_kg_s(self, mass: float, mach: float, alt_ft: float, vs_fpm: float = 0.0) -> float:
         return float(self.fuel.enroute(mass, tas_kt(mach, alt_ft), alt_ft, vs=vs_fpm))
 
-    def can_hold(self, mass: float, mach: float, alt_ft: float) -> bool:
+    def climb_left_fpm(self, mass: float, mach: float, alt_ft: float) -> float:
+        """Rate of climb left in level flight: excess thrust x speed / weight."""
         tas = tas_kt(mach, alt_ft)
-        return float(self.thrust.cruise(tas, alt_ft)) >= float(self.drag.clean(mass, tas, alt_ft))
+        excess = float(self.thrust.cruise(tas, alt_ft)) - float(self.drag.clean(mass, tas, alt_ft))
+        return excess * tas * 0.514444 / (mass * 9.80665) / 0.3048 * 60
+
+    def climb_rate_fpm(self, mass: float, mach: float, alt_from_ft: float, alt_to_ft: float) -> float:
+        """Rate a climb between two levels is flown at: what maximum thrust allows at the mid-altitude, capped."""
+        return min(CLIMB_RATE_FPM, self.climb_left_fpm(mass, mach, (alt_from_ft + alt_to_ft) / 2))
+
+    def can_hold(self, mass: float, mach: float, alt_ft: float, min_climb_fpm: float = 0.0) -> bool:
+        return self.climb_left_fpm(mass, mach, alt_ft) >= min_climb_fpm
 
 
 # --------------------------------------------------------------------------- scenario
@@ -214,11 +228,11 @@ def maneuver_cost(perf: Performance | None, sc: Scenario, ac: Aircraft, mass: fl
 
     if kind == "altitude":
         new_alt = ac.level_ft + man["delta_ft"]
-        if not perf.can_hold(mass, ac.mach, new_alt):
+        if not perf.can_hold(mass, ac.mach, new_alt, g.get("min_climb_rate_ft_min", 0.0)):
             cost.unable = True
             cost.note = f"cannot hold FL{int(new_alt/100)} at {mass:.0f} kg"
             return cost
-        rate = CLIMB_RATE_FPM if man["delta_ft"] > 0 else DESCENT_RATE_FPM
+        rate = perf.climb_rate_fpm(mass, ac.mach, ac.level_ft, new_alt) if man["delta_ft"] > 0 else DESCENT_RATE_FPM
         t_change_h = abs(man["delta_ft"] / rate) / 60.0
         ff_change = perf.fuel_flow_kg_s(mass, ac.mach, (ac.level_ft + new_alt) / 2, vs_fpm=rate)
         ff_new = perf.fuel_flow_kg_s(mass, ac.mach, new_alt)
@@ -228,8 +242,9 @@ def maneuver_cost(perf: Performance | None, sc: Scenario, ac: Aircraft, mass: fl
         delta_time_h = hold_h * (tas / tas_new - 1.0)  # same ground distance at a different TAS
         if man["delta_ft"] < 0 and g["reclimb_available"]:
             # second instruction: climb back after the hold
-            t_back_h = abs(man["delta_ft"] / CLIMB_RATE_FPM) / 60.0
-            ff_back = perf.fuel_flow_kg_s(mass, ac.mach, (ac.level_ft + new_alt) / 2, vs_fpm=CLIMB_RATE_FPM)
+            rate_back = perf.climb_rate_fpm(mass, ac.mach, new_alt, ac.level_ft)
+            t_back_h = abs(man["delta_ft"] / rate_back) / 60.0
+            ff_back = perf.fuel_flow_kg_s(mass, ac.mach, (ac.level_ft + new_alt) / 2, vs_fpm=rate_back)
             delta_fuel += (ff_back - ff_old) * t_back_h * 3600
             cost.follow_ups = 1
         elif man["delta_ft"] < 0:
@@ -279,7 +294,7 @@ def option_feasible_for_decider(sc: Scenario, opt: Option, case: str, perf: Perf
                 if case in ("A", "B"):
                     if ac.level_ft > g["climb_rule_ft"]:
                         return False, f"climb not offered above FL{int(g['climb_rule_ft']/100)} without the weight"
-                elif perf is not None and not perf.can_hold(ac.mass_kg, ac.mach, new_alt):
+                elif perf is not None and not perf.can_hold(ac.mass_kg, ac.mach, new_alt, g.get("min_climb_rate_ft_min", 0.0)):
                     return False, f"{ac.id} cannot hold FL{int(new_alt/100)} at its weight"
         if man["kind"] == "speed" and case == "A":
             return False, "usable speed range unknown"

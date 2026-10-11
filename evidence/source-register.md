@@ -17,7 +17,7 @@ This file tracks references at two different depths — keep them straight:
 ## Processing Ledger
 
 **Last full sweep:** 2026-10-04 (files added and processed on their own 2026-10-09 and 2026-10-10; not full sweeps)
-**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 75 of 75 after the two 2026-10-09 additions; 81 of 81 after the six 2026-10-10 additions
+**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 75 of 75 after the two 2026-10-09 additions; 81 of 81 after the six 2026-10-10 additions; one more added and processed 2026-10-11
 
 **PDF highlight extraction (2026-10-09):** ran the extractor on the one file added today, `engility2014tasarAlaska`. 38 highlights (PDF pp. 3–12), no typed comments, no ink. Merged into its summary's `## Highlighted passages` section. The other PDFs were not re-run.
 
@@ -143,8 +143,9 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | sheth-et-al-2012-simulations-of-credits-concept-with-user-input-for-collaborative-air-traffic-management.pdf | `sheth2010creditsConcept` (AIAA 2010-8079; file name's 2012 is a download label) | 4 | [4 - sheth2010creditsConcept.md](literature-notes/summaries/4%20-%20sheth2010creditsConcept.md) | 2026-10-10 |
 | Analysis of Factors for Incorporating User Preferences in Air Traffic Management - A system Perspective (Sheth).pdf | `sheth2010userPreferencesIcas` | 3 | [3 - sheth2010userPreferencesIcas.md](literature-notes/summaries/3%20-%20sheth2010userPreferencesIcas.md) | 2026-10-10 |
 | SESAR_Solutions_Catalogue_2019_web.pdf | `sesarju2019solutionsCatalogue` (3rd edition) | 2 | [2 - sesarju2019solutionsCatalogue.md](literature-notes/summaries/2%20-%20sesarju2019solutionsCatalogue.md) | 2026-10-10 |
+| AC_61-107B_CHG_1_FAA.pdf | `faa2015ac61107b` (advisory circular; service-ceiling definition, D-023) | 3 | [3 - faa2015ac61107b.md](literature-notes/summaries/3%20-%20faa2015ac61107b.md) | 2026-10-11 |
 
-**Distribution as of 2026-10-10, evening (computed from the ledger rows above):** 17 x 5, 28 x 4, 20 x 3, 15 x 2, 3 x 1, 1 x 0 — 84 rows. Every file in `evidence/sources/` now has a ledger row.
+**Distribution as of 2026-10-11 (the 2026-10-10 evening count plus one file added and processed on its own, `AC_61-107B_CHG_1_FAA.pdf`):** 17 x 5, 28 x 4, 21 x 3, 15 x 2, 3 x 1, 1 x 0 — 85 rows. Every file in `evidence/sources/` now has a ledger row.
 
 ### Flags raised 2026-10-10, evening (3 files held since 2026-10-05 registered; 4 web-only method entries)
 

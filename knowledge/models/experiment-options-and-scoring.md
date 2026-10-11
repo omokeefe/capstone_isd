@@ -290,6 +290,36 @@ The first review (note 8.1) names three parts. They are kept as three reported i
 
 What it shows so far: **B minus A** is 7 kg of fuel for two extra calls (automation finds the cheaper combined option); **C minus B is zero** in this scenario. The climb the light aircraft could take (O4, open only to C and D) costs 15.7 kg because the climb itself burns more than the 15-minute hold at FL400 saves, so the shared weight opened an option that was not worth taking. That is result 1 of §8 in `experiment-definition.md` ("the information is worth nothing here"), reached before any variation was run. Things that would change it, all Decide items: a longer hold (the climb pays back with time), a crossing pair at or below FL350 (climbs open to A and B too), a lower nominal mass (B would think the heavy aircraft can climb and be wrong), and the vector option's extra miles. The similar-weights variation (`--variation similar-weights`) makes C choose B's option, as required.
 
+### Second run (2026-10-11, D-023): lower weights, 150 ft/min of climb required at a level
+
+Same command and scenario file, with the crossing pair at 71,020 kg and 62,980 kg, AC3 and AC4 at 67,000 kg, and a level counted as flyable only with 150 ft/min of climb left there. The first-run table above is kept as it was; its 74,200 kg aircraft could not have been at FL380 under the service-ceiling definition (`faa2015ac61107b` para. 1-4r).
+
+| Case | Option chosen | Why | System fuel (kg, vs undisturbed) | Calls (now + later) |
+|---|---|---|---|---|
+| A | O8: AC1 descends 4,000 ft | rule, one descent; O1 blocked | +23.7 | 1 + 1 |
+| B | O9: AC1 descends 2,000 ft, AC3 slows | lowest estimated cost at the nominal mass | +13.1 | 2 + 2 |
+| C | **O4: AC2 climbs 2,000 ft** | lowest estimated cost at actual mass and cost index | +13.0 | 1 + 1 |
+| D | O4 | as C; no connection crossed its threshold | +13.0 | 1 + 1 |
+
+What changed: **C minus B is no longer zero.** With the weight, the automation clears the light aircraft up, which costs the same fuel as B's option to within 0.1 kg, takes one instruction now and one later where B takes two and two, and moves the cost from airline X (AC1 and AC3) to airline Y (AC2). The fuel difference is nothing; the difference is in the calls and in who pays. The cause is the lighter light aircraft: its climb now costs 13.0 kg where it cost 15.7 kg. The 150 ft/min rule did not decide anything here; the heavy aircraft cannot hold FL400 under any of the three tests (8 ft/min left) and the light one passes all of them (322 ft/min). The similar-weights variation still makes C choose B's option (run 2026-10-11).
+
+Read this with care: a 0.1 kg margin between O4 and O9 is far inside the model's error, so which of the two case C picks is not a robust result. The robust part is that O4 is open to C and closed to A and B.
+
+### Third run (2026-10-11, D-024): climbs flown at the rate maximum thrust allows
+
+Same scenario as the second run. The only change is in `simulation/experiment_scoring.py`: a climb is no longer costed at a fixed 1,500 ft/min, which needed more thrust than the model has, but at the rate maximum thrust allows at the mid-altitude (250 to 500 ft/min here). Descents are still 1,500 ft/min.
+
+| Case | Option chosen | System fuel (kg, vs undisturbed) | Calls (now + later) | Second run, for comparison |
+|---|---|---|---|---|
+| A | O8: AC1 descends 4,000 ft | +32.0 | 1 + 1 | +23.7 |
+| B | O9: AC1 descends 2,000 ft, AC3 slows | +16.0 | 2 + 2 | +13.1 |
+| C | O4: AC2 climbs 2,000 ft | +12.4 | 1 + 1 | +13.0 |
+| D | O4 | +12.4 | 1 + 1 | +13.0 |
+
+What changed: the cost of a climb to a higher level barely moved (O4 13.0 to 12.4 kg), because a slow climb burns less per second for longer. What moved is every option that descends and climbs back: the climb back now takes 8 to 12 minutes at maximum thrust (O8 23.7 to 32.0 kg, O9 13.1 to 16.0 kg). **C minus B is now 3.6 kg of fuel and two fewer calls**, where the second run had 0.1 kg. The choice of O4 no longer rests on a margin inside the rounding.
+
+**The similar-weights check no longer makes C match B, and `test_similar_weights_variation_makes_c_match_b` fails.** With both crossing aircraft at the nominal 67,000 kg and the same cost index, case C picks a climb (O3, 16.0 kg) and case B picks O9 (18.3 kg). The reason is not a weight difference. Case C knows the weight, so it is not bound by the FL350 rule and can see that a 67,000 kg aircraft has 160 ft/min at FL400; case B cannot offer the climb at all. **Resolved later the same day:** the owner had the test replaced by two, `test_similar_weights_same_numbers_for_every_option` and `test_similar_weights_with_the_climb_closed_c_matches_b`; both pass. As first written here: the test was left failing on purpose. It encodes the claim in `experiment-definition.md` section 8 that with similar weights the information is worth nothing, and that claim is now false in this model: what is worth something is knowing the weight, not the two weights being different. The owner decides whether to restate the check (for example, both aircraft too heavy to climb) or keep the finding. This also overturns the reason given in D-023 for choosing 67,000 kg over a higher nominal mass.
+
 **Not rigged, and not yet a result either.** The run is one afternoon old. Before any of it goes in the report: confirm the Decide items, run the variations, and read across the rows for who pays (AC3 and airline X carry O9's second instruction).
 
 A scope note: §4 is as far as the scoring should go as a capability inside the architecture. The owner's own note says the same: this is not an optimization paper, it is an exploration of what interchangeable models are worth. If the next step looks like tuning weights or searching a larger option space, that is the pull to flag.

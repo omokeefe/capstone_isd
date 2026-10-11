@@ -6,6 +6,46 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-024 — Climbs are costed at the rate maximum thrust allows; no compressibility drag is a stated assumption
+
+**Date:** 2026-10-11
+**Status:** active. Owner direction in session, on both items.
+
+**Decision:**
+
+1. **A climb is flown at maximum thrust at the rate that thrust allows,** not at a fixed 1,500 ft/min: the climb left at the mid-altitude of the climb (excess thrust times speed over weight), capped at 1,500 ft/min. This applies to a climb to a higher level and to the climb back after a descent. Descents stay at 1,500 ft/min.
+2. **Leaving out compressibility drag is stated as an assumption** in the report's scoring-method subsection, with the FAA circular's speed ranges (`faa2015ac61107b` para. 1-4e: subsonic below Mach 0.75, transonic from 0.75 to 1.20) and the size of the effect as far as it has been estimated.
+
+**Rationale:** item 1: the fixed rate needed about 56 kN where the thrust model gives 42 kN, so the scoring and the level test contradicted each other. Item 2: OpenAP's drag polar has no Mach-number term unless its experimental wave-drag option is switched on.
+
+**What the estimate of item 2 shows, and it is not all small.** With the wave-drag option on, drag at Mach 0.80 rises 2 to 4 percent at the scenario's weights and levels, and under 1 percent at Mach 0.76. Fuel flow moves by the same few percent. The climb left moves a lot more, because it is the difference of two nearly equal numbers: the heavy aircraft at FL380 goes from 181 to 93 ft/min, under the 100 ft/min service ceiling; the light aircraft at FL400 from 322 to 239 ft/min. So the D-023 weights hold only with the term off. Open; see `knowledge/questions/open-questions.md`.
+
+**Consequences:** `simulation/experiment_scoring.py`; tables and `cameo_models/results/experiment_results.sysml` regenerated; third run recorded in `knowledge/models/experiment-options-and-scoring.md` section 8 (cases C and D still choose O4, now by 3.6 kg and two calls over case B's option). `test_similar_weights_variation_makes_c_match_b` now fails and is left failing: with equal weights case C still differs from case B, because knowing the weight lifts the FL350 rule. That overturns the last sentence of D-023's rationale (67,000 kg was chosen partly to keep that check passing).
+
+---
+
+## D-023 — A level is usable only with climb left: 100 ft/min defines the service ceiling, 150 ft/min is the experiment's margin; scenario weights lowered to fit
+
+**Date:** 2026-10-11
+**Status:** active. Items 1 and 2 are owner direction in session. Item 3, the new weights, is Claude's recommendation applied to `scenario_base.yaml` and is the **owner's to confirm**.
+
+**Decision:**
+
+1. **Service ceiling is defined by 100 ft/min of climb left,** per `faa2015ac61107b` para. 1-4r (p. 2) [A]. "Thrust equals drag" is no longer the test of whether an aircraft can hold a level.
+2. **The experiment asks for 150 ft/min.** Owner: many airlines keep 150 ft/min to allow for clear air turbulence and other errors and unknowns [SME]. It is `geometry.min_climb_rate_ft_min` in `scenario_base.yaml`. `b739_envelope.py` shades as usable only the speeds and levels with that much climb left and draws the 0, 100 and 150 ft/min lines; `experiment_scoring.py` uses the same number for whether an aircraft can be cleared to a level (cases C and D, and the truth model).
+3. **Weights: nominal 67,000 kg (was 70,000), heavy 71,020 kg (was 74,200), light 62,980 kg (was 65,800). The ±6 percent spread, FL380 and Mach 0.80 are unchanged.** At 74,200 kg and Mach 0.80 the model leaves 70 ft/min at FL380, so the heavy aircraft was above its own service ceiling at the level the scenario put it. The model's limits at FL380 and Mach 0.80 are 73,300 kg for 100 ft/min and 71,900 kg for 150 ft/min.
+4. **Mach is not changed.** At 74,200 kg and FL380 the most climb left at any Mach is 87 ft/min (Mach 0.76), still under 100. Slowing down cannot fix it; only weight or level can.
+
+**Rationale:** with the new weights the heavy aircraft has 181 ft/min at FL380 (meets 150) and 8 ft/min at FL400 (cannot be cleared up); the light one has 322 ft/min at FL400 (can). The asymmetry D-013 item 4 asks for is kept, and it now rests on a published definition plus a stated margin. The nominal mass was lowered, not the spread, because the 6 percent is the owner's direction with a source (`coppenbarger1999climbPrediction` Table 3) and the 70,000 kg nominal was Claude's unsourced estimate [C]. 67,000 kg was chosen over a value nearer the limit so the nominal aircraft still has 150 ft/min at FL400 (160 ft/min), which keeps the similar-weights check behaving as before.
+
+**Alternatives considered:** heavy alone lowered to 71,800 kg with the nominal kept (rejected: the spread would no longer be ±6 percent); the crossing moved to FL360 (rejected: FL380 is owner direction, and AC3 and AC4 would have to move too); 100 ft/min as the experiment's number (rejected on the owner's SME statement; it is one line in the YAML to change).
+
+**Evidence / source:** `faa2015ac61107b` para. 1-4r; owner [SME] for 150 ft/min (no document held); OpenAP figures computed 2026-10-11 (ISA, still air, drag polar borrowed from the 737 MAX 8, D-017).
+
+**Consequences:** `simulation/scenario_base.yaml`, `b739_envelope.py`, `experiment_scoring.py`, `test_experiment_scoring.py`; both figures and the three tables under `report/figures/` regenerated; `cameo_models/results/experiment_results.sysml` regenerated; `knowledge/models/experiment-scenario-numbers.md`; `knowledge/models/experiment-options-and-scoring.md` section 8. **The experiment's answer changed:** cases C and D now choose the light aircraft's climb (O4), where the first run had them choose the same option as case B. See section 8 of the options file. Amends D-017's consequence line ("about 74,000 kg and 66,000 kg").
+
+---
+
 ## D-022 — A third requirements tier: one set per constituent system, each with a stated objective and, where there is more than one way, named means scored by the experiment
 
 **Date:** 2026-10-11
