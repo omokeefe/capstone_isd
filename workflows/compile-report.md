@@ -11,7 +11,7 @@ Run from `projects/nas-sos-capstone/report/`:
 latexmk -pdf -interaction=nonstopmode -outdir=. -auxdir=build_artifacts main.tex
 ```
 
-This matches the VSCode LaTeX Workshop settings in `capstone.code-workspace`
+This matches the VSCode LaTeX Workshop settings in `.vscode/settings.json` (which also builds on save with this same command and opens the PDF in a tab, added 2026-10-11) and in `capstone.code-workspace`
 (`outDir=%DIR%`, `auxDir=%DIR%/build_artifacts` — `%DIR%` resolves to wherever
 `main.tex` actually lives, so this setting needed no change when the report moved) — the
 PDF lands in `report/main.pdf`, everything else in `report/build_artifacts/`. latexmk

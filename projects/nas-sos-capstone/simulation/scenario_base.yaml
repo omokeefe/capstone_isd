@@ -2,13 +2,21 @@
 # One snapshot of four aircraft in one en-route sector. Numbers: see
 # knowledge/models/experiment-scenario-numbers.md for the source and grade of each.
 # Every item marked "Decide" there is a proposal until the owner confirms it.
+#
+# Keys written in camelCase are attribute names of definitions in the SysML model
+# (cameo_models/), mirrored in nas_types.py and checked by test_model_conformance.py
+# (D-025): `type` is NasAnalysis::PerformanceModel, each entry of `flights` is a
+# NasAnalysis::ScenarioFlight (its `flight` a FlightOperations::Flight, its `cruise` a
+# NasAnalysis::CruiseCondition), each entry of `options` a NasAnalysis::ResolutionOption.
+# Keys in snake_case (geometry, costs, role, heading_deg) are the experiment's own
+# settings and have no definition in the model.
 
 name: base
 sector: "Fort Worth Center (ZFW) high-altitude airspace, crossing about 42 NM southwest of DFW"
 
 type:
-  icao: B39M                 # 737 MAX 9 (D-015); OpenAP borrows the MAX 8 drag polar
-  nominal_mass_kg: 67000     # the one weight per type that the nominal model (case B) uses
+  aircraftType: B39M         # ICAO code, 737 MAX 9 (D-015); OpenAP borrows the MAX 8 drag polar
+  nominalMassKg: 67000       # the one weight per type that the nominal model (case B) uses
   mass_spread_fraction: 0.06 # heavy/light = nominal x (1 +/- 0.06); coppenbarger1999climbPrediction Table 3
   mmo: 0.82
 
@@ -34,83 +42,71 @@ costs:
   missed_connection_cost_usd: null  # K, unsourced; the table reports yes/no until a value is held
   carbon_price_usd_per_t: 15.0      # CORSIA-style credit, Decide; trade-press range 10 to 22 USD/t, unsourced
 
-aircraft:
-  - id: AC1
-    airline: X
+# The airline's facts about each flight. What the airline would share with the deciding
+# party (FlightOperations::AirlinePerformanceShare: grossWeightKg, costIndex,
+# delayMarginMin) is not written here; experiment_scoring.airline_share derives it:
+# delayMarginMin = costs.connection_threshold_min - scheduleDeltaMin when hasConnections.
+flights:
+  - flight: {flightNumber: AC1, airline: X, departureAirport: KMCO, arrivalAirport: KLAX}
     role: "crossing pair, heavy, late with connections"
-    route: "MCO-LAX"
-    mass_kg: 71020                  # nominal x 1.06; holds FL380 with the climb margin, cannot hold FL400
-    level_ft: 38000
-    mach: 0.80
+    cruise: {massKg: 71020, machNumber: 0.80, altitudeFt: 38000}   # nominal x 1.06; holds FL380 with the climb margin, cannot hold FL400
     heading_deg: 281
-    distance_to_go_nm: 1069
-    cost_index_kg_per_min: 2.5      # high: time valued at 2.5 kg of fuel per minute
-    schedule_delta_min: 8           # positive = late on entry
-    has_connections: true
-  - id: AC2
-    airline: Y
+    distanceToGoNm: 1069
+    costIndex: 2.5                  # high: time valued at 2.5 kg of fuel per minute
+    scheduleDeltaMin: 8             # positive = late on entry
+    hasConnections: true
+  - flight: {flightNumber: AC2, airline: Y, departureAirport: KIAH, arrivalAirport: KDEN}
     role: "crossing pair, light, on time"
-    route: "IAH-DEN"
-    mass_kg: 62980                  # nominal x 0.94; holds FL400 with the climb margin
-    level_ft: 38000
-    mach: 0.80
+    cruise: {massKg: 62980, machNumber: 0.80, altitudeFt: 38000}   # nominal x 0.94; holds FL400 with the climb margin
     heading_deg: 324
-    distance_to_go_nm: 584
-    cost_index_kg_per_min: 0.8
-    schedule_delta_min: 0
-    has_connections: false
-  - id: AC3
-    airline: X
+    distanceToGoNm: 584
+    costIndex: 0.8
+    scheduleDeltaMin: 0
+    hasConnections: false
+  - flight: {flightNumber: AC3, airline: X, departureAirport: KTPA, arrivalAirport: KLAX}
     role: "in trail under the crossing, early"
-    route: "TPA-LAX"
-    mass_kg: 67000
-    level_ft: 36000
-    mach: 0.80
+    cruise: {massKg: 67000, machNumber: 0.80, altitudeFt: 36000}
     heading_deg: 281
-    distance_to_go_nm: 1000
-    cost_index_kg_per_min: 0.8
-    schedule_delta_min: -6
-    has_connections: false
-  - id: AC4
-    airline: Z
+    distanceToGoNm: 1000
+    costIndex: 0.8
+    scheduleDeltaMin: -6
+    hasConnections: false
+  - flight: {flightNumber: AC4, airline: Z, departureAirport: KTPA, arrivalAirport: KLAX}
     role: "in trail behind AC3; context"
-    route: "TPA-LAX"
-    mass_kg: 67000
-    level_ft: 36000
-    mach: 0.80
+    cruise: {massKg: 67000, machNumber: 0.80, altitudeFt: 36000}
     heading_deg: 281
-    distance_to_go_nm: 1030
-    cost_index_kg_per_min: 1.5
-    schedule_delta_min: 0
-    has_connections: false
+    distanceToGoNm: 1030
+    costIndex: 1.5
+    scheduleDeltaMin: 0
+    hasConnections: false
 
-# Resolution options (experiment-options-and-scoring.md section 2). "maneuvers" maps
-# aircraft id -> maneuver; instructions/follow-ups per fothergill2013resolutionHeuristics.
+# Resolution options (experiment-options-and-scoring.md section 2). Each maneuver is one
+# instruction to one flight; instructions/follow-ups per fothergill2013resolutionHeuristics.
 options:
-  - id: O1
-    maneuvers: {AC1: {kind: altitude, delta_ft: -2000}}
-    instructions_now: 1
-  - id: O2
-    maneuvers: {AC2: {kind: altitude, delta_ft: -2000}}
-    instructions_now: 1
-  - id: O3
-    maneuvers: {AC1: {kind: altitude, delta_ft: 2000}}
-    instructions_now: 1
-  - id: O4
-    maneuvers: {AC2: {kind: altitude, delta_ft: 2000}}
-    instructions_now: 1
-  - id: O5
-    maneuvers: {AC1: {kind: vector}}
-    instructions_now: 1
-  - id: O6
-    maneuvers: {AC2: {kind: vector}}
-    instructions_now: 1
-  - id: O7
-    maneuvers: {AC1: {kind: speed}}
-    instructions_now: 1
-  - id: O8
-    maneuvers: {AC1: {kind: altitude, delta_ft: -4000}}
-    instructions_now: 1
-  - id: O9
-    maneuvers: {AC1: {kind: altitude, delta_ft: -2000}, AC3: {kind: slow}}
-    instructions_now: 2
+  - optionId: O1
+    instructionsNow: 1
+    maneuvers: [{flightNumber: AC1, kind: altitude, deltaFt: -2000}]
+  - optionId: O2
+    instructionsNow: 1
+    maneuvers: [{flightNumber: AC2, kind: altitude, deltaFt: -2000}]
+  - optionId: O3
+    instructionsNow: 1
+    maneuvers: [{flightNumber: AC1, kind: altitude, deltaFt: 2000}]
+  - optionId: O4
+    instructionsNow: 1
+    maneuvers: [{flightNumber: AC2, kind: altitude, deltaFt: 2000}]
+  - optionId: O5
+    instructionsNow: 1
+    maneuvers: [{flightNumber: AC1, kind: vector}]
+  - optionId: O6
+    instructionsNow: 1
+    maneuvers: [{flightNumber: AC2, kind: vector}]
+  - optionId: O7
+    instructionsNow: 1
+    maneuvers: [{flightNumber: AC1, kind: speed}]
+  - optionId: O8
+    instructionsNow: 1
+    maneuvers: [{flightNumber: AC1, kind: altitude, deltaFt: -4000}]
+  - optionId: O9
+    instructionsNow: 2
+    maneuvers: [{flightNumber: AC1, kind: altitude, deltaFt: -2000}, {flightNumber: AC3, kind: slow}]

@@ -3,13 +3,39 @@
 \label{sec:methodology}
 
 \irtwo{Assumptions and Methodology. This whole section is new for Interim
-Report \#2. The minimum: (1) the working assumptions; (2) the systems
-engineering approach subsection (Section~\ref{sec:se-approach}) with its
-table and the tailoring paragraph; (3) the two claims
-(Section~\ref{sec:two-claims}); (4) the proposed interface
-(Section~\ref{sec:proposed-interface}); (5) the experiment design
+Report \#2. The minimum: 
+(1) the working assumptions; 
+(2) the systems engineering approach subsection (Section~\ref{sec:se-approach}) with its
+table and the tailoring paragraph; 
+(3) the two claims
+(Section~\ref{sec:two-claims}); 
+(4) the proposed interface
+(Section~\ref{sec:proposed-interface}); 
+(5) the experiment design
 (Section~\ref{sec:experiment-method}) as far as it is decided. Every
 \texttt{plantodo} note below names the source file for that part.}
+
+The problem is: the inertia of past, piecemeal designs and the high cost of upgrading 
+the NAS make it hard to change the system. The project proposes a new airline-to-ATC 
+interface and a new way of deciding which aircraft to move in a conflict, that together 
+have the ability to lower the cost of air traffic management. 
+
+The methodology is: 
+(1) build a model of the architecture and the decision-making process, 
+(2) Compare the current air traffic management practice, which leverages
+general rules of thumb and knowledge of successful historical actions \cite{ref:TBD_TODO}, with a 
+model-based decision support approach that replaces the low-fidelity decision rule with one or more 
+higher-fidelity models of aircraft performance data of varying levels of accuracy.
+
+The working assumptions can be categorized in two ways: 
+(1) assumptions about the problem and its context, and 
+(2) assumptions about the methodology.
+The problem statement assumes that:
+\begin{itemize}
+\item The current air traffic management practice is based on general rules of thumb and 
+knowledge of successful historical actions.
+\item The proposed model-based decision support approach will provide a more accurate and efficient alternative to the current practice.
+\end{itemize}
 
 \plantodo{S1}{State the working assumptions carried through the project --
 see README.md "Working Assumptions" and

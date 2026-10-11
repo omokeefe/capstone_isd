@@ -35,6 +35,8 @@ not the whole subject) — the vehicle dynamics model is that same kind of capab
 a physical constituent system, which is why its `calc def` lives in the `DecisionSupport`
 package rather than under `AircraftSystems`.
 
+**Since D-025 (2026-10-11) the trace is also checked by a test.** `projects/nas-sos-capstone/simulation/nas_types.py` holds one Python class per SysML definition the code uses, with the same name and the same attribute names. `simulation/test_model_conformance.py` reads the `.sysml` text and fails when a Python field, an enumeration value, a performance-function parameter or a camelCase key of `scenario_base.yaml` is not in the model. The order of work is: change the model first (`workflows/update-architecture.md`), then `nas_types.py`, then the code that uses it. The doc comment naming the Python function is still written.
+
 ## Steps
 
 1. Confirm the `AircraftSystems::AircraftState` fields (position, speed, heading, pitch/

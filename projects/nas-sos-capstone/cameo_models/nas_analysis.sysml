@@ -2,8 +2,11 @@ package NasAnalysis {
     doc /* The analysis side of the architecture (D-017, 2026-10-10): the one calculation the
      * experiment depends on, declared here as an interface, with its two fidelity usages
      * and the analysis that uses them. The implementation is Python
-     * (projects/nas-sos-capstone/simulation/experiment_scoring.py, class Performance and
-     * function maneuver_cost); the trace between the two is documentary, by name (D-005).
+     * (projects/nas-sos-capstone/simulation/experiment_scoring.py, class PerformanceModel
+     * and function maneuver_cost). The definitions in this package that the Python reads or
+     * writes are mirrored field for field in simulation/nas_types.py, and
+     * simulation/test_model_conformance.py fails when a Python field or enum value is not in
+     * the model (D-025, which amends the by-hand trace of D-005).
      *
      * Why this package exists: the project's claim is that a low-fidelity rule of thumb
      * can be replaced by a higher-fidelity model with the architecture unchanged. That
@@ -26,23 +29,53 @@ package NasAnalysis {
         enum actualMass;  // OpenAP at each aircraft's actual mass
     }
 
+    attribute def CruiseCondition {
+        doc /* One aircraft's steady cruise point: the three inputs every performance
+         * function below takes (D-025). Flight levels, Mach and kilograms, because that is
+         * what a clearance and the performance model work in and the experiment compares
+         * levels exactly. AircraftSystems::AircraftState stays in SI (metres, metres per
+         * second) and is what the time-step model (vehicle_dynamics.py) uses; the two are
+         * not converted into each other anywhere. */
+        attribute massKg : Real;
+        attribute machNumber : Real;
+        attribute altitudeFt : Real;
+    }
+
     calc def CruiseFuelFlow {
-        doc /* Steady cruise fuel flow for one aircraft. Implemented by
-         * Performance.fuel_flow_kg_s in experiment_scoring.py, which calls
-         * openap.FuelFlow(type).enroute(mass, tas, altitude). Units in the names. */
+        doc /* Fuel flow for one aircraft at a cruise condition, level or with a vertical
+         * speed. Implemented by PerformanceModel.cruise_fuel_flow in experiment_scoring.py,
+         * which calls openap.FuelFlow(type).enroute(mass, tas, altitude, vs). Units in the
+         * names. The first three inputs are a CruiseCondition. */
         in massKg : Real;
         in machNumber : Real;
         in altitudeFt : Real;
+        in verticalSpeedFtPerMin : Real default 0.0;
         return fuelFlowKgPerS : Real;
     }
 
-    calc def CanHoldLevel {
-        doc /* Whether maximum cruise thrust meets clean drag at this mass, Mach and level.
-         * Implemented by Performance.can_hold (openap Thrust.cruise and Drag.clean).
-         * This is the thrust limit that closes the climb to the heavy aircraft. */
+    calc def AvailableClimbRate {
+        doc /* Rate of climb left in level flight at this mass, Mach and level: excess thrust
+         * (maximum cruise thrust minus clean drag) times speed over weight. Implemented by
+         * PerformanceModel.available_climb_rate (openap Thrust.cruise and Drag.clean).
+         * A climb between two levels is costed at this rate at the mid-altitude, capped at
+         * 1,500 ft/min (D-024). */
         in massKg : Real;
         in machNumber : Real;
         in altitudeFt : Real;
+        return climbRateFtPerMin : Real;
+    }
+
+    calc def CanHoldLevel {
+        doc /* Whether at least minClimbRateFtPerMin of climb is left at this mass, Mach and
+         * level (AvailableClimbRate >= the minimum). 100 ft/min defines the service ceiling
+         * (faa2015ac61107b para. 1-4r); the experiment asks for 150 [SME] (D-023). Until
+         * D-023 the test was "thrust meets drag", which is this with a minimum of 0.
+         * Implemented by PerformanceModel.can_hold_level. This is the limit that closes the
+         * climb to the heavy aircraft. */
+        in massKg : Real;
+        in machNumber : Real;
+        in altitudeFt : Real;
+        in minClimbRateFtPerMin : Real default 0.0;
         return feasible : Boolean;
     }
 
@@ -52,7 +85,9 @@ package NasAnalysis {
          * whole of the "interchangeable fidelity" claim. */
         attribute fidelity : FidelityLevel;
         attribute aircraftType : String; // ICAO code; B39M for the experiment (D-015)
+        attribute nominalMassKg : Real[0..1]; // the one weight per type the nominal model uses; value held in the scenario file (type.nominalMassKg)
         calc fuelFlow : CruiseFuelFlow;
+        calc climbRate : AvailableClimbRate;
         calc canHold : CanHoldLevel;
     }
 
@@ -71,6 +106,53 @@ package NasAnalysis {
         :>> aircraftType = "B39M";
     }
 
+    // ---- What the analysis reads (D-025, 2026-10-11) --------------------------------------
+    // The scenario file's flights and options, defined here so the YAML keys and the Python
+    // fields have a definition to match. Values stay in the scenario file; they are not
+    // repeated in the model.
+
+    enum def ManeuverKind {
+        doc /* The kinds of instruction a resolution option is built from. */
+        enum altitude; // a level change of deltaFt; a descent is followed by a climb back when the scenario allows it
+        enum vector;   // extra track miles to pass behind the other aircraft, then resume own navigation
+        enum speed;    // a Mach change on one of the crossing pair; built to fail (D-014 item 2)
+        enum slow;     // a Mach reduction held for a few minutes on an in-trail aircraft, to open a gap (option O9)
+    }
+
+    attribute def Maneuver {
+        doc /* One instruction to one flight. */
+        attribute flightNumber : String;
+        attribute kind : ManeuverKind;
+        attribute deltaFt : Real[0..1]; // altitude only: positive is a climb
+    }
+
+    item def ResolutionOption {
+        doc /* One way to resolve the conflict: one or more maneuvers issued together. The
+         * nine options of the experiment are O1 to O9 in the scenario file
+         * (knowledge/models/experiment-options-and-scoring.md section 2). */
+        attribute optionId : String;
+        attribute instructionsNow : Integer; // instructions issued at the decision; follow-ups are counted by the scoring
+        attribute maneuvers : Maneuver[1..*];
+    }
+
+    part def ScenarioFlight {
+        doc /* One flight as the experiment needs it: where it is, what it would cost its
+         * airline to move it, and what the airline would share about it. The truth model
+         * reads the facts (cruise, costIndex, scheduleDeltaMin, hasConnections). A decider
+         * in cases C and D reads only performanceShare; cases A and B are not given it.
+         * That split is the information gap the experiment measures. */
+        ref part flight : NationalAirspaceSystem::FlightOperations::Flight;
+        attribute cruise : CruiseCondition;   // the true condition; massKg is the actual mass
+        attribute distanceToGoNm : Real;
+        attribute costIndex : Real;           // airline's fact: kg of fuel per minute
+        attribute scheduleDeltaMin : Real;    // airline's fact: positive = late on entry
+        attribute hasConnections : Boolean;   // airline's fact
+        item performanceShare : NationalAirspaceSystem::FlightOperations::AirlinePerformanceShare;
+        // performanceShare is derived from the facts above, as the airline would send it:
+        // grossWeightKg = cruise.massKg; costIndex = costIndex; delayMarginMin =
+        // the connection threshold minus scheduleDeltaMin when hasConnections, else absent.
+    }
+
     analysis def ConflictResolutionScoring {
         doc /* The experiment (knowledge/models/experiment-definition.md,
          * experiment-options-and-scoring.md). Implemented end to end by
@@ -80,6 +162,8 @@ package NasAnalysis {
          * results/experiment_results.sysml. */
         attribute truthFidelity : FidelityLevel default FidelityLevel::actualMass;
         attribute scenarioFile : String default "projects/nas-sos-capstone/simulation/scenario_base.yaml";
+        ref part flights : ScenarioFlight[*];     // the scenario file's `flights`
+        ref item options : ResolutionOption[*];   // the scenario file's `options`
         objective scoringObjective {
             doc /* For each case A to D: which option it chose, and the cost of that option
              * to each aircraft, each airline, the sector and the system, stated side by

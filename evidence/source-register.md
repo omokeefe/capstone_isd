@@ -144,6 +144,7 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | Analysis of Factors for Incorporating User Preferences in Air Traffic Management - A system Perspective (Sheth).pdf | `sheth2010userPreferencesIcas` | 3 | [3 - sheth2010userPreferencesIcas.md](literature-notes/summaries/3%20-%20sheth2010userPreferencesIcas.md) | 2026-10-10 |
 | SESAR_Solutions_Catalogue_2019_web.pdf | `sesarju2019solutionsCatalogue` (3rd edition) | 2 | [2 - sesarju2019solutionsCatalogue.md](literature-notes/summaries/2%20-%20sesarju2019solutionsCatalogue.md) | 2026-10-10 |
 | AC_61-107B_CHG_1_FAA.pdf | `faa2015ac61107b` (advisory circular; service-ceiling definition, D-023) | 3 | [3 - faa2015ac61107b.md](literature-notes/summaries/3%20-%20faa2015ac61107b.md) | 2026-10-11 |
+| Pilon_2019_SIDs_UDPP_Reducing_Impact_of_Delays.pdf | `pilon2019udppMargins` (conference paper; an airline states a delay margin per flight and keeps its costs private, D-025) | 4 | [4 - pilon2019udppMargins.md](literature-notes/summaries/4%20-%20pilon2019udppMargins.md) | 2026-10-11 |
 
 **Distribution as of 2026-10-11 (the 2026-10-10 evening count plus one file added and processed on its own, `AC_61-107B_CHG_1_FAA.pdf`):** 17 x 5, 28 x 4, 21 x 3, 15 x 2, 3 x 1, 1 x 0 — 85 rows. Every file in `evidence/sources/` now has a ledger row.
 

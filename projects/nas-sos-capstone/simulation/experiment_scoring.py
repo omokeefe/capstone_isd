@@ -1,8 +1,10 @@
 """Score the conflict-resolution experiment (D-013 to D-017).
 
 Implements ``NasAnalysis::ConflictResolutionScoring`` in
-``cameo_models/nas_analysis.sysml`` (trace kept by hand, D-005). One scenario file
-(``scenario_base.yaml``) describes four aircraft in one sector, nine resolution
+``cameo_models/nas_analysis.sysml``. The flights, options, enumerations and performance
+functions used here are the model's own definitions, mirrored in ``nas_types.py`` and
+checked against the ``.sysml`` text by ``test_model_conformance.py`` (D-025). One scenario
+file (``scenario_base.yaml``) describes four aircraft in one sector, nine resolution
 options and the rules. This module:
 
 1. scores every option for every aircraft against flying on undisturbed, with the
@@ -59,13 +61,32 @@ from typing import Any
 
 import yaml
 
+from nas_types import (
+    AirlinePerformanceShare,
+    CruiseCondition,
+    FidelityLevel,
+    Flight,
+    Maneuver,
+    ManeuverKind,
+    MeansOfAchievement,
+    ResolutionOption,
+    ScenarioFlight,
+)
+
 HERE = Path(__file__).resolve().parent
 PROJECT = HERE.parent
 TABLE_DIR = PROJECT / "report" / "figures" / "tables"
 RESULTS_SYSML = PROJECT / "cameo_models" / "results" / "experiment_results.sysml"
 KT = 0.514444 # m/s per kt
-FIDELITIES = ("conceptual", "nominalMass", "actualMass")
+FIDELITIES = tuple(FidelityLevel)
 CASES = ("A", "B", "C", "D")
+# The means of achievement each case is (D-022), paired as in cameo_models/nas_verification.sysml.
+CASE_MEANS = {
+    "A": MeansOfAchievement.ruleOfThumb,
+    "B": MeansOfAchievement.lowFidelityModel,
+    "C": MeansOfAchievement.highFidelityModel,
+    "D": MeansOfAchievement.highFidelityModelWithConnections,
+}
 CASE_LABEL = {
     "A": "rule, today's information",
     "B": "automation, nominal model",
@@ -88,87 +109,92 @@ def tas_kt(mach: float, alt_ft: float) -> float:
 
 
 # --------------------------------------------------------------------------- performance
-class Performance:
-    """Thin wrapper over OpenAP for one type. Masses in kg, altitudes in ft, speeds in kt."""
+class PerformanceModel:
+    """``NasAnalysis::PerformanceModel`` for one type, over OpenAP.
 
-    def __init__(self, icao: str) -> None:
+    One method per calc def of the model, with the calc def's parameter names (units in
+    the names): ``cruise_fuel_flow`` is CruiseFuelFlow, ``available_climb_rate`` is
+    AvailableClimbRate, ``can_hold_level`` is CanHoldLevel.
+    """
+
+    def __init__(self, aircraftType: str) -> None:
         from openap import Drag, FuelFlow, Thrust
 
+        self.aircraftType = aircraftType
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            self.fuel = FuelFlow(icao, use_synonym=True)
-            self.thrust = Thrust(icao, use_synonym=True)
-            self.drag = Drag(icao, use_synonym=True)
+            self.fuel = FuelFlow(aircraftType, use_synonym=True)
+            self.thrust = Thrust(aircraftType, use_synonym=True)
+            self.drag = Drag(aircraftType, use_synonym=True)
 
-    def fuel_flow_kg_s(self, mass: float, mach: float, alt_ft: float, vs_fpm: float = 0.0) -> float:
-        return float(self.fuel.enroute(mass, tas_kt(mach, alt_ft), alt_ft, vs=vs_fpm))
+    def cruise_fuel_flow(self, massKg: float, machNumber: float, altitudeFt: float, verticalSpeedFtPerMin: float = 0.0) -> float:
+        """Fuel flow in kg/s."""
+        return float(self.fuel.enroute(massKg, tas_kt(machNumber, altitudeFt), altitudeFt, vs=verticalSpeedFtPerMin))
 
-    def climb_left_fpm(self, mass: float, mach: float, alt_ft: float) -> float:
-        """Rate of climb left in level flight: excess thrust x speed / weight."""
-        tas = tas_kt(mach, alt_ft)
-        excess = float(self.thrust.cruise(tas, alt_ft)) - float(self.drag.clean(mass, tas, alt_ft))
-        return excess * tas * 0.514444 / (mass * 9.80665) / 0.3048 * 60
+    def available_climb_rate(self, massKg: float, machNumber: float, altitudeFt: float) -> float:
+        """Rate of climb left in level flight, ft/min: excess thrust x speed / weight."""
+        tas = tas_kt(machNumber, altitudeFt)
+        excess = float(self.thrust.cruise(tas, altitudeFt)) - float(self.drag.clean(massKg, tas, altitudeFt))
+        return excess * tas * 0.514444 / (massKg * 9.80665) / 0.3048 * 60
+
+    def can_hold_level(self, massKg: float, machNumber: float, altitudeFt: float, minClimbRateFtPerMin: float = 0.0) -> bool:
+        return self.available_climb_rate(massKg, machNumber, altitudeFt) >= minClimbRateFtPerMin
 
     def climb_rate_fpm(self, mass: float, mach: float, alt_from_ft: float, alt_to_ft: float) -> float:
-        """Rate a climb between two levels is flown at: what maximum thrust allows at the mid-altitude, capped."""
-        return min(CLIMB_RATE_FPM, self.climb_left_fpm(mass, mach, (alt_from_ft + alt_to_ft) / 2))
-
-    def can_hold(self, mass: float, mach: float, alt_ft: float, min_climb_fpm: float = 0.0) -> bool:
-        return self.climb_left_fpm(mass, mach, alt_ft) >= min_climb_fpm
+        """Rate a climb between two levels is flown at: AvailableClimbRate at the mid-altitude, capped (D-024)."""
+        return min(CLIMB_RATE_FPM, self.available_climb_rate(mass, mach, (alt_from_ft + alt_to_ft) / 2))
 
 
 # --------------------------------------------------------------------------- scenario
-@dataclass
-class Aircraft:
-    id: str
-    airline: str
-    role: str
-    route: str
-    mass_kg: float
-    level_ft: float
-    mach: float
-    distance_to_go_nm: float
-    cost_index_kg_per_min: float
-    schedule_delta_min: float
-    has_connections: bool
+def airline_share(ac: ScenarioFlight, connection_threshold_min: float) -> AirlinePerformanceShare:
+    """What the airline would send about one flight (``ScenarioFlight.performanceShare``).
 
-
-@dataclass
-class Option:
-    id: str
-    maneuvers: dict[str, dict[str, Any]]
-    instructions_now: int
+    The airline keeps its schedule and connection data and states one number: the minutes
+    of further delay the flight can take before connections are lost.
+    """
+    margin = connection_threshold_min - ac.scheduleDeltaMin if ac.hasConnections else None
+    return AirlinePerformanceShare(grossWeightKg=ac.cruise.massKg, costIndex=ac.costIndex, delayMarginMin=margin)
 
 
 @dataclass
 class Scenario:
+    """The scenario file. ``aircraftType`` and ``nominalMassKg`` are ``NasAnalysis::PerformanceModel``'s."""
+
     name: str
-    type_icao: str
-    nominal_mass_kg: float
+    aircraftType: str
+    nominalMassKg: float
     geometry: dict[str, Any]
     costs: dict[str, Any]
-    aircraft: list[Aircraft]
-    options: list[Option]
+    flights: list[ScenarioFlight]
+    options: list[ResolutionOption]
 
     @classmethod
     def load(cls, path: Path, variation: str | None = None) -> "Scenario":
         data = yaml.safe_load(path.read_text(encoding="utf-8"))
-        acs = [Aircraft(**{k: v for k, v in a.items() if k != "heading_deg"}) for a in data["aircraft"]]
-        opts = [Option(o["id"], o["maneuvers"], o["instructions_now"]) for o in data["options"]]
-        sc = cls(data["name"], data["type"]["icao"], float(data["type"]["nominal_mass_kg"]), data["geometry"], data["costs"], acs, opts)
+        flights = [
+            ScenarioFlight(Flight(**f["flight"]), CruiseCondition(**f["cruise"]), f["distanceToGoNm"], f["costIndex"], f["scheduleDeltaMin"], f["hasConnections"])
+            for f in data["flights"]
+        ]
+        opts = [
+            ResolutionOption(o["optionId"], o["instructionsNow"], [Maneuver(m["flightNumber"], ManeuverKind(m["kind"]), m.get("deltaFt")) for m in o["maneuvers"]])
+            for o in data["options"]
+        ]
+        sc = cls(data["name"], data["type"]["aircraftType"], float(data["type"]["nominalMassKg"]), data["geometry"], data["costs"], flights, opts)
         if variation == "similar-weights":
             # The check that the comparison is not rigged (experiment-definition.md section 8):
             # both crossing aircraft at the nominal mass with the same cost index.
             sc.name = "similar-weights"
-            for a in sc.aircraft[:2]:
-                a.mass_kg = sc.nominal_mass_kg
-                a.cost_index_kg_per_min = 1.0
+            for a in sc.flights[:2]:
+                a.cruise.massKg = sc.nominalMassKg
+                a.costIndex = 1.0
         elif variation:
             raise SystemExit(f"unknown variation {variation!r}")
+        for a in sc.flights:
+            a.performanceShare = airline_share(a, sc.costs["connection_threshold_min"])
         return sc
 
-    def by_id(self, ac_id: str) -> Aircraft:
-        return next(a for a in self.aircraft if a.id == ac_id)
+    def by_flight_number(self, flight_number: str) -> ScenarioFlight:
+        return next(a for a in self.flights if a.flightNumber == flight_number)
 
 
 # --------------------------------------------------------------------------- scoring
@@ -190,7 +216,7 @@ class AircraftCost:
 
 @dataclass
 class OptionScore:
-    option: Option
+    option: ResolutionOption
     feasible: bool
     why: str
     per_aircraft: dict[str, AircraftCost] = field(default_factory=dict)
@@ -203,14 +229,14 @@ class OptionScore:
         return sum(c.follow_ups for c in self.per_aircraft.values())
 
 
-def maneuver_cost(perf: Performance | None, sc: Scenario, ac: Aircraft, mass: float, man: dict[str, Any]) -> AircraftCost:
+def maneuver_cost(perf: PerformanceModel | None, sc: Scenario, ac: ScenarioFlight, mass: float, man: Maneuver) -> AircraftCost:
     """Cost of one maneuver for one aircraft, evaluated at ``mass``.
 
     ``perf`` is None at conceptual fidelity: only counts are returned.
     """
     g = sc.geometry
     cost = AircraftCost(instructions=1)
-    kind = man["kind"]
+    kind = man.kind
     if kind == "speed":
         cost.unable = not g["speed_lever_separates"]
         cost.note = "built to fail: cannot separate the pair within +/-%.2f Mach" % g["speed_change_mach"]
@@ -218,38 +244,38 @@ def maneuver_cost(perf: Performance | None, sc: Scenario, ac: Aircraft, mass: fl
         return cost
     if perf is None:
         cost.follow_ups = 1 if kind in ("altitude", "vector") else 0
-        if kind == "altitude" and man["delta_ft"] < 0 and not g["reclimb_available"]:
+        if kind == "altitude" and man.deltaFt < 0 and not g["reclimb_available"]:
             cost.follow_ups = 0
         return cost
 
     hold_h = g["maneuver_hold_min"] / 60.0
-    tas = tas_kt(ac.mach, ac.level_ft)
-    ff_old = perf.fuel_flow_kg_s(mass, ac.mach, ac.level_ft)
+    tas = tas_kt(ac.cruise.machNumber, ac.cruise.altitudeFt)
+    ff_old = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, ac.cruise.altitudeFt)
 
     if kind == "altitude":
-        new_alt = ac.level_ft + man["delta_ft"]
-        if not perf.can_hold(mass, ac.mach, new_alt, g.get("min_climb_rate_ft_min", 0.0)):
+        new_alt = ac.cruise.altitudeFt + man.deltaFt
+        if not perf.can_hold_level(mass, ac.cruise.machNumber, new_alt, g.get("min_climb_rate_ft_min", 0.0)):
             cost.unable = True
             cost.note = f"cannot hold FL{int(new_alt/100)} at {mass:.0f} kg"
             return cost
-        rate = perf.climb_rate_fpm(mass, ac.mach, ac.level_ft, new_alt) if man["delta_ft"] > 0 else DESCENT_RATE_FPM
-        t_change_h = abs(man["delta_ft"] / rate) / 60.0
-        ff_change = perf.fuel_flow_kg_s(mass, ac.mach, (ac.level_ft + new_alt) / 2, vs_fpm=rate)
-        ff_new = perf.fuel_flow_kg_s(mass, ac.mach, new_alt)
-        tas_new = tas_kt(ac.mach, new_alt)
+        rate = perf.climb_rate_fpm(mass, ac.cruise.machNumber, ac.cruise.altitudeFt, new_alt) if man.deltaFt > 0 else DESCENT_RATE_FPM
+        t_change_h = abs(man.deltaFt / rate) / 60.0
+        ff_change = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, (ac.cruise.altitudeFt + new_alt) / 2, verticalSpeedFtPerMin=rate)
+        ff_new = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, new_alt)
+        tas_new = tas_kt(ac.cruise.machNumber, new_alt)
         # the change itself, then the hold at the new level
         delta_fuel = (ff_change - ff_old) * t_change_h * 3600 + (ff_new - ff_old) * hold_h * 3600
         delta_time_h = hold_h * (tas / tas_new - 1.0)  # same ground distance at a different TAS
-        if man["delta_ft"] < 0 and g["reclimb_available"]:
+        if man.deltaFt < 0 and g["reclimb_available"]:
             # second instruction: climb back after the hold
-            rate_back = perf.climb_rate_fpm(mass, ac.mach, new_alt, ac.level_ft)
-            t_back_h = abs(man["delta_ft"] / rate_back) / 60.0
-            ff_back = perf.fuel_flow_kg_s(mass, ac.mach, (ac.level_ft + new_alt) / 2, vs_fpm=rate_back)
+            rate_back = perf.climb_rate_fpm(mass, ac.cruise.machNumber, new_alt, ac.cruise.altitudeFt)
+            t_back_h = abs(man.deltaFt / rate_back) / 60.0
+            ff_back = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, (ac.cruise.altitudeFt + new_alt) / 2, verticalSpeedFtPerMin=rate_back)
             delta_fuel += (ff_back - ff_old) * t_back_h * 3600
             cost.follow_ups = 1
-        elif man["delta_ft"] < 0:
+        elif man.deltaFt < 0:
             # stays at the lower level for the rest of the flight
-            rest_h = max(0.0, ac.distance_to_go_nm / tas - hold_h)
+            rest_h = max(0.0, ac.distanceToGoNm / tas - hold_h)
             delta_fuel += (ff_new - ff_old) * rest_h * 3600
             delta_time_h += rest_h * (tas / tas_new - 1.0)
             cost.follow_ups = 0
@@ -268,11 +294,11 @@ def maneuver_cost(perf: Performance | None, sc: Scenario, ac: Aircraft, mass: fl
         return cost
 
     if kind == "slow":
-        new_mach = ac.mach - g["slow_ac3_mach"]
+        new_mach = ac.cruise.machNumber - g["slow_ac3_mach"]
         t_h = g["slow_ac3_min"] / 60.0
-        ff_slow = perf.fuel_flow_kg_s(mass, new_mach, ac.level_ft)
+        ff_slow = perf.cruise_fuel_flow(mass, new_mach, ac.cruise.altitudeFt)
         dist = tas * t_h  # NM covered at the slower speed during the hold
-        t_slow_h = dist / tas_kt(new_mach, ac.level_ft)
+        t_slow_h = dist / tas_kt(new_mach, ac.cruise.altitudeFt)
         cost.delta_fuel_kg = ff_slow * t_slow_h * 3600 - ff_old * t_h * 3600
         cost.delta_time_min = (t_slow_h - t_h) * 60
         cost.follow_ups = 1  # resume normal speed
@@ -281,49 +307,50 @@ def maneuver_cost(perf: Performance | None, sc: Scenario, ac: Aircraft, mass: fl
     raise ValueError(f"unknown maneuver kind {kind!r}")
 
 
-def option_feasible_for_decider(sc: Scenario, opt: Option, case: str, perf: Performance | None) -> tuple[bool, str]:
+def option_feasible_for_decider(sc: Scenario, opt: ResolutionOption, case: str, perf: PerformanceModel | None) -> tuple[bool, str]:
     """Can this case offer this option, given what it knows?"""
     g = sc.geometry
-    for ac_id, man in opt.maneuvers.items():
-        ac = sc.by_id(ac_id)
-        if man["kind"] == "altitude":
-            new_alt = ac.level_ft + man["delta_ft"]
-            if new_alt in g["blocked_levels_ft"] and not any(m["kind"] == "slow" for m in opt.maneuvers.values()):
+    for man in opt.maneuvers:
+        ac = sc.by_flight_number(man.flightNumber)
+        if man.kind == "altitude":
+            new_alt = ac.cruise.altitudeFt + man.deltaFt
+            if new_alt in g["blocked_levels_ft"] and not any(m.kind == ManeuverKind.slow for m in opt.maneuvers):
                 return False, f"FL{int(new_alt/100)} occupied under the crossing"
-            if man["delta_ft"] > 0:
-                if case in ("A", "B"):
-                    if ac.level_ft > g["climb_rule_ft"]:
+            if man.deltaFt > 0:
+                if case in ("A", "B"):  # not given the share: no weight
+                    if ac.cruise.altitudeFt > g["climb_rule_ft"]:
                         return False, f"climb not offered above FL{int(g['climb_rule_ft']/100)} without the weight"
-                elif perf is not None and not perf.can_hold(ac.mass_kg, ac.mach, new_alt, g.get("min_climb_rate_ft_min", 0.0)):
-                    return False, f"{ac.id} cannot hold FL{int(new_alt/100)} at its weight"
-        if man["kind"] == "speed" and case == "A":
+                elif perf is not None and not perf.can_hold_level(ac.performanceShare.grossWeightKg, ac.cruise.machNumber, new_alt, g.get("min_climb_rate_ft_min", 0.0)):
+                    return False, f"{ac.flightNumber} cannot hold FL{int(new_alt/100)} at its weight"
+        if man.kind == "speed" and case == "A":
             return False, "usable speed range unknown"
     return True, ""
 
 
-def score_option(sc: Scenario, opt: Option, perf: Performance | None, mass_of: dict[str, float]) -> OptionScore:
+def score_option(sc: Scenario, opt: ResolutionOption, perf: PerformanceModel | None, mass_of: dict[str, float]) -> OptionScore:
     """Truth-model score of an option: every aircraft, at the masses given."""
     g = sc.geometry
     feasible, why = True, ""
-    for ac_id, man in opt.maneuvers.items():
-        ac = sc.by_id(ac_id)
-        if man["kind"] == "altitude":
-            new_alt = ac.level_ft + man["delta_ft"]
-            if new_alt in g["blocked_levels_ft"] and not any(m["kind"] == "slow" for m in opt.maneuvers.values()):
+    for man in opt.maneuvers:
+        ac = sc.by_flight_number(man.flightNumber)
+        if man.kind == "altitude":
+            new_alt = ac.cruise.altitudeFt + man.deltaFt
+            if new_alt in g["blocked_levels_ft"] and not any(m.kind == ManeuverKind.slow for m in opt.maneuvers):
                 feasible, why = False, f"FL{int(new_alt/100)} occupied under the crossing"
-        if man["kind"] == "speed" and not g["speed_lever_separates"]:
+        if man.kind == "speed" and not g["speed_lever_separates"]:
             feasible, why = False, "speed change cannot separate the pair"
     score = OptionScore(opt, feasible, why)
-    kinds = {m["kind"] for m in opt.maneuvers.values()}
+    kinds = {m.kind for m in opt.maneuvers}
     score.risk = "high" if "speed" in kinds else ("medium" if kinds & {"vector", "slow"} else "low")
-    for ac in sc.aircraft:
-        if ac.id in opt.maneuvers:
-            c = maneuver_cost(perf, sc, ac, mass_of[ac.id], opt.maneuvers[ac.id])
+    for ac in sc.flights:
+        man = opt.maneuver_for(ac.flightNumber)
+        if man is not None:
+            c = maneuver_cost(perf, sc, ac, mass_of[ac.flightNumber], man)
             if c.unable:
-                score.feasible, score.why = False, f"{ac.id} unable: {c.note}"
+                score.feasible, score.why = False, f"{ac.flightNumber} unable: {c.note}"
         else:
             c = AircraftCost()
-        score.per_aircraft[ac.id] = c
+        score.per_aircraft[ac.flightNumber] = c
     return score
 
 
@@ -331,11 +358,11 @@ def airline_cost_usd(sc: Scenario, score: OptionScore, with_connections: bool) -
     """Per-airline cost: fuel + CI x time (in fuel-equivalent kg, then USD), connection flag, CO2 priced."""
     costs = sc.costs
     out: dict[str, dict[str, float | bool]] = {}
-    for ac in sc.aircraft:
-        c = score.per_aircraft[ac.id]
-        fe = c.delta_fuel_kg + ac.cost_index_kg_per_min * c.delta_time_min
+    for ac in sc.flights:
+        c = score.per_aircraft[ac.flightNumber]
+        fe = c.delta_fuel_kg + ac.costIndex * c.delta_time_min
         co2 = costs["co2_per_kg_fuel"] * c.delta_fuel_kg
-        missed = bool(ac.has_connections and (ac.schedule_delta_min + c.delta_time_min) > costs["connection_threshold_min"] and ac.schedule_delta_min <= costs["connection_threshold_min"])
+        missed = bool(ac.hasConnections and (ac.scheduleDeltaMin + c.delta_time_min) > costs["connection_threshold_min"] and ac.scheduleDeltaMin <= costs["connection_threshold_min"])
         row = out.setdefault(ac.airline, {"fuel_equivalent_kg": 0.0, "usd": 0.0, "co2_kg": 0.0, "missed_connection": False})
         row["fuel_equivalent_kg"] += fe
         row["usd"] += fe * costs["fuel_price_usd_per_kg"] + co2 / 1000 * costs["carbon_price_usd_per_t"]
@@ -345,26 +372,26 @@ def airline_cost_usd(sc: Scenario, score: OptionScore, with_connections: bool) -
 
 
 # --------------------------------------------------------------------------- the cases
-def decide(sc: Scenario, case: str, perf: Performance | None, scores_by_mass: dict[str, dict[str, OptionScore]]) -> tuple[str | None, str]:
+def decide(sc: Scenario, case: str, perf: PerformanceModel | None, scores_by_mass: dict[str, dict[str, OptionScore]]) -> tuple[str | None, str]:
     """Which option this case picks, using only what it knows. Returns (option id, reason)."""
     if case == "A":
         # One descent clearance (rantanen2012conflictManeuvers). Tie-breaker: move the
         # crossing aircraft with farther to go (farther from top of descent).
-        pair = sorted(sc.aircraft[:2], key=lambda a: -a.distance_to_go_nm)
+        pair = sorted(sc.flights[:2], key=lambda a: -a.distanceToGoNm)
         for ac in pair:
             for opt in sc.options:
-                man = opt.maneuvers.get(ac.id)
-                if man and man["kind"] == "altitude" and man["delta_ft"] < 0 and len(opt.maneuvers) == 1:
+                man = opt.maneuver_for(ac.flightNumber)
+                if man and man.kind == "altitude" and man.deltaFt < 0 and len(opt.maneuvers) == 1:
                     ok, why = option_feasible_for_decider(sc, opt, case, perf)
                     if ok:
-                        return opt.id, f"rule: one descent; {ac.id} moved (farther to go)"
+                        return opt.optionId, f"rule: one descent; {ac.flightNumber} moved (farther to go)"
             # a descent blocked under the crossing: the combined option (descend + open a gap)
             for opt in sc.options:
-                man = opt.maneuvers.get(ac.id)
-                if man and man["kind"] == "altitude" and man["delta_ft"] < 0 and len(opt.maneuvers) > 1:
+                man = opt.maneuver_for(ac.flightNumber)
+                if man and man.kind == "altitude" and man.deltaFt < 0 and len(opt.maneuvers) > 1:
                     ok, why = option_feasible_for_decider(sc, opt, case, perf)
                     if ok:
-                        return opt.id, f"rule: one descent, gap opened; {ac.id} moved"
+                        return opt.optionId, f"rule: one descent, gap opened; {ac.flightNumber} moved"
         return None, "no descent available"
 
     key = "nominal" if case == "B" else "actual"
@@ -373,36 +400,38 @@ def decide(sc: Scenario, case: str, perf: Performance | None, scores_by_mass: di
         ok, why = option_feasible_for_decider(sc, opt, case, perf)
         if not ok:
             continue
-        sc_opt = scores_by_mass[key][opt.id]
+        sc_opt = scores_by_mass[key][opt.optionId]
         if not sc_opt.feasible:
             continue
         # the decider's estimate: sum over the aircraft it moves of fuel + CI x time
         est = 0.0
-        for ac in sc.aircraft:
-            c = sc_opt.per_aircraft[ac.id]
-            ci = ac.cost_index_kg_per_min if case in ("C", "D") else 1.0  # B knows no cost index: time at 1 kg/min
+        for ac in sc.flights:
+            c = sc_opt.per_aircraft[ac.flightNumber]
+            share = ac.performanceShare if case in ("C", "D") else None  # A and B are not given the share
+            ci = share.costIndex if share else 1.0  # B knows no cost index: time at 1 kg/min
             est += c.delta_fuel_kg + ci * c.delta_time_min
-            if case == "D" and ac.has_connections:
-                over = ac.schedule_delta_min + c.delta_time_min > sc.costs["connection_threshold_min"] >= ac.schedule_delta_min
+            if case == "D" and share.delayMarginMin is not None:
+                over = c.delta_time_min > share.delayMarginMin >= 0
                 est += 1e6 if over else 0.0  # K unsourced: treated as prohibitive
         if perf is None:
             est = sc_opt.total_instructions() + sc_opt.total_follow_ups()  # conceptual: fewest calls
         if est < best_cost - 1e-9:
-            best, best_cost, reason = opt.id, est, f"lowest estimated cost {est:.1f} ({'calls' if perf is None else 'kg fuel-equivalent'})"
+            best, best_cost, reason = opt.optionId, est, f"lowest estimated cost {est:.1f} ({'calls' if perf is None else 'kg fuel-equivalent'})"
     return best, reason
 
 
 # --------------------------------------------------------------------------- outputs
 def run(sc: Scenario, fidelity: str) -> dict[str, Any]:
-    perf = None if fidelity == "conceptual" else Performance(sc.type_icao)
-    actual = {a.id: a.mass_kg for a in sc.aircraft}
-    nominal = {a.id: sc.nominal_mass_kg for a in sc.aircraft}
-    truth_mass = nominal if fidelity == "nominalMass" else actual
+    fidelity = FidelityLevel(fidelity)
+    perf = None if fidelity == FidelityLevel.conceptual else PerformanceModel(sc.aircraftType)
+    actual = {a.flightNumber: a.cruise.massKg for a in sc.flights}
+    nominal = {a.flightNumber: sc.nominalMassKg for a in sc.flights}
+    truth_mass = nominal if fidelity == FidelityLevel.nominalMass else actual
     scores = {
-        "actual": {o.id: score_option(sc, o, perf, actual) for o in sc.options},
-        "nominal": {o.id: score_option(sc, o, perf, nominal) for o in sc.options},
+        "actual": {o.optionId: score_option(sc, o, perf, actual) for o in sc.options},
+        "nominal": {o.optionId: score_option(sc, o, perf, nominal) for o in sc.options},
     }
-    truth = {o.id: score_option(sc, o, perf, truth_mass) for o in sc.options}
+    truth = {o.optionId: score_option(sc, o, perf, truth_mass) for o in sc.options}
     cases = {}
     for case in CASES:
         chosen, reason = decide(sc, case, perf, scores)
@@ -422,16 +451,16 @@ def write_tables(res: dict[str, Any]) -> list[Path]:
     p1 = TABLE_DIR / f"options_{tag}.csv"
     with p1.open("w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        head = ["option", "feasible", "why"] + [f"{a.id} fuel kg" for a in sc.aircraft] + [f"{a.id} time min" for a in sc.aircraft]
-        head += [f"airline {x} USD" for x in sorted({a.airline for a in sc.aircraft})] + ["instructions", "follow-ups", "risk", "system fuel kg", "system CO2 kg", "largest fuel-equiv kg (ac)"]
+        head = ["option", "feasible", "why"] + [f"{a.flightNumber} fuel kg" for a in sc.flights] + [f"{a.flightNumber} time min" for a in sc.flights]
+        head += [f"airline {x} USD" for x in sorted({a.airline for a in sc.flights})] + ["instructions", "follow-ups", "risk", "system fuel kg", "system CO2 kg", "largest fuel-equiv kg (ac)"]
         w.writerow(head)
         for oid, s in truth.items():
             air = airline_cost_usd(sc, s, with_connections=True)
-            fe = {a.id: s.per_aircraft[a.id].delta_fuel_kg + a.cost_index_kg_per_min * s.per_aircraft[a.id].delta_time_min for a in sc.aircraft}
+            fe = {a.flightNumber: s.per_aircraft[a.flightNumber].delta_fuel_kg + a.costIndex * s.per_aircraft[a.flightNumber].delta_time_min for a in sc.flights}
             worst = max(fe, key=fe.get)
             row = [oid, "yes" if s.feasible else "no", s.why]
-            row += ["" if conceptual else f"{s.per_aircraft[a.id].delta_fuel_kg:.1f}" for a in sc.aircraft]
-            row += ["" if conceptual else f"{s.per_aircraft[a.id].delta_time_min:.2f}" for a in sc.aircraft]
+            row += ["" if conceptual else f"{s.per_aircraft[a.flightNumber].delta_fuel_kg:.1f}" for a in sc.flights]
+            row += ["" if conceptual else f"{s.per_aircraft[a.flightNumber].delta_time_min:.2f}" for a in sc.flights]
             row += ["" if conceptual else f"{air[x]['usd']:.0f}" for x in sorted(air)]
             row += [s.total_instructions(), s.total_follow_ups(), s.risk]
             row += ["" if conceptual else f"{sum(c.delta_fuel_kg for c in s.per_aircraft.values()):.1f}", "" if conceptual else f"{sc.costs['co2_per_kg_fuel']*sum(c.delta_fuel_kg for c in s.per_aircraft.values()):.1f}", "" if conceptual else f"{fe[worst]:.1f} ({worst})"]
@@ -452,8 +481,8 @@ def write_tables(res: dict[str, Any]) -> list[Path]:
                 continue
             air = airline_cost_usd(sc, s, with_connections=True)
             air_ref = airline_cost_usd(sc, ref, with_connections=True) if ref else {}
-            fe = {a.id: s.per_aircraft[a.id].delta_fuel_kg + a.cost_index_kg_per_min * s.per_aircraft[a.id].delta_time_min for a in sc.aircraft}
-            fe_ref = {a.id: ref.per_aircraft[a.id].delta_fuel_kg + a.cost_index_kg_per_min * ref.per_aircraft[a.id].delta_time_min for a in sc.aircraft} if ref else {}
+            fe = {a.flightNumber: s.per_aircraft[a.flightNumber].delta_fuel_kg + a.costIndex * s.per_aircraft[a.flightNumber].delta_time_min for a in sc.flights}
+            fe_ref = {a.flightNumber: ref.per_aircraft[a.flightNumber].delta_fuel_kg + a.costIndex * ref.per_aircraft[a.flightNumber].delta_time_min for a in sc.flights} if ref else {}
             worst = max(fe, key=fe.get)
             sys_fuel = sum(x.delta_fuel_kg for x in s.per_aircraft.values())
             sys_fuel_ref = sum(x.delta_fuel_kg for x in ref.per_aircraft.values()) if ref else 0.0
@@ -485,7 +514,7 @@ def write_tables(res: dict[str, Any]) -> list[Path]:
             lines.append(f"{case} & none & \\multicolumn{{4}}{{l}}{{{c['reason']}}} \\\\")
             continue
         air = airline_cost_usd(sc, s, with_connections=True)
-        fe = {a.id: s.per_aircraft[a.id].delta_fuel_kg + a.cost_index_kg_per_min * s.per_aircraft[a.id].delta_time_min for a in sc.aircraft}
+        fe = {a.flightNumber: s.per_aircraft[a.flightNumber].delta_fuel_kg + a.costIndex * s.per_aircraft[a.flightNumber].delta_time_min for a in sc.flights}
         worst = max(fe, key=fe.get)
         sys_fuel = sum(x.delta_fuel_kg for x in s.per_aircraft.values())
         cell_worst = "--" if conceptual else f"{fe[worst]:.0f} ({worst})"

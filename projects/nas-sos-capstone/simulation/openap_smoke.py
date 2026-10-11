@@ -19,7 +19,6 @@ graded as that: a published open model for a sibling type, not flight-test data.
 
 from __future__ import annotations
 
-import math
 import warnings
 from importlib.metadata import version
 from pathlib import Path
@@ -27,23 +26,19 @@ from pathlib import Path
 import yaml
 from openap import Drag, FuelFlow, Thrust, prop
 
-AC = "B39M"
+from experiment_scoring import tas_kt
+
 MACH = 0.80
 SCENARIO = Path(__file__).resolve().parent / "scenario_base.yaml"
+AC = yaml.safe_load(SCENARIO.read_text(encoding="utf-8"))["type"]["aircraftType"]  # NasAnalysis::PerformanceModel.aircraftType; B39M
 LEVELS = (320, 340, 360, 380, 400)
 
 
 def scenario_masses() -> tuple[tuple[int, ...], float]:
     """Light, nominal and heavy weights of the scenario, and its climb margin in ft/min."""
     data = yaml.safe_load(SCENARIO.read_text(encoding="utf-8"))
-    masses = {int(a["mass_kg"]) for a in data["aircraft"]} | {int(data["type"]["nominal_mass_kg"])}
+    masses = {int(f["cruise"]["massKg"]) for f in data["flights"]} | {int(data["type"]["nominalMassKg"])}
     return tuple(sorted(masses)), float(data["geometry"]["min_climb_rate_ft_min"])
-
-
-def tas_kt(mach: float, alt_ft: float) -> float:
-    """True airspeed in knots at a Mach number in the ISA (tropopause at 36,089 ft)."""
-    temp_k = 288.15 - 0.0019812 * alt_ft if alt_ft < 36_089 else 216.65
-    return mach * math.sqrt(1.4 * 287.05 * temp_k) / 0.514444
 
 
 def main() -> None:

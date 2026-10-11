@@ -4,8 +4,10 @@ Implements `DecisionSupport::VehicleDynamicsModel` (the `StepDynamics` calc def 
 2026-10-08, D-012; the signature is recorded in that part def's doc)
 in `cameo_models/nas_sysml_package_definitions.sysml` (see `workflows/vehicle-simulation-model.md` for why the
 physics lives here rather than as an embedded SysML calc body). Field names mirror
-`AircraftSystems::AircraftState`'s attributes so the two stay traceable by inspection:
-`state`/`next_state` dicts here use exactly those attribute names.
+`AircraftSystems::AircraftState`'s attributes: `state`/`next_state` dicts here use exactly
+those attribute names, typed by `nas_types.AircraftState`, which `test_model_conformance.py`
+checks against the `.sysml` text (D-025). Units are the model's: metres, metres per second,
+degrees, kilograms (`fuelOnBoard` included).
 
 This is a kinematic point-mass model, not an aerodynamic one: speed and heading move
 toward their commanded values at bounded rates, altitude integrates commanded climb rate
@@ -18,7 +20,8 @@ aerodynamic drag) is needed later.
 from __future__ import annotations
 
 import math
-from typing import Any
+
+from nas_types import AircraftState
 
 EARTH_RADIUS_M = 6_371_000.0
 
@@ -41,12 +44,12 @@ def _shortest_angle_delta_deg(from_deg: float, to_deg: float) -> float:
 
 
 def step_dynamics(
-    state: dict[str, Any],
+    state: AircraftState,
     control_heading: float,
     control_speed: float,
     control_climb_rate: float,
     dt: float,
-) -> dict[str, Any]:
+) -> AircraftState:
     """Advance one AircraftState by dt seconds under the given commanded controls.
 
     `state` and the return value are dicts keyed exactly like

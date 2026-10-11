@@ -338,7 +338,7 @@ package NationalAirspaceSystem {
              * a different receiver and a different decision. */
             attribute grossWeightKg: Real;            // the FMS's current gross weight
             attribute costIndex: Real;                // the flight's cost index (kg of fuel per minute, or the airline's own units)
-            attribute connectionPriority: Integer;    // how close the flight is to its connection threshold (case D)
+            attribute delayMarginMin: Real[0..1];     // connection priority (case D), stated as the minutes of further delay the flight can take before connections are lost; absent = no connection constraint. Replaced connectionPriority: Integer on 2026-10-11 (D-025): the airline states a margin and keeps its schedule and connection data to itself. Precedent: the "Time not after" an airline assigns a flight in SESAR's UDPP Margins feature (pilon2019udppMargins Section III.C.3, p. 3), there for slot prioritisation before departure, not for a tactical clearance
             attribute thrustModelRef: String[0..1];   // unexercised: identifier of the airline's thrust model
             attribute dragModelRef: String[0..1];     // unexercised: identifier of the airline's drag model
             attribute fuelFlowModelRef: String[0..1]; // unexercised: identifier of the airline's fuel-flow model
@@ -463,6 +463,7 @@ package NationalAirspaceSystem {
 
         part def Flight {
             attribute flightNumber: String;
+            attribute airline: String; // name of the operating airline (D-025); the experiment totals cost per airline
             ref part aircraft: AircraftSystems::Aircraft;
             ref part departureAirport: AirportOperations::Airport;
             ref part arrivalAirport: AirportOperations::Airport;
@@ -767,7 +768,7 @@ package NationalAirspaceSystem {
             attribute roll: Real; // in degrees
             attribute yaw: Real; // in degrees
             attribute position: Common::Position; // Current position of the aircraft
-            attribute fuelOnBoard: Real; // in liters
+            attribute fuelOnBoard: Real; // in kilograms (was "liters" until 2026-10-11, D-025; grossWeight = zeroFuelWeight + fuelOnBoard)
             attribute zeroFuelWeight: Real; // in kilograms
             attribute grossWeight: Real; // in kilograms
             attribute isEngineOn: Boolean;

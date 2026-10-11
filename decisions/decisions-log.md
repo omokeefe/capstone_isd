@@ -6,6 +6,30 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-025 — The simulation code uses the model's definitions, and a test checks that it does
+
+**Date:** 2026-10-11
+**Status:** active. Owner direction in session ("update my python content to use the same definitions of aircraft, etc. as present in my project package definitions"), with the owner's answers on four points recorded as items 2 to 5. The names of the new definitions and attributes are Claude's, accepted by the owner the same day. Amends D-005 (the trace was by hand only) and D-019 (one attribute of the share).
+
+**Decision:**
+
+1. **One Python class per SysML definition the code uses, same names.** `simulation/nas_types.py` mirrors `FidelityLevel`, `MeansOfAchievement`, `ManeuverKind`, `Position`, `AircraftState`, `CruiseCondition`, `Flight`, `AirlinePerformanceShare`, `Maneuver`, `ResolutionOption` and `ScenarioFlight`. `simulation/test_model_conformance.py` reads the `.sysml` text and fails when a Python field, an enumeration value, a performance-function parameter or a camelCase key of `scenario_base.yaml` is not in the model. The model is changed first, then the Python (D-006).
+2. **Units stay as the model has them.** `AircraftSystems::AircraftState` stays in SI and is what `vehicle_dynamics.py` steps. The experiment works in feet, Mach and kilograms through a new `NasAnalysis::CruiseCondition` (`massKg`, `machNumber`, `altitudeFt`), the three inputs the performance functions already took. Nothing converts one into the other. `AircraftState.fuelOnBoard` is corrected from liters to kilograms: the code and the example scenario already added it to zero-fuel weight.
+3. **The share carries a delay margin in place of a priority number.** `AirlinePerformanceShare.connectionPriority : Integer` becomes `delayMarginMin : Real[0..1]`: the minutes of further delay the flight can take before connections are lost, absent when there is no connection constraint. The airline works it out from its own schedule and connection data (the connection threshold minus how late the flight already is) and sends only the result. The requirement and verification wording still says "connection priority"; this is how that priority is stated.
+4. **Resolution options are defined in the model.** `NasAnalysis::ManeuverKind` (`altitude`, `vector`, `speed`, `slow`), `Maneuver` and `ResolutionOption`. `NasAnalysis::ScenarioFlight` holds what the scoring reads about one flight: the facts the truth model uses (cruise condition, cost index, schedule delta, connections) and the share derived from them. Cases C and D read the share only; cases A and B are not given it.
+5. **The scenario's values stay in `scenario_base.yaml` and are cited by file.** No copy of the four flights is written in SysML. `VerifyByExperimentCase` in `nas_verification.sysml` gains a `scenarioFile` attribute.
+6. **The model's performance functions are brought up to the code.** `CruiseFuelFlow` gains a vertical-speed input; `CanHoldLevel` gains the minimum climb rate and its text now states the D-023 test; `AvailableClimbRate` is added (D-024). `PerformanceModel` gains `nominalMassKg`. `Flight` gains `airline`.
+
+**Rationale:** the project's claim is that the fidelity of a model can change with the architecture unchanged. That needs the code to be an implementation of what the architecture defines, by something stronger than a comment. Before this the experiment's one `Aircraft` class mixed what the model keeps apart (the aircraft's condition, the flight, and what the airline shares), so the code could not show which party knew what. Item 3: an airline would not hand its connection data or an unexplained rank to another party; one number in minutes is what the deciding party can use and is the least the airline has to reveal.
+
+**Alternatives considered:** a SysML parser or the Syside Python API for the check (not needed for flat definitions; `tools/check_model.py`, turn 5, is where that API is used); the experiment in SI throughout (rejected: levels are compared exactly and every source is in feet); keeping `connectionPriority` and deriving an integer in Python (rejected, item 3); the four flights written as SysML instances (rejected by the owner: one copy, cited).
+
+**Evidence / source:** owner direction, 2026-10-11. Item 3: the owner's judgment of what an airline would share [SME], with one published precedent found the same day, `pilon2019udppMargins` [B]. In SESAR's User Driven Prioritisation Process an airline assigns each delayed flight a "Time not before" and "Time not after" (Section III.C.3, p. 3) and the flight's cost structure "is only known by the AU" (Section II.A, p. 2); delay costs "surge" when the first connecting passengers risk missing their flights (p. 2). That is planning-phase slot prioritisation among one airline's own flights, with the Network Manager as receiver. The project's use, a margin sent to the party resolving an en-route conflict, is the project's proposal and is not in the paper. The paper states a clock time; `delayMarginMin` is that time less the flight's current estimate.
+
+**Consequences:** `cameo_models/nas_analysis.sysml`, `nas_sysml_package_definitions.sysml`, `nas_verification.sysml`; new `simulation/nas_types.py` and `test_model_conformance.py`; `experiment_scoring.py` (class `Performance` is now `PerformanceModel`, methods named after the calc defs), `scenario_base.yaml` (model keys renamed; `aircraft` is now `flights`), `b739_envelope.py`, `openap_smoke.py`, `vehicle_dynamics.py`, `test_experiment_scoring.py`; `workflows/vehicle-simulation-model.md`; `tools/README.md`. **No number changed:** the three tables, `results/experiment_results.sysml` and both figures are byte-identical to the commit before. 32 tests pass; `syside check` passes. Earlier entries (D-017, D-023, D-024) name the old Python and YAML names and are left as written.
+
+---
+
 ## D-024 — Climbs are costed at the rate maximum thrust allows; no compressibility drag is a stated assumption
 
 **Date:** 2026-10-11

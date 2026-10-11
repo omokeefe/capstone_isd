@@ -21,9 +21,13 @@ package NasVerification {
     private import ConstituentSystemRequirements::AirspaceManagementRequirements::*;
 
     verification def VerifyByExperimentCase {
-        doc /* Common shape: which case of the experiment is the procedure, and what was
-         * measured when it ran. */
+        doc /* Common shape: which case of the experiment is the procedure, which scenario
+         * file it runs on, and what was measured when it ran. The scenario file holds the
+         * flights (NasAnalysis::ScenarioFlight) and the options
+         * (NasAnalysis::ResolutionOption); its values are cited here by file and are not
+         * repeated in the model (D-025). */
         attribute experimentCase : String; // "A", "B", "C" or "D"
+        attribute scenarioFile : String default "projects/nas-sos-capstone/simulation/scenario_base.yaml";
         attribute measuredSystemDeltaFuelKg : Real[0..1];
         attribute measuredInstructions : Integer[0..1];
         subject scoring : ConflictResolutionScoring;
@@ -45,8 +49,9 @@ package NasVerification {
     }
 
     verification def VerifyConnectionPriorityToDecidingParty :> VerifyByExperimentCase {
-        doc /* Case D: the deciding party receives the airline's connection priority. Third
-         * case on SLR-INF-02. */
+        doc /* Case D: the deciding party receives the airline's connection priority, stated
+         * as AirlinePerformanceShare.delayMarginMin (minutes of further delay before
+         * connections are lost; D-025). Third case on SLR-INF-02. */
         objective { verify decisionInformationToDecidingParty; }
     }
 

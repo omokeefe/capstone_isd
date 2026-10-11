@@ -53,7 +53,7 @@ HERE = Path(__file__).resolve().parent
 FIG_DIR = HERE.parent / "report" / "figures"
 SCENARIO = HERE / "scenario_base.yaml"
 
-AC = "B39M"
+AC = yaml.safe_load(SCENARIO.read_text(encoding="utf-8"))["type"]["aircraftType"]  # NasAnalysis::PerformanceModel.aircraftType; B39M
 CL_MAX_CLEAN = 1.45  # [C] assumption; see module docstring
 STALL_MARGIN = 1.3
 SERVICE_CEILING_ROC_FPM = 100.0  # faa2015ac61107b para. 1-4r
@@ -90,10 +90,10 @@ def tas_from_cas(cas_kt: float, alt_ft: float) -> float:
 
 def load_masses() -> tuple[float, float, float]:
     data = yaml.safe_load(SCENARIO.read_text(encoding="utf-8"))
-    acs = {a["id"]: a for a in data["aircraft"]}
-    heavy = acs["AC1"]["mass_kg"]
-    light = acs["AC2"]["mass_kg"]
-    nominal = data["type"]["nominal_mass_kg"]
+    masses = {f["flight"]["flightNumber"]: f["cruise"]["massKg"] for f in data["flights"]}
+    heavy = masses["AC1"]
+    light = masses["AC2"]
+    nominal = data["type"]["nominalMassKg"]
     return heavy, light, nominal
 
 
@@ -140,8 +140,8 @@ def figure_envelope(th: Thrust, dr: Drag, heavy: float, ac: dict, scenario: dict
     s = ac["wing"]["area"]
     mmo, vmo = ac["mmo"], ac["vmo"]
     geo = scenario["geometry"]
-    ac1 = next(x for x in scenario["aircraft"] if x["id"] == "AC1")
-    level, mach = ac1["level_ft"], ac1["mach"]
+    ac1 = next(f for f in scenario["flights"] if f["flight"]["flightNumber"] == "AC1")
+    level, mach = ac1["cruise"]["altitudeFt"], ac1["cruise"]["machNumber"]
     # Climb an operator wants left at a level before it will fly there [SME]; never below the service-ceiling 100.
     margin = max(float(geo.get("min_climb_rate_ft_min", SERVICE_CEILING_ROC_FPM)), SERVICE_CEILING_ROC_FPM)
     color, ink, muted = "#b2182b", "#0b0b0b", "#52514e"
@@ -266,7 +266,7 @@ def main() -> None:
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     heavy, light, _ = load_masses()
     data = yaml.safe_load(SCENARIO.read_text(encoding="utf-8"))
-    mach = data["aircraft"][0]["mach"]
+    mach = data["flights"][0]["cruise"]["machNumber"]
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         ff, th, dr = FuelFlow(AC, use_synonym=True), Thrust(AC, use_synonym=True), Drag(AC, use_synonym=True)

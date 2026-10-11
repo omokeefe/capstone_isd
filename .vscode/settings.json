@@ -1,5 +1,38 @@
 {
     "markdown.copyFiles.destination": {
         "**/*.md": "${documentWorkspaceFolder}/attachments/"
-    }
+    },
+
+    // LaTeX Workshop: build the report on save and keep the PDF beside the source.
+    // Same command as workflows/compile-report.md, so the editor and the command line
+    // share one main.pdf and one build_artifacts/ folder. %DIR% is the folder of the
+    // root file (report/main.tex; section files name it with "% !TEX root").
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.outDir": "%DIR%",
+    "latex-workshop.latex.auxDir": "%DIR%/build_artifacts",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-pdf",
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-outdir=%DIR%",
+                "-auxdir=%DIR%/build_artifacts",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": ["latexmk"]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "first",
+    "latex-workshop.latex.autoClean.run": "never",
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.synctex.afterBuild.enabled": true
 }

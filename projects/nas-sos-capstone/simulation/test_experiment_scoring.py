@@ -25,40 +25,40 @@ def base():
 def test_scenario_asymmetry(base):
     """The light aircraft can hold the climb level with the climb margin left; the heavy one cannot (D-013 item 4, D-023)."""
     sc, _ = base
-    perf = es.Performance(sc.type_icao)
-    heavy, light = sc.aircraft[0], sc.aircraft[1]
-    up = heavy.level_ft + 2000
+    perf = es.PerformanceModel(sc.aircraftType)
+    heavy, light = sc.flights[0], sc.flights[1]
+    up = heavy.cruise.altitudeFt + 2000
     margin = sc.geometry["min_climb_rate_ft_min"]
     assert margin >= 100  # the service-ceiling definition, faa2015ac61107b para. 1-4r
-    assert perf.can_hold(heavy.mass_kg, heavy.mach, heavy.level_ft, margin)
-    assert perf.can_hold(light.mass_kg, light.mach, up, margin)
-    assert not perf.can_hold(heavy.mass_kg, heavy.mach, up, margin)
+    assert perf.can_hold_level(heavy.cruise.massKg, heavy.cruise.machNumber, heavy.cruise.altitudeFt, margin)
+    assert perf.can_hold_level(light.cruise.massKg, light.cruise.machNumber, up, margin)
+    assert not perf.can_hold_level(heavy.cruise.massKg, heavy.cruise.machNumber, up, margin)
 
 
 def test_case_b_cannot_tell_the_pair_apart(base):
     """With one type and a nominal mass, O1 and O2 (same maneuver, different aircraft) cost the same to case B."""
     sc, _ = base
-    perf = es.Performance(sc.type_icao)
-    nominal = {a.id: sc.nominal_mass_kg for a in sc.aircraft}
-    o3 = es.score_option(sc, next(o for o in sc.options if o.id == "O3"), perf, nominal)
-    o4 = es.score_option(sc, next(o for o in sc.options if o.id == "O4"), perf, nominal)
+    perf = es.PerformanceModel(sc.aircraftType)
+    nominal = {a.flightNumber: sc.nominalMassKg for a in sc.flights}
+    o3 = es.score_option(sc, next(o for o in sc.options if o.optionId == "O3"), perf, nominal)
+    o4 = es.score_option(sc, next(o for o in sc.options if o.optionId == "O4"), perf, nominal)
     assert o3.per_aircraft["AC1"].delta_fuel_kg == pytest.approx(o4.per_aircraft["AC2"].delta_fuel_kg, rel=1e-9)
 
 
 def test_case_c_can_tell_the_pair_apart(base):
     sc, _ = base
-    perf = es.Performance(sc.type_icao)
-    actual = {a.id: a.mass_kg for a in sc.aircraft}
-    o3 = es.score_option(sc, next(o for o in sc.options if o.id == "O3"), perf, actual)
-    o4 = es.score_option(sc, next(o for o in sc.options if o.id == "O4"), perf, actual)
+    perf = es.PerformanceModel(sc.aircraftType)
+    actual = {a.flightNumber: a.cruise.massKg for a in sc.flights}
+    o3 = es.score_option(sc, next(o for o in sc.options if o.optionId == "O3"), perf, actual)
+    o4 = es.score_option(sc, next(o for o in sc.options if o.optionId == "O4"), perf, actual)
     assert not o3.feasible  # heavy cannot climb
     assert o4.feasible  # light can
 
 
 def test_climb_rule_closes_climbs_to_a_and_b(base):
     sc, _ = base
-    perf = es.Performance(sc.type_icao)
-    o4 = next(o for o in sc.options if o.id == "O4")
+    perf = es.PerformanceModel(sc.aircraftType)
+    o4 = next(o for o in sc.options if o.optionId == "O4")
     assert es.option_feasible_for_decider(sc, o4, "A", perf)[0] is False
     assert es.option_feasible_for_decider(sc, o4, "B", perf)[0] is False
     assert es.option_feasible_for_decider(sc, o4, "C", perf)[0] is True
@@ -91,30 +91,30 @@ def test_every_case_chooses_a_feasible_option(base):
 def test_similar_weights_same_numbers_for_every_option():
     """Same weights in, same fuel and time out: the nominal-mass and actual-mass scores agree on every option."""
     sc = es.Scenario.load(SCENARIO, "similar-weights")
-    perf = es.Performance(sc.type_icao)
-    actual = {a.id: a.mass_kg for a in sc.aircraft}
-    nominal = {a.id: sc.nominal_mass_kg for a in sc.aircraft}
+    perf = es.PerformanceModel(sc.aircraftType)
+    actual = {a.flightNumber: a.cruise.massKg for a in sc.flights}
+    nominal = {a.flightNumber: sc.nominalMassKg for a in sc.flights}
     assert actual == nominal
     for opt in sc.options:
         at_actual, at_nominal = es.score_option(sc, opt, perf, actual), es.score_option(sc, opt, perf, nominal)
-        assert at_actual.feasible == at_nominal.feasible, opt.id
-        for ac in sc.aircraft:
-            a, n = at_actual.per_aircraft[ac.id], at_nominal.per_aircraft[ac.id]
-            assert a.delta_fuel_kg == pytest.approx(n.delta_fuel_kg), (opt.id, ac.id)
-            assert a.delta_time_min == pytest.approx(n.delta_time_min), (opt.id, ac.id)
+        assert at_actual.feasible == at_nominal.feasible, opt.optionId
+        for ac in sc.flights:
+            a, n = at_actual.per_aircraft[ac.flightNumber], at_nominal.per_aircraft[ac.flightNumber]
+            assert a.delta_fuel_kg == pytest.approx(n.delta_fuel_kg), (opt.optionId, ac.flightNumber)
+            assert a.delta_time_min == pytest.approx(n.delta_time_min), (opt.optionId, ac.flightNumber)
 
 
 def test_similar_weights_with_the_climb_closed_c_matches_b():
     """With the level above occupied, so nobody can climb, case C chooses what case B chooses: the climb is all that separates them."""
     sc = es.Scenario.load(SCENARIO, "similar-weights")
-    pair_level = sc.aircraft[0].level_ft
+    pair_level = sc.flights[0].cruise.altitudeFt
     sc.geometry = {**sc.geometry, "blocked_levels_ft": [*sc.geometry["blocked_levels_ft"], pair_level + 2000]}
     res = es.run(sc, "actualMass")
     assert res["cases"]["C"]["option"] == res["cases"]["B"]["option"]
     # and with the level above open again, the climb is what case C takes
     open_res = es.run(es.Scenario.load(SCENARIO, "similar-weights"), "actualMass")
-    chosen = next(o for o in sc.options if o.id == open_res["cases"]["C"]["option"])
-    assert any(m["kind"] == "altitude" and m["delta_ft"] > 0 for m in chosen.maneuvers.values())
+    chosen = next(o for o in sc.options if o.optionId == open_res["cases"]["C"]["option"])
+    assert any(m.kind == es.ManeuverKind.altitude and m.deltaFt > 0 for m in chosen.maneuvers)
     assert es.option_feasible_for_decider(sc, chosen, "B", perf=None)[0] is False
 
 
