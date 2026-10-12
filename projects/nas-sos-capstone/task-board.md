@@ -22,7 +22,7 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 - Model (Track A): `nas_analysis.sysml` (fidelity levels, calc defs, analysis def), `nas_verification.sysml` (six verification cases), and the D-019 interface (`AirlinePerformanceShare`, ports on the AOC and ATC, unrendered interface usage on the context diagram) added 2026-10-10; whole folder passes `syside check`. The other two thread interfaces (FMS → AOC, ATC → crew) are turn 2. Swimlane answer recorded in `sysml-diagram-rendering.md` §9; sequence view untested.
 
-- Report (Track C): `\irtwo` call-outs mark every part Interim Report #2 needs; checklist in `report/README.md`. Section 3 has the SE-approach table skeleton, the two-claims and proposed-interface subsections; Section 4 has the two figure slots and the experiment tables. Owner writes the prose.
+- Report (Track C), 2026-10-11: restructured from the owner's hand review of the print (D-026; `handwritten/2026-10-11_main.md`). Six sections; the experiment is Section 3. Eight passages are Claude's drafts, marked blue in the PDF, for the owner to rewrite; five notes are still open (list at the end of the transcription). Before that: `\irtwo` call-outs mark every part Interim Report #2 needs; checklist in `report/README.md`. Section 3 has the SE-approach table skeleton, the two-claims and proposed-interface subsections; Section 4 has the two figure slots and the experiment tables. Owner writes the prose.
 
 - Operational IBDs (§10, ECD 10-25): aircraft IBD built and hand-reviewed 2026-10-08 (D-011, D-012); links not evidence-graded. Airspace IBD is a placeholder with the `atc` umbrella question open. See journal 2026-10-08.
 

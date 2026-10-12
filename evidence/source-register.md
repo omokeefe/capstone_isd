@@ -17,7 +17,7 @@ This file tracks references at two different depths — keep them straight:
 ## Processing Ledger
 
 **Last full sweep:** 2026-10-04 (files added and processed on their own 2026-10-09 and 2026-10-10; not full sweeps)
-**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 75 of 75 after the two 2026-10-09 additions; 81 of 81 after the six 2026-10-10 additions; one more added and processed 2026-10-11
+**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 75 of 75 after the two 2026-10-09 additions; 81 of 81 after the six 2026-10-10 additions; four more added and processed 2026-10-11 (the FAA circular, the Pilon paper, the Kulkarni memorandum and the OpenAP paper), 87 of 87
 
 **PDF highlight extraction (2026-10-09):** ran the extractor on the one file added today, `engility2014tasarAlaska`. 38 highlights (PDF pp. 3–12), no typed comments, no ink. Merged into its summary's `## Highlighted passages` section. The other PDFs were not re-run.
 
@@ -145,14 +145,25 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | SESAR_Solutions_Catalogue_2019_web.pdf | `sesarju2019solutionsCatalogue` (3rd edition) | 2 | [2 - sesarju2019solutionsCatalogue.md](literature-notes/summaries/2%20-%20sesarju2019solutionsCatalogue.md) | 2026-10-10 |
 | AC_61-107B_CHG_1_FAA.pdf | `faa2015ac61107b` (advisory circular; service-ceiling definition, D-023) | 3 | [3 - faa2015ac61107b.md](literature-notes/summaries/3%20-%20faa2015ac61107b.md) | 2026-10-11 |
 | Pilon_2019_SIDs_UDPP_Reducing_Impact_of_Delays.pdf | `pilon2019udppMargins` (conference paper; an airline states a delay margin per flight and keeps its costs private, D-025) | 4 | [4 - pilon2019udppMargins.md](literature-notes/summaries/4%20-%20pilon2019udppMargins.md) | 2026-10-11 |
+| Impact of Slot Substitution on CTOP Performance.pdf | `kulkarni2019ctopSlotSubstitution` (NASA technical memorandum; an airline states a relative cost per trajectory option to the FAA, and can gain by overstating it) | 3 | [3 - kulkarni2019ctopSlotSubstitution.md](literature-notes/summaries/3%20-%20kulkarni2019ctopSlotSubstitution.md) | 2026-10-11 |
+| sun2020openap_aerospace-07-00104.pdf | `sun2020openap` (journal paper for the experiment's scoring model, D-017; was a web-only entry until the file was added 2026-10-11) | 4 | [4 - sun2020openap.md](literature-notes/summaries/4%20-%20sun2020openap.md) | 2026-10-11 |
 
 **Distribution as of 2026-10-11 (the 2026-10-10 evening count plus one file added and processed on its own, `AC_61-107B_CHG_1_FAA.pdf`):** 17 x 5, 28 x 4, 21 x 3, 15 x 2, 3 x 1, 1 x 0 — 85 rows. Every file in `evidence/sources/` now has a ledger row.
+
+**Distribution after the two files processed late on 2026-10-11 (`kulkarni2019ctopSlotSubstitution`, `sun2020openap`):** 17 x 5, 29 x 4, 22 x 3, 15 x 2, 3 x 1, 1 x 0 — 87 rows. The count assumes the Pilon row was already inside the 85; if it was not, the totals are one higher at 4.
+
+### Flags raised 2026-10-11, late (2 files)
+
+- **`sun2020openap` (rated 4): the paper and the installed package differ in two places.** The paper includes a wave-drag term above the critical Mach number (Eq. 34) and says compressibility "should not be ignored" there; openap 2.6.2 leaves it off by default. The paper's fuel-flow curve (Eq. 38 to 40) is not the curve the package now uses. The 737 MAX 9 is not in the paper. Validation is against BADA 3 and one Cessna Citation flight at about 10,000 ft. Details in the summary.
+- **`kulkarni2019ctopSlotSubstitution` (rated 3).** A seven-page technical memorandum on one invented scenario; pre-departure flow management, not conflict resolution. Held for two sentences: a U.S. precedent for an airline stating a cost to the FAA, and a published statement that the airline gains by overstating it.
+- `bartel2008thrustFuel` is still not held. Its thrust equations are reproduced in `sun2020openap` (Eq. 22 and 23), which is what the report now points to.
+- Nothing rated 0–1.
 
 ### Flags raised 2026-10-10, evening (3 files held since 2026-10-05 registered; 4 web-only method entries)
 
 - **`sheth2010creditsConcept` (rated 4)** and **`sheth2010userPreferencesIcas` (rated 3).** The two Sheth papers held since 2026-10-05, registered at last. The credits paper is the source of the ten-factor dispatcher table (Figure 7, PDF p. 11) that SLR-INF-04 and case D rest on; the ICAS paper is cited for its problem statement (one route filed, replaced without the user's preferences; no mechanism to state a flight's importance; proprietary-data concerns). Read depth: first two pages and the figure; the owner's highlights are on those pages. The question of 17 responses from five dispatchers is still open; check Section VI of the credits paper before citing a count.
 - **`sesarju2019solutionsCatalogue` (rated 2).** Registered from the title page, imprint and table of contents only. Held to cite specific European solutions (ADS-C EPP and the like) when the report positions the proposed airline-to-ATC share (D-019) against prior work.
-- **Web-only entries, no file and no ledger row:** `sun2020openap` (the experiment's scoring model, D-017; software installed, paper not read; summary at [4 - sun2020openap.md](literature-notes/summaries/4%20-%20sun2020openap.md)); `incose2023gtwr` (INCOSE Guide to Writing Requirements v4) and `iso2023sysLifecycle15288` (ISO/IEC/IEEE 15288:2023), both catalogue entries written from memory of the documents and marked so in the bib; `incose2023seHandbook` already existed. Confirm the GtWR document number before citing.
+- **Web-only entries, no file and no ledger row:** `sun2020openap` (no longer web-only: the paper was added and read on 2026-10-11 and has a ledger row); `incose2023gtwr` (INCOSE Guide to Writing Requirements v4) and `iso2023sysLifecycle15288` (ISO/IEC/IEEE 15288:2023), both catalogue entries written from memory of the documents and marked so in the bib; `incose2023seHandbook` already existed. Confirm the GtWR document number before citing.
 - Nothing rated 0–1.
 
 ### Flags raised 2026-10-10 (6 files downloaded at the owner's request: pilot rules of thumb for the 737 MAX 9)

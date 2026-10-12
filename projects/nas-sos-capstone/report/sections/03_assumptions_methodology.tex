@@ -2,90 +2,41 @@
 \section{Assumptions and Methodology}
 \label{sec:methodology}
 
-The problem is: the inertia of past, piecemeal designs and the high cost of upgrading 
-the NAS make it hard to change the system. The project proposes a new airline-to-ATC 
-interface and a new way of deciding which aircraft to move in a conflict, that together 
-have the ability to lower the cost of air traffic management. 
+% Revised 2026-10-11 from the owner's hand review of the printed report
+% (handwritten/2026-10-11_main.md, notes 10.x to 12.x). The experiment design and
+% the scoring calculations moved to sections/04_experiment.tex. "The Two Claims"
+% is no longer a subsection: its call-out is at the top of 02_introduction.tex.
+% The owner's paragraphs were edited for spelling and sentence sense at the
+% owner's request; passages between \aidraft{...} and "% ---- end AI draft" were
+% drafted by Claude and are the owner's to rewrite.
 
-Towards those ends, the projet employs a model-based systems engineering (MBSE) approach 
-to design the architecture and the decision-making process, and a simulation-based experiment 
-to test the proposed interface and decision-making process. First, a literature review was conducted to: 
+The problem is that the inertia of past, piecemeal designs and the high cost of upgrading the NAS make the system hard to change. The project proposes a new airline-to-ATC interface and a new way of deciding which aircraft to move in a conflict, which together could lower the cost of air traffic management.
+
+Toward those ends, the project uses a model-based systems engineering (MBSE) approach to design the architecture and the decision-making process, and a simulation-based experiment to test the proposed interface and decision-making process. First, a literature review was conducted to:
 \begin{enumerate}
-    \item Identify the current state of air traffic management,
-    \item Identify the relevant stakeholders and their objectives,
-    \item Identify the requirements that are necessary to meet those objectives, and
-    \item Identify the gaps in the current system that the proposed interface and decision-making process can address.
+    \item identify the current state of air traffic management,
+    \item identify the relevant stakeholders and their objectives,
+    \item identify the requirements necessary to meet those objectives, and
+    \item identify the gaps in the current system that the proposed interface and decision-making process can address.
 \end{enumerate}
 
 \subsection{Systems Engineering Approach}
 \label{sec:se-approach}
 
-Standard systems engineering methods of systems analysis and decomposition were used on the collected evidence, including 
-generating a context diagram, internal block diagrams, and activity and sequence views. 
-These methods were used to identify the relevant systems and the interactions amongst them 
-that are necessary to meet the stakeholders' objectives. These were 
-used to generate the stakeholder requirements that are necessary to meet those objectives, which were
-then decomposed into NAS systems-level requirements. The NAS SLRs were then allocated to the 
-relevant sub-systems and HLRs decomposed those one level further. 
+Standard systems engineering methods of analysis and decomposition were applied to the collected evidence, producing a context diagram, internal block diagrams, and activity and sequence views. These identified the relevant systems and the interactions among them that are necessary to meet the stakeholders' objectives. From them the stakeholder requirements were written and then decomposed into system-level requirements (SLRs) for the NAS. The SLRs were allocated to the relevant constituent systems, and high-level requirements (HLRs) decomposed them one level further.
 
-This enabled the project to:
-(1) build a model of the architecture and the decision-making process, 
-(2) Compare the current air traffic management practice, which leverages
-general rules of thumb and knowledge of successful historical actions \cite{ref:TBD_TODO}, with a 
-model-based decision support approach that replaces the low-fidelity decision rule with one or more 
-higher-fidelity models of aircraft performance data of varying levels of accuracy.
+This enabled the project to (1) build a model of the architecture and the decision-making process, and (2) compare current air traffic management practice, which relies on general rules of thumb and knowledge of what has worked before~\cite{rantanen2012conflictManeuvers,kirwan2001coraStrategies}, with a model-based decision-support approach that replaces the low-fidelity decision rule with one or more higher-fidelity models of aircraft performance, at varying levels of accuracy.
 
-The working assumptions can be categorized in two ways: 
-(1) assumptions about the problem and its context, and 
-(2) assumptions about the methodology.
-The problem statement assumes that:
-\begin{itemize}
-    \item the abstractions used in the model are sufficient to capture the relevant behavior of the system
-    \item the stakeholders' objectives are comprehensively captured and accurately represented in the model
-\end{itemize}
-Every abstraction was done with the expressed goal of capturing the relevant behavior of the system, as defined
-by the stakeholders' objectives. The decision was made to ratify the NAS-as-SoS System of Interest around the 
-trajectory-intent lifecycle from enterprise objectives through aircraft motion. An entity is modeled when it 
-has distinct decision authority or execution
-behavior dynamically coupled to in-scope decisions and materially affects cost, safety,
-workload, schedule reliability, or passenger value. Boundary actors supply objectives,
-demand, feedback, or rules without being decomposed as decision mechanisms. Exogenous
-influences enter as constraints or scenario parameters. This criterion preserves the
-authority and responsibility relationships needed for a systems-of-systems architecture
-without expanding the project into a model of every NAS participant.
+The emphasis is on structure, behavior, interfaces, and traceability, not on optimization mathematics. The project's commercial value to the author lies in a better understanding of the systems, their interactions, and the divisions of responsibility that inhibit information flow and lead to sub-optimal outcomes. To explore that in a meaningful way, decision support and optimization are treated as a capability inside the architecture, which following MBSE principles makes possible.
 
-The methodology does not assume that the proposed methods are better, which is tested
-as part of the experiment. Instead, it assumes that:
-\begin{itemize}
-\item models of every required aircraft type are available
-\item the security concerns of sharing airline data can be mitigated
-\item the proposed interface can be implemented in the NAS
-\item digital communication channels exist between the airline and ATC
-\item the specific scenario presented in the experiment is representative of 
-a larger set of scenarios which generalize to the NAS as a whole
-\end{itemize}
+More detailed documentation of the systems and their constituent systems is possible (examples are in Appendix~\ref{app:architecture}), and more formal mathematical models could be used. That effort was judged to be outside the work required to deliver the commercial value to the customer. In keeping with customer-focused MBSE, the project's artifacts are tailored to the customer's needs.
 
-An emphasis is put on structure/behavior/interfaces/traceability rather than optimization math, 
-as the project's commercial value for the author lies in it furthering their understanding of
-the systems, their interactions, and the complex series of responsibility divisions that 
-inhibit information flow and lead to sub-optimal outcomes. In order to explore this concept
-in a meaningful way, decision-support/optimization is treated as a capability inside the
-architecture, which is enabled by following MBSE principles. 
+Individual steps in the process were likewise tailored to the author's availability. After an initial literature review, the review continued ad hoc as the work required. A full gate-to-gate concept of operations was constructed informally and refined with publicly available general knowledge of the NAS. No alternative system decompositions were formally explored beyond the initial abstraction decisions. In this way the ISO/IEC/IEEE 15288 technical processes were followed, including the tailoring of those processes to the application that the standard provides for.
 
-While more detailed documentations of the systems and their constituent systems are possible 
-(with examples contained in \cite{appendix_what_TODO}), 
-and more formal mathematical models can be employed, such an effort was deemed outside the 
-scope of the work required to achieve the commercial value for the customer. In true customer-focused
-MBSE fasion, the project's artifacts are tailored to the customer's needs. 
+Table~\ref{tab:se-processes} summarizes the systems engineering processes and the artifacts that realize them.
 
-As such, individual steps in the process were tailored to the availability of the author, including 
-a continuous, ad-hoc review of relevant literature, after an initial review was conducted. A full 
-gate-to-gate conops was unofficially constructed and refined with publicly available general 
-information/knowledge of the NAS. No alternative system decompositions were formall explored
-past initial abstraction decisiosn. In this way, the ISO/IEC/IEEE 15288 technical processes
-were followed, which includes tailoring them to the application. 
+\plantodo{Track C (owner's note, 2026-10-11 print, page 10)}{\textbf{``Check these process steps in the actual doc. Itemized?''} The process names in the first column of Table~\ref{tab:se-processes} were written from memory of ISO/IEC/IEEE 15288 and the INCOSE handbook. The standard is not held (\texttt{references.bib} has a web-only entry). Check each name against the standard's own list of technical processes, and decide whether the table should itemize all of them and mark the ones tailored out.}
 
-The following table summarizes the systems engineering processes and the artifacts that realize them. 
 \begin{table}[h]
 \centering
 \small
@@ -95,362 +46,70 @@ The following table summarizes the systems engineering processes and the artifac
 \toprule
 Process (15288 / INCOSE) & Artifact in this project & Where \\
 \midrule
-Stakeholder needs and requirements & 27 stakeholder requirements, each traced to an objective row & \texttt{requirements\_stakeholders.sysml}; Appendix \\
-System requirements & 53 system requirements, baseline or improved (D-018), allocated to constituent systems & \texttt{requirements\_nas\_system.sysml} \\
-Architecture definition & Context diagram, internal block diagrams, typed interfaces on the thread (D-019), activity and sequence views & \texttt{cameo\_models/}; Section~\ref{sec:results} \\
-System analysis & Experiment at three fidelities (D-017), outcome table & \texttt{simulation/}; Section~\ref{sec:experiment-results} \\
+Stakeholder needs and requirements & 13 stakeholder requirements, each traced to an objective row & \texttt{requirements\_stakeholders.sysml}; Appendix \\
+System requirements & 23 system requirements, baseline or improved (D-018), allocated to constituent systems; 28 constituent-system requirements one tier down (drafted, not yet reviewed) & \texttt{requirements\_nas\_system.sysml}; \texttt{requirements\_constituent\_systems.sysml} \\
+Architecture definition & Context diagram, internal block diagrams, typed interfaces on the thread (D-019), activity and sequence views & \texttt{cameo\_models/}; Section~\ref{sec:architecture-results} \\
+System analysis & Experiment at three fidelities (D-017), outcome table & \texttt{simulation/}; Sections~\ref{sec:experiment} and~\ref{sec:experiment-results} \\
 Verification & Verification cases for the improved requirements, run by the experiment & \texttt{nas\_verification.sysml} \\
 Validation & Stakeholder-level reading of the outcome table (who pays) & Section~\ref{sec:results} \\
-Technical measurement & MoEs (outcome-table columns), MoPs (requirement measures) & Section~\ref{sec:experiment-method} \\
+Technical measurement & MoEs (outcome-table columns), MoPs (requirement measures) & Section~\ref{sec:scoring-method} \\
 Configuration management & Decisions log, model text as the authoritative source (D-006), model freeze & \texttt{decisions-log.md} \\
 Tailoring & D-016 & this subsection \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\plantodo{S6}{\textbf{Decomposition kept, alternatives named.} One paragraph:
-why the authority / responsibility / information-ownership decomposition
-(D-002, D-007) was kept, naming the alternatives (organization-based,
-lifecycle-based, physical, information-flow, decision-authority) and the
-criterion (which one makes the decider, the information owner and the
-authority visible on the same picture). Building the alternatives is future
-work (D-016).}
+% Moved here from the old "Proposed Airline-to-ATC Interface" subsection per the
+% owner's note on the 2026-10-11 print, page 11: "This moves to Section 2.1."
+\plantodo{S10}{Describe the MBSE methodology used to build the architecture in SysML v2 (textual notation authored in Syside Modeler in VS Code, with diagrams as generated views): package organization, view types produced (BDD, IBD, activity, sequence, requirements), and the traceability approach (stakeholder needs $\rightarrow$ objectives $\rightarrow$ requirements $\rightarrow$ systems $\rightarrow$ activities $\rightarrow$ information exchanges $\rightarrow$ aircraft behavior). Note per \texttt{workflows/update-architecture.md} (decision D-006) that the SysML v2 text is the source of truth; Cameo is not used as the source of truth. Describe the working loop (draft, print, hand review, transcribe, apply, log, re-render) and the artifact states 0 to 4 (D-016).}
 
-\subsection{The Two Claims}
-\label{sec:two-claims}
+\plantodo{S6}{\textbf{Decomposition kept, alternatives named.} One paragraph: why the authority / responsibility / information-ownership decomposition (D-002, D-007) was kept, naming the alternatives (organization-based, lifecycle-based, physical, information-flow, decision-authority) and the criterion (which one makes the decider, the information owner and the authority visible on the same picture). Building the alternatives is future work (D-016).}
 
-\plantodo{Track C (D-016, D-017)}{\textbf{Separate the two claims and say
-which the numbers support.} Claim 1, tested by the experiment: replacing the
-decider's low-fidelity rule of thumb with a higher-fidelity model fed by
-weight and cost index across the airline-to-ATC interface changes which
-aircraft is moved and lowers total system cost (whether one extra clearance
-is worth it is a result, not an assumption). Claim 2, shown by the model:
-the architecture locates that interface, names who owns the decision and the
-data, states the unmet requirement, and lets the scoring model's fidelity be
-swapped (conceptual, nominal mass, actual mass) with the structure
-unchanged. The simulation would give the same numbers without the model;
-say so, and say what the model contributes that the numbers do not.}
+\subsection{Working Assumptions}
+\label{sec:assumptions}
+
+The working assumptions fall into two groups: assumptions about the problem and its context, and assumptions about the methodology.
+
+The problem statement assumes that:
+\begin{itemize}
+    \item the abstractions used in the model are sufficient to capture the relevant behavior of the system;
+    \item the stakeholders' objectives are comprehensively captured and accurately represented in the model.
+\end{itemize}
+
+Every abstraction was made with the express goal of capturing the relevant behavior of the system, as defined by the stakeholders' objectives. The System of Interest, the NAS as a system of systems, was ratified around the trajectory-intent lifecycle, from enterprise objectives through aircraft motion. An entity is modeled when it has distinct decision authority or execution behavior that is dynamically coupled to in-scope decisions and materially affects cost, safety, workload, schedule reliability, or passenger value. Boundary actors supply objectives, demand, feedback, or rules without being decomposed as decision mechanisms. Exogenous influences enter as constraints or scenario parameters. This criterion preserves the authority and responsibility relationships a system-of-systems architecture needs without expanding the project into a model of every NAS participant.
+
+The methodology does not assume that the proposed methods are better; that is what the experiment tests. It assumes that:
+\begin{itemize}
+    \item models of every required aircraft type are available;
+    \item the security concerns of sharing airline data can be mitigated;
+    \item the proposed interface can be implemented in the NAS;
+    \item digital communication channels exist between the airline and ATC;
+    \item the specific scenario presented in the experiment is representative of a larger set of scenarios that generalize to the NAS as a whole.
+\end{itemize}
+
+% Owner's note on the "Limits" call-out in Results, 2026-10-11 print, page 19:
+% "Add to assumptions."
+\aidraft{Limits of the experiment, moved here from the Results section (owner's note: ``Add to assumptions''). The items are those of the old ``Limits'' call-out. The misreporting figure has no registered source yet.}
+The last of these assumptions carries the most weight, and the following limits bound it:
+\begin{itemize}
+    \item Conflicts between two aircraft crossing at the same level are a minority of conflicts: 36 of 256 in the operational data of \textcite{rantanen2012conflictManeuvers}.
+    \item The experiment uses one invented en-route sector and four aircraft.
+    \item The conflict is a static snapshot; the traffic does not evolve while the decision is made.
+    \item The rule that limits climbs when the weight is unknown is a single threshold (FL350) applied to every aircraft type.
+    \item The airline is assumed to report its weight and cost index truthfully. An airline could misreport what it shares.
+\end{itemize}
+The simplifications inside the aircraft performance model are listed separately in Section~\ref{sec:scoring-limits}.
+% ---- end AI draft
+
+\plantodo{Track C}{\textbf{Misreporting.} Cite the 1 to 3 percent figure for the last limit once that source is registered in \texttt{evidence/source-register.md}.}
 
 \subsection{Proposed Airline-to-ATC Interface}
 \label{sec:proposed-interface}
 
-\plantodo{Track C (D-019)}{\textbf{Name the digital-thread artifact.}
-Describe \texttt{AirlinePerformanceShare}: what it carries (gross weight,
-cost index, connection priority; thrust, drag and fuel-flow model
-identifiers present but not exercised), who sends it (airline operations
-center or FMS), who receives it (ATC decision support, per D-012 owned by
-the system that decides), and which requirements it satisfies
-(SLR-INF-02) and the goal it serves (SLR-CLR-13). Position it against
-ADS-C EPP and Coppenbarger's Table 2 (the same items, a different
-receiver). State that security is an assumption.}
+\plantodo{Track C (D-019)}{\textbf{Name the digital-thread artifact.} Describe \texttt{AirlinePerformanceShare}: what it carries (gross weight, cost index, connection priority; thrust, drag and fuel-flow model identifiers present but not exercised), who sends it (airline operations center or FMS), who receives it (ATC decision support, per D-012 owned by the system that decides), and which requirements it satisfies (SLR-INF-02) and the goal it serves (SLR-CLR-13). State that security is an assumption. \textbf{Owner's note, 2026-10-11 print: ``important to do''} --- position it against ADS-C EPP and Coppenbarger's Table 2 (the same items, a different receiver); a first draft of that positioning follows.}
 
-\plantodo{S10}{Describe the MBSE methodology used to build the architecture
-in SysML v2 (textual notation authored in Syside Modeler in VS Code, with
-diagrams as generated views): package organization, view types produced (BDD,
-IBD, activity, sequence, requirements), and the traceability approach
-(stakeholder needs -> objectives -> requirements -> systems -> activities ->
-information exchanges -> aircraft behavior). Note per
-\texttt{workflows/update-architecture.md} (decision D-006) that the SysML v2
-text is the source of truth; Cameo is not used as the source of truth.
-Describe the working loop (draft, print, hand review, transcribe, apply,
-log, re-render) and the artifact states 0 to 4 (D-016).}
+\aidraft{Positioning against prior work (the item you marked ``important to do''). The Coppenbarger and Schultz statements are from \texttt{decisions/decisions-log.md} D-019, which cites Table 2 and page 2 of those papers. The ADS-C EPP sentence rests on \texttt{sesarju2019solutionsCatalogue}, registered from its title page and contents only: read the entry for the solution before keeping the sentence.}
+The items the interface carries are not new. \textcite{coppenbarger1999climbPrediction} listed take-off weight, thrust and drag factors, and the speed profile as candidates for exchange between an airline and air traffic control, and measured what airline-supplied weight does for the prediction of a climb. In Europe, the Extended Projected Profile sent over ADS-C downlinks the trajectory the flight management system predicts~\cite{sesarju2019solutionsCatalogue}. What has kept the items out of use is ownership, not feasibility: weight and speed intent ``are considered competitive parameters by airlines and are not available for use''~\cite{schultz2012adaptiveClimb}.
 
-% The August plan's weighted-sum formulation ($J = \sum w_i J_i$), normalization
-% and weighting schemes were dropped by D-013 item 2 and D-016; impacts are
-% stated side by side. The placeholder that asked for them was removed 2026-10-10.
-% ---- end 2026-10-10 additions
-
-% ---- Placeholders added 2026-10-09 (AI-drafted scaffolding, not report prose).
-% Source of the structure: knowledge/models/experiment-definition.md and
-% knowledge/models/experiment-options-and-scoring.md; decision D-013.
-\subsection{Experiment Design}
-\label{sec:experiment-method}
-
-\plantodo{S11}{\textbf{State the central claim} the experiment supports.
-Still undecided (see \texttt{experiment-definition.md} \S1 and the hand
-review notes 1.2, 2.1, 4.1). Answer the objection that the simulation
-compares two ways of operating and so does not by itself test MBSE.}
-
-\plantodo{S11}{\textbf{Scenario.} Four aircraft in one invented en-route
-sector, shown as one snapshot: a crossing pair at the same level and two
-aircraft in trail 2,000 ft below. State which aircraft belong to the same
-airline, which is late with connections, and the weight of each. Give the
-level of the crossing pair and say why it is above FL350. Justify the static
-snapshot by the controller studies that used one
-(\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).}
-
-\plantodo{S11}{\textbf{The one thing that differs between cases.} Define
-cases A, B and C by what the decider knows. State what ``automated
-decision'' means for who devises and who issues the clearance (undecided).
-State that the levers are the same in all three.}
-
-\begin{table}[h]
-\centering
-\caption{PLACEHOLDER -- the three cases. Wording to be the author's.}
-\label{tab:cases}
-\begin{tabular}{@{}llll@{}}
-\toprule
-Case & Decider & Information & Climb rule applies? \\
-\midrule
-A & Controller, by rule & Type, level, speed, route & Yes \\
-B & Automation & Nominal weight per type & Yes \\
-C & Automation & Shared weight and cost index & No \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\plantodo{S11}{\textbf{Altitude options and the climb rule (assumption
-adopted from a prior study).} State the three altitude options (2,000 ft
-above, 2,000 ft below, 4,000 ft below) and the rule that a climb is offered
-only at or below FL350, citing \cite{engility2014tasarAlaska} (p.~8). Say
-plainly that this is that study's modeling assumption, made because it did
-not model aircraft weight; it is not an FAA rule and not observed controller
-behaviour. Then explain why the rule binds cases A and B and not case C:
-this is the mechanism by which missing information removes an option.
-Still to check: that 2,000 ft steps match the levels assigned to one
-direction of flight (\cite{faa2025jo711065bb}, paragraph not yet found).}
-
-\plantodo{S11}{\textbf{Baseline rule for case A.} One descent clearance,
-citing \cite{rantanen2012conflictManeuvers}. State which aircraft descends
-and the tie-breaker (undecided), and whether the aircraft is cleared back up.}
-
-\plantodo{S11}{\textbf{Resolution options.} Introduce
-Table~\ref{tab:options}. For each option give the instructions it costs now,
-the follow-up it creates, and what the decider must know to use it. Cite
-\cite{fothergill2013resolutionHeuristics} for the instruction accounting.}
-
-\plantodo{S11}{\textbf{Sources for the option set and the counts} (owner's
-note, second hand review, 2.4: ``Add these to report!''). Levers:
-\texttt{experiment-definition.md} \S4, and \cite{engility2014tasarAlaska}
-(p.~8) for lateral and altitude changes; that study does not use speed.
-Altitude steps and climb rule: \cite{engility2014tasarAlaska} (p.~8), with
-the authors' reason. Instruction counts:
-\cite{fothergill2013resolutionHeuristics} (pp.~72--74). Climbs used less
-than descents: \cite{rantanen2012conflictManeuvers} (6 of 36). Speed limited
-to $\pm 0.04$ Mach and built to fail: the author's own figure, to be stated
-as experience.}
-
-\plantodo{S11}{\textbf{The baseline is not hobbled} (owner's note, second
-hand review, 3.2). In the later variation at or below FL350 the baseline may
-climb and does not, because its rule is one descent. Say that this matches
-the observed preference for descents
-(\cite{rantanen2012conflictManeuvers}).}
-
-\plantodo{S11}{\textbf{What the system column is} (owner's notes, second
-hand review, 5.5 and 6.1). State that it is a measure of the airspace as a
-whole system of systems, define it by its cost statement (total fuel, total
-CO2, total airline cost, workload items, largest cost to any one aircraft),
-and refer back to that statement wherever the column is discussed.}
-
-\plantodo{S11}{\textbf{How each option is scored, one statement per
-viewpoint.} Aircraft: extra fuel plus cost index times extra time
-(\cite{mori2022massCruise}, Eq.~1--3). Airline: the sum over its aircraft
-plus a step cost when a flight misses a connection, plus CO2 converted to
-dollars. Sector: clearances issued, effort to devise them, and residual
-risk, reported as three separate items. System: totals stated side by side,
-with no weighted sum (D-013). Say why no weighted sum: nobody in the model
-owns the weights.}
-
-\plantodo{S11}{\textbf{Emissions.} State the conversion from fuel to CO2 and
-its source (not yet held). State how CO2 becomes dollars at the airline
-level and why that route was chosen (credit price, passenger value, or both;
-undecided), and why the system level keeps CO2 in kg.}
-
-\plantodo{S11, S12}{\textbf{Truth model (decided, D-017).} OpenAP (open
-aircraft performance model, TU Delft) scores every option: fuel flow, thrust
-and drag for the B737-9 at the aircraft's actual mass. State the three
-selectable fidelities (conceptual: feasibility and instruction counts only;
-nominal mass; actual mass) and that the decider's case (A to D) and the
-truth model's fidelity are independent settings. State the limitation: OpenAP
-has no drag polar for the 737 MAX 9 and borrows the MAX 8's. Cite OpenAP
-(Sun, Hoekstra and Ellerbroek 2020) once registered. The earlier kinematic
-model (\texttt{vehicle\_dynamics.py}) is not used by the experiment.}
-
-% ---- Added 2026-10-11 (AI-drafted PLACEHOLDER write-up, requested by the owner;
-% written from the code as it stood that day, D-017 and D-023). It describes
-% simulation/experiment_scoring.py and simulation/b739_envelope.py with OpenAP
-% 2.6.2. The equations for OpenAP were read from the package source, not from
-% the journal paper. To be checked and rewritten by the author.
-\subsection{Scoring Model Calculations}
-\label{sec:scoring-method}
-
-\plantodo{S11, S12}{\textbf{PLACEHOLDER, AI-drafted 2026-10-11.} This subsection states what \texttt{simulation/experiment\_scoring.py} and \texttt{simulation/b739\_envelope.py} calculate. Check each equation against the code, confirm the two cited sources by reading them (the OpenAP paper and Bartel and Young are cited here from the package source code), then rewrite in the author's words. The limitations in Section~\ref{sec:scoring-limits} are findings from writing this up and need a decision each.}
-
-\subsubsection{Equations of motion}
-
-Each aircraft is a point mass in steady flight in still air in the International Standard Atmosphere. OpenAP \cite{sun2020openap} uses the point-mass equations along and normal to the flight path,
-\begin{align}
-T - D - m g \sin\gamma &= m \frac{dV}{dt}, \label{eq:eom-along}\\
-L &= m g \cos\gamma, \label{eq:eom-normal}
-\end{align}
-where $T$ is total thrust, $D$ drag, $L$ lift, $m$ mass, $V$ true airspeed and $\gamma$ the flight path angle, with $\tan\gamma = \dot h / V$ for a vertical speed $\dot h$. The experiment sets $dV/dt = 0$ everywhere: every aircraft holds its Mach number. In level cruise $\gamma = 0$, so $T = D$ and $L = mg$.
-
-True airspeed comes from the Mach number $M$ and the standard temperature $\Theta(h)$ at the altitude $h$:
-\begin{equation}
-V = M \sqrt{\kappa R\, \Theta(h)}, \qquad
-\Theta(h) = \begin{cases} 288.15 - 0.0019812\,h & h < 36{,}089 \text{ ft} \\ 216.65 & \text{otherwise} \end{cases}
-\label{eq:tas}
-\end{equation}
-with $\kappa = 1.4$, $R = 287.05$ J/(kg K), $h$ in feet and $\Theta$ in kelvin.
-
-\subsubsection{Drag, thrust and fuel flow (OpenAP)}
-
-\textbf{Drag.} OpenAP computes clean-configuration drag from a two-term drag polar:
-\begin{equation}
-C_L = \frac{m g \cos\gamma}{\tfrac{1}{2}\rho V^2 S}, \qquad
-C_D = C_{D0} + k\, C_L^2, \qquad
-D = \tfrac{1}{2}\rho V^2 S\, C_D .
-\label{eq:drag}
-\end{equation}
-The values used are in Table~\ref{tab:openap-params}. This is where aircraft mass enters: a heavier aircraft needs a higher $C_L$ and its drag rises with $C_L^2$.
-
-\textbf{Assumption: no compressibility drag.} Eq.~\ref{eq:drag} has no Mach-number term, so the extra drag from shock waves on the wing is left out. The FAA circular classes flight below Mach 0.75 as subsonic and Mach 0.75 to 1.20 as transonic \cite{faa2015ac61107b} (para.~1-4e), so the scenario's Mach 0.80 is at the low end of the transonic range. OpenAP has an optional wave-drag term, off by default and marked experimental by its authors. Switching it on is the only estimate of the size of this assumption held so far: at the scenario's weights and levels, drag rises by 2 to 4 percent at Mach 0.80 and by less than 1 percent at Mach 0.76. Fuel flow in level cruise moves by about the same few percent. The rate of climb left (Eq.~\ref{eq:roc}) moves much more, because it is a small difference between thrust and drag; see Section~\ref{sec:scoring-limits}.
-
-\textbf{Maximum thrust.} Above 30,000 ft OpenAP uses the high-altitude segment of the two-shaft turbofan model of Bartel and Young \cite{bartel2008thrustFuel}, which scales a reference thrust at the top of climb by pressure and Mach number:
-\begin{equation}
-T_{\max} = T_{cr} \left[ d \,\ln\!\frac{p}{p_{cr}} + \left(\frac{M}{M_{cr}}\right)^{-0.11} \right], \qquad
-d = -0.4204\,\frac{M}{M_{cr}} + 1.0824 ,
-\label{eq:thrust}
-\end{equation}
-where $p$ is the ambient pressure, and $p_{cr}$ and $M_{cr}$ are the pressure and Mach number at the type's reference cruise condition. The package returns the same value for its cruise and climb thrust at these altitudes, so there is one thrust limit, not two.
-
-\textbf{Fuel flow.} OpenAP finds the thrust the manoeuvre needs from Eq.~\ref{eq:eom-along},
-\begin{equation}
-T_{req} = D + m g \sin\gamma ,
-\label{eq:treq}
-\end{equation}
-and converts it to fuel flow with an empirical curve of thrust ratio, scaled by the engine's take-off fuel flow from the ICAO engine emissions databank:
-\begin{equation}
-\dot m_f = n\, s \left[ c_1 - \exp\!\left( -c_2 \left( x\, e^{c_3 x} - \frac{\ln c_1}{c_2} \right) \right) \right], \qquad
-x = \frac{T_{req}}{n\, T_{0}} ,
-\label{eq:fuelflow}
-\end{equation}
-where $n$ is the number of engines, $T_0$ the sea-level static thrust of one engine, $s$ the engine's take-off fuel flow, and $x$ is limited smoothly to between 0.03 and 1.2. In level cruise $T_{req} = D$, so fuel flow depends on mass only through the drag of Eq.~\ref{eq:drag}.
-
-\begin{table}[h]
-\centering
-\small
-\caption{PLACEHOLDER -- values OpenAP 2.6.2 uses for the B737-9 (type code B39M), read from the installed package on 2026-10-11.}
-\label{tab:openap-params}
-\begin{tabular}{@{}p{5.6cm}p{3.6cm}p{5.6cm}@{}}
-\toprule
-Quantity & Value & Note \\
-\midrule
-Wing area $S$ & 124.6 m$^2$ & type data \\
-Zero-lift drag coefficient $C_{D0}$ & 0.020 & 737 MAX 8 polar, borrowed \\
-Induced drag factor $k$ & 0.042 & 737 MAX 8 polar, borrowed \\
-Engines $n$, type & 2, LEAP-1B & type data \\
-Static thrust per engine $T_0$ & 111,300 N & engine data \\
-Reference thrust $T_{cr}$ & 46,300 N (both engines) & $0.2\,T_0 + 890$ N per engine \\
-Reference cruise $M_{cr}$, altitude & 0.79, 11,000 m & type data \\
-Take-off fuel flow $s$ & 0.877 kg/s per engine & ICAO databank \\
-Fuel curve $c_1$, $c_2$, $c_3$ & 0.9376, 1.9768, 1.3955 & package default curve, not fitted to this type \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsubsection{Whether an aircraft can be cleared to a level}
-
-The rate of climb an aircraft has left in level flight at a mass, Mach number and altitude is its excess thrust times its speed, divided by its weight:
-\begin{equation}
-RC = \frac{\left( T_{\max} - D \right) V}{m g} .
-\label{eq:roc}
-\end{equation}
-This is Eq.~\ref{eq:eom-along} with $dV/dt = 0$, solved for $\dot h = V \sin\gamma$. A level is available to an aircraft only if
-\begin{equation}
-RC(m, M, h) \ge RC_{\min} .
-\label{eq:feasible}
-\end{equation}
-$RC = 0$ is the level above which the aircraft cannot hold altitude. $RC = 100$ ft/min is the definition of the service ceiling \cite{faa2015ac61107b}. The experiment uses $RC_{\min} = 150$ ft/min, the margin the author has seen airlines keep for clear air turbulence and other unknowns (industry experience, no document held; D-023). The envelope figure (Figure~\ref{fig:envelope}) draws all three lines for the heavy aircraft.
-
-The low-speed side of that figure is not from OpenAP. It is 1.3 times the speed at which lift equals weight at an assumed maximum lift coefficient $C_{L\max} = 1.45$:
-\begin{equation}
-V_{\min} = 1.3 \sqrt{\frac{2 m g}{\rho S\, C_{L\max}}} .
-\label{eq:vmin}
-\end{equation}
-The high-speed side is the lower of the maximum operating Mach number (0.82) and the maximum operating calibrated airspeed (340 kt).
-
-Which mass goes into Eq.~\ref{eq:feasible} is the experiment. Cases A and B do not know the mass, so they do not evaluate it: they offer a climb only at or below FL350. Cases C and D evaluate it at the aircraft's actual mass. The scoring then checks every chosen option again at the actual mass; an option the aircraft cannot fly is reported as ``unable''.
-
-\subsubsection{Cost of one manoeuvre}
-
-Every cost is a difference from flying on undisturbed. Write $\dot m_f(h, \dot h)$ for the fuel flow of Eq.~\ref{eq:fuelflow} at the aircraft's mass and Mach number, $h_0$ for the present level, $h_1$ for the new one, $t_h$ for the time the manoeuvre is held (15 min) and $\dot m_{f0} = \dot m_f(h_0, 0)$.
-
-\textbf{Altitude change.} A descent is flown at 1,500 ft/min. A climb is flown at maximum thrust, at the rate that thrust allows: Eq.~\ref{eq:roc} evaluated at the mid-altitude, and no more than 1,500 ft/min (D-024):
-\begin{equation}
-\dot h = \begin{cases} -1{,}500 \text{ ft/min} & \text{descent} \\ \min\!\left( 1{,}500,\; RC\!\left(m, M, \tfrac{h_0+h_1}{2}\right) \right) & \text{climb} \end{cases}
-\qquad t_c = \frac{|h_1 - h_0|}{|\dot h|} .
-\label{eq:climb-rate}
-\end{equation}
-At the scenario's weights and levels the climb rate is 250 to 500 ft/min, so a 2,000 ft climb takes four to eight minutes. Fuel flow during the change is evaluated at the mid-altitude:
-\begin{equation}
-\Delta m_f = \underbrace{\left[ \dot m_f\!\left(\tfrac{h_0+h_1}{2}, \dot h\right) - \dot m_{f0} \right] t_c}_{\text{the level change}}
-+ \underbrace{\left[ \dot m_f(h_1, 0) - \dot m_{f0} \right] t_h}_{\text{the hold at the new level}}
-+ \underbrace{\left[ \dot m_f\!\left(\tfrac{h_0+h_1}{2}, \dot h_b\right) - \dot m_{f0} \right] t_b}_{\text{climb back, after a descent only}} .
-\label{eq:alt-fuel}
-\end{equation}
-Here $\dot h_b$ and $t_b$ are the rate and time of the climb back to $h_0$, from Eq.~\ref{eq:climb-rate}. The time difference is the same ground distance flown at a different true airspeed,
-\begin{equation}
-\Delta t = t_h \left( \frac{V(h_0)}{V(h_1)} - 1 \right),
-\label{eq:alt-time}
-\end{equation}
-which is zero between levels above 36,089 ft, where the standard temperature is constant. The return to the original level after a climb is counted as an instruction but given no fuel term.
-
-\textbf{Vector.} A pass-behind vector adds a fixed track distance $d_x$ (6 NM) at the cruise speed and fuel flow:
-\begin{equation}
-\Delta t = \frac{d_x}{V(h_0)}, \qquad \Delta m_f = \dot m_{f0}\, \Delta t .
-\label{eq:vector}
-\end{equation}
-
-\textbf{Slow-down} (the in-trail aircraft in option O9). The aircraft flies at $M - \Delta M$ the distance it would have covered in $t_s$ minutes at $M$:
-\begin{equation}
-t_s' = t_s \frac{V(M)}{V(M - \Delta M)}, \qquad
-\Delta t = t_s' - t_s, \qquad
-\Delta m_f = \dot m_f(M - \Delta M)\, t_s' - \dot m_{f0}\, t_s .
-\label{eq:slow}
-\end{equation}
-
-\textbf{Speed change on the crossing pair.} Not calculated. It is marked unable to separate the pair by construction (D-014).
-
-\subsubsection{From manoeuvre cost to the outcome table}
-
-For aircraft $i$ the cost of an option is extra fuel plus the cost index times extra time, in kilograms of fuel, the form used in \cite{mori2022massCruise}:
-\begin{equation}
-c_i = \Delta m_{f,i} + CI_i\, \Delta t_i .
-\label{eq:ac-cost}
-\end{equation}
-Each case chooses, among the options it is allowed to offer, the one with the lowest estimate
-\begin{equation}
-J = \sum_i \left( \Delta m_{f,i}(\hat m_i) + \widehat{CI}_i\, \Delta t_i(\hat m_i) \right),
-\label{eq:decider}
-\end{equation}
-where the hats mark what the case believes. Case A does not use Eq.~\ref{eq:decider}; it applies its rule (one descent). Case B uses the type's nominal mass for every aircraft and values time at 1 kg/min. Cases C and D use each aircraft's actual mass and cost index. Case D also rejects an option that pushes a flight with connections past the connection threshold. Whatever a case chooses is then scored at the actual masses, and that score is what the tables report.
-
-The other columns follow from Eq.~\ref{eq:alt-fuel} to \ref{eq:ac-cost}. Carbon dioxide is $3.16\, \Delta m_f$ \cite{icao2024icecMethodology}. An airline's cost in dollars is the sum over its aircraft of $c_i\, p_f + 3.16\, \Delta m_{f,i}\, p_c$, with $p_f$ the fuel price and $p_c$ the carbon price. System fuel is $\sum_i \Delta m_{f,i}$. Instructions are counted, now and later, and are not converted to anything.
-
-\subsubsection{Worked example: option O4, the light aircraft climbs 2,000 ft}
-
-The light aircraft is at 62,980 kg, FL380, Mach 0.80. Eq.~\ref{eq:roc} gives 322 ft/min left at FL400, above 150, so the level is available to a case that knows the mass. Eq.~\ref{eq:climb-rate} gives a climb rate of 409 ft/min at FL390, so the climb takes $2{,}000 / 409$ min, or 294 s. Fuel flows from Eq.~\ref{eq:fuelflow}: 0.5572 kg/s at FL380 (2,006 kg/h), 0.5465 kg/s at FL400 (1,968 kg/h), and 0.6321 kg/s in the climb. Eq.~\ref{eq:alt-fuel} gives
-\begin{equation*}
-\Delta m_f = (0.6321 - 0.5572)(294) + (0.5465 - 0.5572)(900) = 22.0 - 9.6 = 12.4 \text{ kg},
-\end{equation*}
-and $\Delta t = 0$ because both levels are above 36,089 ft. This is the 12.4 kg in the options table.
-
-\subsubsection{Limitations found in writing this up}
-\label{sec:scoring-limits}
-
-\begin{enumerate}
-\item \textbf{No compressibility drag, and the climb left is sensitive to it.} With OpenAP's experimental wave-drag term switched on, drag at Mach 0.80 is 2 to 4 percent higher. That is 1.3 kN for the heavy aircraft at FL380, against 2.7 kN of excess thrust, so its climb left falls from 181 to 93 ft/min, under the 100 ft/min of the service ceiling. The light aircraft at FL400 falls from 322 to 239 ft/min and still clears 150. The weights in the scenario were set with the term off. Not decided: whether to switch the term on and set the weights again.
-\item \textbf{One climb rate per climb.} The rate is taken at the mid-altitude and held; the climb is not integrated. A climb is not checked against the time left before the crossing (12 min); the longest in the base scenario is the heavy aircraft's 4,000 ft climb back after option O8, about 12 min, which happens after the conflict.
-\item \textbf{The fuel curve is the package default.} OpenAP has no fuel model fitted to the 737 MAX 9 or MAX 8; Eq.~\ref{eq:fuelflow} uses its default coefficients scaled by the LEAP-1B take-off fuel flow.
-\item \textbf{The drag polar is the 737 MAX 8's} (D-017).
-\item \textbf{Mass is constant.} Fuel burned during the manoeuvre does not reduce the mass.
-\item \textbf{The low-speed limit rests on an assumed $C_{L\max}$} and is a stall margin, not a buffet boundary.
-\item \textbf{Standard atmosphere, no wind}; time differences come only from true airspeed and added track distance.
-\end{enumerate}
-% ---- end 2026-10-11 addition
-
-\plantodo{S11}{\textbf{Abstractions made and why.} One short table: each
-simplification, the reason, and the risk. A draft list is in
-\texttt{experiment-options-and-scoring.md} \S6.}
-% ---- end placeholders 2026-10-09
+The proposal here keeps the items and changes the receiver and the purpose. In the earlier work the data feeds a trajectory predictor, to make the prediction of one aircraft's path more accurate. Here it feeds the decision support of the party that chooses which aircraft to move, to change the choice. The interface is typed in the model, tagged as part of the improved architecture, and tied to the requirement it satisfies, so the report can point at a model element where the earlier work has a finding in prose. Confidentiality is stated as an assumption: the data is disclosed only to the deciding party, and no security mechanism is modeled.
+% ---- end AI draft

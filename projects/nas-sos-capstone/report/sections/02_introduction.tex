@@ -1,174 +1,132 @@
+% !TEX root = ../main.tex
 \section{Introduction and Current State}
 \label{sec:introduction}
 
-\irtwo{Introduction. Interim Report \#2 re-submits this section updated. Three
-edits are needed: (1) the ``current state of the project'' paragraphs in
-Section~\ref{sec:litreview} still describe mid-September (``off-track, but
-recoverable'', state machines due 9/15) and should describe October: the
-experiment defined (D-013 to D-015), the plan re-based on four tracks and nine
-turns (D-016), the scoring model chosen (D-017); (2) the research-gap
-placeholder below needs the owner's paragraph; (3) the project timing
-subsection should show the nine turns, not only the August table.}
+% Revised 2026-10-11 from the owner's hand review of the printed report
+% (handwritten/2026-10-11_main.md, notes 5.x to 7.x). The owner's paragraphs were
+% edited for spelling and sentence sense at the owner's request; passages between
+% \aidraft{...} and "% ---- end AI draft" were drafted by Claude and are the
+% owner's to rewrite.
 
-\plantodo{S1}{Briefly state the subject, purpose, and scope of the report:
-the NAS modeled as a System of Systems, centered on how operational intent
-propagates from enterprise objectives to aircraft trajectory/behavior.}
+\irtwo{Introduction. Interim Report \#2 re-submits this section updated. Status after the 2026-10-11 review: (1) the mid-September ``current state'' paragraphs in Section~\ref{sec:litreview} are replaced by an AI-drafted October version for the owner to rewrite; (2) the research-gap placeholder below still needs the owner's paragraph; (3) the project timing subsection should show the nine turns, not only the August table.}
 
-My project aims to build a reference MBSE architecture for how airspace intent is managed across the NAS — spanning the organizations that define and enforce rules, the domains managing airspace resources, the systems supporting flight operations, and the onboard systems that turn intent into executable trajectory and guidance behavior.
+\plantodo{Track C (D-016, D-017)}{\textbf{State the two claims here, briefly, and again in the Executive Summary} (owner's note on the old ``Two Claims'' subsection: ``Why make this its own section? Shouldn't these be embedded within the Exec Summary and Intro, probably duplicated?''). Claim 1, explored by the experiment: replacing the decider's low-fidelity rule of thumb with a higher-fidelity model fed by weight and cost index across the airline-to-ATC interface changes which aircraft is moved and lowers total system cost (whether one extra clearance is worth it is a result, not an assumption). Claim 2, shown by the model: the architecture locates that interface, names who owns the decision and the data, states the unmet requirement, and lets the scoring model's fidelity be swapped (conceptual, nominal mass, actual mass) with the structure unchanged. The simulation would give the same numbers without the model; say so, and say what the model contributes that the numbers do not.}
 
-In his 2005 paper, DeLaurentis states the following~\textcite{delaurentis2005sosTransportation}:
+\plantodo{S1}{Briefly state the subject, purpose, and scope of the report: the NAS modeled as a System of Systems, centered on how operational intent propagates from enterprise objectives to aircraft trajectory/behavior.}
+
+This project builds a reference MBSE architecture for how airspace intent is managed across the National Airspace System (NAS). The architecture spans the organizations that define and enforce rules, the domains that manage airspace resources, the systems that support flight operations, and the onboard systems that turn intent into an executable trajectory and guidance behavior.
+
+\textcite{delaurentis2005sosTransportation} states the problem as follows:
 
 \begin{quote}
 ``Problems of significant complexity are facing decision-makers within government and industry, and the moniker of `system-of-systems' (heretofore shortened to SoS) is increasingly being applied to problems of this type. Effective system analysis for decision-support quickly becomes unmanageable in this context, with multiple, heterogeneous, distributed systems involved and couched in networks at multiple levels. The situation is exacerbated by the fact that most organizations (and their processes) remain in the `stovepipe' mode -- their people and tools are configured to study within narrow bins with little or no analysis across those bins. Current frames of reference, thought processes, analysis, and design methods are not complete for these SoS problems ... A holistic framework is needed that enables decision makers to discern whether related infrastructure, policy, and/or technology considerations together are good, bad (or indifferent) over time.''
 \end{quote}
 
-While this reference is from 2005, it is still relevant today. The NAS is a complex system of systems, and the decisions made by the various stakeholders have significant consequences for the safety, efficiency, and sustainability of the air transportation system.
+The statement dates from 2005 and still describes the NAS today. The NAS is a system of systems, and the decisions its stakeholders make have consequences for the safety, efficiency, and sustainability of air transportation.
 
-Airline companies invest significant time and money in constructing operational plans that maximize revenue; however, on the day of operation, unpredictable events -- bad weather, aircraft malfunctions, crew absenteeism -- can substantially alter that plan and the revenue objectives behind it~\textcite{castro2013aoccMasThesis}. To manage this, airlines maintain an Airline Operations Control Center (AOCC), a department of experts specialized in disruption management across aircraft, crew, and passenger recovery. The AOCC monitors operations and makes real-time decisions -- re-routing flights, rescheduling crews, rebooking passengers -- intended to minimize the impact of a disruption on the airline's schedule and revenue objectives.
+Airlines invest significant time and money in operational plans that maximize revenue. On the day of operation, unpredictable events -- bad weather, aircraft malfunctions, crew absenteeism -- can substantially alter that plan and the revenue objectives behind it~\cite{castro2013aoccMasThesis}. To manage this, airlines maintain an Airline Operations Control Center (AOCC), a department of specialists in disruption management across aircraft, crew, and passenger recovery. The AOCC monitors operations and makes real-time decisions -- re-routing flights, rescheduling crews, rebooking passengers -- intended to limit the effect of a disruption on the airline's schedule and revenue.
 
-The literature does not converge on a single, standardized definition of the "cost" the AOCC is minimizing, and the values it does quantify do not always hold up under scrutiny. Delay cost is commonly modeled in the optimization literature as a linear function of delay minutes, but \textcite{hu2024disruptionOptReview} notes that this assumption is inconsistent with airline practice, where delay cost is in fact a nonlinear function of delay time -- and that, faced with this complexity, airlines tend to prioritize the speed of a recovery decision over the mathematical optimality of the resulting solution. This preference for tractable, fast decisions over globally optimal ones shows up structurally as well as behaviorally: a review of the Aircraft Recovery Problem finds that studies -- and, by extension, the AOCC processes they model -- rarely minimize delay, cancellations, and aircraft swaps simultaneously, instead treating aircraft, crew, and passenger recovery as separable sub-problems solved sequentially and handed off in turn~\textcite{santana2023arpReview}. Each stage can produce a solution that is locally optimal yet globally suboptimal, or even infeasible, once the next stage's constraints are applied -- a concrete, literature-documented instance of the myopic-optimization pattern this capstone investigates.
+The literature does not converge on one standard definition of the ``cost'' the AOCC is minimizing, and the values it does quantify do not always hold up under scrutiny. The optimization literature commonly models delay cost as a linear function of delay minutes, but \textcite{hu2024disruptionOptReview} note that this is inconsistent with airline practice, where delay cost is a nonlinear function of delay time, and that, faced with this complexity, airlines tend to put the speed of a recovery decision ahead of the mathematical optimality of the solution. The same preference for fast, tractable decisions shows up in how the work is structured. A review of the Aircraft Recovery Problem finds that studies -- and, by extension, the AOCC processes they model -- rarely minimize delay, cancellations, and aircraft swaps together. They treat aircraft, crew, and passenger recovery as separable sub-problems, solved in sequence and handed off in turn~\cite{santana2023arpReview}. Each stage can produce a solution that is locally optimal yet globally suboptimal, or even infeasible, once the next stage's constraints are applied. This is a documented instance of the myopic-optimization pattern this capstone investigates.
 
-That pattern's costs and benefits are visible even in work that improves on the status quo. \textcite{kontodimou2026turnaroundBuffer}'s predictive turnaround-buffer allocation model achieves a 37.1\% reduction in propagated delay relative to a zero-buffer baseline,but it reaches that result by holding aircraft routing, fleet assignment, crew duty, maintenance, and passenger connectivity fixed as upstream constraints, deliberately excluding them from the optimization it performs. The gain is real within that bounded scope, but the framing illustrates the exact risk this capstone is concerned with: a locally-optimized decision layer can report a strong local benefit while externalizing tradeoffs onto adjacent decision layers that go unmeasured by that layer's own cost model. The same pattern appears on the human side of the AOCC: \textcite{dispatcherWorkload2025} documents that when dispatcher workload exceeds capacity, dispatchers "may resort to conservative approaches, which can have financial implications for airlines" -- a workload-driven cost that rarely appears in the delay, cancellation, and swap cost models discussed above. \textcite{hassanDisruptionReview} frames this more broadly as a persistent gap between the disruption-management optimization literature and the reality of AOCC practice.
+The pattern is visible even in work that improves on the status quo. The predictive turnaround-buffer allocation model of \textcite{kontodimou2026turnaroundBuffer} achieves a 37.1\% reduction in propagated delay relative to a zero-buffer baseline, but it reaches that result by holding aircraft routing, fleet assignment, crew duty, maintenance, and passenger connectivity fixed as upstream constraints, outside the optimization. The gain is real within that scope. The framing also shows the risk this capstone is concerned with: a locally optimized decision layer can report a strong local benefit while passing tradeoffs to adjacent decision layers that its own cost model does not measure. The same pattern appears on the human side of the AOCC. \textcite{dispatcherWorkload2025} document that when dispatcher workload exceeds capacity, dispatchers ``may resort to conservative approaches, which can have financial implications for airlines'' -- a workload-driven cost that rarely appears in the delay, cancellation, and swap cost models discussed above. \textcite{hassanDisruptionReview} frame this more broadly as a persistent gap between the disruption-management optimization literature and AOCC practice.
 
-In this paper, I explore the value tradeoffs that aviation stakeholders experience when disruptions occur and recovery solutions are employed with various levels of myopia. When a dispatcher or AOCC team member makes a decision, they are often focused on the immediate impact of that decision -- e.g., minimizing delay for a specific flight -- without visibility into the broader implications for the airline's overall operations or the NAS as a whole. Cost models used today typically capture the factors that are easiest to quantify, such as fuel consumption and crew costs, while factors that are harder to quantify -- maintenance cost, passenger satisfaction, dispatcher/controller workload, environmental impact -- are more often overlooked. This can lead to suboptimal outcomes: increased congestion in certain airspace sectors, missed opportunities for more efficient routing, or decreased overall profits driven by customer dissatisfaction. By modeling the NAS as a system of systems and analyzing the propagation of operational intent, I aim to identify strategies for improving decision-making and reducing the negative impacts of disruptions on the air transportation system.
+This report explores the value tradeoffs aviation stakeholders experience when a disruption occurs and the recovery decision is made with more or less myopia. A dispatcher or AOCC team member making a decision is often focused on its immediate effect -- for example, minimizing delay for one flight -- without visibility into what it means for the airline's wider operation or for the NAS as a whole. The cost models in use today capture the factors that are easiest to quantify, such as fuel and crew cost. Factors that are harder to quantify -- maintenance cost, passenger satisfaction, dispatcher and controller workload, environmental impact -- are more often left out. The result can be congestion in particular airspace sectors, missed opportunities for more efficient routing, or lower profit driven by customer dissatisfaction. By modeling the NAS as a system of systems and tracing how operational intent propagates through it, the project aims to identify ways to improve these decisions and reduce the cost of disruptions to the air transportation system.
 
 
 \subsection{Overview of the Project}
 \label{sec:overview}
 
-\plantodo{S1}{Describe the industry/environment (commercial aviation and the
-NAS), the social context, and the key stakeholders (preview -- full analysis
-in Section~\ref{sec:stakeholders}). State the project's research questions
-from Project\_To-Do List.md S1 ("Finalize project research questions") and
-explain why they matter. Draw on README.md's framing of the trajectory-intent
-lifecycle (Strategic objective -> mission plan -> flight plan -> ATC
-constraints -> trajectory negotiation -> FMS intent -> guidance commands ->
-aircraft motion) as the throughline.}
+\plantodo{S1}{Describe the industry/environment (commercial aviation and the NAS), the social context, and the key stakeholders (preview -- full analysis in Section~\ref{sec:stakeholders}). State the project's research questions from to-do-list.md S1 (``Finalize project research questions'') and explain why they matter. Draw on README.md's framing of the trajectory-intent lifecycle (Strategic objective $\rightarrow$ mission plan $\rightarrow$ flight plan $\rightarrow$ ATC constraints $\rightarrow$ trajectory negotiation $\rightarrow$ FMS intent $\rightarrow$ guidance commands $\rightarrow$ aircraft motion) as the throughline.}
 
-The NAS is a complex system in which operational decisions are made by independent actors, each of which may or may not be accounting for the impacts on other system stakeholders, which includes regulatory agencies, air traffic service providers, airport operators, airline operations centers, MRO suppliers, flight crews, passengers, and aircraft systems. While substantial architectural work has been performed within individual domains, the relationships and information flows between these domains are often incompletely represented.
+In the NAS, operational decisions are made by independent actors, each of which may or may not account for the effect on the others. Those actors include regulatory agencies, air traffic service providers, airport operators, airline operations centers, maintenance (MRO) suppliers, flight crews, passengers, and the aircraft systems themselves. Substantial architectural work exists within individual domains, but the relationships and information flows between domains are often incompletely represented.
 
-Existing models frequently focus myopically on one actor or problem, exhibiting one or more of the following limitations: 
-  - Emphasis on enterprise-level capabilities without sufficient representation of aircraft behavior and onboard desision-making, 
- - Emphasis on aircraft systems without adequate representation of the broader operational context within which those systems operate, 
- - limited traceability between strategic objectives, operational constraints, human decisions, and the resulting aircraft trajectories, 
- - difficulty evaluating the impacts of new operatioal concepts, automation technologies, and optimization services across organizational boundaries. 
+Existing models frequently focus on one actor or one problem, and show one or more of the following limitations:
+\begin{itemize}
+    \item emphasis on enterprise-level capabilities without sufficient representation of aircraft behavior and onboard decision-making;
+    \item emphasis on aircraft systems without adequate representation of the operational context in which those systems operate;
+    \item limited traceability between strategic objectives, operational constraints, human decisions, and the resulting aircraft trajectories;
+    \item difficulty evaluating the effect of new operational concepts, automation technologies, and optimization services across organizational boundaries.
+\end{itemize}
 
-As a result, there is no broadly applicable architecture that fully captures how strategic objectives become executable aircraft behavior. This lack of end-to-end traceability limits the ability of engineers, operators, and decision makers to understand the consequences of changes within the NAS and complicates the integration of future decision-support technologies.
+As a result, no broadly applicable architecture fully captures how strategic objectives become executable aircraft behavior. Without end-to-end traceability, engineers, operators, and decision makers have limited means to understand the consequences of a change within the NAS, and integrating future decision-support technology is harder than it needs to be.
 
-This project seeks to address this gap by developing a System-of-Systems architecture that explicitly models the propagation of intent throughout the National Airspace System, from enterprise objectives and airspace management decisions to flight deck decision-making and aircraft trajectory execution.
+This project addresses that gap by developing a System-of-Systems architecture that explicitly models the propagation of intent through the NAS, from enterprise objectives and airspace management decisions to flight deck decision-making and aircraft trajectory execution.
 
 \subsection{Review of Current State Design / Literature Review}
 \label{sec:litreview}
 
-\plantodo{S2--S4}{Synthesize (do not merely list) findings from the three
-literature-review tracks: airline planning and operations (schedule
-planning, fleet assignment, crew scheduling, maintenance routing), day-of-
-operations and turnaround (A-CDM, weight and balance), and OCC/dispatch and
-flight execution (disruption management, dispatcher responsibilities,
-nominal ATC/IFR flow). Pull from per-source annotations captured via the
-literature-review workflow into
-\texttt{evidence/source-register.md} rather than re-deriving them
-here. Identify the research gap this capstone addresses (see also
-Project\_To-Do List.md S16 "Research gap").}
+\plantodo{S2--S4}{Synthesize (do not merely list) findings from the three literature-review tracks: airline planning and operations (schedule planning, fleet assignment, crew scheduling, maintenance routing), day-of-operations and turnaround (A-CDM, weight and balance), and OCC/dispatch and flight execution (disruption management, dispatcher responsibilities, nominal ATC/IFR flow). Pull from per-source annotations captured via the literature-review workflow into \texttt{evidence/source-register.md} rather than re-deriving them here. Identify the research gap this capstone addresses (see also to-do-list.md S16 ``Research gap'').}
 
 % ---- Placeholder added 2026-10-10 (AI-drafted scaffolding, not report prose).
-\plantodo{Track C (research gap)}{\textbf{What this project adds that prior work
-does not.} The opportunity itself is documented: \cite{coppenbarger1999climbPrediction}
-measured what airline-supplied weight does for climb prediction; SESAR's ADS-C
-EPP downlinks the FMS's predicted profile; \cite{engility2014tasarAlaska} gives
-the aircraft a picture of the traffic. State the three things this project does
-that those do not: (1) scores one decision at four stakeholder levels side by
-side (aircraft, airline, sector, system) with no weighted sum, so who pays is
-visible; (2) maps the decision to its authority and its information owner in a
-system-of-systems model, so the missing exchange is a named interface
-(\texttt{AirlinePerformanceShare}, D-019) and an unmet requirement
-(SLR-INF-02, D-018), not a finding in prose; (3) swaps the scoring
-model's fidelity under a fixed architecture (D-017), which is the MBSE claim.}
+\plantodo{Track C (research gap)}{\textbf{What this project adds that prior work does not.} The opportunity itself is documented: \cite{coppenbarger1999climbPrediction} measured what airline-supplied weight does for climb prediction; SESAR's ADS-C EPP downlinks the FMS's predicted profile; \cite{engility2014tasarAlaska} gives the aircraft a picture of the traffic. State the three things this project does that those do not: (1) scores one decision at four stakeholder levels side by side (aircraft, airline, sector, system) with no weighted sum, so who pays is visible; (2) maps the decision to its authority and its information owner in a system-of-systems model, so the missing exchange is a named interface (\texttt{AirlinePerformanceShare}, D-019) and an unmet requirement (SLR-INF-02, D-018), not a finding in prose; (3) swaps the scoring model's fidelity under a fixed architecture (D-017), which is the MBSE claim.}
 % ---- end placeholder 2026-10-10
 
 % ---- Placeholders added 2026-10-09 (AI-drafted scaffolding, not report prose).
-% Context the experiment discussion in Sections 2 and 3 leans on. Each item
+% Context the experiment discussion in Sections 3 and 4 leans on. Each item
 % names the source to cite and the point to make; the wording is the author's.
-\plantodo{S11 (context for the experiment)}{\textbf{What the sector controller
-knows when resolving a conflict.} Make the point that the controller has type,
-level, speed and route, but not weight or cost index. Cite
-\cite{schultz2012adaptiveClimb} (p.~2, weight and speed intent ``are
-considered competitive parameters by airlines and are not available for
-use'') and \cite{coppenbarger1999climbPrediction} (one nominal weight per
-aircraft type). Say who does hold the weight (airline, FMS) and that they do
-not hold the authority.}
+\plantodo{S11 (context for the experiment)}{\textbf{What the sector controller knows when resolving a conflict.} Make the point that the controller has type, level, speed and route, but not weight or cost index. Cite \cite{schultz2012adaptiveClimb} (p.~2, weight and speed intent ``are considered competitive parameters by airlines and are not available for use'') and \cite{coppenbarger1999climbPrediction} (one nominal weight per aircraft type). Say who does hold the weight (airline, FMS) and that they do not hold the authority.}
 
-\plantodo{S11 (context)}{\textbf{What controllers do by default.} Cite
-\cite{rantanen2012conflictManeuvers} (23 of 36 level-crossing cases resolved
-by a descent; controllers ``use more predetermined rules''),
-\cite{kirwan2001coraStrategies} (leave the aircraft in steady state alone)
-and \cite{fothergill2013resolutionHeuristics} (instruction counts per
-heuristic; ``No point asking aircraft to climb if they come back and say
-they can't''). Note the disagreement between the first and third on whether
-descent is preferred.}
+\plantodo{S11 (context)}{\textbf{What controllers do by default.} Cite \cite{rantanen2012conflictManeuvers} (23 of 36 level-crossing cases resolved by a descent; controllers ``use more predetermined rules''), \cite{kirwan2001coraStrategies} (leave the aircraft in steady state alone) and \cite{fothergill2013resolutionHeuristics} (instruction counts per heuristic; ``No point asking aircraft to climb if they come back and say they can't''). Note the disagreement between the first and third on whether descent is preferred.}
 
-\plantodo{S11 (context)}{\textbf{TASAR as the mirror-image study.} Cite
-\cite{engility2014tasarAlaska}. Three points to make: (1) it gives the
-aircraft a picture of the traffic, where this project gives ATC a picture of
-the aircraft; (2) size of the effect per flight (27 gallons and 2.3 minutes
-for the typical case, range 12 to 103 gallons, p.~12); (3) it did not model
-aircraft weight and limited climbs to FL350 and below for that reason
-(p.~8). Point (3) is the assumption Section~\ref{sec:experiment-method}
-adopts.}
+\plantodo{S11 (context)}{\textbf{TASAR as the mirror-image study.} Cite \cite{engility2014tasarAlaska}. Three points to make: (1) it gives the aircraft a picture of the traffic, where this project gives ATC a picture of the aircraft; (2) size of the effect per flight (27 gallons and 2.3 minutes for the typical case, range 12 to 103 gallons, p.~12); (3) it did not model aircraft weight and limited climbs to FL350 and below for that reason (p.~8). Point (3) is the assumption Section~\ref{sec:experiment-method} adopts.}
 
-\plantodo{S11 (context)}{\textbf{How sector loading reaches the controller.}
-Explain the Monitor Alert Parameter in one or two sentences and what a ``red
-sector'' is. Cite \cite{faa2025jo72103ee} (\S18-9) for the definition and
-\cite{engility2014tasarAlaska} (p.~10) for the practice: the sector
-controller is generally not aware of red sectors elsewhere, and a supervisor
-may restrict traffic into one. Open: the report's ``area manager'' is not
-the order's term; red versus yellow is not defined in the order.}
+\plantodo{S11 (context)}{\textbf{How sector loading reaches the controller.} Explain the Monitor Alert Parameter in one or two sentences and what a ``red sector'' is. Cite \cite{faa2025jo72103ee} (\S18-9) for the definition and \cite{engility2014tasarAlaska} (p.~10) for the practice: the sector controller is generally not aware of red sectors elsewhere, and a supervisor may restrict traffic into one. Open: the report's ``area manager'' is not the order's term; red versus yellow is not defined in the order.}
 
-\plantodo{S11 (context) -- SOURCES NOT YET HELD}{\textbf{Aviation emissions
-and what they cost whom.} Needed before Sections~\ref{sec:results}
-and~\ref{sec:impact} can discuss emissions: (a) the CO2 produced per kg of
-jet fuel, with a citation; (b) whether any carbon-pricing or offsetting
-scheme applies to a U.S. domestic flight, and a dated price; (c) a study of
-how emissions labels on flight listings affect passenger choice; (d) a
-social cost of carbon for the system-level discussion. None is in
-\texttt{evidence/sources/} as of 2026-10-09.}
+\plantodo{S11 (context) -- SOURCES NOT YET HELD}{\textbf{Aviation emissions and what they cost whom.} Needed before Sections~\ref{sec:results} and~\ref{sec:impact} can discuss emissions: (a) the CO2 produced per kg of jet fuel, with a citation (now held: \cite{icao2024icecMethodology}); (b) whether any carbon-pricing or offsetting scheme applies to a U.S. domestic flight, and a dated price; (c) a study of how emissions labels on flight listings affect passenger choice; (d) a social cost of carbon for the system-level discussion. Items (b) to (d) are not in \texttt{evidence/sources/}.}
 % ---- end placeholders 2026-10-09
 
-From my perspective, the current state of the project is off-track, but recoverable. The plan calls for 4 phases of work, with phase 1 completing 9/10 with RACII matrices for the various objectives within the airspace. More time has been spent on the literature review than originally expected, as the scope broadened to encompass consideration of which ontological model to use. Moreover, a lack of discipline on extracting specific actionable information from the review has weakened definitive claims about specific objectives pursued by stakeholders, which in turn feed the considerations of the RACII matrix. While much learning has occurred from the literature review, the impact on schedule continues. Presently, 53 papers have been extracted, with more than half manually reviewed, with many annotated. The literature review is ongoing, but the current content supports the research claims and the enforces the value of the project deliverables.
+% The three paragraphs the owner struck on the 2026-10-11 print (the mid-September
+% status: "off-track, but recoverable"; "at risk of analysis paralysis"; "state
+% machines ... by 9/15") are removed. They are in git history (commit 2b0b038).
+% The two paragraphs below were left unstruck and are the owner's, lightly edited.
 
- Time spent developing the Concepts of Operations has also impacted other work. However, the project lacks a specific focus at the moment for what tradeoffs will be considered. While the project does not intend to be an exploration of optimization, the concept focuses on sub-optimality driven by myopic decisions. While the concepts of operations help inform a more comprehensive understanding of the NAS, the systems involved, and the interfaces amongst them, it has not yet provided for unique insights into specific scenarios that might be worth modelling. 
+Time spent developing the Concepts of Operations also affected other work. For a period the project lacked a specific focus for which tradeoffs it would consider. The project is not an exploration of optimization, but its concept centers on sub-optimality driven by myopic decisions. The concepts of operations gave a more complete understanding of the NAS, the systems involved, and the interfaces among them, but they did not by themselves point to a specific scenario worth modelling.
 
- At this stage, the progress is at risk of analysis paralysis, which is being weighed against the risk of a lack of a well-formed vision for execution. At this point, I wish to heir on the side of action, transitioning the project to Phase 2 and allowing specific gaps or needs in the model development guide further review of the collected sources. That said, I still plan to contiue the review ad-hoc. Also worth noting is that model development will inform possibilities w.r.t. what can be modelled (e.g. multiple instances of an aircraft system performing similar, but different actions simultaneously while each affecting the same controller's workload). Additionally, gaining experience with sysmlv2 will inform whether its learning curve makes it a viable tool, or if Cameo is more appropriate. 
+The pivot from Phase 1 exploration to Phase 2 modelling was made to advance the project deliverables while building a deeper understanding of the information gaps. The intent was that when the modelling reached the measures of effectiveness and performance, the stakeholders' objectives would be revisited and a more targeted consultation of the literature could occur.
 
- This pivot from Phase 1 exploration to Phase 2 modelling will advance the project deliverables while engraining a deeper understanding of the information gaps. When the modelling gets to the point of MOEs/MOPs, the objectives of stakeholders will be revisited and a more targetted literature consultation can occur. 
+\aidraft{How the pivot helped (owner's note: ``Talk about how this helped''). Drawn from \texttt{decisions/decisions-log.md} D-012, D-016, D-018 and D-019 and the journal. Check each claim against what you would say yourself.}
+That is what happened. Building the model forced questions the literature review alone had not: who owns the decision support for a trajectory change, which party holds the information that decision needs, and whether an exchange between them exists. Answering them located one specific gap. The sector controller decides which aircraft to move in a conflict, the airline and the flight management system hold the aircraft's weight and cost index, and no exchange carries one to the other. That gap is now a named interface in the model (\texttt{AirlinePerformanceShare}) and an unmet requirement, not a general statement about stovepipes. The literature consultation that followed was targeted in the way the pivot intended: sources on controller conflict-resolution practice, on climb prediction with airline-supplied weight, and on traffic-aware flight-deck requests were found and read because the model and the experiment needed them.
+% ---- end AI draft
 
- Per the original plan, state machines for the various NAS systems were intended to be completed by 9/15. This deliverable has not been met. The realities of a full-time professional job whose needs often extend beyond the normal 40-hour work week has forced much of the project work to occur on weekends and my time managment needs to adjust to accomodate. This weekend will be a decision gate that informs that process and possibly lead to an adjustment of the schedule of deliverables. 
+\aidraft{Current state of the project, October 2026. Replaces the struck mid-September paragraphs. Every number is from \texttt{task-board.md} and \texttt{journal/2026-10-11.md}; update them on the day of submission. Confirm what you want to say about state machines.}
+The project is now organized as four parallel tracks (model, experiment, report, and evidence on demand) worked in nine one-week turns that end on 2026-12-13. This plan replaced the single-pass August list on 2026-10-10. One traced thread carries the project: the airline's cost objective, the stakeholder and system requirements that follow from it, the airline-to-ATC interface, the conflict-resolution decision, and the experiment that scores that decision.
 
+The requirements have been through two hand reviews and now stand at 13 stakeholder requirements and 23 system requirements, each limited to what bears on the studied decision. A third tier of 28 constituent-system requirements is drafted and not yet reviewed. The model holds the context diagram, an aircraft internal block diagram that has been hand reviewed, an airspace management internal block diagram that is still a placeholder, a draft nominal-flight activity diagram, and the typed airline-to-ATC interface. The state machines the original plan scheduled for 9/15 have not been built.
 
-(Section~\ref{sec:deliverables}).
+The experiment is defined and runs end to end. Four aircraft in one en-route sector present one crossing conflict, and four cases resolve it with different information: a controller's rule, automation with one nominal weight per aircraft type, automation with the shared weight and cost index, and the same with connection information. An open aircraft performance model, OpenAP, scores every option. The first results are in Section~\ref{sec:experiment-results} and are preliminary: the scenario's numbers are not all confirmed.
+% ---- end AI draft
 
 
 \subsection{Stakeholders}
 \label{sec:stakeholders}
 
-\plantodo{S7}{Identify key project stakeholders (individuals/organizations
-affected by or perceiving themselves affected by NAS operational decisions).
-Draw on the PESTLE stakeholder discovery, stakeholder register, and RACCI
-matrix from Project\_To-Do List.md S7. Confirm the stakeholder set is
-diverse (airline, passenger, ATC/ANSP, airport, flight crew, environmental/
-societal, military -- see S8's per-stakeholder objective categories) and
-that stakeholders with little formal power (e.g., passengers, communities
-affected by noise/emissions) are represented.}
+\plantodo{S7}{Identify key project stakeholders (individuals/organizations affected by or perceiving themselves affected by NAS operational decisions). Draw on the PESTLE stakeholder discovery, stakeholder register, and RACCI matrix from to-do-list.md S7. Confirm the stakeholder set is diverse (airline, passenger, ATC/ANSP, airport, flight crew, environmental/societal, military -- see S8's per-stakeholder objective categories) and that stakeholders with little formal power (e.g., passengers, communities affected by noise/emissions) are represented.}
 
-I created the 	exttt{capstone	extunderscore stakeholder	extunderscore assessment.xlsx} file, filling it with my initial assessment of each candidate stakeholder's objectives, and then iteratively refined it as I read more literature and gained a better understanding of the NAS. The assessment includes the following information for each stakeholder: 
+I created the \texttt{capstone\_stakeholder\_assessment.xlsx} file with an initial assessment of each candidate stakeholder's objectives, then refined it as I read more of the literature and understood the NAS better. For each stakeholder the assessment records:
 \begin{itemize}
-    \item stated interest and whether it acts as a hard constraint, optimization objective, cost/penalty, MOP, or MOE
-    \item candidate explorations of MOP/MOEs
-    \item determination of whether the stakeholder has a direct or indirect impact on trajectory decisions, if any.
-    \item An exploration of whether the stakeholder should be a standalone stakeholder or consolidated with another stakeholder, and the rationale for that decision. 
+    \item the stated interest, and whether it acts as a hard constraint, an optimization objective, a cost or penalty, a measure of performance (MOP), or a measure of effectiveness (MOE);
+    \item candidate MOPs and MOEs;
+    \item whether the stakeholder has a direct or indirect effect on trajectory decisions, if any;
+    \item whether the stakeholder should stand alone or be consolidated with another, and the reason.
 \end{itemize}
 
-This has lead me to the following list of stakeholders that I believe are relevant to the project:
+Figure~\ref{fig:stakeholders-exploration} shows the candidate stakeholders first identified, and Figure~\ref{fig:stakeholders-power-interest} places them by power and interest.
+
+\begin{figure}[htbp]
+\centering
+\figorbox{stakeholders_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_exploration.png}}
+\caption{Candidate stakeholders of the NAS as a system of systems (initial exploration).}
+\label{fig:stakeholders-exploration}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\figorbox{stakeholders_impact_power_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_impact\_power\_exploration.png}}
+\caption{Candidate stakeholders placed by power and interest.}
+\label{fig:stakeholders-power-interest}
+\end{figure}
+
+This led to the following list of stakeholders relevant to the project:
 \begin{itemize}
     \item Governments / Standards Organizations
     \item Operators (Airlines, Charter Operators, Cargo Operators)
@@ -180,10 +138,19 @@ This has lead me to the following list of stakeholders that I believe are releva
     \item Environmental/Societal Organizations
 \end{itemize}
 
-Furthermore, an exploration of the interests of each stakeholder has lead me to the following list of objectives that I believe are relevant to the project:
+The aircraft is treated alongside these stakeholders as a constituent system. Figure~\ref{fig:sos-exploration} shows the systems first identified within the NAS, with the aircraft decomposed furthest.
+
+\begin{figure}[htbp]
+\centering
+\figorbox[\textwidth]{system_of_systems_detailed_exploration.png}{MISSING: \texttt{report/figures/system\_of\_systems\_detailed\_exploration.png}}
+\caption{The NAS as a system of systems: candidate constituent systems (initial exploration).}
+\label{fig:sos-exploration}
+\end{figure}
+
+An exploration of each stakeholder's interests led to the following list of objectives relevant to the project:
 \begin{itemize}
     \item Safety / Security
-    \item Efficiency 
+    \item Efficiency
     \item Throughput / Capacity
     \item Reliability / Resilience
     \item Environmental Impact
@@ -199,27 +166,30 @@ Furthermore, an exploration of the interests of each stakeholder has lead me to 
 \subsection{Scope}
 \label{sec:scope}
 
-\plantodo{S1}{State what is explicitly included and excluded from the
-System of Interest (SOI), the level(s) of abstraction modeled, and the
-criteria used to draw system and stakeholder/actor boundaries. This section
-should resolve the open boundary questions currently tracked in
-\texttt{knowledge/questions/open-questions.md} S1 -- if any remain open when
-this section is drafted, that is a signal the SOI work in
-Project\_To-Do List.md S1 is not yet closed.}
+% Owner's note, 2026-10-11 print, page 7: "Leave larger list above, discuss
+% de-scoping decisions here & include the final list/diagram." The strikes and
+% margin notes on page 6 are the content below.
 
-See Section~\ref{sec:overview} for a discussion of the scope of the project. Also note ambiguities highlighted in the review of the current state design/literature review (Section~\ref{sec:litreview}) that will be addressed in future phases of the project.
+\aidraft{De-scoping decisions and the final lists (owner's note: ``Leave larger list above, discuss de-scoping decisions here and include the final list/diagram''). The reasons in quotation marks are your margin notes. Where your print struck an item without a reason, the reason given here is Claude's reading of the boundary criterion in Section~\ref{sec:se-approach} and is flagged in the list that follows this passage.}
+The lists in Section~\ref{sec:stakeholders} are the result of exploration. The study itself is narrower. It examines one tactical decision, the resolution of a conflict between aircraft in cruise, and keeps only the stakeholders and objectives that bear on that decision.
+
+Four stakeholders remain, together with the aircraft: operators (the airline), air traffic control, the airport authority, and the flight crew. Governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations are outside the System of Interest. They supply rules, equipment, demand, and expectations to the decision but do not make it or execute it, so they are treated as boundary actors and not decomposed.
+
+Six objectives remain: safety, efficiency, environmental impact, schedule reliability, cost, and workload. Schedule reliability is carried in the experiment as a step in cost when a flight's delay passes a threshold (the parameter $K$ of Section~\ref{sec:scoring-method}). The others were set aside for the following reasons. Noise impact: the measure is ``not relevant at cruise.'' Passenger satisfaction: ``not measurable objectively.'' Security, profitability, reliability and resilience, maintenance and lifecycle cost, and regulatory compliance are not changed by the choice between resolution options in the scenario.
+
+Figure~\ref{fig:sysml-systemContext} is the resulting System of Interest as modeled: the constituent systems kept and the exchanges among them.
+% ---- end AI draft
+
+\plantodo{S1 (owner's open question, 2026-10-11 print, page 6)}{\textbf{``Why am I ignoring throughput/capacity, which would benefit from an improved ACM?''} Answer this here before throughput/capacity is listed as out of scope: either give the reason it is set aside for this study, or bring it back as an objective and say how the experiment would measure it. Also confirm or replace the reasons Claude supplied above for the four stakeholders and for security, profitability, reliability/resilience, maintenance/lifecycle cost and regulatory compliance: your print struck these without a note.}
+
+\input{figures/sysml/fig-systemContext}
 
 \subsection{Project Deliverables}
 \label{sec:deliverables}
 
-\plantodo{S10, S14, S16}{State the goals and deliverables: the SysML/Cameo
-reference architecture, the traceability chain from stakeholder needs to
-aircraft-level behavior, and the optimization-demonstration capability
-(Section~\ref{sec:results}). Include the quantifiable measures used to
-assess success (e.g., traceability coverage, stakeholder coverage,
-demonstration of a local-vs-SoS optimization tradeoff).}
+\plantodo{S10, S14, S16}{State the goals and deliverables: the SysML reference architecture, the traceability chain from stakeholder needs to aircraft-level behavior, and the experiment (Section~\ref{sec:experiment}). Include the quantifiable measures used to assess success (e.g., traceability coverage, stakeholder coverage, demonstration of a local-vs-SoS tradeoff).}
 
-The following deliverables were established for the project upon its inception:
+The following deliverables were established for the project at its inception:
 
 \begin{table}[htbp]
 \centering
@@ -269,14 +239,9 @@ Paper Submittal & Thesis/paper & Owen & 12/20/2026 & Official submittal \\
 \end{tabular}
 \end{table}
 
-See the review of the current state design/literature review (Section~\ref{sec:litreview}) for a discussion of the current status of these deliverables and the risks to their timely completion.
+Section~\ref{sec:litreview} describes the current status of these deliverables.
 
 \subsection{Project Timing}
 \label{sec:timing}
 
-\plantodo{S1 (new)}{Revisit the timeline from the 503 Proposal submittal
-(see \texttt{prework/ISD 503 Submittal.pdf}) and list the sequence of tasks
--- keyed to Project\_To-Do List.md's 16 sections -- with target completion
-dates. A "Project Timing" task did not previously exist in the plan; it has
-been added to Project\_To-Do List.md S1 this session so this subsection has
-something concrete to draw from.}
+\plantodo{S1 (new)}{Revisit the timeline from the 503 Proposal submittal (see \texttt{prework/ISD 503 Submittal.pdf}) and show the plan now in force: the nine one-week turns of D-016 (the table at the top of \texttt{to-do-list.md}), each with its exit test and target date, next to the August milestones in Table~\ref{tab:project-timing}.}

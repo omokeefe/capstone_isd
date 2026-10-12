@@ -6,6 +6,30 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-026 — Report structure changed after the owner's hand review: the experiment is its own section, SysML figures can sit in the body
+
+**Date:** 2026-10-11
+**Status:** active. Owner direction from the hand review of the printed report (`projects/nas-sos-capstone/handwritten/2026-10-11_main.md`) and four answers given before the work started.
+
+**Decision:**
+
+1. **The report body has six sections:** 1 Introduction and Current State; 2 Assumptions and Methodology; 3 Experiment (new); 4 Results and Discussion; 5 Impact/Financial Benefits; 6 Conclusions and Recommendations (merged).
+2. **"The Two Claims" is not a subsection.** The claims are stated in the Executive Summary and the Introduction.
+3. **The emissions discussion is part of Results** (4.6), not of Impact.
+4. **The scoring write-up cites the OpenAP and Bartel and Young papers** in place of repeating their equations. The report keeps the cost equation, the decider's estimate, the table of values, the worked example and the list of simplifications.
+5. **A SysML view can be placed in the body.** A `// placement: body` line above a view's caption line takes it out of the generated appendix list; `tools/render_sysml_diagrams.py` writes `fig-<viewName>.tex` for a body section to input. All five current views are in the body.
+6. **For this pass only, Claude edited the owner's prose and drafted new passages,** at the owner's explicit request. Each drafted passage is marked `AI-DRAFTED, owner to rewrite` in the PDF. The standing agreement (the owner writes the report's prose) is unchanged.
+
+**Rationale:** the owner's notes: the experiment was buried as two subsections of the methodology; a subsection for the claims duplicated what the summary and introduction must say; the emissions subsection "doesn't warrant its own section"; the equations re-created published work. The course page allows sections of the template to be modified, added or removed with the adviser.
+
+**Alternatives considered:** keep the experiment under Section 2 to preserve the template's numbering (offered; the owner chose a separate section); move Assumptions and Methodology ahead of Stakeholders (the owner's own question on the print; the owner chose to leave it).
+
+**Evidence / source:** `projects/nas-sos-capstone/handwritten/2026-10-11_main.pdf` and `.md`; `projects/nas-sos-capstone/prework/course-info-canvas.md` (the template is a general guide).
+
+**Consequences:** `report/sections/04_experiment.tex` is new; `04_results_discussion.tex` is renamed `05_results_discussion.tex`; `05_recommendations.tex` is removed; section numbers in `report/README.md`, `to-do-list.md`, `task-board.md` and `index.md` follow. Not yet told to the adviser: the departure from the template's section list.
+
+---
+
 ## D-025 — The simulation code uses the model's definitions, and a test checks that it does
 
 **Date:** 2026-10-11

@@ -250,9 +250,9 @@ def figure_envelope(th: Thrust, dr: Drag, heavy: float, ac: dict, scenario: dict
         a_.set_axisbelow(True)
         for side in ("top", "right"):
             a_.spines[side].set_visible(False)
-    fig.suptitle(f"B737-9 at {heavy / 1000:.1f} t, the heavy aircraft: little room left to change speed or level at FL{level // 100}", fontsize=11, x=0.01, ha="left", fontweight="bold")
-    fig.text(0.01, 0.012, f"Lift = weight, ISA, still air. Thrust and drag from OpenAP (drag polar borrowed from the 737 MAX 8). CLmax is an assumption.\nService ceiling: 100 ft/min of climb left (FAA AC 61-107B). Usable: at least {margin:.0f} ft/min left.", fontsize=7.5, color=muted, ha="left")
-    fig.subplots_adjust(left=0.055, right=0.99, top=0.84, bottom=0.15)
+    # No title or footnote in the image: the report's caption carries the title and
+    # Section 3.4 lists the simplifications (owner's review of the print, 2026-10-11).
+    fig.subplots_adjust(left=0.055, right=0.99, top=0.93, bottom=0.10)
     out = FIG_DIR / "b739_envelope.png"
     fig.savefig(out, dpi=200)
     plt.close(fig)

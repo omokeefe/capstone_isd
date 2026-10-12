@@ -1465,14 +1465,19 @@
   doi         = {10.3390/aerospace7080104},
   url         = {https://openap.dev},
   urldate     = {2026-10-10},
-  annotation  = {The open aircraft performance model (TU Delft, LGPL-3.0) chosen as the
-                 experiment's scoring model (D-017): fuel flow, thrust and drag as functions of
-                 mass, speed and altitude, plus type data. Version 2.6.2 installed in .venv on
-                 Python 3.14 on 2026-10-10. Supports B39M (737 MAX 9) properties but borrows the
-                 737 MAX 8 drag polar for it (use\_synonym=True), stated as a limitation wherever
-                 a number from it is reported. API checked against the handbook at openap.dev on
-                 2026-10-10; the journal paper itself has not been read. Software/web entry: no
-                 file in evidence/sources/ and no Processing Ledger row.}
+  annotation  = {The open aircraft performance model (TU Delft) chosen as the experiment's
+                 scoring model (D-017). File: sun2020openap\_aerospace-07-00104.pdf (24 pp, open
+                 access, CC BY 4.0), downloaded from the publisher and read in full by Claude on
+                 2026-10-11; not read by the owner. Equations the report cites it for: point-mass
+                 motion (Eq. 8 to 13), maximum thrust above 30,000 ft (Eq. 22 and 23, from Bartel
+                 and Young), reference cruise thrust (Eq. 29, from Svoboda), drag polar (Eq. 30
+                 and 31). Two differences from the installed package (openap 2.6.2): the paper
+                 includes a wave-drag term above the critical Mach number (Eq. 34), which the
+                 package leaves off by default and marks experimental; and the paper's fuel-flow
+                 curve (Eq. 38 to 40, a cubic with an altitude correction) is not the curve the
+                 package now uses. The 737 MAX 9 is not among the 27 types in the paper's Table
+                 A1; the package borrows the 737 MAX 8 drag polar for it (use\_synonym=True).
+                 The paper states GNU GPL v3; the package metadata states GNU LGPL v3.}
 }
 
 @techreport{incose2023gtwr,
@@ -1675,4 +1680,24 @@
              precedent for AirlinePerformanceShare.delayMarginMin (D-025). Planning-phase slot
              prioritisation, not tactical conflict resolution. No DOI found. Venue city not stated
              in the paper and left out.}
+}
+
+@techreport{kulkarni2019ctopSlotSubstitution,
+  author       = {Kulkarni, Deepak},
+  title        = {Impact of Slot Substitution on {CTOP} Performance},
+  institution  = {NASA Ames Research Center},
+  type         = {Technical Memorandum},
+  number       = {NASA/TM-2019-220158},
+  address      = {Moffett Field, CA},
+  year         = {2019},
+  month        = {3},
+  annotation   = {File: Impact of Slot Substitution on CTOP Performance.pdf (10 pp), added by the
+             owner 2026-10-11; read in full by Claude the same day. Explains the FAA Collaborative
+             Trajectory Options Program: an airline submits a Trajectory Options Set with a Relative
+             Trajectory Cost per option "in terms of equivalent ground delay minutes" (p. 4), and may
+             swap its own flights among the slots it is assigned. Argues from one invented scenario
+             that an airline gains by stating a very high cost (Section IV, p. 8). Used as a U.S.
+             precedent for an airline stating a cost to the traffic manager (D-019) and as evidence
+             that a stated cost can be set for advantage. Pre-departure flow management, not
+             tactical conflict resolution. No DOI; source URL not recorded.}
 }
