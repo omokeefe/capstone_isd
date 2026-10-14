@@ -7,12 +7,18 @@
 % (handwritten/2026-10-11_main.md): the experiment is its own section, the two
 % claims are no longer a subsection, the emissions subsection moved into Results,
 % and Recommendations is merged into Conclusions.
+% Changed again 2026-10-13 from the hand review of the second print
+% (handwritten/2026-10-13_main.md): Section 1 is "Introduction" with Current State,
+% Stakeholder Selection, System Identification and Selection and Stakeholder
+% Objectives as subsections; the worked example and "Trace Back to the Model"
+% are no longer subsections.
 %   Title page                  -> n/a (admin info)
 %   Executive Summary           -> written last; carries the two claims
-%   1 Introduction              -> S1; literature (S2-S4); stakeholders (S7); scope (S1)
+%   1 Introduction              -> S1; literature (S2-S4); current state; stakeholders (S7);
+%                                  systems; scope (S1); objectives (S8); deliverables; timing
 %   2 Assumptions/Methodology   -> S1 (assumptions), S6, S10 (MBSE method), D-016, D-019
 %   3 Experiment                -> Track B (S11, S12): scenario, cases, options, scoring, aircraft model
-%   4 Results and Discussion    -> S5 (ConOps), S8 (objectives), S10 (architecture), S12, S13,
+%   4 Results and Discussion    -> S5 (ConOps), S10 (architecture), S12, S13,
 %                                  emissions and who pays (S9)
 %   5 Impact/Financial Benefits -> S9, S12
 %   6 Conclusions and Recommendations -> S14, S15, S16
@@ -28,6 +34,7 @@
 \usepackage{pdflscape} % landscape pages for the wide SysML diagrams in the appendix
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{placeins} % \FloatBarrier: stops a table floating into the next section
 \usepackage{amsmath}
 \usepackage{hyperref}
 \usepackage[textwidth=3.2cm,colorinlistoftodos,textsize=footnotesize]{todonotes}

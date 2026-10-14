@@ -9,8 +9,12 @@
 % The owner's paragraphs were edited for spelling and sentence sense at the
 % owner's request; passages between \aidraft{...} and "% ---- end AI draft" were
 % drafted by Claude and are the owner's to rewrite.
+% Revised again 2026-10-13 from the second print (handwritten/2026-10-13_main.md,
+% notes 13.x to 17.x).
 
 The problem is that the inertia of past, piecemeal designs and the high cost of upgrading the NAS make the system hard to change. The project proposes a new airline-to-ATC interface and a new way of deciding which aircraft to move in a conflict, which together could lower the cost of air traffic management.
+
+\plantodo{Track C (owner's note, 2026-10-13 print, page 13)}{\textbf{``Expand upon.''} The paragraph above is bracketed with this note. Not drafted by Claude: no source in \texttt{evidence/source-register.md} has been read for the inertia of past designs or the cost of upgrading the NAS, so the expansion is yours, or name the source and it can be read first.}
 
 Toward those ends, the project uses a model-based systems engineering (MBSE) approach to design the architecture and the decision-making process, and a simulation-based experiment to test the proposed interface and decision-making process. First, a literature review was conducted to:
 \begin{enumerate}
@@ -23,19 +27,19 @@ Toward those ends, the project uses a model-based systems engineering (MBSE) app
 \subsection{Systems Engineering Approach}
 \label{sec:se-approach}
 
-Standard systems engineering methods of analysis and decomposition were applied to the collected evidence, producing a context diagram, internal block diagrams, and activity and sequence views. These identified the relevant systems and the interactions among them that are necessary to meet the stakeholders' objectives. From them the stakeholder requirements were written and then decomposed into system-level requirements (SLRs) for the NAS. The SLRs were allocated to the relevant constituent systems, and high-level requirements (HLRs) decomposed them one level further.
+Standard systems engineering methods of analysis and decomposition were applied to the collected evidence, which produced a context diagram, internal block diagrams, and activity and sequence views. These identified the relevant systems and the interactions among them that are necessary to meet the stakeholders' objectives. From them the stakeholder requirements were written and then decomposed into system-level requirements (SLRs) for the NAS. The SLRs were allocated to the relevant constituent systems, and high-level requirements (HLRs) decomposed them one level further.
 
-This enabled the project to (1) build a model of the architecture and the decision-making process, and (2) compare current air traffic management practice, which relies on general rules of thumb and knowledge of what has worked before~\cite{rantanen2012conflictManeuvers,kirwan2001coraStrategies}, with a model-based decision-support approach that replaces the low-fidelity decision rule with one or more higher-fidelity models of aircraft performance, at varying levels of accuracy.
+This enabled the project to (1) build a model of the architecture and the decision-making process, and (2) compare current air traffic management practice, which relies on general rules of thumb and knowledge of what has worked before~\cite{rantanen2012conflictManeuvers,kirwan2001coraStrategies}, with a model-based decision-support approach that replaces the low-fidelity decision rule with one or more higher-fidelity models of aircraft performance, at varying levels of accuracy and information.
 
 The emphasis is on structure, behavior, interfaces, and traceability, not on optimization mathematics. The project's commercial value to the author lies in a better understanding of the systems, their interactions, and the divisions of responsibility that inhibit information flow and lead to sub-optimal outcomes. To explore that in a meaningful way, decision support and optimization are treated as a capability inside the architecture, which following MBSE principles makes possible.
 
-More detailed documentation of the systems and their constituent systems is possible (examples are in Appendix~\ref{app:architecture}), and more formal mathematical models could be used. That effort was judged to be outside the work required to deliver the commercial value to the customer. In keeping with customer-focused MBSE, the project's artifacts are tailored to the customer's needs.
+\aidraft{The two paragraphs below are yours, reworded by Claude for your note ``Reword'' on the 2026-10-13 print (page 15). The claims are unchanged; your originals are in git history (commit 965f5d5).}
+The systems and their constituent systems could be documented in more detail (examples are in Appendix~\ref{app:architecture}), and more formal mathematical models could be used. Neither was needed to deliver the project's commercial value to its customer, so neither was done. The project's artifacts were tailored to the customer's needs, as customer-focused MBSE calls for.
 
-Individual steps in the process were likewise tailored to the author's availability. After an initial literature review, the review continued ad hoc as the work required. A full gate-to-gate concept of operations was constructed informally and refined with publicly available general knowledge of the NAS. No alternative system decompositions were formally explored beyond the initial abstraction decisions. In this way the ISO/IEC/IEEE 15288 technical processes were followed, including the tailoring of those processes to the application that the standard provides for.
+The steps of the process were tailored in the same way, to the time the author had available. The literature review began as one pass and then continued as the work required. The gate-to-gate concept of operations was written informally and refined with publicly available general knowledge of the NAS. No alternative system decomposition was formally explored beyond the initial abstraction decisions. The ISO/IEC/IEEE 15288 technical processes were followed in this tailored form, which the standard provides for.
+% ---- end AI draft
 
 Table~\ref{tab:se-processes} summarizes the systems engineering processes and the artifacts that realize them.
-
-\plantodo{Track C (owner's note, 2026-10-11 print, page 10)}{\textbf{``Check these process steps in the actual doc. Itemized?''} The process names in the first column of Table~\ref{tab:se-processes} were written from memory of ISO/IEC/IEEE 15288 and the INCOSE handbook. The standard is not held (\texttt{references.bib} has a web-only entry). Check each name against the standard's own list of technical processes, and decide whether the table should itemize all of them and mark the ones tailored out.}
 
 \begin{table}[h]
 \centering
@@ -46,24 +50,21 @@ Table~\ref{tab:se-processes} summarizes the systems engineering processes and th
 \toprule
 Process (15288 / INCOSE) & Artifact in this project & Where \\
 \midrule
-Stakeholder needs and requirements & 13 stakeholder requirements, each traced to an objective row & \texttt{requirements\_stakeholders.sysml}; Appendix \\
-System requirements & 23 system requirements, baseline or improved (D-018), allocated to constituent systems; 28 constituent-system requirements one tier down (drafted, not yet reviewed) & \texttt{requirements\_nas\_system.sysml}; \texttt{requirements\_constituent\_systems.sysml} \\
-Architecture definition & Context diagram, internal block diagrams, typed interfaces on the thread (D-019), activity and sequence views & \texttt{cameo\_models/}; Section~\ref{sec:architecture-results} \\
-System analysis & Experiment at three fidelities (D-017), outcome table & \texttt{simulation/}; Sections~\ref{sec:experiment} and~\ref{sec:experiment-results} \\
+Stakeholder needs and requirements & 13 stakeholder requirements, each traced to an objective row & \texttt{requirements\_stakeholders.sysml}; Appendix~\ref{app:architecture} \\
+System requirements & 23 system requirements, allocated to constituent systems; 28 constituent-system requirements one tier down & \texttt{requirements\_nas\_system.sysml}; \texttt{requirements\_constituent\_systems.sysml} \\
+Architecture definition & Context diagram, internal block diagrams, typed interfaces on the thread, activity and sequence views & \texttt{cameo\_models/}; Section~\ref{sec:architecture-results} \\
+System analysis & Experiment at three fidelities, outcome table & \texttt{simulation/}; Sections~\ref{sec:experiment} and~\ref{sec:experiment-results} \\
 Verification & Verification cases for the improved requirements, run by the experiment & \texttt{nas\_verification.sysml} \\
-Validation & Stakeholder-level reading of the outcome table (who pays) & Section~\ref{sec:results} \\
-Technical measurement & MoEs (outcome-table columns), MoPs (requirement measures) & Section~\ref{sec:scoring-method} \\
-Configuration management & Decisions log, model text as the authoritative source (D-006), model freeze & \texttt{decisions-log.md} \\
-Tailoring & D-016 & this subsection \\
+Validation & Stakeholder-level reading of the outcome table (who pays) with MoEs or MoPs & Section~\ref{sec:results} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-% Moved here from the old "Proposed Airline-to-ATC Interface" subsection per the
-% owner's note on the 2026-10-11 print, page 11: "This moves to Section 2.1."
-\plantodo{S10}{Describe the MBSE methodology used to build the architecture in SysML v2 (textual notation authored in Syside Modeler in VS Code, with diagrams as generated views): package organization, view types produced (BDD, IBD, activity, sequence, requirements), and the traceability approach (stakeholder needs $\rightarrow$ objectives $\rightarrow$ requirements $\rightarrow$ systems $\rightarrow$ activities $\rightarrow$ information exchanges $\rightarrow$ aircraft behavior). Note per \texttt{workflows/update-architecture.md} (decision D-006) that the SysML v2 text is the source of truth; Cameo is not used as the source of truth. Describe the working loop (draft, print, hand review, transcribe, apply, log, re-render) and the artifact states 0 to 4 (D-016).}
-
-\plantodo{S6}{\textbf{Decomposition kept, alternatives named.} One paragraph: why the authority / responsibility / information-ownership decomposition (D-002, D-007) was kept, naming the alternatives (organization-based, lifecycle-based, physical, information-flow, decision-authority) and the criterion (which one makes the decider, the information owner and the authority visible on the same picture). Building the alternatives is future work (D-016).}
+% Removed 2026-10-13 as the owner marked on the print, page 15 and 16: the call-out
+% asking for the 15288 process names to be checked (scribbled over; the check
+% itself has not been done), the last three rows of the table ("Remove these 3."),
+% the MBSE-methodology call-out ("Done") and the decomposition call-out ("WNI",
+% will not implement).
 
 \subsection{Working Assumptions}
 \label{sec:assumptions}
@@ -73,43 +74,52 @@ The working assumptions fall into two groups: assumptions about the problem and 
 The problem statement assumes that:
 \begin{itemize}
     \item the abstractions used in the model are sufficient to capture the relevant behavior of the system;
-    \item the stakeholders' objectives are comprehensively captured and accurately represented in the model.
+    \item the stakeholders' objectives are comprehensively captured and accurately represented in the model;
+    \item the scenario is sufficient to explore the potential benefit of interconnected MBSE.
 \end{itemize}
 
 Every abstraction was made with the express goal of capturing the relevant behavior of the system, as defined by the stakeholders' objectives. The System of Interest, the NAS as a system of systems, was ratified around the trajectory-intent lifecycle, from enterprise objectives through aircraft motion. An entity is modeled when it has distinct decision authority or execution behavior that is dynamically coupled to in-scope decisions and materially affects cost, safety, workload, schedule reliability, or passenger value. Boundary actors supply objectives, demand, feedback, or rules without being decomposed as decision mechanisms. Exogenous influences enter as constraints or scenario parameters. This criterion preserves the authority and responsibility relationships a system-of-systems architecture needs without expanding the project into a model of every NAS participant.
 
-The methodology does not assume that the proposed methods are better; that is what the experiment tests. It assumes that:
+The methodology assumes that:
 \begin{itemize}
     \item models of every required aircraft type are available;
     \item the security concerns of sharing airline data can be mitigated;
-    \item the proposed interface can be implemented in the NAS;
-    \item digital communication channels exist between the airline and ATC;
+    \item the proposed interface can be implemented in the NAS over digital communication channels between the airline and ATC, between the aircraft and ATC, or both;
+    \item the airline reports its weight and cost index accurately;
+    \item the conflict can be treated as a snapshot, with the traffic unchanged while the decision is made;
     \item the specific scenario presented in the experiment is representative of a larger set of scenarios that generalize to the NAS as a whole.
 \end{itemize}
 
-% Owner's note on the "Limits" call-out in Results, 2026-10-11 print, page 19:
-% "Add to assumptions."
-\aidraft{Limits of the experiment, moved here from the Results section (owner's note: ``Add to assumptions''). The items are those of the old ``Limits'' call-out. The misreporting figure has no registered source yet.}
-The last of these assumptions carries the most weight, and the following limits bound it:
-\begin{itemize}
-    \item Conflicts between two aircraft crossing at the same level are a minority of conflicts: 36 of 256 in the operational data of \textcite{rantanen2012conflictManeuvers}.
-    \item The experiment uses one invented en-route sector and four aircraft.
-    \item The conflict is a static snapshot; the traffic does not evolve while the decision is made.
-    \item The rule that limits climbs when the weight is unknown is a single threshold (FL350) applied to every aircraft type.
-    \item The airline is assumed to report its weight and cost index truthfully. An airline could misreport what it shares.
-\end{itemize}
-The simplifications inside the aircraft performance model are listed separately in Section~\ref{sec:scoring-limits}.
-% ---- end AI draft
+\plantodo{Track C (owner's note, 2026-10-13 print, page 16)}{Beside the interface and communication-channel assumptions, now one item: \textbf{``Combine. Later cite EPP, value for [CI/GW], BADA4 for API models?''} ``CI/GW'' (cost index and gross weight) is Claude's reading of the handwriting. BADA 4 is not in \texttt{evidence/source-register.md}.}
 
-\plantodo{Track C}{\textbf{Misreporting.} Cite the 1 to 3 percent figure for the last limit once that source is registered in \texttt{evidence/source-register.md}.}
+% The list of limits that stood here (AI-drafted 2026-10-11) is taken apart as
+% the owner marked on the 2026-10-13 print, pages 16 and 17: its lead-in sentence
+% is struck; the static-snapshot and truthful-reporting items are reworded into
+% the list above ("reword & add to primary list"; "Accurate info. Move to primary
+% list."); the first two items are discussion ("Add to discussion instead of the
+% list."); the climb rule now cites its source ("Cite source."); the sentence on
+% the aircraft model's simplifications sits with the accuracy item ("Move to
+% discussion regarding accuracy bullet, above."). The call-out asking for a
+% source for a 1 to 3 percent misreporting figure is removed (scribbled over).
+The scenario stands for a narrow set of conflicts. Conflicts between two aircraft crossing at the same level are a minority of conflicts: 36 of 256 in the operational data of \textcite{rantanen2012conflictManeuvers}. The experiment uses one invented en-route sector and four aircraft. The rule that limits climbs when the weight is unknown is a single threshold (FL350) applied to every aircraft type; it is the modeling assumption of an earlier study, which limited climbs in that way because it did not model aircraft weight~\cite{engility2014tasarAlaska}.
+
+The assumption of accurate information has two parts. An airline could misreport what it shares. The aircraft performance model that turns the shared weight into a cost is itself simplified, and its simplifications are listed separately in Section~\ref{sec:scoring-limits}.
+
+\aidraft{One sentence offered for the misreporting point, not asked for on the print. The source was read in full by Claude on 2026-10-11 and not by you; it concerns flow programs before departure, not a conflict in cruise. Keep it, or strike it.}
+The risk is documented for a related exchange: where an airline states the relative cost of its route options to the FAA's flow-management automation, the airline would reduce its delays by stating a very high cost~\cite{kulkarni2019ctopSlotSubstitution}.
+% ---- end AI draft
 
 \subsection{Proposed Airline-to-ATC Interface}
 \label{sec:proposed-interface}
 
+\plantodo{Track C (owner's question, 2026-10-13 print, page 17)}{\textbf{``This shouldn't be its own section here. Where would this fit?''} Not moved; the choice is yours. Claude's suggestion: the proposal is a result of the architecture work, so put it in Section~\ref{sec:architecture-results} as the improved architecture, next to the baseline diagrams, and leave one sentence in Section~\ref{sec:experiment-method} that says cases C and D use it. The other candidate is Section~\ref{sec:experiment-method} itself, which keeps it ahead of the experiment that depends on it.}
+
 \plantodo{Track C (D-019)}{\textbf{Name the digital-thread artifact.} Describe \texttt{AirlinePerformanceShare}: what it carries (gross weight, cost index, connection priority; thrust, drag and fuel-flow model identifiers present but not exercised), who sends it (airline operations center or FMS), who receives it (ATC decision support, per D-012 owned by the system that decides), and which requirements it satisfies (SLR-INF-02) and the goal it serves (SLR-CLR-13). State that security is an assumption. \textbf{Owner's note, 2026-10-11 print: ``important to do''} --- position it against ADS-C EPP and Coppenbarger's Table 2 (the same items, a different receiver); a first draft of that positioning follows.}
 
-\aidraft{Positioning against prior work (the item you marked ``important to do''). The Coppenbarger and Schultz statements are from \texttt{decisions/decisions-log.md} D-019, which cites Table 2 and page 2 of those papers. The ADS-C EPP sentence rests on \texttt{sesarju2019solutionsCatalogue}, registered from its title page and contents only: read the entry for the solution before keeping the sentence.}
-The items the interface carries are not new. \textcite{coppenbarger1999climbPrediction} listed take-off weight, thrust and drag factors, and the speed profile as candidates for exchange between an airline and air traffic control, and measured what airline-supplied weight does for the prediction of a climb. In Europe, the Extended Projected Profile sent over ADS-C downlinks the trajectory the flight management system predicts~\cite{sesarju2019solutionsCatalogue}. What has kept the items out of use is ownership, not feasibility: weight and speed intent ``are considered competitive parameters by airlines and are not available for use''~\cite{schultz2012adaptiveClimb}.
+% The AI-DRAFTED call-out that stood here is removed (scribbled over on the
+% 2026-10-13 print, page 17); the owner's edits to the two paragraphs are applied.
+% Still true of the second sentence: the ADS-C EPP statement rests on
+% sesarju2019solutionsCatalogue, registered from its title page and contents only.
+The items the interface carries are not new. \textcite{coppenbarger1999climbPrediction} listed take-off weight, thrust and drag factors, and the speed profile as candidates for exchange between an airline and air traffic control, and measured what airline-supplied weight does for the prediction of a climb. In Europe, the Extended Projected Profile is sent over ADS-C to downlink the trajectory that the flight management system predicts~\cite{sesarju2019solutionsCatalogue}. What has kept the items out of use is ownership, not feasibility: weight and speed intent ``are considered competitive parameters by airlines and are not available for use''~\cite{schultz2012adaptiveClimb}. A second obstacle is the availability of first-principles data for each aircraft type: thrust, drag and fuel flow.
 
-The proposal here keeps the items and changes the receiver and the purpose. In the earlier work the data feeds a trajectory predictor, to make the prediction of one aircraft's path more accurate. Here it feeds the decision support of the party that chooses which aircraft to move, to change the choice. The interface is typed in the model, tagged as part of the improved architecture, and tied to the requirement it satisfies, so the report can point at a model element where the earlier work has a finding in prose. Confidentiality is stated as an assumption: the data is disclosed only to the deciding party, and no security mechanism is modeled.
-% ---- end AI draft
+The proposal here keeps the items and changes the receiver and the purpose. In the earlier work the data feeds a trajectory predictor, to make the prediction of one aircraft's flight path more accurate. Here it feeds the decision support of the party that chooses which aircraft to move, to change the choice. This provides for asking ``what if'' within a mathematical framework. The interface is typed in the model, tagged as part of the improved architecture, and tied to the requirement it satisfies, so the report can point at a model element where the earlier work has a finding in prose. Confidentiality is stated as an assumption: the data is disclosed only to the deciding party, and no security mechanism is modeled.

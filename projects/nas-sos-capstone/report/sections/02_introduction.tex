@@ -1,5 +1,5 @@
 % !TEX root = ../main.tex
-\section{Introduction and Current State}
+\section{Introduction}
 \label{sec:introduction}
 
 % Revised 2026-10-11 from the owner's hand review of the printed report
@@ -7,8 +7,13 @@
 % edited for spelling and sentence sense at the owner's request; passages between
 % \aidraft{...} and "% ---- end AI draft" were drafted by Claude and are the
 % owner's to rewrite.
+% Revised again 2026-10-13 from the owner's hand review of the second print
+% (handwritten/2026-10-13_main.md): "Current State" is its own subsection, the
+% stakeholder and system exploration are separate subsections, the objectives
+% discussion moved here from Results, and the August milestone table moved to
+% Project Timing with a status column.
 
-\irtwo{Introduction. Interim Report \#2 re-submits this section updated. Status after the 2026-10-11 review: (1) the mid-September ``current state'' paragraphs in Section~\ref{sec:litreview} are replaced by an AI-drafted October version for the owner to rewrite; (2) the research-gap placeholder below still needs the owner's paragraph; (3) the project timing subsection should show the nine turns, not only the August table.}
+\irtwo{Introduction. Interim Report \#2 re-submits this section updated. Status after the 2026-10-13 review: (1) the current state of the project is now its own subsection (Section~\ref{sec:current-state}), reviewed by the owner on the 2026-10-13 print; (2) the research-gap placeholder below still needs the owner's paragraph; (3) the project timing subsection should show the nine turns, not only the August table; (4) one row of Table~\ref{tab:project-timing} has no status yet.}
 
 \plantodo{Track C (D-016, D-017)}{\textbf{State the two claims here, briefly, and again in the Executive Summary} (owner's note on the old ``Two Claims'' subsection: ``Why make this its own section? Shouldn't these be embedded within the Exec Summary and Intro, probably duplicated?''). Claim 1, explored by the experiment: replacing the decider's low-fidelity rule of thumb with a higher-fidelity model fed by weight and cost index across the airline-to-ATC interface changes which aircraft is moved and lowers total system cost (whether one extra clearance is worth it is a result, not an assumption). Claim 2, shown by the model: the architecture locates that interface, names who owns the decision and the data, states the unmet requirement, and lets the scoring model's fidelity be swapped (conceptual, nominal mass, actual mass) with the structure unchanged. The simulation would give the same numbers without the model; say so, and say what the model contributes that the numbers do not.}
 
@@ -52,13 +57,13 @@ As a result, no broadly applicable architecture fully captures how strategic obj
 
 This project addresses that gap by developing a System-of-Systems architecture that explicitly models the propagation of intent through the NAS, from enterprise objectives and airspace management decisions to flight deck decision-making and aircraft trajectory execution.
 
-\subsection{Review of Current State Design / Literature Review}
+\subsection{Literature Review}
 \label{sec:litreview}
 
 \plantodo{S2--S4}{Synthesize (do not merely list) findings from the three literature-review tracks: airline planning and operations (schedule planning, fleet assignment, crew scheduling, maintenance routing), day-of-operations and turnaround (A-CDM, weight and balance), and OCC/dispatch and flight execution (disruption management, dispatcher responsibilities, nominal ATC/IFR flow). Pull from per-source annotations captured via the literature-review workflow into \texttt{evidence/source-register.md} rather than re-deriving them here. Identify the research gap this capstone addresses (see also to-do-list.md S16 ``Research gap'').}
 
 % ---- Placeholder added 2026-10-10 (AI-drafted scaffolding, not report prose).
-\plantodo{Track C (research gap)}{\textbf{What this project adds that prior work does not.} The opportunity itself is documented: \cite{coppenbarger1999climbPrediction} measured what airline-supplied weight does for climb prediction; SESAR's ADS-C EPP downlinks the FMS's predicted profile; \cite{engility2014tasarAlaska} gives the aircraft a picture of the traffic. State the three things this project does that those do not: (1) scores one decision at four stakeholder levels side by side (aircraft, airline, sector, system) with no weighted sum, so who pays is visible; (2) maps the decision to its authority and its information owner in a system-of-systems model, so the missing exchange is a named interface (\texttt{AirlinePerformanceShare}, D-019) and an unmet requirement (SLR-INF-02, D-018), not a finding in prose; (3) swaps the scoring model's fidelity under a fixed architecture (D-017), which is the MBSE claim.}
+\plantodo{Track C (research gap)}{\textbf{What this project adds that prior work does not.} The opportunity itself is documented: \cite{coppenbarger1999climbPrediction} measured what airline-supplied weight does for climb prediction; SESAR's ADS-C EPP downlinks the FMS's predicted profile; \cite{engility2014tasarAlaska} gives the aircraft a picture of the traffic. State the three things this project does that those do not: (1) scores one decision at four stakeholder levels side by side (aircraft, airline, sector, system) with no weighted sum, so who pays is visible; (2) maps the decision to its authority and its information owner in a system-of-systems model, so the missing exchange is a named interface (\texttt{AirlinePerformanceShare}, D-019) and an unmet requirement (SLR-INF-02, D-018), not a finding in prose; (3) swaps the scoring model's fidelity under a fixed architecture (D-017), which is the MBSE claim. \textbf{Owner's note, 2026-10-13 print, beside these three items: ``This needs to be clear in my models.''}}
 % ---- end placeholder 2026-10-10
 
 % ---- Placeholders added 2026-10-09 (AI-drafted scaffolding, not report prose).
@@ -75,29 +80,34 @@ This project addresses that gap by developing a System-of-Systems architecture t
 \plantodo{S11 (context) -- SOURCES NOT YET HELD}{\textbf{Aviation emissions and what they cost whom.} Needed before Sections~\ref{sec:results} and~\ref{sec:impact} can discuss emissions: (a) the CO2 produced per kg of jet fuel, with a citation (now held: \cite{icao2024icecMethodology}); (b) whether any carbon-pricing or offsetting scheme applies to a U.S. domestic flight, and a dated price; (c) a study of how emissions labels on flight listings affect passenger choice; (d) a social cost of carbon for the system-level discussion. Items (b) to (d) are not in \texttt{evidence/sources/}.}
 % ---- end placeholders 2026-10-09
 
-% The three paragraphs the owner struck on the 2026-10-11 print (the mid-September
-% status: "off-track, but recoverable"; "at risk of analysis paralysis"; "state
-% machines ... by 9/15") are removed. They are in git history (commit 2b0b038).
-% The two paragraphs below were left unstruck and are the owner's, lightly edited.
+\subsection{Current State}
+\label{sec:current-state}
 
-Time spent developing the Concepts of Operations also affected other work. For a period the project lacked a specific focus for which tradeoffs it would consider. The project is not an exploration of optimization, but its concept centers on sub-optimality driven by myopic decisions. The concepts of operations gave a more complete understanding of the NAS, the systems involved, and the interfaces among them, but they did not by themselves point to a specific scenario worth modelling.
+% Subsection made 2026-10-13 (owner's notes on the print: "and Current State" in
+% the section title, "Move to sub-section."; "1.3 Current state" beside the first
+% paragraph below). The three mid-September paragraphs the owner struck on the
+% 2026-10-11 print are in git history (commit 2b0b038). The owner scribbled over
+% both AI-DRAFTED call-outs on the 2026-10-13 print, so they are removed; the
+% passages they marked are below with the owner's edits applied.
+
+For a period the project lacked a specific focus for which tradeoffs it would consider. The project is not an exploration of optimization, but its concept centers on sub-optimality driven by myopic decisions. The concepts of operations gave a more complete understanding of the NAS, the systems involved, and the interfaces among them, but they did not by themselves point to a specific scenario worth modelling.
 
 The pivot from Phase 1 exploration to Phase 2 modelling was made to advance the project deliverables while building a deeper understanding of the information gaps. The intent was that when the modelling reached the measures of effectiveness and performance, the stakeholders' objectives would be revisited and a more targeted consultation of the literature could occur.
 
-\aidraft{How the pivot helped (owner's note: ``Talk about how this helped''). Drawn from \texttt{decisions/decisions-log.md} D-012, D-016, D-018 and D-019 and the journal. Check each claim against what you would say yourself.}
-That is what happened. Building the model forced questions the literature review alone had not: who owns the decision support for a trajectory change, which party holds the information that decision needs, and whether an exchange between them exists. Answering them located one specific gap. The sector controller decides which aircraft to move in a conflict, the airline and the flight management system hold the aircraft's weight and cost index, and no exchange carries one to the other. That gap is now a named interface in the model (\texttt{AirlinePerformanceShare}) and an unmet requirement, not a general statement about stovepipes. The literature consultation that followed was targeted in the way the pivot intended: sources on controller conflict-resolution practice, on climb prediction with airline-supplied weight, and on traffic-aware flight-deck requests were found and read because the model and the experiment needed them.
+Building the model raised questions the literature review alone had not: who owns the decision support for a trajectory change, which party holds the information that decision needs, and whether an exchange between them exists. Answering them located one specific gap. The sector controller decides which aircraft to move in a conflict, the airline and the flight management system hold the aircraft's weight and cost index, and no exchange carries one to the other. That gap is now a named interface in the model (\texttt{AirlinePerformanceShare}) and an unmet requirement. The literature consultation that followed was targeted in the way the pivot intended: sources on controller conflict-resolution practice~\cite{rantanen2012conflictManeuvers,kirwan2001coraStrategies,fothergill2013resolutionHeuristics}, on climb prediction with airline-supplied weight~\cite{coppenbarger1999climbPrediction}, and on traffic-aware flight-deck requests~\cite{engility2014tasarAlaska} were found and read because the model and the experiment needed them.
+
+\aidraft{Two sentences added for your note ``cite new papers w/ specific facts (TASAR, Mori)''. The figures are from Claude's reading notes in \texttt{evidence/literature-notes/summaries/} (TASAR pp.~8 and~12; Mori p.~1 and its results), not from your own reading. Check them against the papers and choose the facts you want.}
+The traffic-aware requests study, for example, reported a saving of 27 gallons of fuel and 2.3 minutes per flight in its typical case, and it limited climbs to FL350 and below because it did not model aircraft weight~\cite{engility2014tasarAlaska}. \textcite{mori2022massCruise} starts from the same absence: aircraft mass is usually not openly available because airlines treat it as confidential, so it estimates the mass from the cruise profile, with a mean absolute error of 3.29 percent over 39 flights of one aircraft type.
 % ---- end AI draft
 
-\aidraft{Current state of the project, October 2026. Replaces the struck mid-September paragraphs. Every number is from \texttt{task-board.md} and \texttt{journal/2026-10-11.md}; update them on the day of submission. Confirm what you want to say about state machines.}
 The project is now organized as four parallel tracks (model, experiment, report, and evidence on demand) worked in nine one-week turns that end on 2026-12-13. This plan replaced the single-pass August list on 2026-10-10. One traced thread carries the project: the airline's cost objective, the stakeholder and system requirements that follow from it, the airline-to-ATC interface, the conflict-resolution decision, and the experiment that scores that decision.
 
 The requirements have been through two hand reviews and now stand at 13 stakeholder requirements and 23 system requirements, each limited to what bears on the studied decision. A third tier of 28 constituent-system requirements is drafted and not yet reviewed. The model holds the context diagram, an aircraft internal block diagram that has been hand reviewed, an airspace management internal block diagram that is still a placeholder, a draft nominal-flight activity diagram, and the typed airline-to-ATC interface. The state machines the original plan scheduled for 9/15 have not been built.
 
-The experiment is defined and runs end to end. Four aircraft in one en-route sector present one crossing conflict, and four cases resolve it with different information: a controller's rule, automation with one nominal weight per aircraft type, automation with the shared weight and cost index, and the same with connection information. An open aircraft performance model, OpenAP, scores every option. The first results are in Section~\ref{sec:experiment-results} and are preliminary: the scenario's numbers are not all confirmed.
-% ---- end AI draft
+The experiment is defined and runs end to end. Four aircraft in one generic, overly simplified en-route sector present one crossing conflict, and four cases resolve it with different information: a controller's rule, automation with one assumed nominal weight per aircraft type, automation with the shared weight and cost index, and the same with passenger connection information. An open aircraft performance model, OpenAP, scores every option. The first results are in Section~\ref{sec:experiment-results} and are preliminary.
 
 
-\subsection{Stakeholders}
+\subsection{Stakeholder Selection}
 \label{sec:stakeholders}
 
 \plantodo{S7}{Identify key project stakeholders (individuals/organizations affected by or perceiving themselves affected by NAS operational decisions). Draw on the PESTLE stakeholder discovery, stakeholder register, and RACCI matrix from to-do-list.md S7. Confirm the stakeholder set is diverse (airline, passenger, ATC/ANSP, airport, flight crew, environmental/societal, military -- see S8's per-stakeholder objective categories) and that stakeholders with little formal power (e.g., passengers, communities affected by noise/emissions) are represented.}
@@ -107,46 +117,15 @@ I created the \texttt{capstone\_stakeholder\_assessment.xlsx} file with an initi
     \item the stated interest, and whether it acts as a hard constraint, an optimization objective, a cost or penalty, a measure of performance (MOP), or a measure of effectiveness (MOE);
     \item candidate MOPs and MOEs;
     \item whether the stakeholder has a direct or indirect effect on trajectory decisions, if any;
-    \item whether the stakeholder should stand alone or be consolidated with another, and the reason.
+    \item whether the stakeholder should stand alone or be abstracted through consolidation with another, and the reason.
 \end{itemize}
 
-Figure~\ref{fig:stakeholders-exploration} shows the candidate stakeholders first identified, and Figure~\ref{fig:stakeholders-power-interest} places them by power and interest.
+\aidraft{Expansion of the paragraph above (your notes: ``expand''; ``Add excerpt or put in Appendix and reference''). Every figure is read from the workbook's ``Stakeholder Assessment'' and ``Decision Guide'' sheets. The excerpt is Table~\ref{tab:stakeholder-assessment-excerpt}; Claude chose its rows.}
+The assessment holds 48 candidate stakeholders, grouped by the six domains of a PESTLE analysis (political, economic, social, technological, legal, environmental). Each candidate is scored from two judgments. The first is its importance as a stakeholder in its own right: high (3), medium (2) or low (1). The second is whether a trajectory decision changes its objective: directly (2), indirectly (1) or not at all (0). A total of 5 marks a stakeholder to keep on its own, 3 or 4 one to consider or to consolidate with another, and 1 or 2 one to treat as an input at the boundary or to leave out. An excerpt is in Appendix~\ref{app:stakeholders}, Table~\ref{tab:stakeholder-assessment-excerpt}.
+% ---- end AI draft
 
-\begin{figure}[htbp]
-\centering
-\figorbox{stakeholders_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_exploration.png}}
-\caption{Candidate stakeholders of the NAS as a system of systems (initial exploration).}
-\label{fig:stakeholders-exploration}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\figorbox{stakeholders_impact_power_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_impact\_power\_exploration.png}}
-\caption{Candidate stakeholders placed by power and interest.}
-\label{fig:stakeholders-power-interest}
-\end{figure}
-
-This led to the following list of stakeholders relevant to the project:
-\begin{itemize}
-    \item Governments / Standards Organizations
-    \item Operators (Airlines, Charter Operators, Cargo Operators)
-    \item Air Traffic Control (ATC)
-    \item Aircraft and Engine Manufacturers
-    \item Airport Authority
-    \item Flight Crew
-    \item Passengers
-    \item Environmental/Societal Organizations
-\end{itemize}
-
-The aircraft is treated alongside these stakeholders as a constituent system. Figure~\ref{fig:sos-exploration} shows the systems first identified within the NAS, with the aircraft decomposed furthest.
-
-\begin{figure}[htbp]
-\centering
-\figorbox[\textwidth]{system_of_systems_detailed_exploration.png}{MISSING: \texttt{report/figures/system\_of\_systems\_detailed\_exploration.png}}
-\caption{The NAS as a system of systems: candidate constituent systems (initial exploration).}
-\label{fig:sos-exploration}
-\end{figure}
-
+% Objectives list moved up from the end of this subsection, 2026-10-13 (owner's
+% note, print page 10: "Move up near talk about xlsx").
 An exploration of each stakeholder's interests led to the following list of objectives relevant to the project:
 \begin{itemize}
     \item Safety / Security
@@ -163,85 +142,182 @@ An exploration of each stakeholder's interests led to the following list of obje
     \item Workload / Human Factors
 \end{itemize}
 
+% The eight-item list "This led to the following list of stakeholders relevant to
+% the project" is removed (owner's note, 2026-10-13 print, page 7: "This is the
+% starting point, which becomes redundant w/ the image."). It is in git history.
+\aidraft{How the list in Figure~\ref{fig:stakeholders-exploration} was formed (your note: ``Add verbiage about how early literature review readings and SME background informed formulation of the list of stakeholders shown in Figure 1''). Claude knows the list was seeded by a PESTLE pass (\texttt{knowledge/models/stakeholder-register.md}); which readings and which parts of your experience shaped it is yours to say. The two sources named are ones the Introduction already cites.}
+The candidates in Figure~\ref{fig:stakeholders-exploration} were the starting point. They came from a PESTLE pass over the NAS, from early readings on airline operations control and disruption management~\cite{castro2013aoccMasThesis,hassanDisruptionReview}, and from the author's experience in the flight management system industry, which supplied the parties that sit between an airline's plan and the trajectory the aircraft flies.
+% ---- end AI draft
+
+\begin{figure}[htbp]
+\centering
+\figorbox{stakeholders_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_exploration.png}}
+\caption{Candidate stakeholders of the NAS as a system of systems.}
+\label{fig:stakeholders-exploration}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\figorbox{stakeholders_impact_power_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_impact\_power\_exploration.png}}
+\caption{Candidate stakeholders placed by power and interest.}
+\label{fig:stakeholders-power-interest}
+\end{figure}
+
+% Sentence moved to after the two figures, 2026-10-13 (owner's note, print page 7:
+% "Move to after images").
+Figure~\ref{fig:stakeholders-exploration} shows the candidate stakeholders first identified, and Figure~\ref{fig:stakeholders-power-interest} places them by power and interest.
+
+\aidraft{What happened to two groups in Figure~\ref{fig:stakeholders-power-interest} (your note: ``Talk about how context setters became part of the environment by defining the regulatory environment. Describe how Airports were included b/c of [streaming] and capacity's relevance for decision making and representation in scenario was weak''). ``Streaming'' is Claude's reading of one handwritten word; correct it. The statement that no airport constraint acts on the scenario is Claude's, from \texttt{simulation/scenario\_base.yaml}.}
+The context setters of Figure~\ref{fig:stakeholders-power-interest}, governments and regulators, became part of the environment. They define the regulatory environment in which the modeled systems operate, and they enter the model as rules, not as parties to an operational decision. Airports are placed among the subjects in Figure~\ref{fig:stakeholders-power-interest} and were nonetheless kept as a modeled system, because the streaming of traffic into an airport and the airport's capacity bear on trajectory decisions. Their representation in the experiment's scenario is weak: the scenario is one conflict in cruise, and no airport constraint acts on it.
+% ---- end AI draft
+
+\subsection{System Identification and Selection}
+\label{sec:systems-selection}
+
+% Subsection made 2026-10-13 (owner's note on Figure 3, print page 9: "These are
+% systems, not stakeholders. Move! 'System Identification & Selection'?").
+The aircraft is treated alongside the stakeholders as a constituent system. Figure~\ref{fig:sos-exploration} shows the systems first identified within the NAS, with the aircraft decomposed furthest, as its systems and their performance dictate the cost of each flight.
+
+\begin{figure}[htbp]
+\centering
+\figorbox[\textwidth]{system_of_systems_detailed_exploration.png}{MISSING: \texttt{report/figures/system\_of\_systems\_detailed\_exploration.png}}
+\caption{The NAS as a system of systems: candidate constituent systems.}
+\label{fig:sos-exploration}
+\end{figure}
+
 \subsection{Scope}
 \label{sec:scope}
 
 % Owner's note, 2026-10-11 print, page 7: "Leave larger list above, discuss
 % de-scoping decisions here & include the final list/diagram." The strikes and
-% margin notes on page 6 are the content below.
+% margin notes on page 6 are the content below. Revised 2026-10-13 from the
+% second print, pages 10 and 11: the kept stakeholders are named as on the context
+% diagram, the reasons for profitability, reliability, maintenance and lifecycle
+% cost and for throughput and capacity are the owner's handwritten ones, and the
+% throughput call-out the owner scribbled over is removed.
 
-\aidraft{De-scoping decisions and the final lists (owner's note: ``Leave larger list above, discuss de-scoping decisions here and include the final list/diagram''). The reasons in quotation marks are your margin notes. Where your print struck an item without a reason, the reason given here is Claude's reading of the boundary criterion in Section~\ref{sec:se-approach} and is flagged in the list that follows this passage.}
-The lists in Section~\ref{sec:stakeholders} are the result of exploration. The study itself is narrower. It examines one tactical decision, the resolution of a conflict between aircraft in cruise, and keeps only the stakeholders and objectives that bear on that decision.
+\aidraft{De-scoping decisions and the final lists (owner's note: ``Leave larger list above, discuss de-scoping decisions here and include the final list/diagram''). The reasons in quotation marks are your margin notes. On the 2026-10-13 print you supplied the reasons for profitability, reliability, maintenance and lifecycle cost, and throughput and capacity; they are below in your words. Still Claude's reading, not yours: the reason given for the four stakeholders, and the reason given for security, resilience and regulatory compliance.}
+The stakeholders, objectives and systems of Sections~\ref{sec:stakeholders} and~\ref{sec:systems-selection} are the result of exploration. The study itself is narrower. It examines one tactical decision, the resolution of a conflict between aircraft in cruise, and keeps only the stakeholders and objectives that bear on that decision.
 
-Four stakeholders remain, together with the aircraft: operators (the airline), air traffic control, the airport authority, and the flight crew. Governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations are outside the System of Interest. They supply rules, equipment, demand, and expectations to the decision but do not make it or execute it, so they are treated as boundary actors and not decomposed.
+Four stakeholders remain, together with the aircraft, and each appears on the context diagram (Figure~\ref{fig:sysml-systemContext}): operators, as flight operations and its airline operations center; air traffic control, within airspace management; the airport authority, as airport operations; and the flight crew. The aircraft appears as aircraft systems. Governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations are outside the System of Interest. They supply rules, equipment, demand, and expectations to the decision but do not make it or execute it, so they are treated as boundary actors and not decomposed.
 
-Six objectives remain: safety, efficiency, environmental impact, schedule reliability, cost, and workload. Schedule reliability is carried in the experiment as a step in cost when a flight's delay passes a threshold (the parameter $K$ of Section~\ref{sec:scoring-method}). The others were set aside for the following reasons. Noise impact: the measure is ``not relevant at cruise.'' Passenger satisfaction: ``not measurable objectively.'' Security, profitability, reliability and resilience, maintenance and lifecycle cost, and regulatory compliance are not changed by the choice between resolution options in the scenario.
+Six stakeholder objectives remain: safety, efficiency, environmental impact, schedule reliability, cost, and workload. Schedule reliability is carried in the experiment as a step in cost when a flight's delay passes a threshold (the parameter $K$ of Section~\ref{sec:scoring-method}). The others were set aside for the following reasons. Noise impact: the measure is ``not relevant at cruise.'' Passenger satisfaction: ``not measurable objectively.'' Profitability falls out of the other objectives; it is tracked at the operator's organizational level and is more complex than any one decision. Reliability is captured with schedule reliability. Maintenance and lifecycle cost are largely determined by the number of flight cycles, the chosen takeoff performance, the flight distance and the climb controls, so one air traffic control decision has a negligible effect on them. Security, resilience and regulatory compliance are not changed by the choice between resolution options in the scenario. Throughput and capacity were left for another study. They are also close to ongoing work by the author, and out of an abundance of caution that part of the problem space was avoided.
 
 Figure~\ref{fig:sysml-systemContext} is the resulting System of Interest as modeled: the constituent systems kept and the exchanges among them.
 % ---- end AI draft
 
-\plantodo{S1 (owner's open question, 2026-10-11 print, page 6)}{\textbf{``Why am I ignoring throughput/capacity, which would benefit from an improved ACM?''} Answer this here before throughput/capacity is listed as out of scope: either give the reason it is set aside for this study, or bring it back as an objective and say how the experiment would measure it. Also confirm or replace the reasons Claude supplied above for the four stakeholders and for security, profitability, reliability/resilience, maintenance/lifecycle cost and regulatory compliance: your print struck these without a note.}
-
 \input{figures/sysml/fig-systemContext}
+
+\subsection{Stakeholder Objectives}
+\label{sec:objectives-results}
+
+% Drafted 2026-10-11 for the owner's note "DO" (print page 17) as a subsection of
+% Results; moved here 2026-10-13 (owner's note, print page 26: "Move to earlier
+% section that discusses objectives?"). It follows Scope because it speaks only
+% of the stakeholders and objectives kept there.
+\aidraft{What ``optimal'' means to each stakeholder, and where the objectives conflict (your note: ``DO''). Source: the synthesis section of \texttt{knowledge/models/stakeholder-objective-ontology.md}, whose own status note says the classifications are judgment calls not yet sourced from annotated literature. Limited here to the stakeholders and objectives kept in Section~\ref{sec:scope}.}
+Each stakeholder kept in scope pursues a different objective when an aircraft's trajectory is changed. The airline wants the lowest cost for its flights, which combines fuel, time, and the consequences of a late arrival for connecting passengers. Air traffic control wants separation assured with a workload the sector team can sustain, and a traffic picture that stays predictable. The flight crew wants instructions the aircraft can fly, given with enough time to set them up.
+
+Some of these objectives align. Burning less fuel lowers the airline's cost and lowers carbon dioxide emissions together. Air traffic control's wish for predictability and the airline's wish to keep its schedule both favor aircraft that fly what was planned.
+
+Others conflict, and the conflict this project studies is the first of them: the trajectory that is cheapest for one aircraft is not always the one that costs the sector least to grant. A request or a resolution that saves fuel for one flight can add instructions, monitoring, and follow-up for the controller. That cost is externalized. It does not appear in the airline's own cost function, and the party that bears it has no means to price it back.
+
+The objectives also operate on different timescales. An airline sets its schedule policy over months, realizes fuel cost per flight, and realizes delay cost in minutes. Air traffic control manages capacity over years through sector design and over seconds through tactical control. A decision made in minutes by one party is judged against objectives the others hold on other clocks.
+% ---- end AI draft
 
 \subsection{Project Deliverables}
 \label{sec:deliverables}
 
 \plantodo{S10, S14, S16}{State the goals and deliverables: the SysML reference architecture, the traceability chain from stakeholder needs to aircraft-level behavior, and the experiment (Section~\ref{sec:experiment}). Include the quantifiable measures used to assess success (e.g., traceability coverage, stakeholder coverage, demonstration of a local-vs-SoS tradeoff).}
 
-The following deliverables were established for the project at its inception:
+% Owner's note, 2026-10-13 print, page 13: the two sentences that stood here are
+% struck; beside them "Context, [bdd], ibd, activities, requirements, experiment &
+% traceability chain & gap analysis. Have Claude propose a table."
+\aidraft{Proposed deliverables table (your note: ``Have Claude propose a table''). The eight rows are your list; Claude read its second word as ``bdd''. The middle and right columns are Claude's proposal. No block definition diagram or requirements view is rendered yet, and the trace table and the gap analysis are not written: the table says where each will go, not that it is there.}
+The project delivers the eight items of Table~\ref{tab:deliverables}.
 
 \begin{table}[htbp]
 \centering
 \small
-\caption{Project milestones and verification methods}
-\label{tab:project-timing}
-\begin{tabular}{|p{0.19\textwidth}|p{0.19\textwidth}|p{0.12\textwidth}|p{0.16\textwidth}|p{0.22\textwidth}|}
-\hline
-\textbf{Project Milestone} & \textbf{Deliverable} & \textbf{Lead/Team Member} & \textbf{Expected Completion Date} & \textbf{Target Metric/Verification Method} \\
-\hline
-Literature Review & Annotated bibliography & Owen & 9/7/2026 & 10--20 papers categorized \\
-\hline
-PESTLE Analysis \& Systems-of-Interest Definition & Context diagram, text-based documentation & Owen & 9/10/2026 & Review \\
-\hline
-Systems-of-Interest Definition & Text-based documentation & Owen & 9/15/2026 & Clear boundaries and exclusions \\
-\hline
-Operational Scenarios & ConOps document & Owen & 9/22/2026 & 1--3 representative scenarios \\
-\hline
-Draft Architecture & BDDs and package structure & Owen & 10/1/2026 & All domains represented \\
-\hline
-Interface Definition & Interface Control Document & Owen & 10/12/2026 & All interfaces identified \\
-\hline
-Internal Block Diagrams & IBDs & Owen & 10/17/2026 & Critical interfaces connected \\
-\hline
-Requirements Definition & Requirements model & Owen & 10/20/2026 & Trace to stakeholders \\
-\hline
-Measures of Effectiveness & MOE/MOP hierarchy & Owen & 10/25/2026 & Quantifiable metrics defined \\
-\hline
-Requirement Traceability & Requirements matrix & Owen & 10/29/2026 & Complete allocation \\
-\hline
-Activity Diagrams & Operational activities & Owen & 11/3/2026 & Scenario walkthrough \\
-\hline
-Sequence Diagrams & Information exchanges & Owen & 11/8/2026 & Message completeness \\
-\hline
-State Machines & State behavior of key entities & Owen & 11/13/2026 & Executable state logic \\
-\hline
-Authority \& Responsibility Models & RACII (Responsible, Accountable, Consulted, Informed) & Owen & 11/17/2026 & All decisions assigned \\
-\hline
-Optimization Prototype & Working code & Owen & 11/21/2026 & Unit test cases \\
-\hline
-Integration into MBSE Architecture & Traceability links & Owen & 11/24/2026 & End-to-end scenario \\
-\hline
-Final Baseline \& Final Paper & Versioned model \& thesis/paper & Owen & 12/16/2026 & Draft \\
-\hline
-Paper Submittal & Thesis/paper & Owen & 12/20/2026 & Official submittal \\
-\hline
+\caption{Project deliverables.}
+\label{tab:deliverables}
+\begin{tabular}{@{}p{3.6cm}p{7.6cm}p{3.6cm}@{}}
+\toprule
+Deliverable & What it shows & Where in this report \\
+\midrule
+Context diagram & The systems kept in the System of Interest, the actors at its boundary, and the exchanges among them & Section~\ref{sec:scope} \\
+Block definition diagrams & The NAS broken down into domains and constituent systems & Appendix~\ref{app:architecture} \\
+Internal block diagrams & The parts inside the aircraft and inside airspace management, and the links among them & Section~\ref{sec:architecture-results} \\
+Activity diagrams & One nominal flight from gate to gate, and the place of the conflict within it & Section~\ref{sec:conops-results} \\
+Requirements & Stakeholder requirements, system requirements and constituent-system requirements, each traced to the tier above & Appendix~\ref{app:architecture} \\
+Experiment & One conflict resolved four ways and scored for the aircraft, the airline, the sector and the system & Sections~\ref{sec:experiment} and~\ref{sec:experiment-results} \\
+Traceability chain & One thread from the airline's cost objective through the requirements and the airline-to-ATC interface to the experiment's outcome table & Section~\ref{sec:experiment-results}; Appendix~\ref{app:architecture} \\
+Gap analysis & The requirements that today's NAS does not meet, and what the experiment measures for each & Section~\ref{sec:results} \\
+\bottomrule
 \end{tabular}
 \end{table}
-
-Section~\ref{sec:litreview} describes the current status of these deliverables.
+% ---- end AI draft
 
 \subsection{Project Timing}
 \label{sec:timing}
 
 \plantodo{S1 (new)}{Revisit the timeline from the 503 Proposal submittal (see \texttt{prework/ISD 503 Submittal.pdf}) and show the plan now in force: the nine one-week turns of D-016 (the table at the top of \texttt{to-do-list.md}), each with its exit test and target date, next to the August milestones in Table~\ref{tab:project-timing}.}
+
+% Table moved here from Project Deliverables and given a Status column,
+% 2026-10-13 (owner's note, print page 14: "Old plan presented for reference.
+% Disposition each's status w/ not started, draft, complete, or will not
+% implement."). The status of each row is the owner's handwriting beside it. The
+% print has no mark beside the last three rows: "Not started" on the last two is
+% Claude's entry, and the row before them is left empty for the owner.
+The plan established at the project's inception is presented in Table~\ref{tab:project-timing} for reference, with the status of each item: not started, draft, complete, or will not implement.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Project milestones and verification methods of the original plan, with the status of each.}
+\label{tab:project-timing}
+\begin{tabular}{|p{0.15\textwidth}|p{0.15\textwidth}|p{0.12\textwidth}|p{0.11\textwidth}|p{0.17\textwidth}|p{0.11\textwidth}|}
+\hline
+\textbf{Project Milestone} & \textbf{Deliverable} & \textbf{Lead/Team Member} & \textbf{Expected Completion Date} & \textbf{Target Metric/Verification Method} & \textbf{Status} \\
+\hline
+Literature Review & Annotated bibliography & Owen & 9/7/2026 & 10--20 papers categorized & Draft \\
+\hline
+PESTLE Analysis \& Systems-of-Interest Definition & Context diagram, text-based documentation & Owen & 9/10/2026 & Review & Complete \\
+\hline
+Systems-of-Interest Definition & Text-based documentation & Owen & 9/15/2026 & Clear boundaries and exclusions & Complete \\
+\hline
+Operational Scenarios & ConOps document & Owen & 9/22/2026 & 1--3 representative scenarios & Draft \\
+\hline
+Draft Architecture & BDDs and package structure & Owen & 10/1/2026 & All domains represented & Complete \\
+\hline
+Interface Definition & Interface Control Document & Owen & 10/12/2026 & All interfaces identified & Draft \\
+\hline
+Internal Block Diagrams & IBDs & Owen & 10/17/2026 & Critical interfaces connected & Draft \\
+\hline
+Requirements Definition & Requirements model & Owen & 10/20/2026 & Trace to stakeholders & Draft \\
+\hline
+Measures of Effectiveness & MOE/MOP hierarchy & Owen & 10/25/2026 & Quantifiable metrics defined & Complete \\
+\hline
+Requirement Traceability & Requirements matrix & Owen & 10/29/2026 & Complete allocation & Draft \\
+\hline
+Activity Diagrams & Operational activities & Owen & 11/3/2026 & Scenario walkthrough & Draft \\
+\hline
+Sequence Diagrams & Information exchanges & Owen & 11/8/2026 & Message completeness & Not started \\
+\hline
+State Machines & State behavior of key entities & Owen & 11/13/2026 & Executable state logic & Will not implement \\
+\hline
+Authority \& Responsibility Models & RACII (Responsible, Accountable, Consulted, Informed) & Owen & 11/17/2026 & All decisions assigned & Will not implement \\
+\hline
+Optimization Prototype & Working code & Owen & 11/21/2026 & Unit test cases & Draft \\
+\hline
+Integration into MBSE Architecture & Traceability links & Owen & 11/24/2026 & End-to-end scenario & \\
+\hline
+Final Baseline \& Final Paper & Versioned model \& thesis/paper & Owen & 12/16/2026 & Draft & Not started \\
+\hline
+Paper Submittal & Thesis/paper & Owen & 12/20/2026 & Official submittal & Not started \\
+\hline
+\end{tabular}
+\end{table}
+
+% Keeps the two tables above inside Section 1 (placeins, loaded in main.tex).
+\FloatBarrier

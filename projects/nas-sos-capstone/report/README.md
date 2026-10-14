@@ -14,13 +14,13 @@ From `prework/course-info-canvas.md`. The compiled PDF shows every required part
 `REQUIRED FOR INTERIM REPORT #2` note (the `\irtwo` macro in `main.tex`); delete each note
 when the owner has written that part.
 
-- [ ] **Introduction** updated (Section 1): the two claims stated, current-state paragraphs describe October (drafted by Claude 2026-10-11, owner to rewrite), research-gap paragraph written, scope question answered, timing shows the nine turns.
-- [ ] **Assumptions and Methodology** (Section 2): working assumptions and limits, systems engineering approach table (process names checked against 15288) and tailoring paragraph, MBSE method, the proposed interface.
-- [ ] **Experiment** (Section 3, added 2026-10-11, D-026): scenario, cases and options, scoring, aircraft model and simplifications, worked example.
-- [ ] **Results and Discussion (preliminary)** (Section 4): operational concept, objectives, architecture figures (now in the body), the two hand checks, the outcome table and its discussion, trace back, emissions; marked preliminary in the heading.
+- [ ] **Introduction** updated (Section 1): the two claims stated, research-gap paragraph written, timing shows the nine turns, the empty status in the old-plan table filled. Done 2026-10-13 (D-027): current state is its own subsection and reviewed; the scope question is answered.
+- [ ] **Assumptions and Methodology** (Section 2): working assumptions and limits, systems engineering approach table (process names checked against 15288) and tailoring paragraph, the opening paragraph expanded, the proposed interface (decide where it goes).
+- [ ] **Experiment** (Section 3, added 2026-10-11, D-026): scenario, cases and options, scoring, aircraft model and simplifications.
+- [ ] **Results and Discussion (preliminary)** (Section 4): operational concept, architecture figures (now in the body), the two hand checks, the outcome table and its discussion with the trace back to the model, emissions; marked preliminary in the heading.
 - [ ] **References**: every cited key exists in `evidence/sources/references.bib`; remove `\nocite{*}` from `main.tex` if the list should show only what is cited.
-- [ ] **Generative AI disclosure** drafted (Appendix). It must cover the passages Claude drafted on 2026-10-11 unless each has been rewritten.
-- [ ] Every blue `AI-DRAFTED, owner to rewrite` note rewritten and deleted (the `\aidraft` macro in `main.tex`).
+- [ ] **Generative AI disclosure** drafted (Appendix). It must cover the passages Claude drafted on 2026-10-11 and 2026-10-13 unless each has been rewritten.
+- [ ] Every blue `AI-DRAFTED, owner to rewrite` note rewritten and deleted (the `\aidraft` macro in `main.tex`). Twelve as of 2026-10-13; the list is item 7 under "Open after this pass" in `handwritten/2026-10-13_main.md`.
 - [x] Title page says Interim Report #2 (changed 2026-10-11).
 - [ ] Review meeting with the adviser held (or confirm the earlier meeting counts).
 - [ ] Word copy produced and sent to the adviser (Mark Petrotta, mpetrott@umich.edu).

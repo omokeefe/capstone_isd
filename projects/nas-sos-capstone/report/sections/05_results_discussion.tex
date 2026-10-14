@@ -9,6 +9,9 @@
 % the "Limits" call-out (to Sections 3 and 2). Moved in: the emissions
 % subsection from the Impact section. Passages between \aidraft{...} and
 % "% ---- end AI draft" were drafted by Claude and are the owner's to rewrite.
+% Revised again 2026-10-13 from the second print (handwritten/2026-10-13_main.md,
+% notes 24.x to 31.x): Stakeholder Objectives moved to the Introduction, and
+% "Trace Back to the Model" is no longer a subsection.
 
 \irtwo{Results and Discussion (preliminary). For Interim Report \#2 this section needs: (1) the architecture as it stands (context diagram, aircraft IBD, the three requirements tagged \texttt{improved} as the measured gap) --- the figures are now in Sections~\ref{sec:scope} and~\ref{sec:architecture-results}; (2) the two hand checks from \texttt{experiment-definition.md} \S9 written up as preliminary results; (3) the first OpenAP numbers --- Figure~\ref{fig:fuelflow-altitude} and Table~\ref{tab:outcomes} are in place, the discussion is not; (4) one paragraph on what is not yet done.}
 
@@ -18,33 +21,19 @@
 % Owner's notes, 2026-10-11 print, page 17: "DO"; "Show full detail 1st, then w/
 % abstractions & provide rationale."; "The conops doesn't present my specific
 % scenario. Need to update w/ the example conflict."
-\aidraft{The operational concept: full detail, then the abstraction and its reason, then the example conflict (your notes: ``DO''; ``Show full detail 1st, then w/ abstractions and provide rationale''; ``Need to update w/ the example conflict''). Sources: \texttt{knowledge/models/conops-nominal-domestic\_flight.md}, \texttt{knowledge/models/conops-hub-to-hub-trajectory-cost.md} (both marked as working documents, not reconciled against the literature), D-016 item 5, and the activity diagram. \texttt{FlyEnroute} is not yet decomposed in the model, so the last paragraph describes where the conflict will sit, not what the diagram shows today.}
+% The AI-DRAFTED call-out that stood here is removed (scribbled over on the
+% 2026-10-13 print, page 24). Still true of the third paragraph: FlyEnroute is not
+% yet decomposed in the model, so it describes where the conflict will sit, not
+% what the diagram shows today.
 The operational concept was first written in full detail as a gate-to-gate thread for one nominal commercial flight, from the pilot's point of view. It runs through eleven phases: the airline's schedule, fleet and crew assignment; the pilot's preparation before duty; reporting and the dispatch release; aircraft preflight and initialization of the flight management system; boarding, loading and fueling; clearance, pushback and taxi; takeoff and initial climb; climb; cruise; arrival planning; and descent through to the gate. Each phase records its initial state, the interfaces in use, and the questions it raised. The full thread is in Appendix~\ref{app:conops}.
 
 The model carries an abstraction of that thread. Figure~\ref{fig:sysml-nominalOpsActivity} shows six actions in sequence: plan the flight, prepare for departure, depart, fly en route, arrive, and close out the flight. The eleven phases were reduced to six because the study concerns one decision in cruise. The phases before departure and after arrival fix the conditions that decision inherits (the aircraft's weight, its cost index, its schedule position) and are kept at the level needed to show where those conditions come from. Detail is added only where the studied decision is made.
 
 The example conflict sits inside the fly en route action. Two aircraft in cruise are predicted to cross at the same level at the same time. The sector controller must move one of them, and each choice costs fuel, time and instructions that fall on different parties. The nominal thread treats a trajectory change in cruise as one step; the experiment of Section~\ref{sec:experiment} opens that step and asks what the decider knows when making it.
-% ---- end AI draft
 
-\plantodo{S5}{Decompose \texttt{FlyEnroute} one level in \texttt{nas\_activity\_diagram-nominal\_ops.sysml} so the conflict-resolution step appears on Figure~\ref{fig:sysml-nominalOpsActivity} (D-016 item 5), then check the three paragraphs above against the diagram. Put the full activity breakdown in Appendix~\ref{app:conops}.}
+\plantodo{S5}{Decompose \texttt{FlyEnroute} one level in \texttt{nas\_activity\_diagram-nominal\_ops.sysml} so the conflict-resolution step appears on Figure~\ref{fig:sysml-nominalOpsActivity}, then check the three paragraphs above against the diagram. Put the full activity breakdown in Appendix~\ref{app:conops}.}
 
 \input{figures/sysml/fig-nominalOpsActivity}
-
-\subsection{Stakeholder Objectives}
-\label{sec:objectives-results}
-
-% Owner's note, 2026-10-11 print, page 17: "DO".
-\aidraft{What ``optimal'' means to each stakeholder, and where the objectives conflict (your note: ``DO''). Source: the synthesis section of \texttt{knowledge/models/stakeholder-objective-ontology.md}, whose own status note says the classifications are judgment calls not yet sourced from annotated literature. Limited here to the stakeholders and objectives kept in Section~\ref{sec:scope}.}
-Each stakeholder kept in scope pursues a different objective when an aircraft's trajectory is changed. The airline wants the lowest cost for its flights, which combines fuel, time, and the consequences of a late arrival for connecting passengers. Air traffic control wants separation assured with a workload the sector team can sustain, and a traffic picture that stays predictable. The flight crew wants instructions the aircraft can fly, given with enough time to set them up.
-
-Some of these objectives align. Burning less fuel lowers the airline's cost and lowers carbon dioxide emissions together. Air traffic control's wish for predictability and the airline's wish to keep its schedule both favor aircraft that fly what was planned.
-
-Others conflict, and the conflict this project studies is the first of them: the trajectory that is cheapest for one aircraft is not always the one that costs the sector least to grant. A request or a resolution that saves fuel for one flight can add instructions, monitoring, and follow-up for the controller. That cost is externalized. It does not appear in the airline's own cost function, and the party that bears it has no means to price it back.
-
-The objectives also operate on different timescales. An airline sets its schedule policy over months, realizes fuel cost per flight, and realizes delay cost in minutes. Air traffic control manages capacity over years through sector design and over seconds through tactical control. A decision made in minutes by one party is judged against objectives the others hold on other clocks.
-% ---- end AI draft
-
-\plantodo{S9 (owner's note, 2026-10-11 print: ``Not really here yet. Can show prelim results from my table'')}{The myopic-optimization analysis (definition of a local optimum in the system-of-systems setting, candidate system-level measures of value, the documented conflicts) is not written. For this report, show it through the one conflict the experiment measures: read across the rows of Table~\ref{tab:outcomes} for an option that is better for one aircraft or airline and worse for the sector or the system. The other candidate conflicts are future work (D-016) and go to Appendix~\ref{app:myopic}.}
 
 \subsection{Architecture: Detailed and Abstracted}
 \label{sec:architecture-results}
@@ -94,7 +83,7 @@ The aircraft is shown at two levels of detail. Figure~\ref{fig:sysml-aircraftIbd
 \begin{figure}[h]
 \centering
 \figorbox{b739_fuelflow_altitude.png}{PLACEHOLDER: run \texttt{simulation/b739\_envelope.py} to produce \texttt{report/figures/b739\_fuelflow\_altitude.png}}
-\caption{Fuel flow and specific range against altitude at Mach 0.80 for the heavy and light B737-9 (OpenAP, D-017).}
+\caption{Fuel flow and specific range against altitude at Mach 0.80 for the heavy and light B737-9 (OpenAP).}
 \label{fig:fuelflow-altitude}
 \end{figure}
 
@@ -102,10 +91,9 @@ The aircraft is shown at two levels of detail. Figure~\ref{fig:sysml-aircraftIbd
 
 \plantodo{S12}{\textbf{The case where nothing changes.} Report the variation with similar weights and the climb closed, where case C picks the same option as case B, to show the comparison is not rigged.}
 
-\subsection{Trace Back to the Model}
-\label{sec:traceback}
-
-% Owner's note, 2026-10-11 print, page 19: "DO".
+% Was the subsection "Trace Back to the Model" (drafted 2026-10-11 for the owner's
+% note "DO"). The heading is removed and the text now closes Experiment Results
+% (owner's note, 2026-10-13 print, page 31: "Doesn't need its own section.").
 \aidraft{Where each column of the outcome table lives in the model (your note: ``DO''). Part and port names are from \texttt{cameo\_models/nas\_context\_diagram.sysml}; the requirement and its tag are from \texttt{knowledge/models/requirements-and-traceability.md}. Check the part chosen for each column.}
 Each column of Table~\ref{tab:outcomes} belongs to a part of the context diagram (Figure~\ref{fig:sysml-systemContext}). The aircraft column belongs to the aircraft and its flight crew. The airline column belongs to the airline operations center within flight operations. The sector column belongs to air traffic control within airspace management. The system column belongs to no single part. It is a property of the NAS as a whole, which is the reason no constituent system computes it today and the reason the model is needed to state it.
 

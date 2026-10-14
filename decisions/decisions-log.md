@@ -6,6 +6,33 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-027 — Second hand review of the report: Section 1 reorganized, the worked example and the decider's equation removed, decision numbers out of the text
+
+**Date:** 2026-10-13
+**Status:** active. Owner direction from the hand review of the second print (`projects/nas-sos-capstone/handwritten/2026-10-13_main.md`). Amends items 1 and 4 of D-026.
+
+**Decision:**
+
+1. **Section 1 is "Introduction".** Its subsections are Overview, Literature Review, Current State (new), Stakeholder Selection, System Identification and Selection (new), Scope, Stakeholder Objectives (moved from Results), Project Deliverables, Project Timing.
+2. **The exploration lists are not repeated in text where a figure shows them.** The eight-item stakeholder list is removed; the figures carry it.
+3. **De-scoping reasons are the owner's:** profitability falls out of the other objectives; reliability is captured with schedule reliability; maintenance and lifecycle cost are set by flight cycles, takeoff performance, distance and climb controls; throughput and capacity are left for another study and are close to the author's ongoing work.
+4. **The August milestone table is kept as the old plan, with a status on each row** (not started, draft, complete, will not implement). State machines and the authority and responsibility models will not be implemented.
+5. **Will not implement:** the paragraph naming alternative decompositions (August §6) and the table of abstractions with reason and risk.
+6. **The report keeps one numbered equation,** the aircraft's cost. The decider's equation and the worked example are removed (amends D-026 item 4).
+7. **Decision numbers (D-0xx) do not appear in the report's text, tables or captions.** Claude's reading of seven strikes; one more was removed on that reading.
+8. **The limits of the experiment are assumptions and discussion in Section 2.2,** not a separate list: accurate reporting and the static snapshot are assumptions; the share of crossing conflicts, the single sector and the FL350 rule are discussion.
+9. **As on 2026-10-11, Claude edited the owner's prose and drafted new passages,** each marked `AI-DRAFTED, owner to rewrite`. Twelve such call-outs are in the PDF, eight of them new. The standing agreement (the owner writes the report's prose) is unchanged.
+
+**Rationale:** the owner's notes: Figure 3 shows "systems, not stakeholders"; the stakeholder list "becomes redundant w/ the image"; the trace back to the model "doesn't need its own section".
+
+**Alternatives considered:** leave Stakeholder Objectives in Results (the owner's note ends in a question mark; it was moved because it speaks only of what Scope keeps). Move the proposed interface out of Section 2 now (the owner asked where it would fit; not moved, Claude's suggestion is in a call-out).
+
+**Evidence / source:** `projects/nas-sos-capstone/handwritten/2026-10-13_main.pdf` and `.md`.
+
+**Consequences:** section numbers in Results shift (Architecture 4.2, Experiment Results 4.3, Emissions 4.4). `report/main.tex` loads `placeins`. Open: where the proposed interface goes; the status of one milestone row; the note that the three things the project adds "need to be clear in my models" (Track A).
+
+---
+
 ## D-026 — Report structure changed after the owner's hand review: the experiment is its own section, SysML figures can sit in the body
 
 **Date:** 2026-10-11
