@@ -1,4 +1,7 @@
 {
+    // Soft-wrap every file: authored prose is one paragraph per line (see _system/conventions.md).
+    "editor.wordWrap": "on",
+
     "markdown.copyFiles.destination": {
         "**/*.md": "${documentWorkspaceFolder}/attachments/"
     },

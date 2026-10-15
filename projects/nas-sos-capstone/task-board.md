@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-10, evening (plan adopted as D-016; see `journal/2026-10-10.md`). The "Active" list was rewritten the same evening.
+**Last updated:** 2026-10-14, evening (literature review written by the owner; see `journal/2026-10-14.md` 21:44).
 
 ## Current phase
 
@@ -15,6 +15,8 @@ terse and current-state-only — narrative reasoning belongs in the daily
 **Still open from Report #1 (Track C edits):** the literature-review annotation-coverage claim, citation spot-checks against skimmed-only sources, the 1998-dollar disruption-cost figure.
 
 ## Active
+
+- Report (Track C), 2026-10-14: the owner wrote the literature review and research gap in Section 1 and stated the two claims there (not yet in the Executive Summary). `\cite{great2023}` is undefined; fix before rebuilding. See journal 2026-10-14 21:44.
 
 - Requirements (Track A): hand-reviewed by the owner 2026-10-10 and cut to 12 stakeholder + 28 system requirements (D-020), then hand-reviewed again 2026-10-11: 13 + 23 (D-021); one goal, three tagged `improved`. A third tier of 28 constituent system requirements drafted by Claude 2026-10-11, not reviewed (D-022). Open: `#TODO` items (d) to (f) at the top of `knowledge/models/requirements-and-traceability.md`. See journal 2026-10-10.
 
@@ -104,10 +106,9 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Next session priority
 
-Turn 1 exit test (by Sun 2026-10-18): the central claim and four decisions logged (done, D-016 to D-019); OpenAP returns B39M numbers and both figures render (done); the owner has reviewed the stakeholder requirements (done by hand 2026-10-10, D-020; section 7 of `requirements-and-traceability.md` still to answer); Assumptions and Methodology drafted. See `journal/2026-10-10.md`.
+Turn 1 exit test by Sun 2026-10-18; what's left is Assumptions and Methodology. See journal 2026-10-14 21:44.
 
-1. Owner: confirm or change the Decide items in `knowledge/models/experiment-scenario-numbers.md` (city pairs, masses, cost indexes, hold length, tie-breaker) and re-run `tools/run_experiment.py`. The first run's C minus B = 0 hangs on the hold length and the pair's level.
-2. Owner: answer section 7 of `requirements-and-traceability.md` (`#TODO` items (a) to (c)), under an hour; then draft Assumptions and Methodology from the `\irtwo` call-outs in `report/sections/03_assumptions_methodology.tex`.
-3. Owner: re-word the five view captions in `cameo_models/nas_package_my_views.sysml` and the appendix lead-in; restate or strike the eight candidate entries in `lessons-learned.md`.
-4. Claude, turn 2: the FMS → AOC and ATC → crew interface defs; test one `SequenceView` example; `tools/check_model.py` on the Syside Python API.
-5. Carried over: the two hand checks (`experiment-definition.md` §9); grade the aircraft IBD links; the `atc` umbrella question; whether the adviser meeting counts as the Report #2 review meeting.
+1. Owner: fix `\cite{great2023}` in `report/sections/02_introduction.tex` (line 59), then rebuild the report.
+2. Owner: confirm the Decide items in `knowledge/models/experiment-scenario-numbers.md`, decide OpenAP compressibility, re-run `tools/run_experiment.py`.
+3. Owner: put the two claims in the Executive Summary; draft Assumptions and Methodology.
+4. Carried over: section 7 of `requirements-and-traceability.md`; view captions and `lessons-learned.md` candidates; Claude's turn-2 interface defs; the hand checks, aircraft IBD link grading, the `atc` umbrella question.
