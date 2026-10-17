@@ -12,42 +12,14 @@
 % Revised again 2026-10-13 from the second print (handwritten/2026-10-13_main.md,
 % notes 24.x to 31.x): Stakeholder Objectives moved to the Introduction, and
 % "Trace Back to the Model" is no longer a subsection.
+% 2026-10-17: Operational Concept and Architecture moved to the new System Model
+% section (04_system_model.tex); file renamed from 05_results_discussion.tex
+% (D-028). This section still reports the model's measures, so the systems
+% engineering work is assessed here and not only described.
 
-\irtwo{Results and Discussion (preliminary). For Interim Report \#2 this section needs: (1) the architecture as it stands (context diagram, aircraft IBD, the three requirements tagged \texttt{improved} as the measured gap) --- the figures are now in Sections~\ref{sec:scope} and~\ref{sec:architecture-results}; (2) the two hand checks from \texttt{experiment-definition.md} \S9 written up as preliminary results; (3) the first OpenAP numbers --- Figure~\ref{fig:fuelflow-altitude} and Table~\ref{tab:outcomes} are in place, the discussion is not; (4) one paragraph on what is not yet done.}
+\irtwo{Results and Discussion (preliminary). For Interim Report \#2 this section needs: (1) the architecture as it stands (context diagram, aircraft IBD, the three requirements tagged \texttt{improved} as the measured gap) --- the figures are now in Section~\ref{sec:system-model}; (2) the two hand checks from \texttt{experiment-definition.md} \S9 written up as preliminary results; (3) the first OpenAP numbers --- Figure~\ref{fig:fuelflow-altitude} and Table~\ref{tab:outcomes} are in place, the discussion is not; (4) one paragraph on what is not yet done.}
 
-\subsection{Operational Concept}
-\label{sec:conops-results}
-
-% Owner's notes, 2026-10-11 print, page 17: "DO"; "Show full detail 1st, then w/
-% abstractions & provide rationale."; "The conops doesn't present my specific
-% scenario. Need to update w/ the example conflict."
-% The AI-DRAFTED call-out that stood here is removed (scribbled over on the
-% 2026-10-13 print, page 24). Still true of the third paragraph: FlyEnroute is not
-% yet decomposed in the model, so it describes where the conflict will sit, not
-% what the diagram shows today.
-The operational concept was first written in full detail as a gate-to-gate thread for one nominal commercial flight, from the pilot's point of view. It runs through eleven phases: the airline's schedule, fleet and crew assignment; the pilot's preparation before duty; reporting and the dispatch release; aircraft preflight and initialization of the flight management system; boarding, loading and fueling; clearance, pushback and taxi; takeoff and initial climb; climb; cruise; arrival planning; and descent through to the gate. Each phase records its initial state, the interfaces in use, and the questions it raised. The full thread is in Appendix~\ref{app:conops}.
-
-The model carries an abstraction of that thread. Figure~\ref{fig:sysml-nominalOpsActivity} shows six actions in sequence: plan the flight, prepare for departure, depart, fly en route, arrive, and close out the flight. The eleven phases were reduced to six because the study concerns one decision in cruise. The phases before departure and after arrival fix the conditions that decision inherits (the aircraft's weight, its cost index, its schedule position) and are kept at the level needed to show where those conditions come from. Detail is added only where the studied decision is made.
-
-The example conflict sits inside the fly en route action. Two aircraft in cruise are predicted to cross at the same level at the same time. The sector controller must move one of them, and each choice costs fuel, time and instructions that fall on different parties. The nominal thread treats a trajectory change in cruise as one step; the experiment of Section~\ref{sec:experiment} opens that step and asks what the decider knows when making it.
-
-\plantodo{S5}{Decompose \texttt{FlyEnroute} one level in \texttt{nas\_activity\_diagram-nominal\_ops.sysml} so the conflict-resolution step appears on Figure~\ref{fig:sysml-nominalOpsActivity}, then check the three paragraphs above against the diagram. Put the full activity breakdown in Appendix~\ref{app:conops}.}
-
-\input{figures/sysml/fig-nominalOpsActivity}
-
-\subsection{Architecture: Detailed and Abstracted}
-\label{sec:architecture-results}
-
-% Owner's note, 2026-10-11 print, page 17: "Place detailed & abstracted. Make sub-section."
-\plantodo{S10}{Present the SysML architecture: package structure, the context diagram (Figure~\ref{fig:sysml-systemContext}), the internal block diagrams below, the interface and item-flow model, and the requirements model with traceability. For the aircraft, the detailed diagram comes first and the abstracted one second (your note: ``Place detailed and abstracted''); say what the abstraction drops and why. The airspace management diagram is still a placeholder.}
-
-\aidraft{Two connecting sentences so the figures are referred to from the text. Replace with your own description of what each level of detail shows.}
-The aircraft is shown at two levels of detail. Figure~\ref{fig:sysml-aircraftIbdDetail} is the detailed internal block diagram, including propulsion, airframe, landing gear, utilities, and the fuel and power links. Figure~\ref{fig:sysml-aircraftIbd} is the abstraction used in the rest of the report: the crew, the flight deck controls, the avionics, the flight controls, the fuel system, and the information and command links among them, which are the parts the studied decision passes through. Figure~\ref{fig:sysml-airspaceManagementIbd} shows the internals of airspace management as modeled so far.
-% ---- end AI draft
-
-\input{figures/sysml/fig-aircraftIbdDetail}
-\input{figures/sysml/fig-aircraftIbd}
-\input{figures/sysml/fig-airspaceManagementIbd}
+\plantodo{S10, S13 (D-028)}{\textbf{Model results.} With the architecture now presented in Section~\ref{sec:system-model}, report its measures here, against the measures named in Section~\ref{sec:deliverables}: for example, how many stakeholder requirements trace to a kept objective, how many system requirements are allocated to a constituent system, and which requirements are tagged \texttt{improved} because today's NAS does not meet them. Without this, the systems engineering work is described but never assessed.}
 
 \subsection{Experiment Results}
 \label{sec:experiment-results}

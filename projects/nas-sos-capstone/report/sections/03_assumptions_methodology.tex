@@ -11,6 +11,9 @@
 % drafted by Claude and are the owner's to rewrite.
 % Revised again 2026-10-13 from the second print (handwritten/2026-10-13_main.md,
 % notes 13.x to 17.x).
+% 2026-10-17: the subsection "Proposed Airline-to-ATC Interface" moved to the end
+% of the new System Model section (04_system_model.tex), answering the owner's
+% question on the 2026-10-13 print, page 17 (D-028).
 
 The problem is that the inertia of past, piecemeal designs and the high cost of upgrading the NAS make the system hard to change. The project proposes a new airline-to-ATC interface and a new way of deciding which aircraft to move in a conflict, which together could lower the cost of air traffic management.
 
@@ -109,18 +112,3 @@ The assumption of accurate information has two parts. An airline could misreport
 \aidraft{One sentence offered for the misreporting point, not asked for on the print. The source was read in full by Claude on 2026-10-11 and not by you; it concerns flow programs before departure, not a conflict in cruise. Keep it, or strike it.}
 The risk is documented for a related exchange: where an airline states the relative cost of its route options to the FAA's flow-management automation, the airline would reduce its delays by stating a very high cost~\cite{kulkarni2019ctopSlotSubstitution}.
 % ---- end AI draft
-
-\subsection{Proposed Airline-to-ATC Interface}
-\label{sec:proposed-interface}
-
-\plantodo{Track C (owner's question, 2026-10-13 print, page 17)}{\textbf{``This shouldn't be its own section here. Where would this fit?''} Not moved; the choice is yours. Claude's suggestion: the proposal is a result of the architecture work, so put it in Section~\ref{sec:architecture-results} as the improved architecture, next to the baseline diagrams, and leave one sentence in Section~\ref{sec:experiment-method} that says cases C and D use it. The other candidate is Section~\ref{sec:experiment-method} itself, which keeps it ahead of the experiment that depends on it.}
-
-\plantodo{Track C (D-019)}{\textbf{Name the digital-thread artifact.} Describe \texttt{AirlinePerformanceShare}: what it carries (gross weight, cost index, connection priority; thrust, drag and fuel-flow model identifiers present but not exercised), who sends it (airline operations center or FMS), who receives it (ATC decision support, per D-012 owned by the system that decides), and which requirements it satisfies (SLR-INF-02) and the goal it serves (SLR-CLR-13). State that security is an assumption. \textbf{Owner's note, 2026-10-11 print: ``important to do''} --- position it against ADS-C EPP and Coppenbarger's Table 2 (the same items, a different receiver); a first draft of that positioning follows.}
-
-% The AI-DRAFTED call-out that stood here is removed (scribbled over on the
-% 2026-10-13 print, page 17); the owner's edits to the two paragraphs are applied.
-% Still true of the second sentence: the ADS-C EPP statement rests on
-% sesarju2019solutionsCatalogue, registered from its title page and contents only.
-The items the interface carries are not new. \textcite{coppenbarger1999climbPrediction} listed take-off weight, thrust and drag factors, and the speed profile as candidates for exchange between an airline and air traffic control, and measured what airline-supplied weight does for the prediction of a climb. In Europe, the Extended Projected Profile is sent over ADS-C to downlink the trajectory that the flight management system predicts~\cite{sesarju2019solutionsCatalogue}. What has kept the items out of use is ownership, not feasibility: weight and speed intent ``are considered competitive parameters by airlines and are not available for use''~\cite{schultz2012adaptiveClimb}. A second obstacle is the availability of first-principles data for each aircraft type: thrust, drag and fuel flow.
-
-The proposal here keeps the items and changes the receiver and the purpose. In the earlier work the data feeds a trajectory predictor, to make the prediction of one aircraft's flight path more accurate. Here it feeds the decision support of the party that chooses which aircraft to move, to change the choice. This provides for asking ``what if'' within a mathematical framework. The interface is typed in the model, tagged as part of the improved architecture, and tied to the requirement it satisfies, so the report can point at a model element where the earlier work has a finding in prose. Confidentiality is stated as an assumption: the data is disclosed only to the deciding party, and no security mechanism is modeled.

@@ -101,97 +101,18 @@ The requirements have been drafted and revised through two hand reviews and now 
 The experiment is defined and runs end to end. Four aircraft in one generic, overly simplified en-route sector present one crossing conflict, and four cases resolve it with different information: a controller's rule, automation with one assumed nominal weight per aircraft type, automation with the shared weight and cost index, and the same with passenger connection information. An open aircraft performance model, OpenAP, scores every option. The first results are in Section~\ref{sec:experiment-results} and are preliminary.
 
 
-\subsection{Stakeholder Selection}
-\label{sec:stakeholders}
+\subsection{Stakeholders and Study Boundary}
+\label{sec:stakeholders-summary}
 
-Informed by the literature survey and the author's experience in the aviation industry, a set of candidate stakeholders was identified and refined using a PESTLE analysis and stakeholder discovery process. The result is a diverse group of stakeholders that represent the various interests and perspectives affected by NAS operational decisions, and is shown in Figures~\ref{fig:stakeholders-exploration} and~\ref{fig:stakeholders-power-interest}. The stakeholders are grouped by the six domains of a PESTLE analysis (political, economic, social, technological, legal, environmental) and scored for importance and impact on trajectory decisions. The assessment is documented in the \texttt{capstone\_stakeholder\_assessment.xlsx} file, along with an initial assessment of each candidate stakeholder's objectives, candidate MOPs and MOEs, and whether the stakeholder has a direct or indirect effect on trajectory decisions. The assessment also considers whether the stakeholder should stand alone or be abstracted through consolidation with another, and the reason for that decision. An excerpt of the work is in Appendix~\ref{app:stakeholders}, Table~\ref{tab:stakeholder-assessment-excerpt}.
+% Made 2026-10-17. Replaces the subsections Stakeholder Selection, System
+% Identification and Selection, Scope and Stakeholder Objectives, which moved to
+% Section 3 (04_system_model.tex) with their markers and comments. The owner asked
+% for a brief statement here that points to the detail later, and for scope to be
+% discussed in a clearly named place rather than under a heading of its own.
+\aidraft{Short summary for the Introduction, written 2026-10-17 from sentences in the moved subsections; nothing here is new. Replace with your own.}
+Informed by the literature survey and the author's experience in the aviation industry, a broad set of candidate stakeholders was identified with a PESTLE analysis. Four are kept: operators (the airline and its operations center), air traffic control, the airport authority, and the flight crew, together with the aircraft as a constituent system. The others, among them governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations, supply rules, equipment, demand, and expectations to the decision but do not make it or execute it.
 
-\begin{figure}[htbp]
-\centering
-\figorbox{stakeholders_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_exploration.png}}
-\caption{Candidate stakeholders of the NAS as a system of systems.}
-\label{fig:stakeholders-exploration}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\figorbox{stakeholders_impact_power_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_impact\_power\_exploration.png}}
-\caption{Candidate stakeholders placed by power and interest.}
-\label{fig:stakeholders-power-interest}
-\end{figure}
-The power analysis informed the decision to keep four stakeholders in scope: the airline, air traffic control, the airport authority, and the flight crew. The other stakeholders are treated as boundary actors that supply rules, equipment, demand, and expectations to the decision but do not make it or execute it. The four kept stakeholders appear on the context diagram (Figure~\ref{fig:sysml-systemContext}) and are decomposed in the model.
-
-An exploration of each stakeholder's interests led to the following list of objectives relevant to the project:
-\begin{itemize}
-    \item Safety / Security
-    \item Efficiency
-    \item Throughput / Capacity
-    \item Reliability / Resilience
-    \item Environmental Impact
-    \item Noise Impact
-    \item Passenger Satisfaction
-    \item Schedule Reliability
-    \item Cost / Profitability
-    \item Maintenance / Lifecycle Cost
-    \item Regulatory Compliance
-    \item Workload / Human Factors
-\end{itemize}
-These objectives were then assessed for relevance to the decision under study, and six were kept: safety, efficiency, environmental impact, schedule reliability, cost, and workload. The other objectives were set aside for the reasons given in Section~\ref{sec:scope}.
-
-% Where to put the stakeholder requirements?
-
-\subsection{System Identification and Selection}
-\label{sec:systems-selection}
-
-% Subsection made 2026-10-13 (owner's note on Figure 3, print page 9: "These are
-% systems, not stakeholders. Move! 'System Identification & Selection'?").
-The aircraft is treated alongside the stakeholders as a constituent system. Figure~\ref{fig:sos-exploration} shows the systems first identified within the NAS, with the aircraft decomposed furthest, as its systems and their performance dictate the cost of each flight.
-
-\begin{figure}[htbp]
-\centering
-\figorbox[\textwidth]{system_of_systems_detailed_exploration.png}{MISSING: \texttt{report/figures/system\_of\_systems\_detailed\_exploration.png}}
-\caption{The NAS as a system of systems: candidate constituent systems.}
-\label{fig:sos-exploration}
-\end{figure}
-
-\subsection{Scope}
-\label{sec:scope}
-
-% Owner's note, 2026-10-11 print, page 7: "Leave larger list above, discuss
-% de-scoping decisions here & include the final list/diagram." The strikes and
-% margin notes on page 6 are the content below. Revised 2026-10-13 from the
-% second print, pages 10 and 11: the kept stakeholders are named as on the context
-% diagram, the reasons for profitability, reliability, maintenance and lifecycle
-% cost and for throughput and capacity are the owner's handwritten ones, and the
-% throughput call-out the owner scribbled over is removed.
-
-\aidraft{De-scoping decisions and the final lists (owner's note: ``Leave larger list above, discuss de-scoping decisions here and include the final list/diagram''). The reasons in quotation marks are your margin notes. On the 2026-10-13 print you supplied the reasons for profitability, reliability, maintenance and lifecycle cost, and throughput and capacity; they are below in your words. Still Claude's reading, not yours: the reason given for the four stakeholders, and the reason given for security, resilience and regulatory compliance.}
-The stakeholders, objectives and systems of Sections~\ref{sec:stakeholders} and~\ref{sec:systems-selection} are the result of exploration. The study itself is narrower. It examines one tactical decision, the resolution of a conflict between aircraft in cruise, and keeps only the stakeholders and objectives that bear on that decision.
-
-Four stakeholders remain, together with the aircraft, and each appears on the context diagram (Figure~\ref{fig:sysml-systemContext}): operators, as flight operations and its airline operations center; air traffic control, within airspace management; the airport authority, as airport operations; and the flight crew. The aircraft appears as aircraft systems. Governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations are outside the System of Interest. They supply rules, equipment, demand, and expectations to the decision but do not make it or execute it, so they are treated as boundary actors and not decomposed.
-
-Six stakeholder objectives remain: safety, efficiency, environmental impact, schedule reliability, cost, and workload. Schedule reliability is carried in the experiment as a step in cost when a flight's delay passes a threshold (the parameter $K$ of Section~\ref{sec:scoring-method}). The others were set aside for the following reasons. Noise impact: the measure is ``not relevant at cruise.'' Passenger satisfaction: ``not measurable objectively.'' Profitability falls out of the other objectives; it is tracked at the operator's organizational level and is more complex than any one decision. Reliability is captured with schedule reliability. Maintenance and lifecycle cost are largely determined by the number of flight cycles, the chosen takeoff performance, the flight distance and the climb controls, so one air traffic control decision has a negligible effect on them. Security, resilience and regulatory compliance are not changed by the choice between resolution options in the scenario. Throughput and capacity were left for another study. They are also close to ongoing work by the author, and out of an abundance of caution that part of the problem space was avoided.
-
-Figure~\ref{fig:sysml-systemContext} is the resulting System of Interest as modeled: the constituent systems kept and the exchanges among them.
-% ---- end AI draft
-
-\input{figures/sysml/fig-systemContext}
-
-\subsection{Stakeholder Objectives}
-\label{sec:objectives-results}
-
-% Drafted 2026-10-11 for the owner's note "DO" (print page 17) as a subsection of
-% Results; moved here 2026-10-13 (owner's note, print page 26: "Move to earlier
-% section that discusses objectives?"). It follows Scope because it speaks only
-% of the stakeholders and objectives kept there.
-\aidraft{What ``optimal'' means to each stakeholder, and where the objectives conflict (your note: ``DO''). Source: the synthesis section of \texttt{knowledge/models/stakeholder-objective-ontology.md}, whose own status note says the classifications are judgment calls not yet sourced from annotated literature. Limited here to the stakeholders and objectives kept in Section~\ref{sec:scope}.}
-Each stakeholder kept in scope pursues a different objective when an aircraft's trajectory is changed. The airline wants the lowest cost for its flights, which combines fuel, time, and the consequences of a late arrival for connecting passengers. Air traffic control wants separation assured with a workload the sector team can sustain, and a traffic picture that stays predictable. The flight crew wants instructions the aircraft can fly, given with enough time to set them up.
-
-Some of these objectives align. Burning less fuel lowers the airline's cost and lowers carbon dioxide emissions together. Air traffic control's wish for predictability and the airline's wish to keep its schedule both favor aircraft that fly what was planned.
-
-Others conflict, and the conflict this project studies is the first of them: the trajectory that is cheapest for one aircraft is not always the one that costs the sector least to grant. A request or a resolution that saves fuel for one flight can add instructions, monitoring, and follow-up for the controller. That cost is externalized. It does not appear in the airline's own cost function, and the party that bears it has no means to price it back.
-
-The objectives also operate on different timescales. An airline sets its schedule policy over months, realizes fuel cost per flight, and realizes delay cost in minutes. Air traffic control manages capacity over years through sector design and over seconds through tactical control. A decision made in minutes by one party is judged against objectives the others hold on other clocks.
+The study examines one tactical decision, the resolution of a conflict between aircraft in cruise, and keeps only the stakeholders and objectives that bear on it. Six objectives are kept: safety, efficiency, environmental impact, schedule reliability, cost, and workload. Throughput and capacity are left for another study, and the phases before departure enter only as the conditions the studied decision inherits. Section~\ref{sec:system-model} gives the full stakeholder analysis (Section~\ref{sec:stakeholders}), the reason for each choice (Section~\ref{sec:scope}), and the resulting System of Interest (Section~\ref{sec:soi}).
 % ---- end AI draft
 
 \subsection{Project Deliverables}
@@ -214,7 +135,7 @@ The project delivers the eight items of Table~\ref{tab:deliverables}.
 \toprule
 Deliverable & What it shows & Where in this report \\
 \midrule
-Context diagram & The systems kept in the System of Interest, the actors at its boundary, and the exchanges among them & Section~\ref{sec:scope} \\
+Context diagram & The systems kept in the System of Interest, the actors at its boundary, and the exchanges among them & Section~\ref{sec:soi} \\
 Block definition diagrams & The NAS broken down into domains and constituent systems & Appendix~\ref{app:architecture} \\
 Internal block diagrams & The parts inside the aircraft and inside airspace management, and the links among them & Section~\ref{sec:architecture-results} \\
 Activity diagrams & One nominal flight from gate to gate, and the place of the conflict within it & Section~\ref{sec:conops-results} \\

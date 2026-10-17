@@ -12,16 +12,24 @@
 % Stakeholder Selection, System Identification and Selection and Stakeholder
 % Objectives as subsections; the worked example and "Trace Back to the Model"
 % are no longer subsections.
+% Changed again 2026-10-17 (D-028): a new Section 3 "System Model" holds the
+% stakeholder analysis, constituent systems, System of Interest, ConOps,
+% architecture and the proposed interface. The Introduction keeps a short
+% "Stakeholders and Study Boundary" summary that points to it. Section files
+% 04-08 were renumbered 05-09.
 %   Title page                  -> n/a (admin info)
 %   Executive Summary           -> written last; carries the two claims
-%   1 Introduction              -> S1; literature (S2-S4); current state; stakeholders (S7);
-%                                  systems; scope (S1); objectives (S8); deliverables; timing
-%   2 Assumptions/Methodology   -> S1 (assumptions), S6, S10 (MBSE method), D-016, D-019
-%   3 Experiment                -> Track B (S11, S12): scenario, cases, options, scoring, aircraft model
-%   4 Results and Discussion    -> S5 (ConOps), S10 (architecture), S12, S13,
+%   1 Introduction              -> S1; literature (S2-S4); current state; stakeholders
+%                                  and study boundary (summary); deliverables; timing
+%   2 Assumptions/Methodology   -> S1 (assumptions), S6, S10 (MBSE method), D-016
+%   3 System Model              -> stakeholders (S7), objectives and conflicts (S8),
+%                                  constituent systems, System of Interest, S5 (ConOps),
+%                                  S10 (architecture), proposed interface (D-019)
+%   4 Experiment                -> Track B (S11, S12): scenario, cases, options, scoring, aircraft model
+%   5 Results and Discussion    -> model measures (S10, S13), S12,
 %                                  emissions and who pays (S9)
-%   5 Impact/Financial Benefits -> S9, S12
-%   6 Conclusions and Recommendations -> S14, S15, S16
+%   6 Impact/Financial Benefits -> S9, S12
+%   7 Conclusions and Recommendations -> S14, S15, S16
 %   References                  -> evidence/sources/references.bib
 %   A Appendices                -> stakeholder register, RACCI, ConOps detail, SysML views not in the body
 % =============================================================================
@@ -88,10 +96,11 @@
 
 \input{sections/02_introduction}
 \input{sections/03_assumptions_methodology}
-\input{sections/04_experiment}
-\input{sections/05_results_discussion}
-\input{sections/06_impact_financial_benefits}
-\input{sections/07_summary_conclusions}
+\input{sections/04_system_model}
+\input{sections/05_experiment}
+\input{sections/06_results_discussion}
+\input{sections/07_impact_financial_benefits}
+\input{sections/08_summary_conclusions}
 
 % No section body yet contains \cite{} (still plantodo placeholders), so
 % \nocite{*} forces the full evidence/sources/references.bib register to
@@ -100,6 +109,6 @@
 \nocite{*}
 \printbibliography[title={References}]
 
-\input{sections/08_appendices}
+\input{sections/09_appendices}
 
 \end{document}
