@@ -88,17 +88,15 @@ In the moments when the conflicts occur and disruption managment must occur, the
 
 For a period the project lacked a specific focus for which tradeoffs it would consider. The project is not an exploration of optimization, but its concept centers on sub-optimality driven by myopic decisions. The concepts of operations gave a more complete understanding of the NAS, the systems involved, and the interfaces among them, but they did not by themselves point to a specific scenario worth modelling.
 
-The pivot from Phase 1 exploration to Phase 2 modelling was made to advance the project deliverables while building a deeper understanding of the information gaps. The intent was that when the modelling reached the measures of effectiveness and performance, the stakeholders' objectives would be revisited and a more targeted consultation of the literature could occur.
+The pivot from Phase 1 exploration to Phase 2 modelling was made to advance the project deliverables while building a deeper understanding of the information gaps. The intent was that when the modelling reached the measures of effectiveness and performance, the phase 1 content would be revisited updated as warranted.
 
 Building the model raised questions the literature review alone had not: who owns the decision support for a trajectory change, which party holds the information that decision needs, and whether an exchange between them exists. Answering them located one specific gap. The sector controller decides which aircraft to move in a conflict, the airline and the flight management system hold the aircraft's weight and cost index, and no exchange carries one to the other. That gap is now a named interface in the model (\texttt{AirlinePerformanceShare}) and an unmet requirement. The literature consultation that followed was targeted in the way the pivot intended: sources on controller conflict-resolution practice~\cite{rantanen2012conflictManeuvers,kirwan2001coraStrategies,fothergill2013resolutionHeuristics}, on climb prediction with airline-supplied weight~\cite{coppenbarger1999climbPrediction}, and on traffic-aware flight-deck requests~\cite{engility2014tasarAlaska} were found and read because the model and the experiment needed them.
 
-\aidraft{Two sentences added for your note ``cite new papers w/ specific facts (TASAR, Mori)''. The figures are from Claude's reading notes in \texttt{evidence/literature-notes/summaries/} (TASAR pp.~8 and~12; Mori p.~1 and its results), not from your own reading. Check them against the papers and choose the facts you want.}
-The traffic-aware requests study, for example, reported a saving of 27 gallons of fuel and 2.3 minutes per flight in its typical case, and it limited climbs to FL350 and below because it did not model aircraft weight~\cite{engility2014tasarAlaska}. \textcite{mori2022massCruise} starts from the same absence: aircraft mass is usually not openly available because airlines treat it as confidential, so it estimates the mass from the cruise profile, with a mean absolute error of 3.29 percent over 39 flights of one aircraft type.
-% ---- end AI draft
+A 2014 study of traffic-aware requests~\cite{engility2014tasarAlaska} found that providing the flight deck with traffic information led to a reduction in fuel burn and time for the typical case, enabling savings over \$3.3M annually. The study did not model aircraft weight and used conservative estimates of aircraft performance, which lead them to avoid climbs for aircraft above FL350 for that reason. \textcite{mori2022massCruise} starts from the same absence and posits why aircraft mass is usually not openly available - because airlines treat it as confidential. 
 
-The project is now organized as four parallel tracks (model, experiment, report, and evidence on demand) worked in nine one-week turns that end on 2026-12-13. This plan replaced the single-pass August list on 2026-10-10. One traced thread carries the project: the airline's cost objective, the stakeholder and system requirements that follow from it, the airline-to-ATC interface, the conflict-resolution decision, and the experiment that scores that decision.
+The project is now organized as four parallel tracks - model, experiment, report, and on-demand evidence - which are being worked in nine one-week turns that end on 2026-12-13. This plan replaced the single-pass August list on 2026-10-10, which is statused below. One throughline carries the project: the airline's cost objective, the stakeholder and system requirements that follow from it, the airline-to-ATC interface, the conflict-resolution decision, and the experiment that scores that decision.
 
-The requirements have been through two hand reviews and now stand at 13 stakeholder requirements and 23 system requirements, each limited to what bears on the studied decision. A third tier of 28 constituent-system requirements is drafted and not yet reviewed. The model holds the context diagram, an aircraft internal block diagram that has been hand reviewed, an airspace management internal block diagram that is still a placeholder, a draft nominal-flight activity diagram, and the typed airline-to-ATC interface. The state machines the original plan scheduled for 9/15 have not been built.
+The requirements have been drafted and revised through two hand reviews and now stand at 13 stakeholder requirements and 23 system requirements, each limited to what bears on the studied decision. A third tier of 28 constituent-system requirements is drafted. The model holds the context diagram, and several draft diagrams, including the aircraft internal block diagram, an airspace management internal block diagram, and nominal-flight activity diagram, and the typed airline-to-ATC interface. The state machines the original plan scheduled for 9/15 have not been built.
 
 The experiment is defined and runs end to end. Four aircraft in one generic, overly simplified en-route sector present one crossing conflict, and four cases resolve it with different information: a controller's rule, automation with one assumed nominal weight per aircraft type, automation with the shared weight and cost index, and the same with passenger connection information. An open aircraft performance model, OpenAP, scores every option. The first results are in Section~\ref{sec:experiment-results} and are preliminary.
 
@@ -106,22 +104,23 @@ The experiment is defined and runs end to end. Four aircraft in one generic, ove
 \subsection{Stakeholder Selection}
 \label{sec:stakeholders}
 
-\plantodo{S7}{Identify key project stakeholders (individuals/organizations affected by or perceiving themselves affected by NAS operational decisions). Draw on the PESTLE stakeholder discovery, stakeholder register, and RACCI matrix from to-do-list.md S7. Confirm the stakeholder set is diverse (airline, passenger, ATC/ANSP, airport, flight crew, environmental/societal, military -- see S8's per-stakeholder objective categories) and that stakeholders with little formal power (e.g., passengers, communities affected by noise/emissions) are represented.}
+Informed by the literature survey and the author's experience in the aviation industry, a set of candidate stakeholders was identified and refined using a PESTLE analysis and stakeholder discovery process. The result is a diverse group of stakeholders that represent the various interests and perspectives affected by NAS operational decisions, and is shown in Figures~\ref{fig:stakeholders-exploration} and~\ref{fig:stakeholders-power-interest}. The stakeholders are grouped by the six domains of a PESTLE analysis (political, economic, social, technological, legal, environmental) and scored for importance and impact on trajectory decisions. The assessment is documented in the \texttt{capstone\_stakeholder\_assessment.xlsx} file, along with an initial assessment of each candidate stakeholder's objectives, candidate MOPs and MOEs, and whether the stakeholder has a direct or indirect effect on trajectory decisions. The assessment also considers whether the stakeholder should stand alone or be abstracted through consolidation with another, and the reason for that decision. An excerpt of the work is in Appendix~\ref{app:stakeholders}, Table~\ref{tab:stakeholder-assessment-excerpt}.
 
-I created the \texttt{capstone\_stakeholder\_assessment.xlsx} file with an initial assessment of each candidate stakeholder's objectives, then refined it as I read more of the literature and understood the NAS better. For each stakeholder the assessment records:
-\begin{itemize}
-    \item the stated interest, and whether it acts as a hard constraint, an optimization objective, a cost or penalty, a measure of performance (MOP), or a measure of effectiveness (MOE);
-    \item candidate MOPs and MOEs;
-    \item whether the stakeholder has a direct or indirect effect on trajectory decisions, if any;
-    \item whether the stakeholder should stand alone or be abstracted through consolidation with another, and the reason.
-\end{itemize}
+\begin{figure}[htbp]
+\centering
+\figorbox{stakeholders_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_exploration.png}}
+\caption{Candidate stakeholders of the NAS as a system of systems.}
+\label{fig:stakeholders-exploration}
+\end{figure}
 
-\aidraft{Expansion of the paragraph above (your notes: ``expand''; ``Add excerpt or put in Appendix and reference''). Every figure is read from the workbook's ``Stakeholder Assessment'' and ``Decision Guide'' sheets. The excerpt is Table~\ref{tab:stakeholder-assessment-excerpt}; Claude chose its rows.}
-The assessment holds 48 candidate stakeholders, grouped by the six domains of a PESTLE analysis (political, economic, social, technological, legal, environmental). Each candidate is scored from two judgments. The first is its importance as a stakeholder in its own right: high (3), medium (2) or low (1). The second is whether a trajectory decision changes its objective: directly (2), indirectly (1) or not at all (0). A total of 5 marks a stakeholder to keep on its own, 3 or 4 one to consider or to consolidate with another, and 1 or 2 one to treat as an input at the boundary or to leave out. An excerpt is in Appendix~\ref{app:stakeholders}, Table~\ref{tab:stakeholder-assessment-excerpt}.
-% ---- end AI draft
+\begin{figure}[htbp]
+\centering
+\figorbox{stakeholders_impact_power_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_impact\_power\_exploration.png}}
+\caption{Candidate stakeholders placed by power and interest.}
+\label{fig:stakeholders-power-interest}
+\end{figure}
+The power analysis informed the decision to keep four stakeholders in scope: the airline, air traffic control, the airport authority, and the flight crew. The other stakeholders are treated as boundary actors that supply rules, equipment, demand, and expectations to the decision but do not make it or execute it. The four kept stakeholders appear on the context diagram (Figure~\ref{fig:sysml-systemContext}) and are decomposed in the model.
 
-% Objectives list moved up from the end of this subsection, 2026-10-13 (owner's
-% note, print page 10: "Move up near talk about xlsx").
 An exploration of each stakeholder's interests led to the following list of objectives relevant to the project:
 \begin{itemize}
     \item Safety / Security
@@ -137,35 +136,9 @@ An exploration of each stakeholder's interests led to the following list of obje
     \item Regulatory Compliance
     \item Workload / Human Factors
 \end{itemize}
+These objectives were then assessed for relevance to the decision under study, and six were kept: safety, efficiency, environmental impact, schedule reliability, cost, and workload. The other objectives were set aside for the reasons given in Section~\ref{sec:scope}.
 
-% The eight-item list "This led to the following list of stakeholders relevant to
-% the project" is removed (owner's note, 2026-10-13 print, page 7: "This is the
-% starting point, which becomes redundant w/ the image."). It is in git history.
-\aidraft{How the list in Figure~\ref{fig:stakeholders-exploration} was formed (your note: ``Add verbiage about how early literature review readings and SME background informed formulation of the list of stakeholders shown in Figure 1''). Claude knows the list was seeded by a PESTLE pass (\texttt{knowledge/models/stakeholder-register.md}); which readings and which parts of your experience shaped it is yours to say. The two sources named are ones the Introduction already cites.}
-The candidates in Figure~\ref{fig:stakeholders-exploration} were the starting point. They came from a PESTLE pass over the NAS, from early readings on airline operations control and disruption management~\cite{castro2013aoccMasThesis,hassanDisruptionReview}, and from the author's experience in the flight management system industry, which supplied the parties that sit between an airline's plan and the trajectory the aircraft flies.
-% ---- end AI draft
-
-\begin{figure}[htbp]
-\centering
-\figorbox{stakeholders_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_exploration.png}}
-\caption{Candidate stakeholders of the NAS as a system of systems.}
-\label{fig:stakeholders-exploration}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\figorbox{stakeholders_impact_power_exploration.png}{MISSING: \texttt{report/figures/stakeholders\_impact\_power\_exploration.png}}
-\caption{Candidate stakeholders placed by power and interest.}
-\label{fig:stakeholders-power-interest}
-\end{figure}
-
-% Sentence moved to after the two figures, 2026-10-13 (owner's note, print page 7:
-% "Move to after images").
-Figure~\ref{fig:stakeholders-exploration} shows the candidate stakeholders first identified, and Figure~\ref{fig:stakeholders-power-interest} places them by power and interest.
-
-\aidraft{What happened to two groups in Figure~\ref{fig:stakeholders-power-interest} (your note: ``Talk about how context setters became part of the environment by defining the regulatory environment. Describe how Airports were included b/c of [streaming] and capacity's relevance for decision making and representation in scenario was weak''). ``Streaming'' is Claude's reading of one handwritten word; correct it. The statement that no airport constraint acts on the scenario is Claude's, from \texttt{simulation/scenario\_base.yaml}.}
-The context setters of Figure~\ref{fig:stakeholders-power-interest}, governments and regulators, became part of the environment. They define the regulatory environment in which the modeled systems operate, and they enter the model as rules, not as parties to an operational decision. Airports are placed among the subjects in Figure~\ref{fig:stakeholders-power-interest} and were nonetheless kept as a modeled system, because the streaming of traffic into an airport and the airport's capacity bear on trajectory decisions. Their representation in the experiment's scenario is weak: the scenario is one conflict in cruise, and no airport constraint acts on it.
-% ---- end AI draft
+% Where to put the stakeholder requirements?
 
 \subsection{System Identification and Selection}
 \label{sec:systems-selection}
