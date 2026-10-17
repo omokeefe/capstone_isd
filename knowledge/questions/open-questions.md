@@ -83,7 +83,7 @@ in the report; none is answered anywhere in the repo yet.
 - [ ] **Value to the sponsor.** Who is the sponsor for this project (faculty adviser only?),
   and what does "value-added" mean to them? Dollar benefits are preferred but the report's
   Impact section already flags that a literal dollar figure may not be meaningful (see
-  `report/sections/06_impact_financial_benefits.tex`). Ask the adviser whether an
+  `report/sections/07_impact_financial_benefits.tex`). Ask the adviser whether an
   operational-terms headline with a caveated dollar estimate is acceptable.
 - [ ] **Course page says "Winter 2026"** but the dates (Sep 20-Dec 13) are Fall 2026.
   Probably stale template text; the dates are what matter, but worth a glance.

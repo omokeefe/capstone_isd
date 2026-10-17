@@ -99,8 +99,8 @@ only here>
 **Notes / open issues:** <anything unresolved about the scenario itself>## Status
 
 Not yet started. Once 1-3 scenarios are drafted here and stable, synthesize the summary
-into `report/sections/04_results_discussion.tex` (plantodo tagged `S5`) and the full
-activity breakdown into `report/sections/08_appendices.tex` (`app:conops`), per the
+into `report/sections/04_system_model.tex` (Operational Concept, plantodo tagged `S5`) and the full
+activity breakdown into `report/sections/09_appendices.tex` (`app:conops`), per the
 mapping comment at the top of `report/main.tex`.
 
 --- 

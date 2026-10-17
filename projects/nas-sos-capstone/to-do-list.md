@@ -94,7 +94,7 @@ Interim Report #2 checklist: `report/README.md`. Red `\irtwo` notes in the compi
 - [ ] Section 5 Impact; Section 6 Conclusions and Recommendations (limitations from `lessons-learned.md` and the Future work section below); Executive Summary last.
 - [ ] Appendices: full options table and four-level scoring; the thread trace table; stakeholder requirements (reviewed) and system requirements (reviewed on the thread, unreviewed marked); the one RACCI table (§7, six thread decisions); diagrams not in the body; source register; GenAI disclosure.
 - [ ] GenAI-use citation and disclosure (course policy; owner drafts; check with the adviser).
-- [ ] Course minimum requirements check: current-state metric = case A (D-018); improvement claim = cases C and D by simulation; value to the sponsor stated in operational terms with a caveated dollar figure (`report/sections/06_impact_financial_benefits.tex` scope flag).
+- [ ] Course minimum requirements check: current-state metric = case A (D-018); improvement claim = cases C and D by simulation; value to the sponsor stated in operational terms with a caveated dollar figure (`report/sections/07_impact_financial_benefits.tex` scope flag).
 - [ ] Owner re-words the five view captions in `cameo_models/nas_package_my_views.sysml` and the appendix lead-in; restates or strikes the eight candidate entries in `lessons-learned.md`.
 
 ## Track D — Evidence on demand (§2 to §4 replaced)

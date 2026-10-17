@@ -5,7 +5,7 @@ name, so every `view` in the model is drawn. Then writes two generated things un
 projects/nas-sos-capstone/report/figures/sysml/:
 
   diagram-<viewName>.png   one per view
-  sysml_figures.tex        one LaTeX figure per appendix view, \\input by 08_appendices.tex
+  sysml_figures.tex        one LaTeX figure per appendix view, \\input by 09_appendices.tex
   fig-<viewName>.tex       one LaTeX figure per view, for a body section to \\input
   manifest.json            hash and render date per view (keeps dates stable)
 

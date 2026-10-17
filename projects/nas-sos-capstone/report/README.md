@@ -14,13 +14,14 @@ From `prework/course-info-canvas.md`. The compiled PDF shows every required part
 `REQUIRED FOR INTERIM REPORT #2` note (the `\irtwo` macro in `main.tex`); delete each note
 when the owner has written that part.
 
-- [ ] **Introduction** updated (Section 1): the two claims stated, research-gap paragraph written, timing shows the nine turns, the empty status in the old-plan table filled. Done 2026-10-13 (D-027): current state is its own subsection and reviewed; the scope question is answered.
-- [ ] **Assumptions and Methodology** (Section 2): working assumptions and limits, systems engineering approach table (process names checked against 15288) and tailoring paragraph, the opening paragraph expanded, the proposed interface (decide where it goes).
-- [ ] **Experiment** (Section 3, added 2026-10-11, D-026): scenario, cases and options, scoring, aircraft model and simplifications.
-- [ ] **Results and Discussion (preliminary)** (Section 4): operational concept, architecture figures (now in the body), the two hand checks, the outcome table and its discussion with the trace back to the model, emissions; marked preliminary in the heading.
+- [ ] **Introduction** updated (Section 1): the two claims stated, research-gap paragraph written, timing shows the nine turns, the empty status in the old-plan table filled. Done 2026-10-13 (D-027): current state is its own subsection and reviewed; the scope question is answered. Changed 2026-10-17 (D-028): stakeholders and scope are now one short subsection, "Stakeholders and Study Boundary", that points to Section 3.
+- [ ] **Assumptions and Methodology** (Section 2): working assumptions and limits, systems engineering approach table (process names checked against 15288) and tailoring paragraph, the opening paragraph expanded. The proposed interface moved to Section 3.6 on 2026-10-17 (D-028).
+- [ ] **System Model** (Section 3, added 2026-10-17, D-028): stakeholders (identification, candidate objectives, selection, objectives and conflicts), constituent systems with the Miro board reading and your [SME] note, System of Interest and the context diagram, operational concept, architecture, proposed airline-to-ATC interface.
+- [ ] **Experiment** (Section 4, added 2026-10-11, D-026): scenario, cases and options, scoring, aircraft model and simplifications.
+- [ ] **Results and Discussion (preliminary)** (Section 5): the model's measures against the Deliverables measures, the two hand checks, the outcome table and its discussion with the trace back to the model, emissions; marked preliminary in the heading.
 - [ ] **References**: every cited key exists in `evidence/sources/references.bib`; remove `\nocite{*}` from `main.tex` if the list should show only what is cited.
-- [ ] **Generative AI disclosure** drafted (Appendix). It must cover the passages Claude drafted on 2026-10-11 and 2026-10-13 unless each has been rewritten.
-- [ ] Every blue `AI-DRAFTED, owner to rewrite` note rewritten and deleted (the `\aidraft` macro in `main.tex`). Twelve as of 2026-10-13; the list is item 7 under "Open after this pass" in `handwritten/2026-10-13_main.md`.
+- [ ] **Generative AI disclosure** drafted (Appendix). It must cover the passages Claude drafted on 2026-10-11, 2026-10-13 and 2026-10-17 unless each has been rewritten.
+- [ ] Every blue `AI-DRAFTED, owner to rewrite` note rewritten and deleted (the `\aidraft` macro in `main.tex`). Seventeen as of 2026-10-17 (seven added that day, D-028); the 2026-10-13 list is item 7 under "Open after this pass" in `handwritten/2026-10-13_main.md`.
 - [x] Title page says Interim Report #2 (changed 2026-10-11).
 - [ ] Review meeting with the adviser held (or confirm the earlier meeting counts).
 - [ ] Word copy produced and sent to the adviser (Mark Petrotta, mpetrott@umich.edu).
@@ -71,7 +72,7 @@ plain filename without needing a relative path or a duplicate copy.
 
 ### SysML diagrams (generated)
 
-`figures/sysml/` is written by `tools/render_sysml_diagrams.py`: one PNG per `view` in the SysML model, one `fig-<viewName>.tex` per view, and `sysml_figures.tex`, which `sections/08_appendices.tex` inputs. A view with a `// placement: body` line above its caption line is left out of `sysml_figures.tex`; a body section inputs its `fig-<viewName>.tex` instead (D-026). Do not edit that folder or add SysML figures to a `.tex` file by hand. Change the view in the model and rerun the script; see [workflows/render-sysml-diagrams.md](../../../workflows/render-sysml-diagrams.md). Figure labels are `fig:sysml-<viewName>`.
+`figures/sysml/` is written by `tools/render_sysml_diagrams.py`: one PNG per `view` in the SysML model, one `fig-<viewName>.tex` per view, and `sysml_figures.tex`, which `sections/09_appendices.tex` inputs. A view with a `// placement: body` line above its caption line is left out of `sysml_figures.tex`; a body section inputs its `fig-<viewName>.tex` instead (D-026). Do not edit that folder or add SysML figures to a `.tex` file by hand. Change the view in the model and rerun the script; see [workflows/render-sysml-diagrams.md](../../../workflows/render-sysml-diagrams.md). Figure labels are `fig:sysml-<viewName>`.
 
 ## Removing TODO markers for a final submission
 

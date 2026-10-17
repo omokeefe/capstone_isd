@@ -10,7 +10,7 @@ One script, `tools/render_sysml_diagrams.py`, draws every `view` in `projects/na
 - `sysml_figures.tex`, one LaTeX figure per view, in the order the views appear in the model.
 - `manifest.json`, the hash and render date of each image.
 
-The appendix "Full SysML Diagram Set" (`report/sections/08_appendices.tex`) contains `\input{figures/sysml/sysml_figures}`. So the report shows whatever views the model has: add a view and it appears, remove one and it goes, with no edit to any `.tex` file. Everything in `report/figures/sysml/` is generated. Do not edit it by hand.
+The appendix "Full SysML Diagram Set" (`report/sections/09_appendices.tex`) contains `\input{figures/sysml/sysml_figures}`. So the report shows whatever views the model has: add a view and it appears, remove one and it goes, with no edit to any `.tex` file. Everything in `report/figures/sysml/` is generated. Do not edit it by hand.
 
 ## Steps
 

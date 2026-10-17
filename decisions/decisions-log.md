@@ -6,6 +6,31 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-028 — The report gets a System Model section between the methodology and the experiment
+
+**Date:** 2026-10-17
+**Status:** active. Owner direction in a working session; amends D-027 item 1 and settles the open question in D-027's Consequences about where the proposed interface goes.
+
+**Decision:**
+
+1. **New Section 3, "System Model"** (`report/sections/04_system_model.tex`), in this order: 3.1 Stakeholders (identification, candidate objectives, selection, objectives and conflicts); 3.2 Constituent Systems; 3.3 System of Interest (with the context diagram); 3.4 Operational Concept; 3.5 Architecture; 3.6 Proposed Airline-to-ATC Interface. Each subsection leads to the next, and 3.6 leads into the experiment, which measures what the interface is worth.
+2. **The Introduction keeps a short summary,** "Stakeholders and Study Boundary", that names the kept stakeholders and objectives and points to Section 3. The course template expects stakeholders and scope in the Introduction; the detail lives in Section 3.
+3. **Scope is not a heading.** Project scope (which decision is studied) is in the Introduction's summary; the de-scoping reasons are 3.1.3 Selection (which carries `\label{sec:scope}`); the boundary of the system is 3.3 System of Interest (`\label{sec:soi}`).
+4. **Objectives and Conflicts closes 3.1** (the owner's suggestion), after Selection, because it speaks only of the stakeholders and objectives kept there.
+5. **Results and Discussion stays one section** for Interim Report #2, and now carries a call-out to report the model's measures (traceability and coverage against the Deliverables measures), so the systems engineering work is assessed and not only described.
+6. **Section files 04 to 08 renumbered 05 to 09;** every `\label` kept, so cross-references resolve unchanged.
+7. **Claude moved blocks whole and drafted seven short passages,** each marked `AI-DRAFTED, owner to rewrite`: the section opener, a one-line description of each candidate objective (owner's request), the transition into 3.2 and a reading of the Miro board (owner's request), two sentences for 3.3, the closing link from 3.6 to the experiment (owner's request), the Introduction summary, and the experiment's opening sentence. The owner's experience behind the Miro board is a call-out for the owner.
+
+**Rationale:** the operational concept and architecture were in Results but are not results of the experiment; the proposed interface had no home in the methodology (owner's question on the 2026-10-13 print, page 17). Grouping the stakeholder work and the model in one section lets the report read from the stakeholders' conflict, through the model, to the interface the experiment tests.
+
+**Alternatives considered:** move Stakeholders and Scope out of the Introduction completely (rejected: a grader following the template would not find them); split Results from Discussion (deferred: one scenario gives one table and two hand checks, and a separate Discussion would sit beside Impact and Conclusions); name the section "Modelling" (British spelling; "System Model" names the deliverable).
+
+**Evidence / source:** this session; `prework/503-ReportGuidelines-v26.docx` (Introduction lists Project Stakeholders and Project Scope).
+
+**Consequences:** section numbers shift (Experiment 4, Results 5, Impact 6, Conclusions 7). `main.tex` mapping comment, `report/README.md`, the render-sysml-diagrams workflow, skill and script comment, `to-do-list.md`, `open-questions.md` and `conops-scenarios.md` updated to the new file names. Open: the Working Assumptions paragraph on how the System of Interest was drawn ("An entity is modeled when...") may belong in 3.3; not moved.
+
+---
+
 ## D-027 — Second hand review of the report: Section 1 reorganized, the worked example and the decider's equation removed, decision numbers out of the text
 
 **Date:** 2026-10-13
