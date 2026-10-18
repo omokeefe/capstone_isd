@@ -19,7 +19,7 @@ The scenario used to explore the value of the proposed interface is a simple one
 \label{fig:scenario-plan}
 \end{figure}
 
-The crossing pair is at FL380, which places the heavy aircraft is near its service ceiling (Figure~\ref{fig:envelope}). The two trailing aircraft are at FL360. The scenario is shown in profile view in Figure~\ref{fig:scenario-profile}. The scenario is static, with no time evolution, because the controller studies that informed the option set used one snapshot (\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).
+The crossing pair is at FL380, which places the heavy aircraft is near its service ceiling (Figure~\ref{fig:envelope}). The two trailing aircraft are at FL360. The scenario is shown in profile view in Figure~\ref{fig:scenario-profile}. The scenario is static, with no time evolution, similar to the studies that informed the scenario (\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).
 
 \begin{figure}[htbp]
 \centering
@@ -28,17 +28,16 @@ The crossing pair is at FL380, which places the heavy aircraft is near its servi
 \label{fig:scenario-profile}
 \end{figure}
 
-\plantodo{S11}{\textbf{Scenario.} Justify the static snapshot by the controller studies that used one (\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).}
-
 \plantodo{S11 (owner's note, 2026-10-11 print, page 11)}{\textbf{``Justify one scenario (time) and expand as possible.''} Say that one scenario is studied because of the time available in one term, name what a second scenario would add, and list the variations that are run on the one scenario (similar weights, the climb closed, a crossing pair at or below FL350).}
 
 
 \subsection{Cases and Resolution Options}
 \label{sec:experiment-method}
 
-Four options are available to the controller responsible for resolving conflicts, and are summarized in Table~\ref{tab:cases}. The decider's knowledge of the aircraft's weight, cost index, and general performance determines which options it can offer. The baseline case (A) is the current NAS practice, where the controller has only the information that is currently available to them through passive surveillance channels. The other three cases (B, C, D) are automated and have increasing levels of information about the aircraft's weight and cost index. The options available to each case are described in Table~\ref{tab:options}.
 
 \plantodo{S11}{\textbf{More realistic comparison?} Consider expanding to include a case that mimics EPP, which enables better understanding of the current trajectories and speed envelope (as evidenced by ETA windows). What else can be derived from EPP info in a split-second assessment? Also, should we throw "typical weight errors" into the tool and see their impact on the system's ability to make good decisions? How might that factor into the model?}
+
+Four cases are considered of varying levels of apriori information, and are summarized in Table~\ref{tab:cases}. The decider's knowledge of the aircraft's perfomance and the relative expense of airline costs determines which resolution options it can offer. 
 
 \begin{table}[h]
 \centering
@@ -62,8 +61,6 @@ Case B is an automated decision aid that has access to the nominal weight of eac
 
 Case C is an automated decision aid that has access to the actual weight and cost index of each aircraft. As such, it is not bound by the same limitations as Case B. It differs from  Case D through the ability to account for the cost of delaying the time of arrival of the aircraft. The cost calculation os Case D incorporate a measure of the cost of delaying a flight with connections past its threshold, which is not available to Case C.
 
-\plantodo{S11}{\textbf{Resolution options.} State which aircraft descends and the tie-breaker (undecided), and whether the aircraft is cleared back up. For each option give the instructions it costs now, the follow-up it creates, and what the decider must know to use it. Cite \cite{fothergill2013resolutionHeuristics} for the instruction accounting.}
-
 \begin{table}[h]
 \centering
 \caption{Resolution options. A dash means no instruction. Full version with instruction counts in Appendix~\ref{app:optimization}.}
@@ -85,90 +82,77 @@ O9 & Descend 2,000 ft & -- & Slow or turn & --\\
 \end{tabular}
 \end{table}
 
-\plantodo{S11}{\textbf{Sources for the option set and the counts} Instruction counts: \cite{fothergill2013resolutionHeuristics} (pp.~72--74). Climbs used less than descents: \cite{rantanen2012conflictManeuvers} (6 of 36). Speed limited to $\pm 0.04$ Mach and built to fail: the author's own figure, to be stated as experience.}
+\plantodo{S11}{\textbf{Resolution options.} State which aircraft descends and the tie-breaker (undecided), and whether the aircraft is cleared back up. For each option give the instructions it costs now, the follow-up it creates, and what the decider must know to use it. Cite \cite{fothergill2013resolutionHeuristics} for the instruction accounting.}
 
-\plantodo{S11}{\textbf{The baseline is not hobbled} (owner's note, second hand review, 3.2). In the later variation at or below FL350 the baseline may climb and does not, because its rule is one descent. Say that this matches the observed preference for descents (\cite{rantanen2012conflictManeuvers}). \textbf{Owner's note, 2026-10-11 print: ``Also note higher alt $\sim$ optimal''} --- say that the higher level is near the optimum for these aircraft (Figure~\ref{fig:fuelflow-altitude}), so a baseline that never climbs is giving something up.}
+The conflict depicted in the scenario can be resolved by several options, which are listed in Table~\ref{tab:options} and are available to all four cases, with the exception of options 3 and 4, which are not available for cases A and B for reasons described previously.
+
+Options 1 and 2 are descents of the heavy and light aircraft, respectively. A descent is the most common resolution option observed in practice \cite{rantanen2012conflictManeuvers}. It is the safest option, as it is robust to heavy aircraft, which may be operating near their service ceiling with little room to maneuver. Cases A and B will be unable to discern a difference in cost between the two options due to limited knowledge. 
+
+Options 3 and 4 are climbs of the heavy and light aircraft, respectively, which are not available to cases A and B due to the climb rule. If A and B were able to consider climbs they would be similarly ignorant to the relative benefit and safety associated with the lighter aircraft climbing. 
+
+In Options 5 and 6, a lateral modification is assigned by the controller to achieve separation without the need for changes to flight level. Option 7 considers a speed reduction of the heavy aircraft, which is a less common resolution option, but which is practical and straight forward way to achieve separation if there is sufficient separation on either side of the pair. Aircraft 3 and 4 complicate its application to this scenario. 
+
+Option 8 is a 4,000 ft descent of the heavy aircraft, which a controller may deem necessary to simplify the separation with aircraft 3 and 4, which are in trail 2,000 ft below aircraft 1. Option 9 is a descent of the heavy aircraft and a speed reduction or turn of the light aircraft, which is a less common resolution option.
+
+While not comprehensive, this set of options is representative of controller practices. \cite{fothergill2013resolutionHeuristics} found that controllers relied on five lateral vectoring heuristics and eight vertical level-change heuristics to resolve potential conflicts between aircraft. \cite{rantanen2012conflictManeuvers} found that level-offs constituted the most frequent maneuver category, which are only applicable to aircraft ascending or descending and which represented 44\%. Turns were the next most frequent, at 32\%, followed by descents at 18\%, and climbs at 5\%. Turns occurred much less frequently than vertical trajectory changes, accounting for 32\% compared with 68\%. These percentages reflect actions taken across all types of conflicts, rather than the cruise scenario alone. 
+
+\plantodo{S11}{\textbf{To Specify} degree of turn, distance offset, and re-vectoring back on path, whether direct-to or otherwise. This will manifest in different costs.}
 
 \subsection{Scoring}
 \label{sec:scoring-method}
 
-\plantodo{S11}{\textbf{What the system column is} (owner's notes, second hand review, 5.5 and 6.1). State that it is a measure of the airspace as a whole system of systems, define it by its cost statement (total fuel, total CO2, total airline cost, workload items, largest cost to any one aircraft), and refer back to that statement wherever the column is discussed.}
+Each option is scored along several lines, to highlight the ways different actions lead to different costs and how those costs aggregate at varying system of interest boundaries, including:
+\begin{itemize}
+    \item a single aircraft,
+    \item all aircraft associated with a single airline,
+    \item all aircraft in the sector,
+    \item the airspace as a whole, including the cost of controller actions, airline schedule impacts, and environmental impacts.
+\end{itemize}
 
-\plantodo{S11}{\textbf{How each option is scored, one statement per viewpoint.} Aircraft: extra fuel plus cost index times extra time (\cite{mori2022massCruise}, Eq.~1--3). Airline: the sum over its aircraft plus a step cost when a flight misses a connection, plus CO2 converted to dollars. Sector: clearances issued, effort to devise them, and residual risk, reported as three separate items. System: totals stated side by side, with no weighted sum (D-013). Say why no weighted sum: nobody in the model owns the weights.}
+\plantodo{S11}{\textbf{Review items.} Still need to be checked against \texttt{simulation/experiment\_scoring.py}. Also, need to finalize what costs will be included where, based on the models. Current content is a draft.}
 
-\plantodo{S11}{\textbf{Emissions.} State the conversion from fuel to CO2 and its source (\cite{icao2024icecMethodology}). State how CO2 becomes dollars at the airline level and why that route was chosen (credit price, passenger value, or both; undecided), and why the system level keeps CO2 in kg.}
-
-% ---- The text from here to the end of this subsection was AI-drafted on
-% 2026-10-11 as a placeholder and pared down the same day as the owner marked
-% on the print ("Pare down."). To be checked against
-% simulation/experiment_scoring.py and rewritten by the author.
-For aircraft $i$ the cost of an option is its extra fuel plus its cost index times its extra time, in kilograms of fuel, the form used in \cite{mori2022massCruise}:
+Individual aircraft costs are limited to time and fuel, and are equated through the use of a standard industry conversion with the cost index (CI). For aircraft $i$ the cost of an option is its extra fuel plus its cost index times its extra time, in kilograms of fuel, the form used in \cite{mori2022massCruise}:
 \begin{equation}
 c_i = \Delta m_{f,i} + \mathit{CI}_i\, \Delta t_i ,
 \label{eq:ac-cost}
 \end{equation}
 where the extra fuel $\Delta m_{f,i}$ and the extra time $\Delta t_i$ are the option minus the baseline of flying on undisturbed, and $\mathit{CI}_i$ is the cost index of aircraft $i$ in kilograms of fuel per minute.
 
-% The decider's equation (J, the lowest estimate over all aircraft) is removed as
-% the owner marked on the 2026-10-13 print, page 20 ("Remove"). The words "the
-% option whose estimated total of Eq. 1 over all aircraft is lowest" are Claude's,
-% added so the paragraph still says how an automated case chooses.
+An airline's cost is the sum over its aircraft plus a step cost when a flight misses a connection, plus CO2 converted to dollars. 
+
+The cost experienced by the sector include all individual aircraft costs as well as clearances issued, effort to devise them, and residual risk. The latter three costs are associated with the sector
+
+Total airspace cost is that of the system of interest, and totals all costs experienced by airspace users and by the stakeholders of the system. As such, it includes the environmental cost associated with each action. This would also consider the balance of costs across airlines, if the scenario facilitated resolutions that lead to inequitable costs. 
+
+\plantodo{S11}{\textbf{Emissions.} State the conversion from fuel to CO2 and its source (\cite{icao2024icecMethodology}). State how CO2 becomes dollars at the airline level and why that route was chosen (credit price, passenger value, or both; undecided), and why the system level keeps CO2 in kg.}
+
+
+\subsubsection{Case Considerations}
+
+
 Case A applies its rule, one descent. Each automated case chooses, among the options it is allowed to offer, the option whose estimated total of Eq.~\ref{eq:ac-cost} over all aircraft is lowest. Case B uses the type's nominal mass for every aircraft and values time at 1 kg/min. Cases C and D use each aircraft's actual mass and cost index. Case D also rejects an option that delays a flight with connections past its threshold. Whatever a case chooses is then scored at the actual masses, and that score is what the tables report.
 
-Schedule reliability enters as a step: a flight with connections that is delayed past its threshold incurs a cost $K$ on top of Eq.~\ref{eq:ac-cost}. No sourced value of $K$ is held, so the tables report whether the threshold is crossed, not a dollar figure. Carbon dioxide is 3.16 kg per kilogram of fuel \cite{icao2024icecMethodology}. Instructions are counted, now and later, and are not converted to anything.
-% ---- end pared-down AI draft
+Schedule reliability enters as a step cost, as described by \cite{pilon2019udppMargins}, which occurs when a flight with connections is delayed past a given threshold. At the time threshold associated with missed connections, the flight incurs a cost $K$ on top of Eq.~\ref{eq:ac-cost}. No sourced value of $K$ is presently held, so the tables report whether the threshold is crossed, not a dollar figure. This may change in a future draft. 
 
-\plantodo{S11 (candidate figure)}{\textbf{Figure~\ref{fig:cost-of-delay} is another paper's figure.} It is Figure 1 of \cite{pilon2019udppMargins}, placed here because it shows the step in the cost of delay that $K$ stands for. Decide: keep it as a reproduction with the credit in the caption, redraw it for this scenario, or remove it.}
+Carbon dioxide can be derived from the chemical formula of Jet-A fuel, as 3.16 kg per kilogram of fuel \cite{icao2024icecMethodology}. Instructions issued by controllers are counted for those required to resolve the initial conflict as well as those to clear the aircraft back to its original path, but are not presently converted to a USD cost.
 
 \begin{figure}[htbp]
 \centering
-\figorbox[0.7\textwidth]{single_flight_cost_per_delay.png}{MISSING: \texttt{attachments/single\_flight\_cost\_per\_delay.png}}
+\figorbox[0.7\textwidth]{single_flight_cost_per_delay.png}{\texttt{attachments/single\_flight\_cost\_per\_delay.png}}
 \caption{Cost of delay for one flight, with steps where a margin is exceeded. Reproduced from \cite{pilon2019udppMargins}, Figure 1.}
 \label{fig:cost-of-delay}
 \end{figure}
 
 \subsection{Aircraft Model and Its Simplifications}
 \label{sec:scoring-limits}
+Calculating a fuel and time cost involves defining a truth model to enable comparison of the resultant airspace performance observed as a result of resolving conflicts using the various optoins. The OpenAP (open aircraft performance model, TU Delft) is used to define that entitled information and supplies fuel flow, thrust and drag for the scenario aircraft, which are combined in the equations of motion to determine fuel and time deltas.
 
-\plantodo{S11, S12}{\textbf{Truth model (decided, D-017).} OpenAP (open aircraft performance model, TU Delft) scores every option: fuel flow, thrust and drag for the B737-9 at the aircraft's actual mass. State the three selectable fidelities (conceptual: feasibility and instruction counts only; nominal mass; actual mass) and that the decider's case (A to D) and the truth model's fidelity are independent settings. The earlier kinematic model (\texttt{vehicle\_dynamics.py}) is not used by the experiment.}
-
-% ---- AI-drafted 2026-10-11 and cut the same day as the owner marked on the
-% print ("Cite another paper for this content. Don't re-create."; "Remove.";
-% table "Keep"). The removed equations (true airspeed, drag polar, maximum
-% thrust, fuel flow, rate of climb, per-manoeuvre fuel and time) are in git
-% history, commit 2b0b038, 03_assumptions_methodology.tex.
 Each aircraft is a point mass in steady flight at a constant Mach number. Drag, maximum thrust and fuel flow are taken from OpenAP \cite{sun2020openap}, which uses a two-term drag polar and, above 30,000 ft, the two-shaft turbofan thrust model of \textcite{bartel2008thrustFuel}. Table~\ref{tab:openap-params} lists the values OpenAP holds for the type.
 
-\plantodo{S11, S12 (owner's note, 2026-10-11 print, page 13)}{\textbf{``Cite another paper for this content. Don't re-create.''} The OpenAP paper is now held (\texttt{evidence/sources/sun2020openap\_aerospace-07-00104.pdf}) and was read in full by Claude on 2026-10-11. The author has not read it. Bartel and Young is not held, and is cited here only through the OpenAP paper, which reproduces its equations. Read Sections 5 and 7 of the OpenAP paper (pp.~6 to 17) before submission. What the paper says about its own accuracy is in \texttt{evidence/literature-notes/summaries/4 - sun2020openap.md} and belongs in the discussion of the truth model's uncertainty (Section~\ref{sec:experiment-results}).}
+\plantodo{S11, S12}{\textbf{OpenAP Review}Read Sections 5 and 7 of the OpenAP paper (pp.~6 to 17) before submission. What the paper says about its own accuracy is in \texttt{evidence/literature-notes/summaries/4 - sun2020openap.md} and belongs in the discussion of the truth model's uncertainty (Section~\ref{sec:experiment-results}).}
 
-\begin{table}[h]
-\centering
-\small
-\caption{Values OpenAP 2.6.2 uses for the B737-9 (type code B39M), read from the installed package on 2026-10-11.}
-\label{tab:openap-params}
-\begin{tabular}{@{}p{5.6cm}p{3.6cm}p{5.6cm}@{}}
-\toprule
-Quantity & Value & Note \\
-\midrule
-Wing area $S$ & 124.6 m$^2$ & type data \\
-Zero-lift drag coefficient $C_{D0}$ & 0.020 & 737 MAX 8 polar, borrowed \\
-Induced drag factor $k$ & 0.042 & 737 MAX 8 polar, borrowed \\
-Engines $n$, type & 2, LEAP-1B & type data \\
-Static thrust per engine $T_0$ & 111,300 N & engine data \\
-Reference thrust $T_{cr}$ & 46,300 N (both engines) & $0.2\,T_0 + 890$ N per engine \\
-Reference cruise $M_{cr}$, altitude & 0.79, 11,000 m & type data \\
-Take-off fuel flow $s$ & 0.877 kg/s per engine & ICAO databank \\
-Fuel curve $c_1$, $c_2$, $c_3$ & 0.9376, 1.9768, 1.3955 & package default curve, not fitted to this type \\
-\bottomrule
-\end{tabular}
-\end{table}
+A descent is flown at 1,500 ft/min. A climb is flown at maximum thrust, at the rate that thrust allows and no more than 1,500 ft/min. A level is available to an aircraft only if it would still have 150 ft/min of climb left there. Cases A and B do not know the mass and so cannot make that test; they offer a climb only at or below FL350, which the scenario does not explore. Cases C and D make it at the aircraft's actual mass. Figure~\ref{fig:envelope} depicts a typical flight envelope, drawn assuming lift equals weight and using the OpenAP models. 
 
-A descent is flown at 1,500 ft/min. A climb is flown at maximum thrust, at the rate that thrust allows and no more than 1,500 ft/min. A level is available to an aircraft only if it would still have 150 ft/min of climb left there. Cases A and B do not know the mass and so cannot make that test; they offer a climb only at or below FL350, which the scenario does not explore. Cases C and D make it at the aircraft's actual mass.
-
-% Figure moved here from the Results section and its caption cut, per the
-% owner's notes on the 2026-10-11 print, page 20 ("Move figure to an earlier
-% section."; title: "Move to caption"; bracketed caption text: "Move to
-% discussion."). The sentence after the figure is the text moved out of the caption.
 \begin{figure}[htbp]
 \centering
 \figorbox[\textwidth]{b739_envelope.png}{PLACEHOLDER: run \texttt{simulation/b739\_envelope.py} to produce \texttt{report/figures/b739\_envelope.png}}
@@ -176,23 +160,16 @@ A descent is flown at 1,500 ft/min. A climb is flown at maximum thrust, at the r
 \label{fig:envelope}
 \end{figure}
 
-Figure~\ref{fig:envelope} is drawn assuming lift equals weight. Its low-speed boundary is 1.3 times the stall speed at an assumed clean maximum lift coefficient, and its high-speed boundary is the more restrictive of the maximum operating Mach number and the maximum operating speed (VMO). The aircraft's present level and Mach number are marked, and each altitude and speed instruction the scenario offers it is marked as inside or outside the region with 150 ft/min of climb left.
+The low-speed boundary is 1.3 times the stall speed at an assumed clean maximum lift coefficient, and its high-speed boundary is the more restrictive of the maximum operating Mach number and the maximum operating speed (VMO). The aircraft's present level and Mach number are marked, and each altitude and speed instruction the scenario offers it is marked as inside or outside the region with 150 ft/min of climb left. Speed changs of +/- 0.04 Mach are presented, as these are typical simplifications employed by European controllers. The weight chosen for the figure shows the limitations associated with the speed simplifications, both in their inability to use the full speed change authority available to the aircraft and to forsee rejections that pilots will invevitably convey upon clearance issuance. 
 
 The model makes the following simplifications.
 \begin{enumerate}
 \item \textbf{Standard atmosphere, no wind, lift equal to weight.} Time differences come only from true airspeed and added track distance.
-\item \textbf{No compressibility drag.} The drag used here has no Mach-number term. The OpenAP paper does include one, a wave-drag term above a critical Mach number, and says the effect ``should not be ignored'' there \cite{sun2020openap}; the installed package leaves the term off unless asked and marks it experimental, and the experiment runs with it off. The FAA classes flight from Mach 0.75 to 1.20 as transonic \cite{faa2015ac61107b}, so the scenario's Mach 0.80 is at the low end of that range. With OpenAP's experimental wave-drag term switched on, drag at Mach 0.80 is 2 to 4 percent higher. That is 1.3 kN for the heavy aircraft at FL380, against 2.7 kN of excess thrust, so its climb left falls from 181 to 93 ft/min, under the 100 ft/min of the service ceiling. The light aircraft at FL400 falls from 322 to 239 ft/min and still clears 150. The weights in the scenario were set with the term off. Not decided: whether to switch the term on and set the weights again.
-\item \textbf{The drag polar is the 737 MAX 8's.} OpenAP has none for the 737 MAX 9.
-\item \textbf{The fuel curve is the package default.} OpenAP has no fuel model fitted to the 737 MAX 9 or MAX 8; it uses its default coefficients scaled by the LEAP-1B take-off fuel flow. The installed version of the package (2.6.2) uses a different curve from the one the OpenAP paper describes, so the paper is the source of the fuel-flow data (the ICAO engine emissions databank) and the package is the source of the curve.
+\item \textbf{No compressibility drag.} The drag used here has no Mach-number term, though its supported by OpenAP and has a non-trivial impact at Mach numbers above 0.75. 
+\item \textbf{The drag polar is the 737 MAX 8's.}
+\item \textbf{The fuel curve is the package default.} OpenAP has no fuel model fitted to the 737 MAX 9 or MAX 8; it uses its default coefficients scaled by the LEAP-1B take-off fuel flow.
 \item \textbf{The climb margins.} The service ceiling is the level with 100 ft/min of climb left \cite{faa2015ac61107b}. The 150 ft/min the experiment requires is commonly observed in practice.
 \item \textbf{One climb rate per climb.} The rate is taken at the mid-altitude and held; the climb is not integrated. A climb is not checked against the time left before the crossing.
 \item \textbf{Mass is constant.} Fuel burned during the manoeuvre does not reduce the mass.
 \item \textbf{The low-speed limit rests on an assumed maximum lift coefficient} ($C_{L\max} = 1.45$) and is a stall margin, not a buffet boundary.
-\item \textbf{A speed change on the crossing pair is not calculated.} It is marked unable to separate the pair by construction.
 \end{enumerate}
-% ---- end AI draft
-
-% Removed 2026-10-13 as the owner marked on the print, page 23: the call-out
-% "Abstractions made and why" (scribbled over) and the whole subsection "Worked
-% Example: Option O4, the Light Aircraft Climbs 2,000 ft" ("Remove worked example
-% entirely."). The worked example is in git history (commit 965f5d5).
