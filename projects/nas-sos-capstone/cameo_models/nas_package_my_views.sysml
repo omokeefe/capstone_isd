@@ -81,10 +81,48 @@ package MyViews {
         }
 
         // placement: body
-        // caption: Nominal flight operations activity diagram (draft: no swimlanes, sub-actions are placeholders)
+        // caption: Nominal flight operations activity diagram, phase level (each phase is decomposed in its own figure)
         view nominalOpsActivity : ActionFlowView {
             attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
+            attribute depth = 2;                   // phases only; the full depth is ~16k px wide
             expose NominalOpsActivity::NominalFlightOperations::**;
+        }
+
+        // One action-flow view per decomposed phase (owner's nominal-ops sequence, 2026-10-18).
+        // placement: body
+        // caption: Nominal operations, Prework: airline planning before flight planning
+        view preworkActivity : ActionFlowView {
+            expose NominalOpsActivity::Prework::**;
+        }
+
+        // placement: body
+        // caption: Nominal operations, Prepare for Departure: parallel fueling, FMS entry, configuration and gate turnaround
+        view prepareForDepartureActivity : ActionFlowView {
+            expose NominalOpsActivity::PrepareForDeparture::**;
+        }
+
+        // placement: body
+        // caption: Nominal operations, Depart: clearance, pushback, taxi-out, takeoff and climb
+        view departActivity : ActionFlowView {
+            expose NominalOpsActivity::Depart::**;
+        }
+
+        // placement: body
+        // caption: Nominal operations, Fly Enroute: crew cruise loop, ATC sector monitoring and AOC intervention in parallel
+        view flyEnrouteActivity : ActionFlowView {
+            expose NominalOpsActivity::FlyEnroute::**;
+        }
+
+        // placement: body
+        // caption: Nominal operations, Arrive: arrival planning, descent, approach, landing and taxi-in
+        view arriveActivity : ActionFlowView {
+            expose NominalOpsActivity::Arrive::**;
+        }
+
+        // placement: body
+        // caption: Nominal operations, Close Out Flight: block-in, deplaning and turnaround
+        view closeOutFlightActivity : ActionFlowView {
+            expose NominalOpsActivity::CloseOutFlight::**;
         }
 
         // Additional views can be added as needed to support the development and

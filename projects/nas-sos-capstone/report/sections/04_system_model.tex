@@ -133,9 +133,10 @@ The model carries an abstraction of that thread. Figure~\ref{fig:sysml-nominalOp
 
 The example conflict sits inside the fly en route action. Two aircraft in cruise are predicted to cross at the same level at the same time. The sector controller must move one of them, and each choice costs fuel, time and instructions that fall on different parties. The nominal thread treats a trajectory change in cruise as one step; the experiment of Section~\ref{sec:experiment} opens that step and asks what the decider knows when making it.
 
-\plantodo{S5}{Decompose \texttt{FlyEnroute} one level in \texttt{nas\_activity\_diagram-nominal\_ops.sysml} so the conflict-resolution step appears on Figure~\ref{fig:sysml-nominalOpsActivity}, then check the three paragraphs above against the diagram. Put the full activity breakdown in Appendix~\ref{app:conops}.}
+\plantodo{S5}{Done in the model 2026-10-18: every phase is decomposed, \texttt{FlyEnroute} is in Figure~\ref{fig:sysml-flyEnrouteActivity} with \texttt{atcResolveConflict} in the ATC monitoring loop, and the other phases are in Appendix~\ref{app:conops}. Still to do: the top-level figure now has seven actions (\texttt{Prework} was added first), so the ``six actions'' paragraph above needs checking; reference Figure~\ref{fig:sysml-flyEnrouteActivity} in the text and check the conflict paragraph against it.}
 
 \input{figures/sysml/fig-nominalOpsActivity}
+\input{figures/sysml/fig-flyEnrouteActivity}
 
 \subsection{Architecture: Detailed and Abstracted}
 \label{sec:architecture-results}

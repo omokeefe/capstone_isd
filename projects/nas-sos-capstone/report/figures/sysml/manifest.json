@@ -16,7 +16,31 @@
     "rendered": "2026-10-10"
   },
   "nominalOpsActivity": {
-    "sha256": "afaf27adc0be461b6025d9d7c857ffa3a6135d1a2df6474d171c789259c25b49",
-    "rendered": "2026-10-10"
+    "sha256": "cfa6d46a597bc87bbe472aa9800ff418709acd5cb2667cdfcfc5f11c80787335",
+    "rendered": "2026-10-18"
+  },
+  "preworkActivity": {
+    "sha256": "464e15a0dba0cc058d51c049cc8aaf0b073dc9fb1ebd17983572ce80568da293",
+    "rendered": "2026-10-18"
+  },
+  "prepareForDepartureActivity": {
+    "sha256": "885f4f314713ca459947c7dc9432049655078ccb3a867c28ded42d55f7b12e47",
+    "rendered": "2026-10-18"
+  },
+  "departActivity": {
+    "sha256": "037c59246608998ae942603268551b675877b22ff5c23c64d23c8c2fb7d3d1fd",
+    "rendered": "2026-10-18"
+  },
+  "flyEnrouteActivity": {
+    "sha256": "bf2ec6eccfa03b006aafe63f403c8fe21f543f141977cdbbada64c2a0767697f",
+    "rendered": "2026-10-18"
+  },
+  "arriveActivity": {
+    "sha256": "6ff27859984d3cd5ffef6bd6940801575d06c9b31456017e0f4548a66e988107",
+    "rendered": "2026-10-18"
+  },
+  "closeOutFlightActivity": {
+    "sha256": "c08d8779e886b4e47cbb11df659320d8a5125f6e2727ee1c88ae31d259596a66",
+    "rendered": "2026-10-18"
   }
 }

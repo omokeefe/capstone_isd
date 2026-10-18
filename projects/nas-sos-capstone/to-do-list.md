@@ -33,7 +33,7 @@
 | Aircraft IBD, default view | `nas_ibd_aircraft.sysml`, view `aircraftIbd` | 2 (links not graded) | 3 | 4 | 4 |
 | Aircraft IBD, detail view | same file, view `aircraftIbdDetail` | 2 | 2 | 2 | appendix only |
 | Airspace management IBD | `nas_ibd_airspace_management.sysml` | 1 (placeholder; `atc` umbrella question open) | 1 | 3 | 4 |
-| Nominal operations activity diagram | `nas_activity_diagram-nominal_ops.sysml`, view `nominalOpsActivity` | 1 (phase level; `Prework` unconnected; swimlanes answered in `sysml-diagram-rendering.md` §9) | 1 | 2 | 4 |
+| Nominal operations activity diagram | `nas_activity_diagram-nominal_ops.sysml`, views `nominalOpsActivity` + one per phase | 2 (all phases decomposed from the owner's notes 2026-10-18, [SME], no sources cited yet; swimlanes answered in `sysml-diagram-rendering.md` §9, not built) | 1 | 2 | 4 |
 | Sequence diagram, case C conflict resolution | new file | 0 (`SequenceView` untested) | 1 | 3 | 4 |
 | Typed interfaces on the thread | `AirlinePerformanceShare` (D-019) done; FMS → AOC and ATC → crew | 1 of 3 | 3 of 3 | 3 | 4 |
 | Analysis package | `nas_analysis.sysml` (D-017) | 1 | 1 | 3 | 4 |
@@ -49,7 +49,7 @@ Kept items from the August §10 list, with their state above:
 - [ ] Create NAS context diagram. *(state 2; box closes at state 4.)*
 - [ ] Create operational IBDs. *(aircraft state 2, airspace state 1.)*
 - [ ] Information-object and item-flow model → the three typed interfaces on the thread (D-019). *(1 of 3.)*
-- [ ] Create nominal-flight activity diagram. *(state 1; swimlanes = lanes-as-boxes general view plus an allocation matrix, §9 of the rendering note.)*
+- [ ] Create nominal-flight activity diagram. *(state 2: every phase decomposed 2026-10-18, one view per phase; open: swimlanes = lanes-as-boxes general view plus an allocation matrix, §9 of the rendering note.)*
 - [ ] Create the conflict-resolution sequence diagram. *(state 0.)*
 - [ ] Create requirements model. *(AI draft 2026-10-10 of 27 + 53, cut to 13 + 23 by the owner's hand reviews of 2026-10-10 and 2026-10-11 (D-020, D-021); open points in the `#TODO` block in `knowledge/models/requirements-and-traceability.md`; "The NAS shall" stays the subject at the SoS tier, owner 2026-10-10.)*
 - [ ] Trace the one thread end to end: objective row → stakeholder requirement → system requirement → interface → sequence step → verification case → outcome-table cell. *(Replaces the five separate trace lines of the August plan.)*

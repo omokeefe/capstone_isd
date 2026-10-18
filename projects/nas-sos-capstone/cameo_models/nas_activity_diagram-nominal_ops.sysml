@@ -1,7 +1,9 @@
 package NominalOpsActivity {
     doc /* Activity model of nominal (no disruption) operations for one flight through
-     * the NAS, gate to gate. SCAFFOLD: phase-level actions only; decompose each phase
-     * in its action def below.
+     * the NAS, gate to gate. Each phase action def below is decomposed into the
+     * sub-actions the owner described (2026-10-18, [SME]); sub-action names start with
+     * the performer (crew, tower, atc, aoc, airport, aircraft) because SysML v2 has no
+     * partitions and the NominalOpsContext swimlanes only allocate whole phases.
      *
      * Layout of this file:
      *   1. Phase action defs (the reusable behavior "types").
@@ -20,18 +22,34 @@ package NominalOpsActivity {
 
     // =========================================================================
     // 1. PHASE ACTION DEFS
-    // Parameters (in/out) are the items that flow between phases. 
+    // Parameters (in/out) are the items that flow between phases.
+    // Decision branches are named successions (name = condition), not guarded
+    // "if ... then" successions: syside viz 0.10.x does not draw guarded edges
+    // (tested 2026-10-18). Restore guards if a later Syside draws them.
     // =========================================================================
 
-    action def Prework {
-        doc /* All of the airline work that occur before the flight planning can 
-        occur, including Market segmentation, service model, network design, 
-        published schedule, fleet assignment strategy, and crew assignment.
-         */
-         // Connec this either as the start node, or as an input to the 
-         // start node.
+    action def BroadcastAircraftState {
+        doc /* The aircraft continuously broadcasts its state (position, altitude, velocity;
+         * transponder / ADS-B Out) while it moves. Runs concurrently with the crew's actions
+         * in each phase where the owner noted it. [SME] */
+        out state : AircraftState;
     }
 
+    action def Prework {
+        doc /* All of the airline work that occurs before flight planning can occur. Kept
+         * in the owner's listed order; the planning literature (to-do-list.md §2) may
+         * reorder or iterate these steps. Exogenous to the study (conops-hub-to-hub-
+         * trajectory-cost.md: schedule, fleet assignment and crew pairing are given). [SME] */
+
+        first start;
+        then action defineMarketSegmentation;
+        then action selectServiceModel;
+        then action designNetwork;
+        then action publishSchedule;
+        then action assignFleet { doc /* Fleet assignment strategy. */ }
+        then action assignCrew;
+        then done;
+    }
 
     action def PlanFlight {
         doc /* AOC/dispatch builds the flight plan and issues the dispatch release. */
@@ -65,92 +83,320 @@ package NominalOpsActivity {
             then prepareAircraft;
             then turnAroundGate;
 
-        action prepareAircraft;   // fueling, loading, FMS initialization
+        action prepareAircraft {
+            doc /* Fueling, FMS initialization and aircraft configuration, in parallel. */
+            first start;
+            then fork aircraftPrepFork;
+                then airportDeliverFuel;
+                then crewEnterFmsData;
+                then crewConfigureAircraft;
+
+            action airportDeliverFuel : SupplyFuel;   // airport fuel delivery
+            action crewEnterFmsData;                  // crew -> aircraft FMS entries
+            action crewConfigureAircraft;             // crew -> aircraft configuration
+
+            first airportDeliverFuel then aircraftPrepJoin;
+            first crewEnterFmsData then aircraftPrepJoin;
+            first crewConfigureAircraft then aircraftPrepJoin;
+            join aircraftPrepJoin;
+            then done;
+        }
         action turnAroundGate;    // boarding, baggage, ground handling
+
+        flow release to prepareAircraft.airportDeliverFuel.release;
 
         first prepareAircraft then prepJoin;
         first turnAroundGate then prepJoin;
-
-        // prepareAircraft has airport fuel delivery, 
-        // crew to aircraft FMS entries
-        // crew to aircraft configuration, etc.
 
         join prepJoin;
         then done;
     }
 
     action def Depart {
-        doc /* Pushback, taxi-out, takeoff, and departure procedure (SID). */
+        doc /* Pushback, taxi-out, takeoff, and departure procedure (SID). Ends when the
+         * aircraft reaches cruise altitude. Sequence per owner, 2026-10-18 [SME]. */
         in flightPlan : FlightPlan;
         // TODO: in edct : ExpectDepartureClearanceTime; (from traffic flow management)
-        out Flight
-        
-        // Taxi
-        // Crew request departure clearance
-        // Tower publish clearance
-        // Crew & AOC confirm clearance
-        // Crew checks trajectory & status and coordinate updates & changes with tower and AOC
-        // Apron (Tower?) control issues gate pushback clearance
-        // Crew confirms and coordinates w/ground control for push back. 
-        // Crew requests taxi-out clearance
-        // Tower issues and monitors aircraft along the taxi instructions
-        // If the tower identifies a conflict of the flight with another aircraft, it will resolve it via issuing instructions to the crew.
-        // The aircraft will be broadcasting its state.
-        // At the end, the aircraft has reached the runway entrance safely
+        inout flight : Flight;
 
-        // Departure
-        // Crew requets clearance to enter runway
-        // Tower confirsm and gives takeoff clearance
-        // Crew controls aircraft onto runway and performs takeoff, progressing through V1, VR, and V2 for initial climb out
-        // Tower transfers crew to communicate with Departure/Approach controller
-        // Crew confirms and continues to fly, joining the departur flow being controlled by the departure/approach controller.
-        // Crew flies in climb, maintaining min ROC and coordinating as needed for weather, sector crossing, conflict detections, etc.
-        // Aircraft will be broadcasting its state throughout.
-        // At the end, the aircraft has reached the cruise altitude
+        first start;
+        then fork departFork;
+            then taxiOut;
+            then aircraftBroadcastState;
 
+        action aircraftBroadcastState : BroadcastAircraftState;
+
+        action taxiOut {
+            doc /* Clearance, pushback and taxi. Ends with the aircraft safely at the runway
+             * entrance. */
+            first start;
+            then action crewRequestDepartureClearance;
+            then action towerIssueDepartureClearance {
+                doc /* Clearance delivery position (voice, PDC or CPDLC DCL). */
+            }
+            then action crewAndAocConfirmClearance;
+            then action crewCheckTrajectoryAndCoordinate {
+                doc /* Crew checks trajectory and status, and coordinates updates and
+                 * changes with the tower and the AOC. */
+            }
+            then action rampControlIssuePushbackClearance {
+                doc /* Apron/ramp control issues gate pushback clearance. Who holds this
+                 * (airline or airport ramp tower vs. ATC ground control) varies by airport;
+                 * owner flagged it as open ("Apron (Tower?)"). */
+            }
+            then action crewPushBackWithGroundControl {
+                doc /* Crew confirms and coordinates with ground control for pushback. */
+            }
+            then action crewRequestTaxiClearance;
+            then action towerIssueTaxiInstructions;
+            then fork taxiFork;
+                then crewTaxiToRunway;
+                then towerMonitorTaxi;
+
+            action crewTaxiToRunway;
+            action towerMonitorTaxi {
+                doc /* Tower monitors the aircraft along the taxi instructions. */
+            }
+            first towerMonitorTaxi then surfaceConflictCheck;
+
+            decide surfaceConflictCheck;
+                succession surfaceConflict first surfaceConflictCheck then towerResolveSurfaceConflict;
+                succession noSurfaceConflict first surfaceConflictCheck then surfaceMonitorMerge;
+
+            action towerResolveSurfaceConflict {
+                doc /* Tower resolves a conflict with another aircraft by issuing
+                 * instructions to the crew. */
+            }
+            first towerResolveSurfaceConflict then surfaceMonitorMerge;
+            merge surfaceMonitorMerge;
+
+            first crewTaxiToRunway then taxiJoin;
+            first surfaceMonitorMerge then taxiJoin;
+            join taxiJoin;
+            then done;
+        }
+
+        action takeoffAndClimb {
+            doc /* Runway entry through climb. Ends at cruise altitude. */
+            first start;
+            then action crewRequestRunwayEntry;
+            then action towerIssueTakeoffClearance;
+            then action crewPerformTakeoff {
+                doc /* Crew controls the aircraft onto the runway and takes off through V1,
+                 * VR and V2 for initial climb-out (speeds from DispatchRelease). */
+            }
+            then action towerTransferToDepartureControl;
+            then action crewJoinDepartureFlow {
+                doc /* Crew confirms the transfer and continues, joining the departure flow
+                 * controlled by the departure/approach controller. */
+            }
+            then action crewClimbToCruise {
+                doc /* Climb, maintaining minimum rate of climb and coordinating as needed
+                 * for weather, sector crossings, conflict detections, etc. */
+            }
+            then done;
+        }
+
+        first taxiOut then takeoffAndClimb;
+        first takeoffAndClimb then departJoin;
+        first aircraftBroadcastState then departJoin;
+        join departJoin;
+        then done;
     }
 
     action def FlyEnroute {
-        doc /* Cruise along the cleared trajectory under ARTCC control. */
-        in Flight
+        doc /* Cruise along the cleared trajectory under ARTCC control. Three concurrent
+         * threads: the crew's cruise loop, ATC's sector monitoring, and the AOC, which
+         * acts only when needed. Per owner, 2026-10-18 [SME]. */
+        inout flight : Flight;
 
-        // Aircraft flys level, transmitting data
-        // In a loop:
-        // Crew surveil for traffic and weather, and reacts to each as needed
-        // Crew monitor aircraft weight and compare vs. dispatch paperwork and FMS data
-        // When the next-step weight is nearly reached, the crew requests clearance from the controller for clearance to the newly optimum altitude
-        // The controller checks traffic and that the new control will produce a trajectory clear of conficts
-        // Then the crew confirms clear of traffic and proceeds to the newly optimum altitude via MCP altitude dial, FLCHG, and possibly FMS entries.
-        // As the crew flies the aircraft and sequences waypoints, they are performing airline standard operating procedures like recording fuel/state data, working through safety considerations like programming alternative airports into the FMS, looking for equal-time points, etc., as well as always maintaining visual separtion from other aircraft
-        // As an aircraft nears a airspace sector boundary, the controller issues the handoff and the crew confirms/coordinates the contact with the next controller.
+        first start;
+        then fork enrouteFork;
+            then crewCruise;
+            then aircraftBroadcastState;
+            then atcMonitorSector;
+            then aocMonitorFlight;
 
-        // ATC is continually monitoring the flight and all traffic in their sector.
-        // If a conflict is identified, they seek to resolve it, which is the subject of my project. 
-        
-        // AOC is only involved in the case where weather causes re-route or external conditions warrant a change to the flight (other flight behind schedule, so slow or something like that.)
+        action aircraftBroadcastState : BroadcastAircraftState; // aircraft flies level, transmitting data
+
+        action crewCruise {
+            doc /* The crew's repeating cruise loop, until near top of descent. */
+            first start;
+            then merge cruiseLoop;
+            then action crewSurveilTrafficAndWeather {
+                doc /* Crew surveils for traffic and weather and reacts to each as needed. */
+            }
+            then action crewMonitorWeight {
+                doc /* Crew monitors aircraft weight against the dispatch paperwork and FMS
+                 * data. */
+            }
+            then decide stepClimbCheck;
+                succession stepClimbDue first stepClimbCheck then crewRequestStepClimb;
+                succession noStepClimb first stepClimbCheck then stepClimbMerge;
+
+            action crewRequestStepClimb {
+                doc /* When the next step weight is nearly reached, crew requests clearance
+                 * to the new optimum altitude. */
+            }
+            then action atcCheckStepClimbTraffic {
+                doc /* Controller checks traffic and that the new clearance gives a
+                 * conflict-free trajectory. */
+            }
+            then action crewClimbToOptimumAltitude {
+                doc /* Crew confirms clear of traffic and climbs via MCP altitude dial,
+                 * FLCH and possibly FMS entries. */
+            }
+            then stepClimbMerge;
+            merge stepClimbMerge;
+
+            then action crewPerformEnrouteSops {
+                doc /* Airline SOPs while sequencing waypoints: recording fuel/state data,
+                 * programming alternate airports into the FMS, equal-time points, and
+                 * maintaining visual separation from other aircraft. */
+            }
+            then decide sectorBoundaryCheck;
+                succession atSectorBoundary first sectorBoundaryCheck then atcHandOffToNextSector;
+                succession sameSector first sectorBoundaryCheck then handoffMerge;
+
+            action atcHandOffToNextSector;
+            then action crewContactNextController {
+                doc /* Crew confirms the handoff and contacts the next controller. */
+            }
+            then handoffMerge;
+            merge handoffMerge;
+
+            then decide cruiseEndCheck;
+                succession cruiseAtTopOfDescent first cruiseEndCheck then done;
+                succession continueCruise first cruiseEndCheck then cruiseLoop;
+        }
+
+        action atcMonitorSector {
+            doc /* ATC continually monitors the flight and all traffic in the sector. */
+            first start;
+            then merge atcLoop;
+            then action atcMonitorSectorTraffic;
+            then decide conflictCheck;
+                succession conflictFound first conflictCheck then atcResolveConflict;
+                succession noConflict first conflictCheck then atcMerge;
+
+            action atcResolveConflict {
+                doc /* ATC resolves an identified conflict. This is the decision the
+                 * capstone studies (D-007, D-020); decompose it here when that work
+                 * reaches the activity model. */
+            }
+            then atcMerge;
+            merge atcMerge;
+
+            then decide atcLoopEnd;
+                succession atcAtTopOfDescent first atcLoopEnd then done;
+                succession continueMonitoring first atcLoopEnd then atcLoop;
+        }
+
+        action aocMonitorFlight {
+            doc /* The AOC is involved only when weather forces a reroute or external
+             * conditions warrant a change (e.g. another flight is behind schedule, so slow
+             * down). */
+            first start;
+            then decide aocCheck;
+                succession changeWarranted first aocCheck then aocAmendFlight;
+                succession noChange first aocCheck then aocMerge;
+
+            action aocAmendFlight;
+            then aocMerge;
+            merge aocMerge;
+            then done;
+        }
+
+        first crewCruise then enrouteJoin;
+        first aircraftBroadcastState then enrouteJoin;
+        first atcMonitorSector then enrouteJoin;
+        first aocMonitorFlight then enrouteJoin;
+        join enrouteJoin;
+        then done;
     }
 
     action def Arrive {
-        doc /* Descent, arrival procedure (STAR), approach, landing, and taxi-in. */
+        doc /* Descent, arrival procedure (STAR), approach, landing, and taxi-in. Before top
+         * of descent the flight must get its descent clearances: STAR, approach and runway,
+         * runway exit, gate and taxi instructions. Per owner, 2026-10-18 [SME]. */
+        inout flight : Flight;
 
-        // Prior to T/D, the aircraft must coordinate with the necessary systems to attain descent clearances, including Standard Terminal Arrival procedure (STAR), approach (APP) & runway, off ramp, gate, and taxi instructions.
+        first start;
+        then action airportProvideArrivalData {
+            doc /* Airports populate the information the arrival manager (AMAN) needs. */
+        }
+        then action approachPlanArrivalTraffic {
+            doc /* Approach control uses its systems (e.g. AMAN) to plan arrival traffic
+             * to the airport's capacity. */
+        }
+        then action determinePlannedArrivalTime {
+            doc /* Approach, tower and ATFM together set the flight's planned time of
+             * arrival, typically tied to its landing slot. */
+        }
+        then fork arrivalPlanFork;
+            then airportAssignGate;
+            then towerPlanTaxiIn;
 
-        // The approach control uses their systems (e.g. AMAN) to plan arrival traffic necessary to achieve airport capacities. The airports populate information needed for AMAN. Collectively, the approach, tower, and ATFM airspace management systems determine the planned time of arrival for the flight, which is typically associated with the planned landing time slot. The airport is made aware of this and determines the appropriate gate for the flight. Based on the landing time, the tower determines the taxi info. All of this information is then sent back to the aircraft & crew for them to plan their descent and arrival.
+        action airportAssignGate;  // from the landing time
+        action towerPlanTaxiIn;    // taxi info from the landing time
 
-        // Crews plug all this info into the FMS to look at the Top-Of-Descent location and anticipate issues achieving constraints. The crew continues to fly until near T/D at which point they request clearance to begin their descent/arrival.
+        first airportAssignGate then arrivalPlanJoin;
+        first towerPlanTaxiIn then arrivalPlanJoin;
+        join arrivalPlanJoin;
 
-        // Enroute ATC likely issues the initial descent clearance and hands off the flight to the approach controllers at the appropriate 4D location.
-
-        // The aircraft descends, decelerates, and configures for landing, monitoring weather and coordinating with controllers. 
-
-        // Upon final approach, the aircraft is prepared for landing, fully configured, and is coordinating with the tower control.
-
-        // The aircraft lands on the runway, exits the runway, taxis to the assigned gate, and coordiantes with ground control to park.
+        then action deliverArrivalPlanToCrew {
+            doc /* The arrival plan (STAR, approach, runway, exit, gate, taxi) goes back to
+             * the aircraft and crew. Sender and medium not yet modeled. */
+        }
+        then action crewProgramArrivalIntoFms {
+            doc /* Crew enters the arrival into the FMS, checks the top-of-descent point and
+             * anticipates problems meeting constraints. */
+        }
+        then action crewRequestDescentClearance;   // near T/D
+        then action atcIssueDescentClearance;      // enroute ATC, usually
+        then action atcHandOffToApproach {
+            doc /* Enroute ATC hands the flight off to approach at the planned 4D point. */
+        }
+        then action crewDescendAndConfigure {
+            doc /* Descend, decelerate and configure for landing, monitoring weather and
+             * coordinating with controllers. */
+        }
+        then action crewFlyFinalApproach {
+            doc /* Fully configured for landing, coordinating with the tower. */
+        }
+        then action crewLand;
+        then action crewExitRunway;
+        then action crewTaxiToGate;
+        then action crewParkWithGroundControl;
+        then done;
     }
 
     action def CloseOutFlight {
-        doc /* Block-in, deplaning, and handoff to the next leg / turnaround. */
-        // Once parked, the flight is blocked as a brake safety measure. The passengers deplane, the crew records final info and reveiws the next leg as needed. The crew and plane "turnaround" as scheduled.
+        doc /* Block-in, deplaning, and handoff to the next leg / turnaround. Per owner,
+         * 2026-10-18 [SME]. */
+        in flight : Flight;
+
+        first start;
+        then action crewBlockIn {
+            doc /* Once parked, the aircraft is blocked (chocks and brakes) as a safety
+             * measure. */
+        }
+        then fork closeOutFork;
+            then passengersDeplane;
+            then crewRecordFinalInfo;
+            then crewReviewNextLeg;
+
+        action passengersDeplane;
+        action crewRecordFinalInfo;
+        action crewReviewNextLeg;   // as needed
+
+        first passengersDeplane then closeOutJoin;
+        first crewRecordFinalInfo then closeOutJoin;
+        first crewReviewNextLeg then closeOutJoin;
+        join closeOutJoin;
+
+        then action turnAroundCrewAndAircraft;   // as scheduled
+        then done;
     }
 
     // =========================================================================
@@ -162,6 +408,7 @@ package NominalOpsActivity {
 
         // --- Control flow (the ordering of phases) ---
         first start;
+        then action prework : Prework;
         then action planFlight : PlanFlight;
         then action prepareForDeparture : PrepareForDeparture;
         then action depart : Depart;
@@ -173,15 +420,10 @@ package NominalOpsActivity {
         // --- Item flows (what moves between phases) ---
         flow planFlight.release to prepareForDeparture.release;
         flow planFlight.flightPlan to depart.flightPlan;
-
-        // --- Decision/merge template (uncomment and adapt when needed) ---
-        // then decide holdingCheck;
-        //     if holdingRequired then action hold;
-        //     else continueArrival;
-        // action hold;
-        // first hold then arrivalMerge;
-        // first continueArrival then arrivalMerge;
-        // merge arrivalMerge;
+        flow prepareForDeparture.flight to depart.flight;
+        flow depart.flight to flyEnroute.flight;
+        flow flyEnroute.flight to arrive.flight;
+        flow arrive.flight to closeOutFlight.flight;
     }
 
     // =========================================================================
@@ -193,6 +435,7 @@ package NominalOpsActivity {
 
     part def NominalOpsContext {
         part flightOps : FlightOperationsDomain {
+            perform nominalFlight.prework;
             perform nominalFlight.planFlight;
         }
         part airportOps : AirportOperationsDomain {
