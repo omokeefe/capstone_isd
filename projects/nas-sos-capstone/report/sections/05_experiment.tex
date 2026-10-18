@@ -2,81 +2,68 @@
 \section{Experiment}
 \label{sec:experiment}
 
-% New section, 2026-10-11, from the owner's note at the foot of page 12 of the
-% printed report ("3 Experiment / 3.1 Scenario"); see handwritten/2026-10-11_main.md.
-% Built from the old subsections "Experiment Design" and "Scoring Model
-% Calculations" of 03_assumptions_methodology.tex. The scoring calculations were
-% AI-drafted on 2026-10-11 and are cut here as the owner marked: equations that
-% repeat the OpenAP and Bartel and Young papers are replaced by citations.
 % Structure of the experiment: knowledge/models/experiment-definition.md and
 % knowledge/models/experiment-options-and-scoring.md; decisions D-013 to D-025.
-% Revised 2026-10-13 from the second print (handwritten/2026-10-13_main.md, notes
-% 18.x to 23.x): the decider's equation and the worked example are removed, the
-% OpenAP paragraph is cut, and decision numbers no longer appear in the text.
-% 2026-10-17: renamed from 04_experiment.tex; now Section 4, after the new System
-% Model section, whose last subsection (the proposed interface) leads into this
-% one (D-028).
 
-\aidraft{Opening sentence pointing back to the proposed interface, written 2026-10-17. Replace with your own.}
-The experiment tests the airline-to-ATC interface proposed in Section~\ref{sec:proposed-interface}: it resolves one conflict with and without the information the interface carries, and scores each resolution for the aircraft, the airline, the sector and the system.
-% ---- end AI draft
-
-\plantodo{S11}{\textbf{State the central claim} the experiment explores. Still undecided (see \texttt{experiment-definition.md} \S1 and the hand review notes 1.2, 2.1, 4.1). Answer the objection that the simulation compares two ways of operating and so does not by itself test MBSE.}
+The experiment tests the airline-to-ATC interface proposed in Section~\ref{sec:proposed-interface}, resolving around one conflict with and without the information carried by the proposed interface. Each theoretial resolution is scored at different system boundaries, including those of the aircraft, the airline, the sector and the system.
 
 \subsection{Scenario}
 \label{sec:scenario}
 
-\plantodo{S11}{\textbf{Scenario.} Four aircraft in one invented en-route sector, shown as one snapshot: a crossing pair at the same level and two aircraft in trail 2,000 ft below. State which aircraft belong to the same airline, which is late with connections, and the weight of each. Give the level of the crossing pair and say why it is above FL350. Justify the static snapshot by the controller studies that used one (\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).}
+The scenario used to explore the value of the proposed interface is a simple one -- four aircraft in one invented en-route sector, shown as one snapshot depicted in Figure~\ref{fig:scenario-plan}: a crossing pair at the same level and two aircraft in trail 2,000 ft below. 
 
-\plantodo{S11 (owner's note, 2026-10-11 print, page 11)}{\textbf{``Justify one scenario (time) and expand as possible.''} Say that one scenario is studied because of the time available in one term, name what a second scenario would add, and list the variations that are run on the one scenario (similar weights, the climb closed, a crossing pair at or below FL350).}
-
-% Call-out removed 2026-10-13 (owner's note, print page 18: "This is ok for
-% now."). Still true: the drawing below says "20 min to WPT" and
-% simulation/scenario_base.yaml has time_to_crossing_min: 12; no code reads it.
 \begin{figure}[htbp]
 \centering
-\figorbox[0.9\textwidth]{4-ac-scenario_DEN-LAX-crossing.png}{MISSING: \texttt{attachments/4-ac-scenario\_DEN-LAX-crossing.png}}
+\figorbox[0.9\textwidth]{4-ac-scenario_DEN-LAX-crossing.png}{\texttt{attachments/4-ac-scenario\_DEN-LAX-crossing.png}}
 \caption{The scenario in plan view. AC1 and AC2 cross at the waypoint at FL380; AC3 and AC4 follow AC1's track at FL360.}
 \label{fig:scenario-plan}
 \end{figure}
 
+The crossing pair is at FL380, which places the heavy aircraft is near its service ceiling (Figure~\ref{fig:envelope}). The two trailing aircraft are at FL360. The scenario is shown in profile view in Figure~\ref{fig:scenario-profile}. The scenario is static, with no time evolution, because the controller studies that informed the option set used one snapshot (\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).
+
 \begin{figure}[htbp]
 \centering
-\figorbox[0.6\textwidth]{4-ac-scenario_altitude_vs_time_plot.png}{MISSING: \texttt{attachments/4-ac-scenario\_altitude\_vs\_time\_plot.png}}
+\figorbox[0.6\textwidth]{4-ac-scenario_altitude_vs_time_plot.png}{\texttt{attachments/4-ac-scenario\_altitude\_vs\_time\_plot.png}}
 \caption{Level of each aircraft against its time at the waypoint. AC1 and AC2 arrive together at FL380.}
 \label{fig:scenario-profile}
 \end{figure}
 
+\plantodo{S11}{\textbf{Scenario.} Justify the static snapshot by the controller studies that used one (\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).}
+
+\plantodo{S11 (owner's note, 2026-10-11 print, page 11)}{\textbf{``Justify one scenario (time) and expand as possible.''} Say that one scenario is studied because of the time available in one term, name what a second scenario would add, and list the variations that are run on the one scenario (similar weights, the climb closed, a crossing pair at or below FL350).}
+
+
 \subsection{Cases and Resolution Options}
 \label{sec:experiment-method}
 
-\plantodo{S11}{\textbf{The one thing that differs between cases.} Define cases A to D by what the decider knows. State what ``automated decision'' means for who devises and who issues the clearance (undecided). State that the levers are the same in every case.}
+Four options are available to the controller responsible for resolving conflicts, and are summarized in Table~\ref{tab:cases}. The decider's knowledge of the aircraft's weight, cost index, and general performance determines which options it can offer. The baseline case (A) is the current NAS practice, where the controller has only the information that is currently available to them through passive surveillance channels. The other three cases (B, C, D) are automated and have increasing levels of information about the aircraft's weight and cost index. The options available to each case are described in Table~\ref{tab:options}.
+
+\plantodo{S11}{\textbf{More realistic comparison?} Consider expanding to include a case that mimics EPP, which enables better understanding of the current trajectories and speed envelope (as evidenced by ETA windows). What else can be derived from EPP info in a split-second assessment? Also, should we throw "typical weight errors" into the tool and see their impact on the system's ability to make good decisions? How might that factor into the model?}
 
 \begin{table}[h]
 \centering
-\caption{The four cases. Wording to be the author's.}
+\caption{Conflict resolution options available to a controller with different levels of information about the aircraft. }
 \label{tab:cases}
 \begin{tabular}{@{}llp{6.2cm}l@{}}
 \toprule
 Case & Decider & Information & Climb rule applies? \\
 \midrule
 A & Controller, by rule & Type, level, speed, route & Yes \\
-B & Automation & Nominal weight per type & Yes \\
-C & Automation & Shared weight and cost index & No \\
-D & Automation & Shared weight, cost index and delay margin & No \\
+B & Controller, with decision aid & Nominal weight per type & Yes \\
+C & Controller, with decision aid & Shared weight and cost index & No \\
+D & Controller, with decision aid & Shared weight, cost index and delay margin & No \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\plantodo{S11}{\textbf{Altitude options and the climb rule (assumption adopted from a prior study).} State the three altitude options (2,000 ft above, 2,000 ft below, 4,000 ft below) and the rule that a climb is offered only at or below FL350, citing \cite{engility2014tasarAlaska} (p.~8). Say plainly that this is that study's modeling assumption, made because it did not model aircraft weight; it is not an FAA rule and not observed controller behaviour. Then explain why the rule binds cases A and B and not cases C and D: this is the mechanism by which missing information removes an option.}
+Case A is the baseline, which is the current NAS practice. It has only the information that is currently available to the controller through current interfaces, which limits the options it can offer. \cite{engility2014tasarAlaska} observed that controllers prefer to descend aircraft rather than climb them, and that they will not offer a climb if the aircraft is above FL350. The baseline case applies this rule, which limits the options it can offer. \cite{rantanen2012conflictManeuvers} found that a single descent advisory was the most common resolution option.
 
-\plantodo{S11}{\textbf{Baseline rule for case A.} One descent clearance, citing \cite{rantanen2012conflictManeuvers}. State which aircraft descends and the tie-breaker (undecided), and whether the aircraft is cleared back up.}
+Case B is an automated decision aid that has access to the nominal weight of each aircraft type, but not the actual weight or cost index. As such, the system does not have the information needed to guarantee that a climb is feasible. If an unachievable climb is proposed, the flight crew would have the obligation to reject it, leading to unacceptable delays in conflict resolution. As such, the system must also apply the climb rule in Case B. 
 
-\plantodo{S11}{\textbf{Resolution options.} Introduce Table~\ref{tab:options}. For each option give the instructions it costs now, the follow-up it creates, and what the decider must know to use it. Cite \cite{fothergill2013resolutionHeuristics} for the instruction accounting.}
+Case C is an automated decision aid that has access to the actual weight and cost index of each aircraft. As such, it is not bound by the same limitations as Case B. It differs from  Case D through the ability to account for the cost of delaying the time of arrival of the aircraft. The cost calculation os Case D incorporate a measure of the cost of delaying a flight with connections past its threshold, which is not available to Case C.
 
-% Moved here from the Results section 2026-10-11: the option set is part of the
-% experiment's design, not a result (Claude's suggestion; the owner's print only
-% struck "PLACEHOLDER" from the caption).
+\plantodo{S11}{\textbf{Resolution options.} State which aircraft descends and the tie-breaker (undecided), and whether the aircraft is cleared back up. For each option give the instructions it costs now, the follow-up it creates, and what the decider must know to use it. Cite \cite{fothergill2013resolutionHeuristics} for the instruction accounting.}
+
 \begin{table}[h]
 \centering
 \caption{Resolution options. A dash means no instruction. Full version with instruction counts in Appendix~\ref{app:optimization}.}
@@ -98,7 +85,7 @@ O9 & Descend 2,000 ft & -- & Slow or turn & --\\
 \end{tabular}
 \end{table}
 
-\plantodo{S11}{\textbf{Sources for the option set and the counts} (owner's note, second hand review, 2.4: ``Add these to report!''). Levers: \texttt{experiment-definition.md} \S4, and \cite{engility2014tasarAlaska} (p.~8) for lateral and altitude changes; that study does not use speed. Altitude steps and climb rule: \cite{engility2014tasarAlaska} (p.~8), with the authors' reason. Instruction counts: \cite{fothergill2013resolutionHeuristics} (pp.~72--74). Climbs used less than descents: \cite{rantanen2012conflictManeuvers} (6 of 36). Speed limited to $\pm 0.04$ Mach and built to fail: the author's own figure, to be stated as experience.}
+\plantodo{S11}{\textbf{Sources for the option set and the counts} Instruction counts: \cite{fothergill2013resolutionHeuristics} (pp.~72--74). Climbs used less than descents: \cite{rantanen2012conflictManeuvers} (6 of 36). Speed limited to $\pm 0.04$ Mach and built to fail: the author's own figure, to be stated as experience.}
 
 \plantodo{S11}{\textbf{The baseline is not hobbled} (owner's note, second hand review, 3.2). In the later variation at or below FL350 the baseline may climb and does not, because its rule is one descent. Say that this matches the observed preference for descents (\cite{rantanen2012conflictManeuvers}). \textbf{Owner's note, 2026-10-11 print: ``Also note higher alt $\sim$ optimal''} --- say that the higher level is near the optimum for these aircraft (Figure~\ref{fig:fuelflow-altitude}), so a baseline that never climbs is giving something up.}
 

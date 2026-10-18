@@ -104,28 +104,13 @@ The experiment is defined and runs end to end. Four aircraft in one generic, ove
 \subsection{Stakeholders and Study Boundary}
 \label{sec:stakeholders-summary}
 
-% Made 2026-10-17. Replaces the subsections Stakeholder Selection, System
-% Identification and Selection, Scope and Stakeholder Objectives, which moved to
-% Section 3 (04_system_model.tex) with their markers and comments. The owner asked
-% for a brief statement here that points to the detail later, and for scope to be
-% discussed in a clearly named place rather than under a heading of its own.
-\aidraft{Short summary for the Introduction, written 2026-10-17 from sentences in the moved subsections; nothing here is new. Replace with your own.}
-Informed by the literature survey and the author's experience in the aviation industry, a broad set of candidate stakeholders was identified with a PESTLE analysis. Four are kept: operators (the airline and its operations center), air traffic control, the airport authority, and the flight crew, together with the aircraft as a constituent system. The others, among them governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations, supply rules, equipment, demand, and expectations to the decision but do not make it or execute it.
+Informed by the literature survey and 16 years of experience in the aviation industry, a broad set of candidate stakeholders was identified with a PESTLE analysis. Four are kept: operators (the airline and its operations center), air traffic control, the airport authority, and the flight crew. The ommitted stakeholders supply rules, equipment, demand, and expectations to the decision but do not make it or execute it. As such, the governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations are not explicitly modelled. Section~\ref{sec:system-model} gives the full stakeholder analysis (Section~\ref{sec:stakeholders}), the reason for each choice (Section~\ref{sec:scope}), and the resulting System of Interest (Section~\ref{sec:soi}).
 
-The study examines one tactical decision, the resolution of a conflict between aircraft in cruise, and keeps only the stakeholders and objectives that bear on it. Six objectives are kept: safety, efficiency, environmental impact, schedule reliability, cost, and workload. Throughput and capacity are left for another study, and the phases before departure enter only as the conditions the studied decision inherits. Section~\ref{sec:system-model} gives the full stakeholder analysis (Section~\ref{sec:stakeholders}), the reason for each choice (Section~\ref{sec:scope}), and the resulting System of Interest (Section~\ref{sec:soi}).
-% ---- end AI draft
+The study examines one tactical decision, the resolution of a conflict between aircraft in cruise, and keeps only the stakeholders and objectives that bear on it. Six objectives are kept: safety, efficiency, environmental impact, schedule reliability, cost, and workload. Throughput and capacity are left for another study, and the phases before departure enter only as the conditions the studied decision inherits. 
 
 \subsection{Project Deliverables}
 \label{sec:deliverables}
-
-\plantodo{S10, S14, S16}{State the goals and deliverables: the SysML reference architecture, the traceability chain from stakeholder needs to aircraft-level behavior, and the experiment (Section~\ref{sec:experiment}). Include the quantifiable measures used to assess success (e.g., traceability coverage, stakeholder coverage, demonstration of a local-vs-SoS tradeoff).}
-
-% Owner's note, 2026-10-13 print, page 13: the two sentences that stood here are
-% struck; beside them "Context, [bdd], ibd, activities, requirements, experiment &
-% traceability chain & gap analysis. Have Claude propose a table."
-\aidraft{Proposed deliverables table (your note: ``Have Claude propose a table''). The eight rows are your list; Claude read its second word as ``bdd''. The middle and right columns are Claude's proposal. No block definition diagram or requirements view is rendered yet, and the trace table and the gap analysis are not written: the table says where each will go, not that it is there.}
 The project delivers the eight items of Table~\ref{tab:deliverables}.
-
 \begin{table}[htbp]
 \centering
 \small
@@ -146,19 +131,9 @@ Gap analysis & The requirements that today's NAS does not meet, and what the exp
 \bottomrule
 \end{tabular}
 \end{table}
-% ---- end AI draft
 
 \subsection{Project Timing}
 \label{sec:timing}
-
-\plantodo{S1 (new)}{Revisit the timeline from the 503 Proposal submittal (see \texttt{prework/ISD 503 Submittal.pdf}) and show the plan now in force: the nine one-week turns of D-016 (the table at the top of \texttt{to-do-list.md}), each with its exit test and target date, next to the August milestones in Table~\ref{tab:project-timing}.}
-
-% Table moved here from Project Deliverables and given a Status column,
-% 2026-10-13 (owner's note, print page 14: "Old plan presented for reference.
-% Disposition each's status w/ not started, draft, complete, or will not
-% implement."). The status of each row is the owner's handwriting beside it. The
-% print has no mark beside the last three rows: "Not started" on the last two is
-% Claude's entry, and the row before them is left empty for the owner.
 The plan established at the project's inception is presented in Table~\ref{tab:project-timing} for reference, with the status of each item: not started, draft, complete, or will not implement.
 
 \begin{table}[htbp]
@@ -209,5 +184,4 @@ Paper Submittal & Thesis/paper & Owen & 12/20/2026 & Official submittal & Not st
 \end{tabular}
 \end{table}
 
-% Keeps the two tables above inside Section 1 (placeins, loaded in main.tex).
 \FloatBarrier

@@ -2,30 +2,16 @@
 \section{Assumptions and Methodology}
 \label{sec:methodology}
 
-% Revised 2026-10-11 from the owner's hand review of the printed report
-% (handwritten/2026-10-11_main.md, notes 10.x to 12.x). The experiment design and
-% the scoring calculations moved to sections/04_experiment.tex. "The Two Claims"
-% is no longer a subsection: its call-out is at the top of 02_introduction.tex.
-% The owner's paragraphs were edited for spelling and sentence sense at the
-% owner's request; passages between \aidraft{...} and "% ---- end AI draft" were
-% drafted by Claude and are the owner's to rewrite.
-% Revised again 2026-10-13 from the second print (handwritten/2026-10-13_main.md,
-% notes 13.x to 17.x).
-% 2026-10-17: the subsection "Proposed Airline-to-ATC Interface" moved to the end
-% of the new System Model section (04_system_model.tex), answering the owner's
-% question on the 2026-10-13 print, page 17 (D-028).
-
 The problem is that the inertia of past, piecemeal designs and the high cost of upgrading the NAS make the system hard to change. The project proposes a new airline-to-ATC interface and a new way of deciding which aircraft to move in a conflict, which together could lower the cost of air traffic management.
 
-\plantodo{Track C (owner's note, 2026-10-13 print, page 13)}{\textbf{``Expand upon.''} The paragraph above is bracketed with this note. Not drafted by Claude: no source in \texttt{evidence/source-register.md} has been read for the inertia of past designs or the cost of upgrading the NAS, so the expansion is yours, or name the source and it can be read first.}
-
-Toward those ends, the project uses a model-based systems engineering (MBSE) approach to design the architecture and the decision-making process, and a simulation-based experiment to test the proposed interface and decision-making process. First, a literature review was conducted to:
+Toward those ends, the project uses a model-based systems engineering (MBSE) approach to define the architecture and the decision-making process, and a simulation-based experiment to test the proposed updates to them. First, a literature review was conducted to:
 \begin{enumerate}
     \item identify the current state of air traffic management,
     \item identify the relevant stakeholders and their objectives,
     \item identify the requirements necessary to meet those objectives, and
     \item identify the gaps in the current system that the proposed interface and decision-making process can address.
 \end{enumerate}
+The contextual information captured in the literature review enabled the execution of the systems engineering approach.
 
 \subsection{Systems Engineering Approach}
 \label{sec:se-approach}
@@ -34,13 +20,7 @@ Standard systems engineering methods of analysis and decomposition were applied 
 
 This enabled the project to (1) build a model of the architecture and the decision-making process, and (2) compare current air traffic management practice, which relies on general rules of thumb and knowledge of what has worked before~\cite{rantanen2012conflictManeuvers,kirwan2001coraStrategies}, with a model-based decision-support approach that replaces the low-fidelity decision rule with one or more higher-fidelity models of aircraft performance, at varying levels of accuracy and information.
 
-The emphasis is on structure, behavior, interfaces, and traceability, not on optimization mathematics. The project's commercial value to the author lies in a better understanding of the systems, their interactions, and the divisions of responsibility that inhibit information flow and lead to sub-optimal outcomes. To explore that in a meaningful way, decision support and optimization are treated as a capability inside the architecture, which following MBSE principles makes possible.
-
-\aidraft{The two paragraphs below are yours, reworded by Claude for your note ``Reword'' on the 2026-10-13 print (page 15). The claims are unchanged; your originals are in git history (commit 965f5d5).}
-The systems and their constituent systems could be documented in more detail (examples are in Appendix~\ref{app:architecture}), and more formal mathematical models could be used. Neither was needed to deliver the project's commercial value to its customer, so neither was done. The project's artifacts were tailored to the customer's needs, as customer-focused MBSE calls for.
-
-The steps of the process were tailored in the same way, to the time the author had available. The literature review began as one pass and then continued as the work required. The gate-to-gate concept of operations was written informally and refined with publicly available general knowledge of the NAS. No alternative system decomposition was formally explored beyond the initial abstraction decisions. The ISO/IEC/IEEE 15288 technical processes were followed in this tailored form, which the standard provides for.
-% ---- end AI draft
+The emphasis is on structure, behavior, interfaces, and traceability, not on optimization mathematics. The project's commercial value to the author lies in a better understanding of the systems, their interactions, and the divisions of responsibility that inhibit information flow and lead to sub-optimal outcomes. To explore that in a meaningful way, decision support and optimization are treated as a capability inside the architecture, which following MBSE principles makes possible. No alternative system decomposition was formally explored beyond the initial abstraction decisions. The ISO/IEC/IEEE 15288 technical processes were followed in this tailored form, which the standard provides for.
 
 Table~\ref{tab:se-processes} summarizes the systems engineering processes and the artifacts that realize them.
 
@@ -63,18 +43,13 @@ Validation & Stakeholder-level reading of the outcome table (who pays) with MoEs
 \end{tabular}
 \end{table}
 
-% Removed 2026-10-13 as the owner marked on the print, page 15 and 16: the call-out
-% asking for the 15288 process names to be checked (scribbled over; the check
-% itself has not been done), the last three rows of the table ("Remove these 3."),
-% the MBSE-methodology call-out ("Done") and the decomposition call-out ("WNI",
-% will not implement).
 
 \subsection{Working Assumptions}
 \label{sec:assumptions}
 
 The working assumptions fall into two groups: assumptions about the problem and its context, and assumptions about the methodology.
 
-The problem statement assumes that:
+The problem statement is that the NAS is hard to change, and that a new airline-to-ATC interface and a new way of deciding which aircraft to move in a conflict could lower the cost of air traffic management. This framing assumes that:
 \begin{itemize}
     \item the abstractions used in the model are sufficient to capture the relevant behavior of the system;
     \item the stakeholders' objectives are comprehensively captured and accurately represented in the model;
@@ -83,7 +58,7 @@ The problem statement assumes that:
 
 Every abstraction was made with the express goal of capturing the relevant behavior of the system, as defined by the stakeholders' objectives. The System of Interest, the NAS as a system of systems, was ratified around the trajectory-intent lifecycle, from enterprise objectives through aircraft motion. An entity is modeled when it has distinct decision authority or execution behavior that is dynamically coupled to in-scope decisions and materially affects cost, safety, workload, schedule reliability, or passenger value. Boundary actors supply objectives, demand, feedback, or rules without being decomposed as decision mechanisms. Exogenous influences enter as constraints or scenario parameters. This criterion preserves the authority and responsibility relationships a system-of-systems architecture needs without expanding the project into a model of every NAS participant.
 
-The methodology assumes that:
+The methodology is a model-based systems engineering approach that uses simulation to test the proposed interface and decision-making process. It assumes that:
 \begin{itemize}
     \item models of every required aircraft type are available;
     \item the security concerns of sharing airline data can be mitigated;
@@ -94,21 +69,7 @@ The methodology assumes that:
     \item wake turbulence is not modeled, so the aircraft are assumed to be separated by more than the minimum wake-separation distance.
 \end{itemize}
 
-\plantodo{Track C (owner's note, 2026-10-13 print, page 16)}{Beside the interface and communication-channel assumptions, now one item: \textbf{``Combine. Later cite EPP, value for [CI/GW], BADA4 for API models?''} ``CI/GW'' (cost index and gross weight) is Claude's reading of the handwriting. BADA 4 is not in \texttt{evidence/source-register.md}.}
+The explored scenario stands for a narrow set of conflicts: those between two aircraft crossing at the same level. \textcite{rantanen2012conflictManeuvers} found that this represented only 36 of 256 conflicts identified in the operational data they studied. The scenario is represented through one hypothetical en-route sector and four aircraft, with controllers responsible for maintaining separation and for resolving conflicts. The aircraft are assumed to be at the same altitude, with the same speed, and on a collision course. The scenario is designed to be simple enough to allow for a clear analysis of the proposed interface and decision-making process, while still being representative of the types of conflicts that occur in the NAS.
 
-% The list of limits that stood here (AI-drafted 2026-10-11) is taken apart as
-% the owner marked on the 2026-10-13 print, pages 16 and 17: its lead-in sentence
-% is struck; the static-snapshot and truthful-reporting items are reworded into
-% the list above ("reword & add to primary list"; "Accurate info. Move to primary
-% list."); the first two items are discussion ("Add to discussion instead of the
-% list."); the climb rule now cites its source ("Cite source."); the sentence on
-% the aircraft model's simplifications sits with the accuracy item ("Move to
-% discussion regarding accuracy bullet, above."). The call-out asking for a
-% source for a 1 to 3 percent misreporting figure is removed (scribbled over).
-The scenario stands for a narrow set of conflicts. Conflicts between two aircraft crossing at the same level are a minority of conflicts: 36 of 256 in the operational data of \textcite{rantanen2012conflictManeuvers}. The experiment uses one invented en-route sector and four aircraft. The rule that limits climbs when the weight is unknown is a single threshold (FL350) applied to every aircraft type; it is the modeling assumption of an earlier study, which limited climbs in that way because it did not model aircraft weight~\cite{engility2014tasarAlaska}.
+The controllers are assumed to have accurate information about the aircraft and their intentions, and are equipped with varying levels of information and automation. In the baseline scenario, the controllers have only the information that is currently available to them in the NAS. In the proposed scenario, the controllers have access to additional information about the aircraft's weight and cost index, which allows them to make more informed decisions about which aircraft to move in a conflict. Inherent in this assumption is that the reported state information is accurate (\cite{kulkarni2019ctopSlotSubstitution} discusses how airlines can game the system with inaccurate information) and that the underlying performance models are sufficiently accurate to support the decision-making process (its simplifications are listed separately in Section~\ref{sec:scoring-limits}). The controllers are also assumed to have the ability to communicate with the aircraft and the airline, and to be able to issue instructions to the aircraft in a timely manner.
 
-The assumption of accurate information has two parts. An airline could misreport what it shares. The aircraft performance model that turns the shared weight into a cost is itself simplified, and its simplifications are listed separately in Section~\ref{sec:scoring-limits}.
-
-\aidraft{One sentence offered for the misreporting point, not asked for on the print. The source was read in full by Claude on 2026-10-11 and not by you; it concerns flow programs before departure, not a conflict in cruise. Keep it, or strike it.}
-The risk is documented for a related exchange: where an airline states the relative cost of its route options to the FAA's flow-management automation, the airline would reduce its delays by stating a very high cost~\cite{kulkarni2019ctopSlotSubstitution}.
-% ---- end AI draft
