@@ -10,3 +10,22 @@ Section~\ref{sec:impact}), and (5) recommendations. Limit to
 1-2 pages; no citations, undefined terms, or content not found elsewhere in
 the report. State the two claims here as well as in the Introduction
 (Section~\ref{sec:introduction}; owner's note on the 2026-10-11 print, page 11).}
+
+\begin{itemize}
+    \item \textbf{Problem.} NAS decisions are made by independent actors, each with partial information. When a conflict or disruption occurs, the decision is made quickly and myopically. The sector controller resolves conflicts knowing type, level, speed and route, but not weight or cost index.
+    \item \textbf{Gap.} Few sources model the NAS with systems engineering. None found address what detailed aircraft state information is worth to the decision.
+    \item \textbf{Claims.}
+    \begin{itemize}
+        \item Experiment: a higher-fidelity decision aid, fed accurate performance data and the wider airspace state, changes how conflicts are resolved.
+        \item Model: an MBSE architecture locates the missing interface, names who owns the decision and the data, states the unmet requirement, and lets the scoring fidelity be swapped with the structure unchanged.
+    \end{itemize}
+    \item \textbf{Approach.}
+    \begin{itemize}
+        \item SysML v2 model of the NAS as a system of systems: context diagram, internal block diagrams, nominal-operations activity, requirements, verification cases, the proposed airline-to-ATC interface.
+        \item Experiment: one level-crossing conflict, four aircraft, one sector; four cases (A to D) with increasing information; options scored with OpenAP at three fidelities; impacts reported side by side for aircraft, airline, sector and system.
+    \end{itemize}
+    \item \textbf{Findings: architecture.} [Measures from Section~\ref{sec:results}: requirements traced, requirements allocated, requirements tagged \texttt{improved}.]
+    \item \textbf{Findings: experiment.} [Option chosen by each case; B minus A (value of automation) and C minus B (value of the information exchange) in fuel, CO2 and instructions; who pays.]
+    \item \textbf{Impact.} [From Section~\ref{sec:impact}: operational and dollar terms where a credible conversion exists.]
+    \item \textbf{Recommendations.} [From the Conclusions and Recommendations section.]
+\end{itemize}
