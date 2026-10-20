@@ -32,14 +32,82 @@ package NominalOpsActivity {
         doc /* The aircraft continuously broadcasts its state (position, altitude, velocity;
          * transponder / ADS-B Out) while it moves. Runs concurrently with the crew's actions
          * in each phase where the owner noted it. [SME] */
-        out state : AircraftState;
+        out aircraftState : AircraftState;   // was `out state`: `state` is a keyword, so it declared an unnamed state usage
+    }
+
+    action def ResolveConflict {
+        doc /* The studied decision (D-007, D-020): the sector controller resolves one
+         * predicted conflict. The branch is the experiment's information level: case A
+         * applies the controller's rule, case B scores options with a nominal weight per
+         * type, cases C and D score them with the airline's shared data. */
+        // AI-DRAFTED 2026-10-19 at the owner's request ("Need ATCresolveConflict activity
+        // diagram!", 2026-10-19 print); owner to review. Steps from the experiment
+        // (report Section 4.2) and its sources: options as controller heuristics
+        // (fothergill2013resolutionHeuristics [B]); "predetermined rules", descend rather
+        // than climb (kirwan2001coraStrategies [B]); no climb above FL350
+        // (engility2014tasarAlaska [B]); clearance and read-back (JO 7110.65BB 2-4-3,
+        // 4-2-x [A]).
+        // Inputs are what the decider can know (owner's 2026-10-19 print, Fly Enroute):
+        in surveillance : AircraftState[*];                   // ADS-B position reports, radar: type, level, speed (today)
+        in flightPlans : FlightPlan[*];                       // filed route and requested level (today)
+        in performanceShare : AirlinePerformanceShare[0..*];  // MISSING today: weight, cost index, delay margin. IMPROVED (D-019), cases C and D
+        out clearance : Clearance;                            // to the crew of the aircraft that moves
+
+        first start;
+        then action atcAssessConflict {
+            doc /* Identify the pair, the geometry and the time to loss of separation. */
+        }
+        then action atcGenerateOptions {
+            doc /* List the candidate maneuvers: level changes, speed changes, vectors.
+             * No climb is offered above FL350. */
+        }
+        then decide informationCheck;
+            succession ruleOnly first informationCheck then atcApplyRule;
+            succession nominalWeight first informationCheck then atcScoreWithNominalWeight;
+            succession sharedData first informationCheck then atcScoreWithSharedData;
+
+        action atcApplyRule {
+            doc /* Case A: apply the rule (descend; never climb above FL350). */
+        }
+        action atcScoreWithNominalWeight {
+            doc /* Case B: decision support scores each option with one nominal weight per type. */
+        }
+        action atcScoreWithSharedData {
+            doc /* Cases C and D: decision support scores each option with the airline's
+             * weight and cost index, and in D its delay margin. */
+        }
+        first atcApplyRule then chooseMerge;
+        first atcScoreWithNominalWeight then chooseMerge;
+        first atcScoreWithSharedData then chooseMerge;
+        merge chooseMerge;
+
+        then action atcSelectAircraftAndManeuver {
+            doc /* Choose which aircraft moves and how. */
+        }
+        then action atcIssueResolutionClearance {
+            doc /* Issue the instruction by voice or datalink. */
+            out clearance : Clearance;
+        }
+        then action crewReadBackAndAccept {
+            doc /* The crew reads back and accepts, or says "unable". */
+        }
+        then action crewExecuteManeuver {
+            doc /* The crew sets the new level or speed on the MCP or in the FMS. */
+        }
+        then action atcConfirmSeparation {
+            doc /* The controller confirms separation from the radar picture. */
+        }
+        then done;
+
+        bind clearance = atcIssueResolutionClearance.clearance;
     }
 
     action def Prework {
-        doc /* All of the airline work that occurs before flight planning can occur. Kept
-         * in the owner's listed order; the planning literature (to-do-list.md §2) may
-         * reorder or iterate these steps. Exogenous to the study (conops-hub-to-hub-
-         * trajectory-cost.md: schedule, fleet assignment and crew pairing are given). [SME] */
+        doc /* The top-level airline business plan and design of the service model. */
+        // Owner's wording, 2026-10-19 print. Kept from the earlier doc: steps in the
+        // owner's listed order (the planning literature, to-do-list.md §2, may reorder or
+        // iterate them); exogenous to the study (conops-hub-to-hub-trajectory-cost.md:
+        // schedule, fleet assignment and crew pairing are given). [SME]
 
         first start;
         then action defineMarketSegmentation;
@@ -139,10 +207,11 @@ package NominalOpsActivity {
                 doc /* Crew checks trajectory and status, and coordinates updates and
                  * changes with the tower and the AOC. */
             }
-            then action rampControlIssuePushbackClearance {
-                doc /* Apron/ramp control issues gate pushback clearance. Who holds this
-                 * (airline or airport ramp tower vs. ATC ground control) varies by airport;
-                 * owner flagged it as open ("Apron (Tower?)"). */
+            then action towerIssuePushbackClearance {
+                doc /* The tower issues gate pushback clearance. */
+                // Owner's choice, 2026-10-19 print ("choose Tower"). In practice it varies by
+                // airport (airline or airport ramp tower vs. ATC ground control); the model
+                // takes the tower as the abstraction. Was rampControlIssuePushbackClearance.
             }
             then action crewPushBackWithGroundControl {
                 doc /* Crew confirms and coordinates with ground control for pushback. */
@@ -218,6 +287,9 @@ package NominalOpsActivity {
             then aocMonitorFlight;
 
         action aircraftBroadcastState : BroadcastAircraftState; // aircraft flies level, transmitting data
+        // The broadcast state is what ATC's conflict resolution sees (owner's 2026-10-19
+        // print: "why no other I/O, but showing this one?" and "connect across diagrams").
+        flow aircraftBroadcastState.aircraftState to atcMonitorSector.atcResolveConflict.surveillance;
 
         action crewCruise {
             doc /* The crew's repeating cruise loop, until near top of descent. */
@@ -279,11 +351,9 @@ package NominalOpsActivity {
                 succession conflictFound first conflictCheck then atcResolveConflict;
                 succession noConflict first conflictCheck then atcMerge;
 
-            action atcResolveConflict {
-                doc /* ATC resolves an identified conflict. This is the decision the
-                 * capstone studies (D-007, D-020); decompose it here when that work
-                 * reaches the activity model. */
-            }
+            // The decision the capstone studies (D-007, D-020); decomposed in
+            // ResolveConflict (view resolveConflictActivity), 2026-10-19.
+            action atcResolveConflict : ResolveConflict;
             then atcMerge;
             merge atcMerge;
 
@@ -344,9 +414,13 @@ package NominalOpsActivity {
         first towerPlanTaxiIn then arrivalPlanJoin;
         join arrivalPlanJoin;
 
-        then action deliverArrivalPlanToCrew {
-            doc /* The arrival plan (STAR, approach, runway, exit, gate, taxi) goes back to
-             * the aircraft and crew. Sender and medium not yet modeled. */
+        then action atcSendArrivalPlanToAoc {
+            doc /* ATC sends the arrival plan (STAR, approach, runway, exit, taxi) to dispatch. */
+        }
+        then action aocRelayArrivalPlanToCrew {
+            doc /* Dispatch adds the gate and relays the arrival plan to the crew. */
+            // Owner's path, 2026-10-19 print: "ATC -> Dispatch -> Crew". Medium not yet
+            // modeled (ACARS is the likely one). Was deliverArrivalPlanToCrew. [SME]
         }
         then action crewProgramArrivalIntoFms {
             doc /* Crew enters the arrival into the FMS, checks the top-of-descent point and
@@ -405,6 +479,11 @@ package NominalOpsActivity {
 
     action def NominalFlightOperations {
         doc /* Gate-to-gate sequence for one flight under nominal conditions. */
+        // Scope (owner's 2026-10-19 print): this is nominal FLIGHT operations, one flight's
+        // view. NAS operations would add what runs across all flights: traffic flow
+        // management initiatives being created, flight monitoring and conflict resolution
+        // for all traffic. Only the conflict resolution that touches this flight is here
+        // (FlyEnroute::atcMonitorSector::atcResolveConflict).
 
         // --- Control flow (the ordering of phases) ---
         first start;

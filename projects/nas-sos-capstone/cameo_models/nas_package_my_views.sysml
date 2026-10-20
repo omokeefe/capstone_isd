@@ -114,6 +114,12 @@ package MyViews {
         }
 
         // placement: body
+        // caption: ATC resolves a conflict: the studied decision, branching on what the controller knows (cases A to D)
+        view resolveConflictActivity : ActionFlowView {
+            expose NominalOpsActivity::ResolveConflict::**;
+        }
+
+        // placement: body
         // caption: Nominal operations, Arrive: arrival planning, descent, approach, landing and taxi-in
         view arriveActivity : ActionFlowView {
             expose NominalOpsActivity::Arrive::**;
@@ -123,6 +129,38 @@ package MyViews {
         // caption: Nominal operations, Close Out Flight: block-in, deplaning and turnaround
         view closeOutFlightActivity : ActionFlowView {
             expose NominalOpsActivity::CloseOutFlight::**;
+        }
+
+        // ---- Structure: BDD and the domain IBDs in nas_block_diagrams.sysml (D-029) ----
+
+        // caption: NAS block definition diagram: the modeled domains and the context-diagram systems, composition only
+        view nasBdd : GeneralView {
+            attribute showInheritedRows = false;   // CLI only
+            attribute maxCompartmentEntries = 0;   // CLI only: hide attribute/action compartments; composition lines only
+            expose NASBlockDiagrams::NASStructure::*::**;
+            filter @NASBlockDiagrams::BDDVisible;
+            render asTreeDiagram;
+        }
+
+        // caption: Flight operations internal block diagram: the airline operations center's roles
+        view flightOperationsIbd : InterconnectionView {
+            attribute showInheritedRows = false;   // CLI only
+            expose NASBlockDiagrams::FlightOperationsInternals::*::**;
+            filter @NASBlockDiagrams::IBDVisible;
+        }
+
+        // caption: Airport operations internal block diagram
+        view airportOperationsIbd : InterconnectionView {
+            attribute showInheritedRows = false;   // CLI only
+            expose NASBlockDiagrams::AirportOperationsInternals::*::**;
+            filter @NASBlockDiagrams::IBDVisible;
+        }
+
+        // caption: Flight crew internal block diagram
+        view flightCrewIbd : InterconnectionView {
+            attribute showInheritedRows = false;   // CLI only
+            expose NASBlockDiagrams::FlightCrewInternals::*::**;
+            filter @NASBlockDiagrams::IBDVisible;
         }
 
         // Additional views can be added as needed to support the development and

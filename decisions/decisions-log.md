@@ -6,6 +6,54 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-030 — Hand review of the 2026-10-19 print: port sides, the conflict-resolution activity, and two performers chosen
+
+**Date:** 2026-10-19
+**Status:** active. Owner direction from the hand-marked print (`projects/nas-sos-capstone/handwritten/2026-10-19_main.md`); the `ResolveConflict` steps are Claude's draft for review.
+
+**Decision:**
+
+1. **Inputs on the left, outputs on the right.** Boundary ports carry a direction (`in port` / `out port`), which Syside uses to place them (tested 2026-10-19). Applied to the AOC, ATC and ATCSCC inputs, and the aircraft's ADS-B, emissions and air-data ports.
+2. **The airspace management domain has a boundary:** `surveillanceIn`, `flightPlansIn`, `requestsIn` and `clearancesOut`, wired to `atc` on its IBD. Its two connections are renamed after what they carry (`trafficManagementInitiatives`, `sectorFlowRestrictions`). `tfmTools` links the ATCSCC to its tools. New item def `AirspaceManagement::Clearance`.
+3. **The performance data can be located on a diagram.** ATC's `performanceShareIn` (airspace IBD) and the AOC's `performanceShareOut` (flight ops IBD) are drawn, though both are improved architecture. This reverses D-029 item 3's "not drawn".
+4. **`atcResolveConflict` is decomposed** as `action def ResolveConflict`: assess, generate options, then a branch on the information level (rule only for case A, nominal weight for B, shared data for C and D), select, issue the clearance, read-back, execute, confirm separation. Its inputs are surveillance, flight plans and the performance share (missing today). The aircraft's broadcast state flows into it. View `resolveConflictActivity`, in Section 3.4 after Fly Enroute.
+5. **Performers chosen:** the tower issues pushback clearance (`towerIssuePushbackClearance`); the arrival plan goes ATC → dispatch → crew (`atcSendArrivalPlanToAoc`, `aocRelayArrivalPlanToCrew`).
+6. **Scope note:** the nominal operations activity is one flight's operations, not NAS operations (which would add flow management, monitoring and conflict resolution across all traffic). Prework's doc is the owner's wording.
+7. **No RACCI matrix.** Appendix A.2 is "Full Stakeholder Register".
+8. **Appendix landscape figures each get their own landscape block** (`tools/render_sysml_diagrams.py`). Several figures in one block printed rotated and cropped.
+
+**Rationale:** the owner's review asked for exchanges over conceptual flow ("get away from conceptual logic flow and more into actual exchanges"), for the studied decision to be decomposed ("DO"), and for the performance data to be locatable at a port. Items 1 to 4 make the studied exchange traceable from the AOC's port, through ATC's port, into the decision's inputs.
+
+**Alternatives considered:** one comprehensive NAS IBD (deferred: open question; the recommendation is to trace one exchange across the existing diagrams); trimming the aircraft IBD now (deferred: removing surveillance also removes the ADS-B path, and the owner's note re-routes it through the comm system, which needs a decision first).
+
+**Evidence / source:** the owner's print; the `ResolveConflict` docs cite fothergill2013resolutionHeuristics, kirwan2001coraStrategies, engility2014tasarAlaska and JO 7110.65BB.
+
+**Consequences:** 10 views re-rendered, 1 new; the report compiles at 56 pages. The open questions on pushback and the arrival-plan sender are resolved. New open questions: the justification pass, one NAS IBD or many, an aircraft state machine, the GREAT comparison, and Prepare for Departure.
+
+---
+
+## D-029 — A composition-only NAS BDD and one IBD per modeled domain
+
+**Date:** 2026-10-19
+**Status:** active. Owner direction in a working session; the links on the new IBDs are Claude's draft and are not yet reviewed.
+
+**Decision:**
+
+1. **New file `cameo_models/nas_block_diagrams.sysml`** holds the structure diagrams that were missing.
+2. **Top-level BDD (`nasBdd`), composition only.** It shows the `NationalAirspaceSystem` block, the five modeled domains (D-007, D-008) and the systems drawn on the context diagram (atc, atcscc, airline operations center, airport, aircraft, flight deck crew), with composition lines only: no ports, attributes or exchange links, which stay on the context diagram. Systems the context diagram doesn't draw (tracon, artcc, tmu, tfmAutomation, ticketingSystem, cabinCrew) and the Environment are untagged, so they stay in the model but off the view.
+3. **One IBD per modeled domain.** The aircraft and airspace management IBDs stay in their own files. Three new ones are in this file: Flight Operations (the AOC's eight roles, its decision support, and the weather and rules inputs), Airport Operations (the airport's parts, with the AMS-hub links from the prework draft), and Flight Crew (captain, first officer, EFB, cabin crew). Per D-010 each IBD holds only links inside its domain. The improved-architecture `performanceShareOut` port isn't drawn, so the views show the baseline, as the context diagram does.
+4. **Every new link carries an evidence tag** in the context diagram's review key. The cabin crew to flight deck link moves here from the context diagram's commented-out draft.
+
+**Rationale:** the context diagram shows exchanges between systems but no hierarchy. A reader following the model (BDD, then IBD, as in the standard model organization the owner attached in the 2026-10-19 journal) had no BDD and no IBD for three of the five domains.
+
+**Alternatives considered:** consolidating the aircraft and airspace IBDs into the new file (rejected by the owner: a bigger diff, and the views and report references would move); one IBD per context-diagram system rather than per domain (rejected by the owner); a top-level view with exchange links (rejected: that duplicates the context diagram).
+
+**Evidence / source:** owner direction; the existing definitions' docs (Berry & Pace 2011, Munro 2018, Seamster 2011, Clarke 1998, JO 7110.65BB 3-4-x); `knowledge/models/interface-exchange-draft.md` for the airport hub ([C]).
+
+**Consequences:** four new views go to the report appendix (54 pages, builds clean). The open question "Review the three new domain IBDs" is in `open-questions.md`. The to-do Track A table has two new rows.
+
+---
+
 ## D-028 — The report gets a System Model section between the methodology and the experiment
 
 **Date:** 2026-10-17

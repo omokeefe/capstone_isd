@@ -65,14 +65,14 @@ package ContextDiagram {
             // D-007: MODELED. Tactical control authority (clearances, separation; JO 7110.65BB)
             // directly shapes the flown trajectory; safety + schedule. Rendered.
             #ContextVisible part :>> atc {
-                #ContextVisible port :>> rulesIn;
+                in #ContextVisible port :>> rulesIn;
             }
             // D-007: MODELED. "Final approving authority" for interfacility TMIs (7210.3EE
             // 18-2-3i); EDCT/CTOP/reroutes couple straight to airline decisions; delay cost and
             // schedule reliability. Rendered (cross-domain link: aocTfm).
             #ContextVisible part :>> atcscc {
-                #ContextVisible port :>> weatherIn;
-                #ContextVisible port :>> specialUseAirspaceIn;
+                in #ContextVisible port :>> weatherIn;
+                in #ContextVisible port :>> specialUseAirspaceIn;
             }
             // tmu: D-007 MODELED (local TM latitude; 18-2-3 NOTE), but every tmu exchange is
             // inside Airspace Management (ATCSCC <-> TMU <-> controllers), so per D-010 it is
@@ -93,8 +93,8 @@ package ContextDiagram {
             // router, duty manager) are sub-parts in the definitions for the AOC IBD; each
             // connection doc below names the role that owns it.
             #ContextVisible part :>> airlineOperationsCenter {
-                #ContextVisible port :>> rulesIn;
-                #ContextVisible port :>> weatherIn;
+                in #ContextVisible port :>> rulesIn;
+                in #ContextVisible port :>> weatherIn;
             }
             // ticketingSystem: ABSORBED. Revenue/booking side; enters only as passenger demand
             // (a boundary-actor effect per D-007). Not rendered.

@@ -26,12 +26,29 @@ package AirspaceManagementIBD {
         // opens it up; it needs `tracon` / `artcc` to move under AirTrafficControlSystem in the
         // definitions. Not decided.
         #IBDVisible part airspaceMgmt: AirspaceManagementDomain {
-            #IBDVisible part :>> atc;
+            #IBDVisible part :>> atc {
+                // IMPROVED ARCHITECTURE (D-019). Drawn here so the report can point at the
+                // port the aircraft performance data would arrive on (owner's 2026-10-19
+                // print, Section 3.6: "be able to point to the port that would have the I/O").
+                #IBDVisible port :>> performanceShareIn;
+            }
             #IBDVisible part :>> tracon;
             #IBDVisible part :>> artcc;
             #IBDVisible part :>> atcscc;
             #IBDVisible part :>> tmu;
             #IBDVisible part :>> tfmAutomation;
+
+            // Domain boundary (owner's 2026-10-19 print): inputs left, outputs right.
+            in #IBDVisible port :>> surveillanceIn;
+            in #IBDVisible port :>> flightPlansIn;
+            in #IBDVisible port :>> requestsIn;
+            out #IBDVisible port :>> clearancesOut;
+
+            #IBDVisible connection surveillanceToAtc connect surveillanceIn to atc;
+            #IBDVisible connection flightPlansToAtc connect flightPlansIn to atc;
+            #IBDVisible connection requestsToAtc connect requestsIn to atc;
+            #IBDVisible connection clearancesFromAtc connect atc to clearancesOut;
+            #IBDVisible connection tfmTools connect atcscc to tfmAutomation;
         }
 
         // Inter-ATC connections (from the context diagram's notes, 2026-09-27)
@@ -61,8 +78,16 @@ package AirspaceManagementIBD {
         //   hotlines. NTML is FAA-internal, which is why it appears here and not on the
         //   context diagram's operator-facing links.
 
-        #IBDVisible connection atcsccTmu connect airspaceMgmt.atcscc to airspaceMgmt.tmu;
-        comment about atcsccTmu /* [A] National <-> local traffic flow management.
+        // Boundary links (2026-10-19, owner's print). Each port stands for a context-diagram
+        // link that crosses the domain boundary; the comment names it.
+        comment about airspaceMgmt::surveillanceToAtc /* [A] ADS-B Out and secondary radar replies reach the controllers (atcSurveillance; JO 7110.65BB 5-1-2, 5-2-1). The broadcast is aircraftBroadcastState on the activity model. */
+        comment about airspaceMgmt::flightPlansToAtc /* [A] Filed flight plans and amendments to the ARTCC host (aocFlightPlanFiling; JO 7210.3EE 6-5). */
+        comment about airspaceMgmt::requestsToAtc /* [A] Crew requests, read-backs and reports by voice or datalink (atcToCrew, atcAircraftDatalink). */
+        comment about airspaceMgmt::clearancesFromAtc /* [A] Clearances and instructions, including the conflict-resolution instruction (item AirspaceManagement::Clearance; atcToCrew). */
+        comment about airspaceMgmt::tfmTools /* [A] The ATCSCC works through the TFM tools (TFMS, FSM, NTML, TBFM, DRT): media, not a party (D-007 absorbed; JO 7210.3EE 18-5-3, 18-10-3). The TMUs use the same tools; that link is not drawn. Owner's "?" on the 2026-10-19 print. */
+
+        #IBDVisible connection trafficManagementInitiatives connect airspaceMgmt.atcscc to airspaceMgmt.tmu;
+        comment about trafficManagementInitiatives /* [A] National <-> local traffic flow management.
              * ATCSCC -> TMU: FEA/FCA, TMIs (GDP, GS, AFP, CTOP, reroutes), EDCTs, slot/rate data.
              * TMU -> ATCSCC: component outages and disruptions, weather conditions, MIT >= 25
              *   (FEA) / >= 40 (conference), TBM status, delay reports, reroute requests, runway
@@ -74,8 +99,8 @@ package AirspaceManagementIBD {
              * Intent chain: enterprise/NAS flow objectives -> ATC constraints.
              * Sources: JO 7210.3EE CHG 3 Ch. 18. */
 
-        #IBDVisible connection tmuAtc connect airspaceMgmt.tmu to airspaceMgmt.atc;
-        comment about tmuAtc /* [A] TMU <-> tactical controllers: how a TMI becomes the clearance the crew
+        #IBDVisible connection sectorFlowRestrictions connect airspaceMgmt.tmu to airspaceMgmt.atc;
+        comment about sectorFlowRestrictions /* [A] TMU <-> tactical controllers: how a TMI becomes the clearance the crew
              * receives.
              * TMU -> controllers: MIT/MINIT, metering times (TBFM), EDCT verification, departure
              *   release times, airborne reroutes (Route Amendment Dialog -> ERAM for the sector

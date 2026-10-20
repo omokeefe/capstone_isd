@@ -57,10 +57,10 @@ package AircraftIBD {
 
         #IBDVisible part airliner: Aircraft {
             // Boundary ports (D-012): what enters and leaves the aircraft on this diagram.
-            #IBDVisible port :>> adsbOut;
-            #IBDVisible port :>> adsbIn;
-            #IBDVisible port :>> emissions;
-            #IBDDetail port :>> ambientAir;
+            out #IBDVisible port :>> adsbOut;
+            in #IBDVisible port :>> adsbIn;
+            out #IBDVisible port :>> emissions;
+            in #IBDDetail port :>> ambientAir;
 
             #IBDVisible part :>> flightDeckControls {
                 #IBDVisible part :>> modeControlPanel;

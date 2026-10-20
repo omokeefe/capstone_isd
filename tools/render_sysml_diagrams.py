@@ -219,21 +219,21 @@ def single_tex(view: dict, manifest: dict) -> str:
 
 
 def build_tex(views: list[dict], manifest: dict) -> str:
-    """The appendix list: every view not placed in the body."""
+    """The appendix list: every view not placed in the body.
+
+    Each wide view gets its own landscape block, as in single_tex. Several floats
+    inside one landscape block printed rotated a second time and cropped (owner's
+    2026-10-19 print, "Rotate Diagram"), while the one-per-block body figures printed
+    correctly.
+    """
     out = list(HEADER)
-    in_landscape = False
     for view in views:
         if view["placement"] == "body":
             continue
-        wide = is_wide(view)
-        if wide and not in_landscape:
-            out += [r"\begin{landscape}", ""]
-        if not wide and in_landscape:
-            out += [r"\end{landscape}", ""]
-        in_landscape = wide
-        out += [figure_tex(view, manifest[view["name"]]["rendered"]), ""]
-    if in_landscape:
-        out += [r"\end{landscape}", ""]
+        figure = figure_tex(view, manifest[view["name"]]["rendered"])
+        if is_wide(view):
+            figure = "\n".join([r"\begin{landscape}", figure, r"\end{landscape}"])
+        out += [figure, ""]
     return "\n".join(out)
 
 

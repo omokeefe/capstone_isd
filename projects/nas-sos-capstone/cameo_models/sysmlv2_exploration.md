@@ -151,6 +151,7 @@ what exists in the repo today.
 | File | What it is | Note |
 |---|---|---|
 | [nas_sysml_package_definitions.sysml](nas_sysml_package_definitions.sysml) | NAS + 9 domain packages, constituent systems, `StepDynamics` interface | draft; source of truth (not in Cameo) |
+| [nas_block_diagrams.sysml](nas_block_diagrams.sysml) | top-level BDD of the NAS (composition only: five modeled domains and the context-diagram systems, view `nasBdd`) and the IBDs of Flight Operations, Airport Operations and Flight Crew (views `flightOperationsIbd`, `airportOperationsIbd`, `flightCrewIbd`); D-029, 2026-10-19 | links drafted by Claude with evidence tags, not hand-reviewed; aircraft and airspace IBDs stay in their own files; passes `syside check` |
 | [scenarios/hub-to-hub-example.sysml](scenarios/hub-to-hub-example.sysml) | instance-level pattern demo | placeholder city pair, not a decided ConOps |
 | [requirements_definitions.sysml](requirements_definitions.sysml) | shared requirement schema: `NasRequirement`, `StakeholderNeed`, `SystemLevelRequirement`, status/kind/verification/evidence-grade enums | passes `syside check` (2026-10-10) |
 | [requirements_stakeholders.sysml](requirements_stakeholders.sysml) | stakeholder requirements | 13 in 5 stakeholder sub-packages (`SN-<group>-nn`), each naming its objective rows and why it is in the study; AI draft 2026-10-10 cut from 27 by the owner's two hand reviews, with three written by the owner (D-020, D-021); passes `syside check` |

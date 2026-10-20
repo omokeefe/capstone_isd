@@ -119,6 +119,22 @@ package NationalAirspaceSystem {
             // the ATCSCC and TMUs work through. They are media/capabilities, not parties to an
             // exchange (owner, 2026-09-27: "FSM is a tool", "TBFM is a tool").
             part tfmAutomation: AirTrafficFlowManagementSystem;
+
+            // The domain's boundary, as the owner marked it on the 2026-10-19 print (airspace
+            // IBD). Inputs draw on the left, outputs on the right (`in` / `out`). Wired to
+            // the systems inside on the airspace management IBD.
+            in port surveillanceIn;    // ADS-B position reports and radar returns (atcSurveillance)
+            in port flightPlansIn;     // filed flight plans and amendments (aocFlightPlanFiling)
+            in port requestsIn;        // crew requests and reports (atcToCrew, atcAircraftDatalink)
+            out port clearancesOut;    // clearances, including conflict-resolution instructions (atcToCrew)
+        }
+
+        item def Clearance {
+            doc /* An ATC clearance or instruction to one flight: altitude, speed, heading or
+             * route. A conflict-resolution instruction is one kind (ResolveConflict). Issued by
+             * voice or datalink (atcToCrew, atcAircraftDatalink); the crew reads it back and
+             * accepts or declines it (JO 7110.65BB 4-2-x, 4-3-x). [A] */
+            attribute instruction: String;   // e.g. "descend FL360", "reduce M0.78"
         }
 
         part def AirTrafficControlSystem {
@@ -126,7 +142,7 @@ package NationalAirspaceSystem {
             // ATC's own decision support (D-012), e.g. conflict probes and trajectory predictors.
             part decisionSupport: DecisionSupport::DecisionSupportSystem;
             // Inputs from outside the SoI (D-012). Drawn as ports; the sender is not drawn.
-            port rulesIn;   // Governance: 14 CFR, JO 7110.65 / 7210.3
+            in port rulesIn;   // Governance: 14 CFR, JO 7110.65 / 7210.3
             // IMPROVED ARCHITECTURE (D-019): receives the airline's performance share for the
             // flights it decides about (SLR-INF-02). That it discloses it to no one else is an
             // assumption, not a requirement (D-020). Conjugate of the AOC's supplier port.
@@ -145,8 +161,8 @@ package NationalAirspaceSystem {
             doc /* Air Traffic Control System Command Center — national traffic-flow authority. */
             // Inputs from outside the SoI (D-012). Why these two arrive here and not at the
             // TMU or the controllers is an open question (open-questions.md, 2026-10-08).
-            port weatherIn;              // Infrastructure: weather service
-            port specialUseAirspaceIn;   // Military: special-use airspace status
+            in port weatherIn;              // Infrastructure: weather service
+            in port specialUseAirspaceIn;   // Military: special-use airspace status
         }
 
         part def TMU {
@@ -315,8 +331,8 @@ package NationalAirspaceSystem {
             // The AOC's own decision support (D-012), e.g. the flight planning system.
             part decisionSupport: DecisionSupport::DecisionSupportSystem;
             // Inputs from outside the SoI (D-012). Drawn as ports; the sender is not drawn.
-            port rulesIn;     // Governance: 14 CFR 91 / 121
-            port weatherIn;   // Infrastructure: weather service
+            in port rulesIn;     // Governance: 14 CFR 91 / 121
+            in port weatherIn;   // Infrastructure: weather service
             // IMPROVED ARCHITECTURE (D-019): the airline's performance share to the party
             // deciding a trajectory change. Not part of today's NAS; the experiment's cases
             // C and D assume it exists. Typed by AirlinePerformanceSharePort below.
@@ -684,10 +700,10 @@ package NationalAirspaceSystem {
 
             // What crosses the aircraft boundary other than the links on the context
             // diagram (D-012). Wake is left out: not important for the study.
-            port adsbOut;      // surveillance broadcast: position, velocity, pressure altitude, beacon code
-            port adsbIn;       // ADS-B reports received from other aircraft
-            port emissions;    // engine exhaust
-            port ambientAir;   // total and static pressure, temperature, sensed by the pitot-static system
+            out port adsbOut;      // surveillance broadcast: position, velocity, pressure altitude, beacon code
+            in port adsbIn;       // ADS-B reports received from other aircraft
+            out port emissions;    // engine exhaust
+            in port ambientAir;   // total and static pressure, temperature, sensed by the pitot-static system
         }
 
         part def FlightDeckControls {
