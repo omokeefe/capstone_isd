@@ -7,7 +7,10 @@ package ConstituentSystemRequirements {
      * DRAFT, 2026-10-11. Written by Claude at the owner's request (decision D-022), from
      * the owner's example sentence for the flight crew and the owner's notes on the two
      * marked-up prints. HLR-CRW-01 is the owner's sentence. Every requirement has
-     * status = draft. Not reviewed by the owner.
+     * status = draft. Hand-reviewed by the owner on 2026-10-20 (D-031); edits made from
+     * a question on that print say so in their rationale. HLR-ACF-06 is new. Only
+     * in-study system requirements have an HLR: this tier is where the study's cut is
+     * made (D-031).
      *
      * HOW TO READ ONE
      *  - The doc comment is the requirement.
@@ -24,7 +27,7 @@ package ConstituentSystemRequirements {
      *    verification cases, one per means, are in nas_verification.sysml.
      *  - rationale says why the requirement is in the study (D-020).
      *
-     * 28 requirements: 5 on flight crew, 7 on flight operations, 9 on air traffic control, 5 on aircraft, 2 on airport operations.
+     * 29 requirements: 5 on flight crew, 7 on flight operations, 9 on air traffic control, 6 on aircraft, 2 on airport operations.
      * Parts of the five systems with no requirement here are listed in
      * knowledge/models/requirements-and-traceability.md section 11, with the reason.
      * If that file and this one disagree, this one wins (D-006).
@@ -70,8 +73,8 @@ package ConstituentSystemRequirements {
 
         requirement <'HLR-CRW-03'> betterTrajectoryRequested : ConstituentSystemRequirement {
             doc /* The flight crew shall ask air traffic control for a change of route, altitude or
-             * speed when the flight management system's predictions show the flight would be
-             * better off with it.
+             * speed when the crew deems it beneficial, optionally in collaboration with the
+             * dispatcher.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
@@ -81,13 +84,11 @@ package ConstituentSystemRequirements {
             :>> verificationMethod = VerificationMethod::byDemonstration;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = "engility2014tasarAlaska";
-            :>> rationale = "In the study: a crew request is the only channel for this knowledge today, so it is what the proposed data share is compared with.";
+            :>> rationale = "In the study: a crew request is the only channel for this knowledge today, so it is what the proposed data share is compared with. Owner (hand review 2026-10-20): 'Why call out FMS?' The trigger is now the crew's judgement, optionally with dispatch (owner's words).";
         }
 
         requirement <'HLR-CRW-04'> dispatcherToldOfTrajectoryChanges : ConstituentSystemRequirement {
-            doc /* The flight crew shall tell the dispatcher of each change to the cleared trajectory
-             * that moves the estimated arrival time by more than 5 minutes or takes the fuel
-             * predicted at the destination below the required reserve.
+            doc /* The flight crew shall tell the dispatcher of each change to the cleared trajectory.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::interfaceRequirement;
@@ -95,12 +96,9 @@ package ConstituentSystemRequirements {
             :>> objectiveStatement = "The airline learns of a tactical intervention in time to re-plan.";
             :>> parentRequirements = (SystemLevelRequirements::InformationForTrajectoryDecisions::arrivalEstimateUpdates, SystemLevelRequirements::OnboardExecution::lowFuelPredictionAlert, SystemLevelRequirements::ClearanceAndSeparation::controllerCrewCommunicationPath);
             :>> verificationMethod = VerificationMethod::byInspection;
-            :>> measureOfPerformance = "change in estimated arrival time that triggers a report";
-            :>> unitOfMeasure = "minutes";
-            :>> thresholdValue = 5.0;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = "seamster2011collabSystems";
-            :>> rationale = "Owner (2026-10-11): the crew and the dispatchers are the ones who have to coordinate for the airline to be informed (SN-AIR-03). The 5 minutes is the crew-to-dispatch practice in seamster2011collabSystems. In the study: this is how the cost of a resolution becomes known to the airline that bears it.";
+            :>> rationale = "Owner (2026-10-11): the crew and the dispatchers are the ones who have to coordinate for the airline to be informed (SN-AIR-03). Owner (hand review 2026-10-20) struck the trigger (arrival time moved by more than 5 minutes, or fuel at the destination below the reserve) and ended the sentence: 'Period?' The 5-minute trigger stays on the parent SLR-INF-07 (seamster2011collabSystems). In the study: this is how the cost of a resolution becomes known to the airline that bears it.";
         }
 
         requirement <'HLR-CRW-05'> weightsAndCostIndexEnteredInFms : ConstituentSystemRequirement {
@@ -114,7 +112,7 @@ package ConstituentSystemRequirements {
             :>> parentRequirements = (SystemLevelRequirements::FlightPlanningAndRelease::preDepartureInformationToCrew, SystemLevelRequirements::OnboardExecution::onboardPerformancePredictions);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::ownerExpertise;
-            :>> rationale = "Graded [SME] for the owner to confirm from industry experience. In the study: the actual weight exists on board because the crew puts it there; it is the figure the high-fidelity means would share.";
+            :>> rationale = "Graded [SME] for the owner to confirm from industry experience. In the study: the actual weight exists on board because the crew puts it there; it is the figure the high-fidelity means would share. Owner (hand review 2026-10-20): 'EPP gives weight, if available. Dispatch has final fuel numbers, I believe, and planned burn.' That is, the ADS-C extended projected profile can carry the weight to the ground, and the dispatcher already holds the final fuel figures and the planned burn, so the weight need not come only from the crew's entry.";
         }
     }
 
@@ -186,9 +184,9 @@ package ConstituentSystemRequirements {
         }
 
         requirement <'HLR-OPS-05'> performanceShareProvided : ConstituentSystemRequirement {
-            doc /* Flight operations shall make each flight's current gross weight, cost index and
-             * connection priority available to the party that decides a change to that flight's
-             * trajectory.
+            doc /* Flight operations shall make each flight's current gross weight, performance
+             * model, relative cost of flight time and connection priority available to the party
+             * that decides a change to that flight's trajectory.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::interfaceRequirement;
@@ -199,12 +197,12 @@ package ConstituentSystemRequirements {
             :>> verificationMethod = VerificationMethod::byAnalysis;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "coppenbarger1999climbPrediction", "sheth2010creditsConcept");
-            :>> rationale = "The three items the first draft listed one at a time and SLR-INF-02 absorbed. They are the attributes of AirlinePerformanceShare in nas_sysml_package_definitions.sysml (D-019). Not done today (schultz2012adaptiveClimb, page 2). In the study: this is what separates the high-fidelity means (weight and cost index, case C; plus connection priority, case D) from the other two. Confidentiality is an assumption (D-020).";
+            :>> rationale = "The three items the first draft listed one at a time and SLR-INF-02 absorbed. They are the attributes of AirlinePerformanceShare in nas_sysml_package_definitions.sysml (D-019). Not done today (schultz2012adaptiveClimb, page 2). In the study: this is what separates the high-fidelity means (weight and cost index, case C; plus connection priority, case D) from the other two. Confidentiality is an assumption (D-020). Owner (hand review 2026-10-20): 'Also it's performance model. Abstract from CI & talk about a measure of the relative cost of flight time?' Cost index is one such measure. AirlinePerformanceShare still names costIndex and carries the model references unexercised (D-019); it was not changed. Applied from a question on the owner's hand review of 2026-10-20; for the owner to confirm (D-031).";
         }
 
         requirement <'HLR-OPS-06'> flightRePlannedWithCrew : ConstituentSystemRequirement {
             doc /* The dispatcher shall re-plan the flight with its crew when a trajectory change puts
-             * the arrival time or the fuel at the destination at risk.
+             * the arrival time, the fuel at the destination or flight safety at risk.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
@@ -214,7 +212,7 @@ package ConstituentSystemRequirements {
             :>> verificationMethod = VerificationMethod::byDemonstration;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = "seamster2011collabSystems";
-            :>> rationale = "The dispatcher's half of the coordination the owner named for SN-AIR-03 (2026-10-11); HLR-CRW-04 is the crew's half. In the study: context for case D, where a late flight with connections is the reason one aircraft's time is worth more than its fuel.";
+            :>> rationale = "The dispatcher's half of the coordination the owner named for SN-AIR-03 (2026-10-11); HLR-CRW-04 is the crew's half. In the study: context for case D, where a late flight with connections is the reason one aircraft's time is worth more than its fuel. 'Or flight safety' added by the owner (hand review 2026-10-20).";
         }
 
         requirement <'HLR-OPS-07'> fuelAndCo2ReportedByAirline : ConstituentSystemRequirement {
@@ -275,8 +273,8 @@ package ConstituentSystemRequirements {
         }
 
         requirement <'HLR-ATC-03'> filedIntentShownToController : ConstituentSystemRequirement {
-            doc /* The en-route center shall show the sector controller each aircraft's filed route,
-             * requested altitude and requested speed before the aircraft enters the sector.
+            doc /* The en-route center shall inform the sector controller of each aircraft's filed
+             * route, requested altitude and requested speed before the aircraft enters the sector.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::interfaceRequirement;
@@ -286,7 +284,7 @@ package ConstituentSystemRequirements {
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = "faa2025jo711065bb";
-            :>> rationale = "In the study: together with type, level and speed, this is the whole of 'today's information' that the rule of thumb decides with (case A).";
+            :>> rationale = "In the study: together with type, level and speed, this is the whole of 'today's information' that the rule of thumb decides with (case A). 'Inform ... of' for 'show' by the owner (hand review 2026-10-20).";
         }
 
         requirement <'HLR-ATC-04'> conflictResolvedWithFlyableClearance : ConstituentSystemRequirement {
@@ -311,14 +309,14 @@ package ConstituentSystemRequirements {
 
         requirement <'HLR-ATC-05'> lowestImpactResolutionChosen : ConstituentSystemRequirement {
             doc /* Air traffic control should choose, among the clearances that resolve a conflict and
-             * can be flown, the one with the lowest impact on the aircraft involved.
+             * can be flown, the one with the lowest impact on the systems involved.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::performance;
             :>> obligation = Obligation::goal; // as its parent, D-020
             :>> architectureState = ArchitectureState::improved; // D-018
             :>> constituentSystem = "Air traffic control";
-            :>> objectiveStatement = "Lowest impact on the aircraft involved. The experiment scores impact as fuel burned and as airline cost (fuel cost plus cost index times time), per aircraft and summed.";
+            :>> objectiveStatement = "Lowest impact on the systems involved. The experiment scores impact as fuel burned and as airline cost (fuel cost plus cost index times time), per aircraft and summed.";
             :>> parentRequirements = SystemLevelRequirements::ClearanceAndSeparation::lowestImpactResolution;
             :>> candidateMeans = (MeansOfAchievement::ruleOfThumb, MeansOfAchievement::lowFidelityModel, MeansOfAchievement::highFidelityModel, MeansOfAchievement::highFidelityModelWithConnections);
             :>> meansScoredInExperiment = true;
@@ -327,7 +325,7 @@ package ConstituentSystemRequirements {
             :>> unitOfMeasure = "kg and USD per conflict";
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "mori2022massCruise", "kirwan2001coraStrategies");
-            :>> rationale = "A goal, like its parent SLR-CLR-13. Four means of judging impact, scored in the experiment. Rule of thumb: one descent, by the controller's rule (rantanen2012conflictManeuvers: 23 of 36 observed cases). Low-fidelity model: lowest estimated cost with one nominal weight per type, which cannot tell two aircraft of one type apart. High-fidelity model: lowest estimated cost with each aircraft's own weight and cost index. High-fidelity model plus connections: the same, with the airline's connection priority. One truth model scores what each means chose.";
+            :>> rationale = "A goal, like its parent SLR-CLR-13. Four means of judging impact, scored in the experiment. Rule of thumb: one descent, by the controller's rule (rantanen2012conflictManeuvers: 23 of 36 observed cases). Low-fidelity model: lowest estimated cost with one nominal weight per type, which cannot tell two aircraft of one type apart. High-fidelity model: lowest estimated cost with each aircraft's own weight and cost index. High-fidelity model plus connections: the same, with the airline's connection priority. One truth model scores what each means chose. Owner (hand review 2026-10-20) circled 'aircraft': 'systems?' The parent SLR-CLR-13 still says 'the aircraft involved'. Applied from a question on the owner's hand review of 2026-10-20; for the owner to confirm (D-031).";
         }
 
         requirement <'HLR-ATC-06'> conflictResolvedWithinWorkload : ConstituentSystemRequirement {
@@ -361,12 +359,13 @@ package ConstituentSystemRequirements {
             :>> verificationMethod = VerificationMethod::byDemonstration;
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = ("faa2025jo711065bb", "engility2014tasarAlaska");
-            :>> rationale = "JO 7110.65BB paragraph 2-1-18, as recorded in evidence/literature-notes/summaries/5 - faa2025jo711065bb.md (which also allows 'stand by'). In the study: the controller's half of the request channel in HLR-CRW-03.";
+            :>> rationale = "JO 7110.65BB paragraph 2-1-18, as recorded in evidence/literature-notes/summaries/5 - faa2025jo711065bb.md (which also allows 'stand by'). In the study: the controller's half of the request channel in HLR-CRW-03. Owner (hand review 2026-10-20): 'Confirm ATC unable. I think it's actually deny/negative.' Checked against the summary only: 2-1-18 lists '(request) APPROVED', approved with restrictions, 'UNABLE' (with a reason if time permits) and 'STAND BY'. 'Unable' is kept; the order itself was not re-read.";
         }
 
         requirement <'HLR-ATC-08'> performanceShareUsedInResolution : ConstituentSystemRequirement {
-            doc /* ATC decision support shall use each flight's shared gross weight, cost index and
-             * connection priority, when the airline has shared them, to judge which clearances the
+            doc /* ATC decision support shall use the best information available to it about each
+             * flight, including the gross weight, performance model, relative cost of flight time
+             * and connection priority the airline has shared, to judge which clearances the
              * aircraft can fly and what each costs.
              */
             :>> status = RequirementStatus::draft;
@@ -378,7 +377,7 @@ package ConstituentSystemRequirements {
             :>> verificationMethod = VerificationMethod::byAnalysis;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "coppenbarger1999climbPrediction");
-            :>> rationale = "The receiving end of HLR-OPS-05 (D-019: decision support is owned by the system that decides, D-012). Not done today. In the study: the difference between case B and cases C and D.";
+            :>> rationale = "The receiving end of HLR-OPS-05 (D-019: decision support is owned by the system that decides, D-012). Not done today. In the study: the difference between case B and cases C and D. Owner (hand review 2026-10-20): 'Why not use the best information available to them?' Applied from a question on the owner's hand review of 2026-10-20; for the owner to confirm (D-031).";
         }
 
         requirement <'HLR-ATC-09'> clearancesRecorded : ConstituentSystemRequirement {
@@ -463,17 +462,33 @@ package ConstituentSystemRequirements {
         }
 
         requirement <'HLR-ACF-05'> fmsFiguresSentToAirline : ConstituentSystemRequirement {
-            doc /* The flight management system shall send its current gross weight and its predicted
-             * optimum and maximum altitudes to the airline operations center.
+            doc /* The flight management system shall make its current gross weight and its predicted
+             * optimum and maximum altitudes available for sharing with the party that decides,
+             * whether through the airline's systems or air traffic control's.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::interfaceRequirement;
             :>> constituentSystem = "Aircraft";
-            :>> objectiveStatement = "The airline holds the aircraft's own figures, so that it can share them (HLR-OPS-05).";
+            :>> objectiveStatement = "The aircraft's own figures can reach the party that decides, by whichever system carries them (HLR-OPS-05).";
             :>> parentRequirements = (SystemLevelRequirements::InformationForTrajectoryDecisions::decisionInformationToDecidingParty, SystemLevelRequirements::OnboardExecution::onboardPerformancePredictions);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::ownerExpertise;
-            :>> rationale = "The FMS-to-airline exchange named as one of the three on the thread in D-019 item 4. Whether aircraft do this today is for the owner to say [SME]; it is left as baseline because D-019 tags only the airline-to-ATC exchange as improved. In the study: the first link of the high-fidelity means.";
+            :>> rationale = "The FMS-to-airline exchange named as one of the three on the thread in D-019 item 4. Whether aircraft do this today is for the owner to say [SME]; it is left as baseline because D-019 tags only the airline-to-ATC exchange as improved. In the study: the first link of the high-fidelity means. Owner (hand review 2026-10-20): 'The GW, CI & perf data can come from the flight and/or dispatch or the same computer system, whether the airline's or ATC's.' Applied from a question on the owner's hand review of 2026-10-20; for the owner to confirm (D-031).";
+        }
+
+        requirement <'HLR-ACF-06'> adsbStateBroadcast : ConstituentSystemRequirement {
+            doc /* The aircraft's surveillance system shall broadcast the aircraft's position,
+             * altitude, velocity and identity by ADS-B Out.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> kind = RequirementKind::interfaceRequirement;
+            :>> constituentSystem = "Aircraft";
+            :>> objectiveStatement = "The ground system and its conflict probe know where each aircraft is and where it is going.";
+            :>> parentRequirements = (SystemLevelRequirements::ClearanceAndSeparation::conflictsPredicted, SystemLevelRequirements::ClearanceAndSeparation::separationMinimaMaintained);
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> evidenceRefs = "14 CFR 91.225";
+            :>> rationale = "New. Owner (hand review 2026-10-20), beside HLR-ACF-05: 'Need one HLR for ADS-B data.' In the study: the surveillance input to ResolveConflict (ADS-B position reports, D-030) and the airspace domain's surveillanceIn port. The rule (14 CFR 91.225) is general knowledge, not yet tied to a held source. Wording is Claude's. Applied from a question on the owner's hand review of 2026-10-20; for the owner to confirm (D-031).";
         }
     }
 
@@ -562,6 +577,7 @@ package ConstituentSystemRequirements {
             satisfy requirement fmsFiguresSentToAirline_fms :> ConstituentSystemRequirements::AircraftSystemsRequirements::fmsFiguresSentToAirline by aircraftSystems.aircraft.avionics.flightManagementSystem;
             satisfy requirement fmsFiguresSentToAirline_comms :> ConstituentSystemRequirements::AircraftSystemsRequirements::fmsFiguresSentToAirline by aircraftSystems.aircraft.avionics.communicationSystem;
 
+            satisfy requirement adsbStateBroadcast_surveillance :> ConstituentSystemRequirements::AircraftSystemsRequirements::adsbStateBroadcast by aircraftSystems.aircraft.avionics.surveillanceSystem;
             // Airport operations
             satisfy requirement aircraftReadyByOffBlockTime_groundHandling :> ConstituentSystemRequirements::AirportOperationsRequirements::aircraftReadyByOffBlockTime by airportOperations.airport.groundHandling;
             satisfy requirement aircraftReadyByOffBlockTime_fuelling :> ConstituentSystemRequirements::AirportOperationsRequirements::aircraftReadyByOffBlockTime by airportOperations.airport.fuelDistributionSystem;

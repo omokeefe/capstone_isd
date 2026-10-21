@@ -15,19 +15,24 @@ package StakeholderRequirements {
      * The first draft held 27 requirements in 8 groups. The owner struck those that do
      * not bear on the study's decision (D-007's test, applied to the study and not to the
      * NAS in general), re-worded several, and wrote three new flight crew requirements.
-     * The second review restored SN-ATC-04 (controller workload). 13 remain, in 5 groups. Airport operator, passengers and military airspace users
-     * have none. The struck text is in the PDF above and is listed, with the owner's
-     * reason, in knowledge/models/requirements-and-traceability.md section 6.
+     * The second review restored SN-ATC-04 (controller workload), leaving 13 in 5 groups.
+     * The third review (2026-10-20, handwritten/2026-10-20_requirements-and-traceability.pdf;
+     * D-031) keeps every requirement of the first draft: the 17 that were struck are back,
+     * with the text they had when struck, tagged studyScope = outOfStudy. The study's cut
+     * is now made at the HLR tier. SN-GOV-01 and SN-ENV-01 are tagged background. 30 in
+     * all, in 8 groups: 11 in the study, 2 background, 17 out of study. The owner's mark
+     * on each restored one is in its rationale.
      *
      * HOW TO READ ONE
      * The doc comment is the requirement. objectiveRefs names the rows it comes from in
      * knowledge/models/stakeholder-objective-ontology.md. rationale says why the
-     * requirement belongs in the study. IDs were not renumbered, so gaps are struck ones.
+     * requirement belongs in the study, or, for a restored one, the owner's mark when it
+     * was struck.
      *
      * TRACE
      * Every requirement here is the parent of at least one system requirement in
-     * requirements_nas_system.sysml (attribute parentNeeds there). 13 stakeholder
-     * requirements, 23 system requirements. Below those, the constituent system
+     * requirements_nas_system.sysml (attribute parentNeeds there). 30 stakeholder
+     * requirements, 42 system requirements. Below those, the constituent system
      * requirements are in requirements_constituent_systems.sysml (D-022).
      * If knowledge/models/requirements-and-traceability.md and this file disagree, this
      * one wins (D-006).
@@ -42,15 +47,14 @@ package StakeholderRequirements {
 
         requirement <'SN-AIR-01'> lowestCostTrajectory : StakeholderNeed {
             doc /* The NAS shall provide a means for the airline to plan and fly each flight on
-             * the route, altitude and speed it chooses, so that the flight is flown within
-             * safety and capacity limits.
+             * the route, altitude and speed it chooses.
              */
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::operators;
             :>> objectiveRefs = ("Airline: Fuel cost", "Airline: Delay cost");
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("mori2022massCruise", "munro2018managingVariability");
-            :>> rationale = "In the study: the planned cruise altitude and speed are what a conflict resolution takes the aircraft away from, so this is what the experiment scores a resolution against. The owner struck 'at its lowest operating cost' (hand review 2026-10-11): what the airline optimizes for is the airline's own business.";
+            :>> rationale = "In the study: the planned cruise altitude and speed are what a conflict resolution takes the aircraft away from, so this is what the experiment scores a resolution against. The owner struck 'at its lowest operating cost' (hand review 2026-10-11): what the airline optimizes for is the airline's own business. The owner struck ', so that the flight is flown within safety and capacity limits' (hand review 2026-10-20).";
         }
 
         requirement <'SN-AIR-02'> onScheduleArrival : StakeholderNeed {
@@ -87,6 +91,31 @@ package StakeholderRequirements {
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "coppenbarger1999climbPrediction");
             :>> rationale = "In the study: this is the requirement the experiment is about (knowledge/models/experiment-definition.md section 2). It is not met today: the controller does not receive weight or cost index. Owner's wording, hand review 2026-10-10.";
+        }
+
+        requirement <'SN-AIR-04'> airlineChoosesDelayedFlight : StakeholderNeed {
+            doc /* The NAS shall let the airline choose which of its own flights takes a
+             * delay that the airline has been assigned.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::operators;
+            :>> objectiveRefs = ("Airline: Delay cost", "Airline: Passenger connections");
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = "faa2025jo72103ee";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'This is about slot swapping... seems like it's only on strategic timelines, not tactical like I'm studying.' JO 7210.3EE 18-10-12 places it inside a ground delay program, before departure.";
+        }
+
+        requirement <'SN-AIR-06'> airlineDataKeptPrivate : StakeholderNeed {
+            doc /* The NAS shall keep the airline's commercially sensitive flight data
+             * (aircraft weight, cost index, connection priorities) private.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::operators;
+            :>> basis = EvidenceGrade::literature;
+            :>> evidenceRefs = "schultz2012adaptiveClimb";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Important & real, but not pertinent to my project per D-007!' Carried as an assumption (D-020 item 4). No objective row matches it.";
         }
     }
 
@@ -130,6 +159,31 @@ package StakeholderRequirements {
             :>> evidenceRefs = ("rantanen2012conflictManeuvers", "kirwan2001coraStrategies");
             :>> rationale = "Struck in the first hand review and brought back in the second (owner, 2026-10-11: 'Let's bring back SN-ATC-04'). In the study: instruction count is one of the experiment's two scored columns. Workload is a ceiling, not something to minimize: a controller who is not overworked can give as many instructions as wanted (owner, same review).";
         }
+
+        requirement <'SN-ATC-03'> pathKnownInAdvance : StakeholderNeed {
+            doc /* The NAS shall make the path each controlled aircraft will fly known to
+             * its controller in advance.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::airTrafficControl;
+            :>> objectiveRefs = "ATC / ANSP: Predictability";
+            :>> basis = EvidenceGrade::literature;
+            :>> evidenceRefs = "coppenbarger1999climbPrediction";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not D-007'.";
+        }
+
+        requirement <'SN-ATC-05'> delaySharedEquitably : StakeholderNeed {
+            doc /* The NAS shall share unavoidable delay equitably among airspace users.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::airTrafficControl;
+            :>> objectiveRefs = "ATC / ANSP: Delay (ATC-attributed)";
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = "faa2025jo72103ee";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 with no mark: its only system requirements were about traffic management initiatives.";
+        }
     }
 
     package FlightCrews {
@@ -138,14 +192,14 @@ package StakeholderRequirements {
         public import RequirementDefinitions::*;
 
         requirement <'SN-CRW-03'> flyableAndTimelyInstructions : StakeholderNeed {
-            doc /* The NAS shall give the flight crew only trajectory instructions that the
-             * aircraft can fly, with enough time to set them up.
+            doc /* The NAS shall give the flight crew only trajectory clearances and instructions
+             * that the aircraft can fly, with enough time to set them up.
              */
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::flightCrews;
             :>> objectiveRefs = ("Flight Crew: Workload", "Flight Crew: Safety");
             :>> basis = EvidenceGrade::ownerExpertise;
-            :>> rationale = "In the study: a climb the aircraft is too heavy to make is the clearance the baseline can issue and the improved architecture avoids. The only flight crew requirement of the first draft the owner kept.";
+            :>> rationale = "In the study: a climb the aircraft is too heavy to make is the clearance the baseline can issue and the improved architecture avoids. The only flight crew requirement of the first draft the owner kept. 'Clearances and' added by the owner (hand review 2026-10-20).";
         }
 
         requirement <'SN-CRW-06'> clearancesAccountForTraffic : StakeholderNeed {
@@ -178,6 +232,58 @@ package StakeholderRequirements {
             :>> basis = EvidenceGrade::ownerExpertise;
             :>> rationale = "Written by the owner in the hand review of 2026-10-10 (flight crew note 3). In the study: the conflict is resolved by one sector controller, whose authority ends at the sector boundary. Objective rows confirmed by the owner (hand review 2026-10-11).";
         }
+
+        requirement <'SN-CRW-01'> captainFinalAuthority : StakeholderNeed {
+            doc /* The NAS shall preserve the captain's final authority over the safe
+             * conduct of the flight.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::flightCrews;
+            :>> objectiveRefs = ("Flight Crew: Safety", "Flight Crew: Operational flexibility");
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = "14 CFR 91.3";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 (crossed out).";
+        }
+
+        requirement <'SN-CRW-02'> phaseInformationBeforePhase : StakeholderNeed {
+            doc /* The NAS shall give the flight crew the information needed for each phase
+             * of flight before that phase begins.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::flightCrews;
+            :>> objectiveRefs = ("Flight Crew: Safety", "Flight Crew: Procedural compliance");
+            :>> basis = EvidenceGrade::literature;
+            :>> evidenceRefs = "seamster2011collabSystems";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 and replaced by the owner's SN-CRW-07.";
+        }
+
+        requirement <'SN-CRW-04'> crewMayRequestTrajectoryChange : StakeholderNeed {
+            doc /* The NAS shall let the flight crew ask for a trajectory change and get an
+             * answer.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::flightCrews;
+            :>> objectiveRefs = "Flight Crew: Operational flexibility";
+            :>> basis = EvidenceGrade::literature;
+            :>> evidenceRefs = "engility2014tasarAlaska";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 (crossed out).";
+        }
+
+        requirement <'SN-CRW-05'> dutyTimeLimitsKept : StakeholderNeed {
+            doc /* The NAS shall keep each flight crew member within flight and duty time
+             * limits.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::flightCrews;
+            :>> objectiveRefs = "Flight Crew: Schedule/duty constraints";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> evidenceRefs = "14 CFR Part 117";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not D-007'.";
+        }
     }
 
     package GovernmentsAndStandardsOrganizations {
@@ -191,9 +297,22 @@ package StakeholderRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::governmentsAndStandardsOrganizations;
+            :>> studyScope = StudyScope::background; // D-031
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = ("faa2025jo711065bb", "faa2025jo72103ee", "14 CFR 91", "14 CFR 121");
-            :>> rationale = "In the study: the rules are held fixed (D-007), so both the baseline and the improved architecture must stay inside them. Governance has no table in knowledge/models/stakeholder-objective-ontology.md; the objective is 'Regulatory Compliance' in the enterprise objective hierarchy in knowledge/models/stakeholder-register.md. The owner judged adding a Governance table not important (hand review 2026-10-10).";
+            :>> rationale = "In the study: the rules are held fixed (D-007), so both the baseline and the improved architecture must stay inside them. Governance has no table in knowledge/models/stakeholder-objective-ontology.md; the objective is 'Regulatory Compliance' in the enterprise objective hierarchy in knowledge/models/stakeholder-register.md. The owner judged adding a Governance table not important (hand review 2026-10-10). Owner (hand review 2026-10-20): 'How is this relevant via D-007? I think I need to remove.' Kept and tagged background (D-031): the regulator is a boundary actor whose rules are an input to the study, not a stakeholder whose objectives it weighs.";
+        }
+
+        requirement <'SN-GOV-02'> accountableAuthorityPerDecision : StakeholderNeed {
+            doc /* The NAS shall make one identified authority accountable for each
+             * decision that changes a flight's trajectory.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::governmentsAndStandardsOrganizations;
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = ("14 CFR 91.3", "14 CFR 121.533", "faa2025jo711065bb");
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'IDK about this one... the Note is an exception!' (the joint dispatcher and captain release). No objective row; from 'Regulatory Compliance' and 'Safety' in the enterprise objective hierarchy.";
         }
     }
 
@@ -208,10 +327,124 @@ package StakeholderRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::environmentalAndSocietalOrganizations;
+            :>> studyScope = StudyScope::background; // D-031
             :>> objectiveRefs = "Environmental / Societal: CO2";
             :>> basis = EvidenceGrade::generalKnowledge;
             :>> evidenceRefs = "icao2024icecMethodology";
-            :>> rationale = "In the study: CO2 is fuel burned times 3.16 (D-015), so the experiment's fuel column is also this stakeholder's column. 'Economics' was added by the owner (hand review 2026-10-10) and left standing in the second review.";
+            :>> rationale = "In the study: CO2 is fuel burned times 3.16 (D-015), so the experiment's fuel column is also this stakeholder's column. 'Economics' was added by the owner (hand review 2026-10-10) and left standing in the second review. Owner (hand review 2026-10-20): 'This is currently in my cost, but not in my stakeholders. They're treated as background/input.' Tagged background (D-031).";
+        }
+
+        requirement <'SN-ENV-02'> noiseWithinAbatementProcedures : StakeholderNeed {
+            doc /* The NAS shall keep aircraft noise over communities near airports within
+             * the published noise abatement procedures.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::environmentalAndSocietalOrganizations;
+            :>> objectiveRefs = ("Environmental / Societal: Noise", "Environmental / Societal: Community impacts");
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not important for cruise.'";
+        }
+    }
+
+    package AirportOperator {
+        doc /* Airport operator. D-007: Modeled system (Airport Operations). Restored out of study (D-031). */
+
+        public import RequirementDefinitions::*;
+
+        requirement <'SN-APT-01'> reliableArrivalDepartureTimes : StakeholderNeed {
+            doc /* The NAS shall give the airport operator arrival and departure times
+             * reliable enough to assign gates and ground crews.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::airportAuthority;
+            :>> objectiveRefs = ("Airport: Gate utilization", "Airport: Turnaround performance");
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'All of these are not D-007'.";
+        }
+
+        requirement <'SN-APT-02'> declaredRunwayCapacityUsed : StakeholderNeed {
+            doc /* The NAS shall use the runway capacity the airport has declared
+             * available.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::airportAuthority;
+            :>> objectiveRefs = "Airport: Runway utilization";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'All of these are not D-007'.";
+        }
+
+        requirement <'SN-APT-03'> shortTaxiQueues : StakeholderNeed {
+            doc /* The NAS shall keep the time aircraft wait on taxiways with engines
+             * running as short as practical.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::airportAuthority;
+            :>> objectiveRefs = "Airport: Surface congestion";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'All of these are not D-007'.";
+        }
+    }
+
+    package Passengers {
+        doc /* Passengers. D-007: Boundary actor. Restored out of study (D-031). */
+
+        public import RequirementDefinitions::*;
+
+        requirement <'SN-PAX-01'> passengersCarriedWithoutInjury : StakeholderNeed {
+            doc /* The NAS shall carry passengers without injury.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::passengers;
+            :>> objectiveRefs = "Airline: Flight Safety";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not D-007'. The Passenger table in stakeholder-objective-ontology.md has no safety row; the interest comes from stakeholder-register.md (Social: Passengers, safety and convenience).";
+        }
+
+        requirement <'SN-PAX-02'> passengersArriveAsSold : StakeholderNeed {
+            doc /* The NAS shall get passengers to their destination, including
+             * connections, at the time they were sold.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::passengers;
+            :>> objectiveRefs = ("Passenger: Travel time", "Passenger: Connection reliability", "Passenger: Disruption risk");
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not D-007'.";
+        }
+
+        requirement <'SN-PAX-03'> knownTurbulenceAvoided : StakeholderNeed {
+            doc /* The NAS shall avoid known turbulence where a route or altitude change
+             * allows it.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::passengers;
+            :>> objectiveRefs = "Passenger: Comfort";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not D-007'.";
+        }
+    }
+
+    package MilitaryAirspaceUsers {
+        doc /* Military airspace users. D-007: Boundary actor. Restored out of study (D-031). */
+
+        public import RequirementDefinitions::*;
+
+        requirement <'SN-MIL-01'> specialUseAirspaceForMilitary : StakeholderNeed {
+            doc /* The NAS shall give military operations sole use of special use airspace
+             * while it is scheduled active.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> stakeholderGroup = StakeholderGroup::military;
+            :>> objectiveRefs = "Military: Airspace access";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 (crossed out). D-007 makes military operations a boundary actor.";
         }
     }
 }

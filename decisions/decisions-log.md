@@ -6,6 +6,30 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-031 — Keep every stakeholder requirement; make the study's cut at the HLR tier
+
+**Date:** 2026-10-20
+**Status:** active. Owner direction from the hand-marked print (`projects/nas-sos-capstone/handwritten/2026-10-20_requirements-and-traceability.md`) and the owner's answers in session. Partly amends D-020 and D-021: what they struck is back in the model, tagged out of study, not deleted.
+
+**Decision:**
+
+1. **Every stakeholder requirement of the first draft is kept.** The 17 struck in the hand reviews of 2026-10-10 and 2026-10-11 are restored, with the system requirements that answered them (19). Each carries `studyScope = outOfStudy`, a new attribute in `requirements_definitions.sysml`. None has an HLR: the sub-system (HLR) tier is where the study's cut is now made. The text is what each had when struck, read off the two earlier prints; the owner's mark is kept in the rationale.
+2. **Not restored:** derived system requirements (no stakeholder parent), SLR-INF-03 and SLR-INF-04 (merged into SLR-INF-02), and struck system requirements whose stakeholder parents are all in the study.
+3. **SN-GOV-01 and SN-ENV-01 are tagged `background`.** The owner questioned both: the regulator's rules and the CO2 factor are inputs the study holds fixed, not objectives it weighs.
+4. **Word changes applied as marked:** SN-AIR-01, SN-CRW-03, HLR-CRW-03, HLR-CRW-04 (trigger struck), HLR-OPS-06, HLR-ATC-03. SLR-CLR-15 accepted. The measure of SLR-CLR-13 is TBD.
+5. **Edits made from the owner's questions, for the owner to confirm:** HLR-OPS-05 and HLR-ATC-08 name a performance model and a relative cost of flight time in place of cost index, and HLR-ATC-08 uses the best information available; HLR-ATC-05 says "systems involved"; HLR-ACF-05 no longer fixes the route to the airline; new HLR-ACF-06 (ADS-B Out broadcast).
+6. **HLR-ATC-07 keeps "unable":** the held summary of JO 7110.65BB 2-1-18 uses UNABLE, not "negative".
+
+**Rationale:** the owner's note on section 8: "I think I need to keep all stakeholder requirements, even those I won't be keeping... drop at the sub-system/HLR level", and on section 2: "How do I convey that the reqts I identify are a subset of those that would otherwise be created w/o D-007?" Keeping the full set with a scope tag shows the study's requirements as a subset of the NAS's, and the decomposition shows where each one stops.
+
+**Alternatives considered:** restoring the stakeholder requirements without their system requirements (the cut would then sit at the system tier, not the HLR tier); removing SN-GOV-01 and SN-ENV-01 (their seven system requirements would lose a parent); recording the note as an open question only.
+
+**Evidence / source:** the three marked-up prints in `projects/nas-sos-capstone/handwritten/`; `evidence/literature-notes/summaries/5 - faa2025jo711065bb.md` for 2-1-18.
+
+**Consequences:** 30 stakeholder requirements (11 in the study, 2 background, 17 out), 42 system requirements (23 in, 19 out), 29 HLRs. `syside check` passes; the 32 simulation tests pass. The review workbook (`cameo_models/print/requirements-review.xlsx`, from `tools/export_requirements_xlsx.py`) shows scope and has a Coverage sheet; every gap count is 0. Supersedes the "requirements scoped to the study" practice in that the struck requirements are now carried, out of study, instead of deleted.
+
+---
+
 ## D-030 — Hand review of the 2026-10-19 print: port sides, the conflict-resolution activity, and two performers chosen
 
 **Date:** 2026-10-19

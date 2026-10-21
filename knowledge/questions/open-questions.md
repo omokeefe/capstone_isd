@@ -167,3 +167,11 @@ The phases in `nas_activity_diagram-nominal_ops.sysml` were decomposed from the 
 - [ ] **Order of the airline planning steps in `Prework`.** Kept in the owner's listed order (market segmentation, service model, network design, published schedule, fleet assignment, crew assignment). The planning literature usually puts fleet assignment before the schedule is published and splits crew work into pairing and rostering; confirm against the §2 sources.
 - [ ] **Evidence for each phase.** Each decomposed phase is [SME] only. Candidate sources to cite: the GREAT D2.2 activity diagrams (in today's journal), the A-CDM specification for turnaround and taxi-out milestones, and JO 7110.65 for clearances and handoffs.
 - [ ] **Performer allocation below phase level.** Sub-action names start with the performer (crew, tower, atc, aoc, airport, aircraft), but `NominalOpsContext` still only allocates whole phases. Decide whether to allocate the sub-actions (`perform` or `allocate`) for the swimlane view and the allocation matrix.
+
+## Requirements review (raised 2026-10-20, D-031)
+
+From the owner's hand review of the requirements print (`projects/nas-sos-capstone/handwritten/2026-10-20_requirements-and-traceability.md`).
+
+- [ ] **Is the sector controller modeled?** SLR-INF-01 and HLR-ATC-03 name "the sector controller", but the model has no such part: `airspaceManagement.atc` stands for the controllers. Decide whether a sector (controller and its team) becomes a part of `AirTrafficControlSystem`, or the requirements say "air traffic control".
+- [ ] **Confirm the HLR edits made from questions:** HLR-OPS-05 and HLR-ATC-08 (performance model and relative cost of flight time in place of cost index; "best information available"), HLR-ATC-05 ("systems involved", while the parent SLR-CLR-13 still says "aircraft"), HLR-ACF-05 (route to the deciding party left open) and the new HLR-ACF-06 (ADS-B Out). If the cost-index wording stands, decide whether `AirlinePerformanceShare` changes too.
+- [ ] **The measure of SLR-CLR-13** is TBD (owner). The experiment still scores with fuel cost plus cost index times time on HLR-ATC-05.

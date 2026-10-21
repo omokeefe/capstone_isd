@@ -30,6 +30,8 @@ package RequirementDefinitions {
      * Added 2026-10-11 (D-022): MeansOfAchievement and ConstituentSystemRequirement, for
      * the tier below the system requirements (IDs HLR-<system>-nn; instances in
      * requirements_constituent_systems.sysml).
+     * Added 2026-10-20 (D-031): StudyScope and `studyScope`, after the owner's third hand
+     * review restored the struck stakeholder requirements as out of study.
      */
 
     public import ScalarValues::*;
@@ -106,10 +108,25 @@ package RequirementDefinitions {
         enum goal;
     }
 
+    enum def StudyScope {
+        doc /* Whether a requirement bears on the decision the study examines (D-031,
+         * 2026-10-20). The owner's third hand review keeps every stakeholder requirement of
+         * the first draft, and the system requirements that answer them, so the study's set
+         * can be shown as a subset of what the NAS would carry without D-007's test. The cut
+         * is made at the sub-system (HLR) tier: an out-of-study requirement has no HLR.
+         * `background` is a requirement from a boundary actor that the study holds fixed and
+         * uses as an input (the operating rules, the CO2 factor), not a stakeholder whose
+         * objectives the study weighs. */
+        enum inStudy;
+        enum outOfStudy;
+        enum background;
+    }
+
     abstract requirement def NasRequirement {
         doc /* Attributes common to every requirement in this project. */
 
         attribute status: RequirementStatus;
+        attribute studyScope: StudyScope default StudyScope::inStudy;
         attribute architectureState: ArchitectureState default ArchitectureState::baseline;
         attribute obligation: Obligation default Obligation::mandatory;
         attribute rationale: String[0..1]; // why it exists; what breaks if it is dropped

@@ -61,3 +61,11 @@ The report uses this file twice: the course's learning objectives ask the studen
 - **What was learned:** a one-pass checklist cannot describe work that goes round a loop.
 - **What changes:** artifact states and weekly turns replace single checkboxes (D-016); "slipped" is redefined in `personas/project-manager.md`.
 - **Where in the report:** Section 1.6, project timing; Section 3, methodology.
+
+## 2026-10-20 — Scope by tagging, not by deleting
+
+- **What happened:** two hand reviews cut the requirements to the studied decision by striking what did not bear on it (D-020, D-021). On the third review the owner asked how to show that the study's requirements are a subset of what the NAS would carry, and restored the struck ones, tagged out of study, with the cut made at the HLR tier (D-031).
+- **What was learned:** deleting out-of-scope requirements makes the scoping invisible; a reviewer cannot see what was left out or why. A scope tag keeps the full set and makes the boundary a traceable property. The first draft had never been committed, so restoring it meant reading text back off the marked-up prints.
+- **What changes:** out-of-scope requirements are tagged (`studyScope`), not deleted; drafts that may be cut are committed before a hand review, so struck text stays in git.
+- **Where in the report:** Section 2, methodology (requirements and scoping); the requirements appendix.
+

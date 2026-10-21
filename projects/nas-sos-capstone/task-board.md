@@ -6,7 +6,7 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-14, evening (literature review written by the owner; see `journal/2026-10-14.md` 21:44).
+**Last updated:** 2026-10-20, evening (requirements third hand review applied, D-031; see `journal/2026-10-20.md` Sign-Off).
 
 ## Current phase
 
@@ -18,7 +18,7 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 - Report (Track C), 2026-10-14: the owner wrote the literature review and research gap in Section 1 and stated the two claims there (not yet in the Executive Summary). `\cite{great2023}` is undefined; fix before rebuilding. See journal 2026-10-14 21:44.
 
-- Requirements (Track A): hand-reviewed by the owner 2026-10-10 and cut to 12 stakeholder + 28 system requirements (D-020), then hand-reviewed again 2026-10-11: 13 + 23 (D-021); one goal, three tagged `improved`. A third tier of 28 constituent system requirements drafted by Claude 2026-10-11, not reviewed (D-022). Open: `#TODO` items (d) to (f) at the top of `knowledge/models/requirements-and-traceability.md`. See journal 2026-10-10.
+- Requirements (Track A), 2026-10-20: third hand review applied (D-031). 30 SN / 42 SLR / 29 HLR; struck ones restored as out of study, cut at the HLR tier. Owner reviewing HLRs and traceability next in `cameo_models/print/requirements-review.xlsx`. Open: five HLR edits from questions, SLR-CLR-13 measure TBD, sector controller part (`open-questions.md` "Requirements review"). See journal 2026-10-20.
 
 - Experiment (Track B): OpenAP chosen and installed (D-017); `simulation/experiment_scoring.py` runs the base scenario end to end, 14 tests pass; first result C minus B = 0 (`experiment-options-and-scoring.md` §8). Every scenario number is a Decide item in `knowledge/models/experiment-scenario-numbers.md`. Two OpenAP figures in `report/figures/`. 2026-10-11: the Python now uses the model's definitions (`simulation/nas_types.py`), checked by `simulation/test_model_conformance.py`; 32 tests pass, no number changed (D-025).
 
@@ -106,9 +106,8 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Next session priority
 
-Turn 1 exit test by Sun 2026-10-18; what's left is Assumptions and Methodology. See journal 2026-10-14 21:44.
+Turn 2; Interim Report #2 due Sun 2026-10-25. See journal 2026-10-20 Sign-Off.
 
-1. Owner: fix `\cite{great2023}` in `report/sections/02_introduction.tex` (line 59), then rebuild the report.
-2. Owner: confirm the Decide items in `knowledge/models/experiment-scenario-numbers.md`, decide OpenAP compressibility, re-run `tools/run_experiment.py`.
-3. Owner: put the two claims in the Executive Summary; draft Assumptions and Methodology.
-4. Carried over: section 7 of `requirements-and-traceability.md`; view captions and `lessons-learned.md` candidates; Claude's turn-2 interface defs; the hand checks, aircraft IBD link grading, the `atc` umbrella question.
+1. Owner: review the HLRs and traceability in `cameo_models/print/requirements-review.xlsx` (Decomposition + Coverage sheets); confirm or reject the five edits from questions; mark up, then Claude applies to the `.sysml` and regenerates.
+2. Owner: update the requirement counts in `02_introduction.tex` line 99 and `03_assumptions_methodology.tex` lines 36-37 (13/23/28 → D-031 totals) before the report goes in.
+3. Carried over, needed before 10-25: confirm the scenario numbers and compressibility and re-run; transcribe the untracked `handwritten/2026-10-19_v2main.pdf`; two claims into the Executive Summary.

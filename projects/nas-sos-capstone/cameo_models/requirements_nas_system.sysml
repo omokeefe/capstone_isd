@@ -17,10 +17,13 @@ package SystemLevelRequirements {
      * the study, re-worded others, merged the three information requirements into one
      * (SLR-INF-02) and judged two statements goals and not requirements. The second
      * review struck six more (all of traffic flow management among them), re-worded the
-     * remaining goal and brought back the workload requirement. 23 remain. The
-     * struck text is in the PDF above and is listed, with the owner's reason, in
-     * knowledge/models/requirements-and-traceability.md section 6. IDs were not
-     * renumbered, so gaps are struck ones.
+     * remaining goal and brought back the workload requirement, leaving 23. The third
+     * review (2026-10-20, D-031) restored the 19 struck system requirements that answer a
+     * restored stakeholder requirement, tagged studyScope = outOfStudy and with no HLR;
+     * a new package TrafficFlowManagement holds four of them. Not restored: the derived
+     * ones, the two merged into SLR-INF-02, and those whose stakeholder parents are all
+     * in the study (list in knowledge/models/requirements-and-traceability.md section 6).
+     * IDs were not renumbered, so gaps are struck ones.
      *
      * TRACE RULES
      *  - parentNeeds names the stakeholder requirement(s) in
@@ -43,7 +46,7 @@ package SystemLevelRequirements {
      * carry architectureState = improved. They are what the experiment in
      * knowledge/models/experiment-definition.md is about.
      *
-     * 23 system requirements answer 13 stakeholder requirements.
+     * 42 system requirements (23 in the study, 19 out) answer 30 stakeholder requirements.
      * If knowledge/models/requirements-and-traceability.md and this file disagree, this
      * one wins (D-006).
      *
@@ -61,7 +64,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> parentNeeds = StakeholderRequirements::Operators::lowestCostTrajectory;
+            :>> parentNeeds = (StakeholderRequirements::Operators::lowestCostTrajectory, StakeholderRequirements::FlightCrews::phaseInformationBeforePhase);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = "berry2011aocActors";
@@ -87,7 +90,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::designConstraint;
-            :>> parentNeeds = StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed;
+            :>> parentNeeds = (StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed, StakeholderRequirements::Passengers::passengersCarriedWithoutInjury);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> measureOfPerformance = "fuel remaining after destination and alternate";
             :>> unitOfMeasure = "minutes at normal cruise";
@@ -103,7 +106,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> parentNeeds = StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed;
+            :>> parentNeeds = (StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed, StakeholderRequirements::FlightCrews::captainFinalAuthority, StakeholderRequirements::GovernmentsAndStandardsOrganizations::accountableAuthorityPerDecision);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = "14 CFR 121.533";
@@ -116,7 +119,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::interfaceRequirement;
-            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::separationAssured, StakeholderRequirements::AirTrafficControl::demandWithinCapacity);
+            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::separationAssured, StakeholderRequirements::AirTrafficControl::demandWithinCapacity, StakeholderRequirements::AirTrafficControl::pathKnownInAdvance);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = ("faa2025aim", "faa2025jo72103ee");
@@ -129,11 +132,106 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::interfaceRequirement;
-            :>> parentNeeds = StakeholderRequirements::FlightCrews::crewInformedOfWeatherTrafficAndInitiatives;
+            :>> parentNeeds = (StakeholderRequirements::FlightCrews::crewInformedOfWeatherTrafficAndInitiatives, StakeholderRequirements::FlightCrews::phaseInformationBeforePhase);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = "seamster2011collabSystems";
             :>> rationale = "In the study: the load sheet is how the actual weight reaches the crew and the flight management system.";
+        }
+
+        requirement <'SLR-PLN-08'> planComplyWithInitiativesAndSua : SystemLevelRequirement {
+            doc /* The NAS shall plan each flight to comply with the traffic management
+             * initiatives and special use airspace activations published for its time
+             * of flight.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::designConstraint;
+            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::demandWithinCapacity, StakeholderRequirements::MilitaryAirspaceUsers::specialUseAirspaceForMilitary);
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = "faa2025jo72103ee";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-11 (crossed out): traffic management initiatives are not tactical interventions. It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-PLN-09'> crewDutyWithinPart117 : SystemLevelRequirement {
+            doc /* The NAS shall assign to each flight a crew whose duty period, including
+             * forecast delay, stays within the limits of 14 CFR Part 117.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::designConstraint;
+            :>> parentNeeds = (StakeholderRequirements::FlightCrews::dutyTimeLimitsKept, StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed);
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> evidenceRefs = "14 CFR Part 117";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not important to project.' It has no HLR: the study does not depend on it.";
+        }
+    }
+
+    package TrafficFlowManagement {
+        doc /* Traffic flow management. Place on the trajectory-intent chain: flight plan -> ATC constraints (before departure and strategic). Restored out of study (D-031); traffic management initiatives are outside the study (D-021). */
+
+        public import RequirementDefinitions::*;
+
+        requirement <'SLR-FLW-04'> slotSubstitution : SystemLevelRequirement {
+            doc /* The NAS shall let an airline exchange its own flights among the
+             * departure slots it has been assigned.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::functional;
+            :>> parentNeeds = StakeholderRequirements::Operators::airlineChoosesDelayedFlight;
+            :>> verificationMethod = VerificationMethod::byDemonstration;
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = "faa2025jo72103ee";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 with the whole traffic flow management section: 'TMIs aren't what I'm studying.' It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-FLW-05'> initiativeDelayAssignedEquitably : SystemLevelRequirement {
+            doc /* The NAS shall assign the delay created by a traffic management
+             * initiative equitably among all airspace users.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::performance;
+            :>> parentNeeds = StakeholderRequirements::AirTrafficControl::delaySharedEquitably;
+            :>> verificationMethod = VerificationMethod::byAnalysis;
+            :>> measureOfPerformance = "assigned delay per flight, compared across airlines";
+            :>> unitOfMeasure = "minutes";
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = "faa2025jo72103ee";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 with the whole traffic flow management section: 'TMIs aren't what I'm studying.' It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-FLW-06'> departureWithinEdctWindow : SystemLevelRequirement {
+            doc /* The NAS shall release each flight that has an expect departure clearance
+             * time (EDCT) within the permitted window around that time.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::performance;
+            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::demandWithinCapacity, StakeholderRequirements::AirTrafficControl::pathKnownInAdvance);
+            :>> verificationMethod = VerificationMethod::byAnalysis;
+            :>> measureOfPerformance = "actual departure time minus EDCT";
+            :>> unitOfMeasure = "minutes";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> evidenceRefs = "faa2025jo72103ee";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 (crossed out). It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-FLW-07'> suaScheduleBeforeFiling : SystemLevelRequirement {
+            doc /* The NAS shall give traffic flow managers and airlines the activation
+             * schedule of special use airspace before the affected flight plans are
+             * filed.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::interfaceRequirement;
+            :>> parentNeeds = (StakeholderRequirements::MilitaryAirspaceUsers::specialUseAirspaceForMilitary, StakeholderRequirements::Operators::advanceNoticeOfConstraints);
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 (crossed out). It has no HLR: the study does not depend on it.";
         }
     }
 
@@ -148,7 +246,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::performance;
-            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::separationAssured, StakeholderRequirements::FlightCrews::clearancesAccountForTraffic);
+            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::separationAssured, StakeholderRequirements::FlightCrews::clearancesAccountForTraffic, StakeholderRequirements::Passengers::passengersCarriedWithoutInjury);
             :>> verificationMethod = VerificationMethod::byAnalysis;
             :>> measureOfPerformance = "lateral and vertical distance between each pair of aircraft";
             :>> unitOfMeasure = "NM and ft";
@@ -188,7 +286,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> parentNeeds = StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed;
+            :>> parentNeeds = (StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed, StakeholderRequirements::FlightCrews::captainFinalAuthority, StakeholderRequirements::Passengers::passengersCarriedWithoutInjury);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = "14 CFR 91.3";
@@ -201,7 +299,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> parentNeeds = StakeholderRequirements::Operators::lowestCostTrajectory;
+            :>> parentNeeds = (StakeholderRequirements::Operators::lowestCostTrajectory, StakeholderRequirements::FlightCrews::crewMayRequestTrajectoryChange, StakeholderRequirements::Passengers::knownTurbulenceAvoided);
             :>> verificationMethod = VerificationMethod::byDemonstration;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = "engility2014tasarAlaska";
@@ -230,11 +328,10 @@ package SystemLevelRequirements {
             :>> architectureState = ArchitectureState::improved; // D-018
             :>> parentNeeds = (StakeholderRequirements::Operators::airlinePrioritiesInTrajectoryChanges, StakeholderRequirements::EnvironmentalAndSocietalOrganizations::lowCo2PerFlight);
             :>> verificationMethod = VerificationMethod::byAnalysis;
-            :>> measureOfPerformance = "the experiment's measure of impact: sum over the aircraft involved of fuel cost plus cost index x time";
-            :>> unitOfMeasure = "USD per conflict";
+            :>> measureOfPerformance = "TBD"; // owner, hand review 2026-10-20
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "mori2022massCruise", "kirwan2001coraStrategies");
-            :>> rationale = "A goal, not a requirement (owner, hand review 2026-10-10). Re-worded by the owner on 2026-10-11: 'impact' replaces 'combined cost' because it is generic and leaves what counts to each controller, and 'with the same number of control instructions' is struck. The held sources agree it is not a duty: the controller's aim is to separate aircraft 'first safely, and then expeditiously' (kirwan2001coraStrategies, p. 4). Not pursued today, because the deciding party lacks the information in SLR-INF-02. In the study: the experiment has to pick one measure of impact to score with; it uses fuel cost plus cost index times time (mori2022massCruise), which is the experiment's choice and not part of this goal.";
+            :>> rationale = "A goal, not a requirement (owner, hand review 2026-10-10). Re-worded by the owner on 2026-10-11: 'impact' replaces 'combined cost' because it is generic and leaves what counts to each controller, and 'with the same number of control instructions' is struck. The held sources agree it is not a duty: the controller's aim is to separate aircraft 'first safely, and then expeditiously' (kirwan2001coraStrategies, p. 4). Not pursued today, because the deciding party lacks the information in SLR-INF-02. In the study: the experiment has to pick one measure of impact to score with; it uses fuel cost plus cost index times time (mori2022massCruise), which is the experiment's choice and not part of this goal. Owner (hand review 2026-10-20): the measure is 'TBD', so the Measure is left TBD here; the experiment's scoring choice stays on HLR-ATC-05.";
         }
 
         requirement <'SLR-CLR-15'> instructionsWithinSustainableWorkload : SystemLevelRequirement {
@@ -249,7 +346,49 @@ package SystemLevelRequirements {
             :>> unitOfMeasure = "count";
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("rantanen2012conflictManeuvers", "kirwan2001coraStrategies");
-            :>> rationale = "New, proposed by Claude on 2026-10-11 so that the restored SN-ATC-04 has an answer; not written by the owner. It replaces the struck goal SLR-CLR-12 (fewest instructions), which the owner rejected: instruction count is not a safety objective, and a controller who is not overworked can give as many as wanted. So the count is a ceiling. No ceiling is set, because no held source gives one. In the study: the experiment's workload column (instructions issued plus follow-ups).";
+            :>> rationale = "New, proposed by Claude on 2026-10-11 so that the restored SN-ATC-04 has an answer; not written by the owner. It replaces the struck goal SLR-CLR-12 (fewest instructions), which the owner rejected: instruction count is not a safety objective, and a controller who is not overworked can give as many as wanted. So the count is a ceiling. No ceiling is set, because no held source gives one. In the study: the experiment's workload column (instructions issued plus follow-ups). Accepted by the owner as worded ('ok', hand review 2026-10-20).";
+        }
+
+        requirement <'SLR-CLR-03'> positionAltitudeIdentityToFacility : SystemLevelRequirement {
+            doc /* The NAS shall give the controlling facility the position, altitude and
+             * identity of each controlled aircraft.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::interfaceRequirement;
+            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::separationAssured, StakeholderRequirements::AirTrafficControl::pathKnownInAdvance);
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::ownerExpertise;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'of course. Not relevant to project.' It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-CLR-05'> changeOnlyByClearance : SystemLevelRequirement {
+            doc /* The NAS shall change a controlled aircraft's cleared route, altitude or
+             * speed only by a clearance from the facility that has control of that
+             * aircraft.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::functional;
+            :>> parentNeeds = (StakeholderRequirements::GovernmentsAndStandardsOrganizations::accountableAuthorityPerDecision, StakeholderRequirements::AirTrafficControl::separationAssured);
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = "faa2025jo711065bb";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not relevant to project.' It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-CLR-14'> civilAircraftOutOfActiveSua : SystemLevelRequirement {
+            doc /* The NAS shall keep civil aircraft out of special use airspace while it
+             * is active, unless the using agency releases it.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::functional;
+            :>> parentNeeds = StakeholderRequirements::MilitaryAirspaceUsers::specialUseAirspaceForMilitary;
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> evidenceRefs = "faa2025jo711065bb";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not Relevant.' It has no HLR: the study does not depend on it.";
         }
     }
 
@@ -264,11 +403,11 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::interfaceRequirement;
-            :>> parentNeeds = StakeholderRequirements::AirTrafficControl::separationAssured;
+            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::separationAssured, StakeholderRequirements::AirTrafficControl::pathKnownInAdvance);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = "faa2025jo711065bb";
-            :>> rationale = "In the study: this is what the controller knows about each aircraft today (case A of the experiment).";
+            :>> rationale = "In the study: this is what the controller knows about each aircraft today (case A of the experiment). Owner (hand review 2026-10-20), on 'sector controller': 'modeled?' Not as its own part: airspaceManagement.atc stands for the controllers, and the allocation names it and the en-route center. Open question.";
         }
 
         requirement <'SLR-INF-02'> decisionInformationToDecidingParty : SystemLevelRequirement {
@@ -291,7 +430,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::interfaceRequirement;
-            :>> parentNeeds = (StakeholderRequirements::Operators::onScheduleArrival, StakeholderRequirements::Operators::advanceNoticeOfConstraints);
+            :>> parentNeeds = (StakeholderRequirements::Operators::onScheduleArrival, StakeholderRequirements::Operators::advanceNoticeOfConstraints, StakeholderRequirements::AirportOperator::reliableArrivalDepartureTimes);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> measureOfPerformance = "change in estimated arrival time that triggers an update";
             :>> unitOfMeasure = "minutes";
@@ -299,6 +438,35 @@ package SystemLevelRequirements {
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = "seamster2011collabSystems";
             :>> rationale = "In the study: how the airline learns what a trajectory change did to the arrival time. It answers SN-AIR-03 together with SLR-CLR-04: the crew and the dispatcher coordinate over that path, and this is what they pass. The 5 minutes is the crew-to-dispatch practice in seamster2011collabSystems (survey item: notify dispatch of ETA changes greater than 5 minutes). Extending the same trigger to the airport is this draft's proposal, not the source's.";
+        }
+
+        requirement <'SLR-INF-05'> sharedDataDisclosedOnlyToDeciders : SystemLevelRequirement {
+            doc /* The NAS shall disclose an airline's shared weight, cost index and
+             * connection priority only to the parties deciding that flight's
+             * trajectory.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::designConstraint;
+            :>> parentNeeds = StakeholderRequirements::Operators::airlineDataKeptPrivate;
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::literature;
+            :>> evidenceRefs = "schultz2012adaptiveClimb";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Maybe not needed if exposed as API.' Carried as an assumption (D-020 item 4). It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-INF-06'> weatherAndTurbulenceToDispatchAndCrew : SystemLevelRequirement {
+            doc /* The NAS shall give the dispatcher and the flight crew the reported and
+             * forecast weather and turbulence along the planned route.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::interfaceRequirement;
+            :>> parentNeeds = (StakeholderRequirements::Passengers::knownTurbulenceAvoided, StakeholderRequirements::FlightCrews::phaseInformationBeforePhase);
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> evidenceRefs = "seamster2011collabSystems";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. '+ weather' added by the owner 2026-10-10; struck 2026-10-11: 'Not relevant to my study. Winds & weather should be factored into account by controllers, but that's not a SLR.' It has no HLR: the study does not depend on it.";
         }
     }
 
@@ -313,7 +481,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::performance;
-            :>> parentNeeds = StakeholderRequirements::AirTrafficControl::separationAssured;
+            :>> parentNeeds = (StakeholderRequirements::AirTrafficControl::separationAssured, StakeholderRequirements::AirTrafficControl::pathKnownInAdvance);
             :>> verificationMethod = VerificationMethod::byAnalysis;
             :>> measureOfPerformance = "cross-track distance from the cleared route; difference from the cleared altitude";
             :>> unitOfMeasure = "NM and ft";
@@ -340,10 +508,37 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> parentNeeds = (StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed, StakeholderRequirements::FlightCrews::flyableAndTimelyInstructions);
+            :>> parentNeeds = (StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed, StakeholderRequirements::FlightCrews::flyableAndTimelyInstructions, StakeholderRequirements::Passengers::passengersCarriedWithoutInjury, StakeholderRequirements::FlightCrews::phaseInformationBeforePhase);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::ownerExpertise;
             :>> rationale = "'Dispatchers and controllers' was added by the owner (hand review 2026-10-11). In the study: fuel at the destination is a limit on which resolution an aircraft can accept. The dispatcher and air traffic control were added to the allocation by Claude to match. Whether a controller is alerted this way today was not checked against a source, so the baseline tag is unconfirmed.";
+        }
+
+        requirement <'SLR-EXE-01'> clearedPathHeldInFms : SystemLevelRequirement {
+            doc /* The NAS shall hold each flight's cleared route and altitudes in the
+             * flight management system as the path the aircraft's guidance follows.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::functional;
+            :>> parentNeeds = StakeholderRequirements::AirTrafficControl::pathKnownInAdvance;
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::ownerExpertise;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'why needed?' It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-EXE-04'> trajectoryChangedOnlyByCrew : SystemLevelRequirement {
+            doc /* The NAS shall change an aircraft's flown trajectory only through flight
+             * deck controls operated by the flight crew.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::designConstraint;
+            :>> parentNeeds = (StakeholderRequirements::FlightCrews::captainFinalAuthority, StakeholderRequirements::GovernmentsAndStandardsOrganizations::accountableAuthorityPerDecision);
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::ownerExpertise;
+            :>> evidenceRefs = "14 CFR 91.3";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'of course. Why needed?' It has no HLR: the study does not depend on it.";
         }
     }
 
@@ -366,6 +561,61 @@ package SystemLevelRequirements {
             :>> evidenceRefs = "schultz2017turnaround";
             :>> rationale = "Owner (hand review 2026-10-10): this speaks to the unknowns in weights and to when the information is available. The final weight is known only when loading ends. 'Sealed' replaces 'closed up' (owner).";
         }
+
+        requirement <'SLR-APT-01'> gateAssignedBeforeLanding : SystemLevelRequirement {
+            doc /* The NAS shall assign each arriving flight a gate before it lands.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::functional;
+            :>> parentNeeds = (StakeholderRequirements::AirportOperator::reliableArrivalDepartureTimes, StakeholderRequirements::Operators::onScheduleArrival);
+            :>> verificationMethod = VerificationMethod::byDemonstration;
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not relevant'. It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-APT-02'> runwayUsedAtDeclaredCapacity : SystemLevelRequirement {
+            doc /* The NAS shall sequence arrivals and departures so that each runway is
+             * used at its declared capacity whenever demand is at or above that rate.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::performance;
+            :>> parentNeeds = (StakeholderRequirements::AirportOperator::declaredRunwayCapacityUsed, StakeholderRequirements::AirTrafficControl::demandWithinCapacity);
+            :>> verificationMethod = VerificationMethod::byAnalysis;
+            :>> measureOfPerformance = "runway operations per hour against the declared rate";
+            :>> unitOfMeasure = "operations per hour";
+            :>> basis = EvidenceGrade::normativeSource;
+            :>> evidenceRefs = "faa2025jo72103ee";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. 'Capacity' for 'rate' by the owner 2026-10-10 ('Not necessary... but informs prioritization decisions'); struck 2026-10-11: 'Remove.' It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-APT-03'> departureDelayAbsorbedAtGate : SystemLevelRequirement {
+            doc /* The NAS shall hold a flight that has a known departure delay at its gate
+             * with engines off, not in a taxiway queue.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::functional;
+            :>> parentNeeds = (StakeholderRequirements::AirportOperator::shortTaxiQueues, StakeholderRequirements::EnvironmentalAndSocietalOrganizations::lowCo2PerFlight);
+            :>> verificationMethod = VerificationMethod::byDemonstration;
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'I didn't list this, as the SME. Ground delay isn't my focus!' It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-APT-05'> noiseAbatementProceduresAssigned : SystemLevelRequirement {
+            doc /* The NAS shall assign departure and arrival procedures that follow the
+             * airport's published noise abatement procedures.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::designConstraint;
+            :>> parentNeeds = StakeholderRequirements::EnvironmentalAndSocietalOrganizations::noiseWithinAbatementProcedures;
+            :>> verificationMethod = VerificationMethod::byInspection;
+            :>> basis = EvidenceGrade::literature;
+            :>> evidenceRefs = "seamster2011collabSystems";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not needed.' It has no HLR: the study does not depend on it.";
+        }
     }
 
     package MeasurementAndRecords {
@@ -379,7 +629,7 @@ package SystemLevelRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> parentNeeds = StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed;
+            :>> parentNeeds = (StakeholderRequirements::GovernmentsAndStandardsOrganizations::operatingRulesFollowed, StakeholderRequirements::GovernmentsAndStandardsOrganizations::accountableAuthorityPerDecision);
             :>> verificationMethod = VerificationMethod::byInspection;
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = "faa2025jo72103ee";
@@ -400,6 +650,36 @@ package SystemLevelRequirements {
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = "icao2024icecMethodology";
             :>> rationale = "In the study: the experiment's fuel column, and the CO2 figure derived from it. icao2024icecMethodology page 6, accepted in D-015. The number is a conversion factor, not a limit.";
+        }
+
+        requirement <'SLR-MEA-03'> gateArrivalReportedAgainstSchedule : SystemLevelRequirement {
+            doc /* The NAS shall report each flight's gate arrival time against its
+             * scheduled arrival time.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::functional;
+            :>> parentNeeds = (StakeholderRequirements::Operators::onScheduleArrival, StakeholderRequirements::Passengers::passengersArriveAsSold);
+            :>> verificationMethod = VerificationMethod::byAnalysis;
+            :>> measureOfPerformance = "gate arrival time minus scheduled arrival time";
+            :>> unitOfMeasure = "minutes";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Relevance?' It has no HLR: the study does not depend on it.";
+        }
+
+        requirement <'SLR-MEA-04'> initiativeDelayReportedByAirline : SystemLevelRequirement {
+            doc /* The NAS shall report the delay each flight received from traffic
+             * management initiatives, by airline.
+             */
+            :>> status = RequirementStatus::draft;
+            :>> studyScope = StudyScope::outOfStudy; // D-031
+            :>> kind = RequirementKind::functional;
+            :>> parentNeeds = StakeholderRequirements::AirTrafficControl::delaySharedEquitably;
+            :>> verificationMethod = VerificationMethod::byAnalysis;
+            :>> measureOfPerformance = "assigned delay per flight";
+            :>> unitOfMeasure = "minutes";
+            :>> basis = EvidenceGrade::generalKnowledge;
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10 with no mark: it existed only so SLR-FLW-05 could be checked. It has no HLR: the study does not depend on it.";
         }
     }
 
@@ -473,6 +753,38 @@ package SystemLevelRequirements {
             satisfy requirement trajectoryDecisionsRecorded_atcscc :> SystemLevelRequirements::MeasurementAndRecords::trajectoryDecisionsRecorded by airspaceManagement.atcscc;
             satisfy requirement fuelAndCo2ReportedPerFlight_fms :> SystemLevelRequirements::MeasurementAndRecords::fuelAndCo2ReportedPerFlight by aircraftSystems.aircraft.avionics.flightManagementSystem;
             satisfy requirement fuelAndCo2ReportedPerFlight_aoc :> SystemLevelRequirements::MeasurementAndRecords::fuelAndCo2ReportedPerFlight by flightOperations.airlineOperationsCenter;
+
+            // Restored out of study (D-031)
+            satisfy requirement planComplyWithInitiativesAndSua_dispatcher :> SystemLevelRequirements::FlightPlanningAndRelease::planComplyWithInitiativesAndSua by flightOperations.airlineOperationsCenter.dispatcher;
+            satisfy requirement planComplyWithInitiativesAndSua_atcCoordinator :> SystemLevelRequirements::FlightPlanningAndRelease::planComplyWithInitiativesAndSua by flightOperations.airlineOperationsCenter.atcCoordinator;
+            satisfy requirement crewDutyWithinPart117_crewScheduler :> SystemLevelRequirements::FlightPlanningAndRelease::crewDutyWithinPart117 by flightOperations.airlineOperationsCenter.crewScheduler;
+            satisfy requirement slotSubstitution_atcscc :> SystemLevelRequirements::TrafficFlowManagement::slotSubstitution by airspaceManagement.atcscc;
+            satisfy requirement slotSubstitution_atcCoordinator :> SystemLevelRequirements::TrafficFlowManagement::slotSubstitution by flightOperations.airlineOperationsCenter.atcCoordinator;
+            satisfy requirement initiativeDelayAssignedEquitably_atcscc :> SystemLevelRequirements::TrafficFlowManagement::initiativeDelayAssignedEquitably by airspaceManagement.atcscc;
+            satisfy requirement departureWithinEdctWindow_tower :> SystemLevelRequirements::TrafficFlowManagement::departureWithinEdctWindow by airportOperations.airport.controlTower;
+            satisfy requirement departureWithinEdctWindow_crew :> SystemLevelRequirements::TrafficFlowManagement::departureWithinEdctWindow by flightCrew.flightDeckCrew;
+            satisfy requirement suaScheduleBeforeFiling_atcscc :> SystemLevelRequirements::TrafficFlowManagement::suaScheduleBeforeFiling by airspaceManagement.atcscc;
+            satisfy requirement positionAltitudeIdentityToFacility_surveillance :> SystemLevelRequirements::ClearanceAndSeparation::positionAltitudeIdentityToFacility by aircraftSystems.aircraft.avionics.surveillanceSystem;
+            satisfy requirement positionAltitudeIdentityToFacility_atc :> SystemLevelRequirements::ClearanceAndSeparation::positionAltitudeIdentityToFacility by airspaceManagement.atc;
+            satisfy requirement changeOnlyByClearance_atc :> SystemLevelRequirements::ClearanceAndSeparation::changeOnlyByClearance by airspaceManagement.atc;
+            satisfy requirement civilAircraftOutOfActiveSua_atc :> SystemLevelRequirements::ClearanceAndSeparation::civilAircraftOutOfActiveSua by airspaceManagement.atc;
+            satisfy requirement sharedDataDisclosedOnlyToDeciders_atc :> SystemLevelRequirements::InformationForTrajectoryDecisions::sharedDataDisclosedOnlyToDeciders by airspaceManagement.atc;
+            satisfy requirement sharedDataDisclosedOnlyToDeciders_atcscc :> SystemLevelRequirements::InformationForTrajectoryDecisions::sharedDataDisclosedOnlyToDeciders by airspaceManagement.atcscc;
+            satisfy requirement weatherAndTurbulenceToDispatchAndCrew_aoc :> SystemLevelRequirements::InformationForTrajectoryDecisions::weatherAndTurbulenceToDispatchAndCrew by flightOperations.airlineOperationsCenter;
+            satisfy requirement weatherAndTurbulenceToDispatchAndCrew_crew :> SystemLevelRequirements::InformationForTrajectoryDecisions::weatherAndTurbulenceToDispatchAndCrew by flightCrew.flightDeckCrew;
+            satisfy requirement clearedPathHeldInFms_fms :> SystemLevelRequirements::OnboardExecution::clearedPathHeldInFms by aircraftSystems.aircraft.avionics.flightManagementSystem;
+            satisfy requirement trajectoryChangedOnlyByCrew_controls :> SystemLevelRequirements::OnboardExecution::trajectoryChangedOnlyByCrew by aircraftSystems.aircraft.flightDeckControls;
+            satisfy requirement trajectoryChangedOnlyByCrew_crew :> SystemLevelRequirements::OnboardExecution::trajectoryChangedOnlyByCrew by flightCrew.flightDeckCrew;
+            satisfy requirement gateAssignedBeforeLanding_airportMgmt :> SystemLevelRequirements::AirportAndSurface::gateAssignedBeforeLanding by airportOperations.airport.airportManagementSystem;
+            satisfy requirement runwayUsedAtDeclaredCapacity_tracon :> SystemLevelRequirements::AirportAndSurface::runwayUsedAtDeclaredCapacity by airspaceManagement.tracon;
+            satisfy requirement runwayUsedAtDeclaredCapacity_tower :> SystemLevelRequirements::AirportAndSurface::runwayUsedAtDeclaredCapacity by airportOperations.airport.controlTower;
+            satisfy requirement departureDelayAbsorbedAtGate_tower :> SystemLevelRequirements::AirportAndSurface::departureDelayAbsorbedAtGate by airportOperations.airport.controlTower;
+            satisfy requirement departureDelayAbsorbedAtGate_aoc :> SystemLevelRequirements::AirportAndSurface::departureDelayAbsorbedAtGate by flightOperations.airlineOperationsCenter;
+            satisfy requirement noiseAbatementProceduresAssigned_tower :> SystemLevelRequirements::AirportAndSurface::noiseAbatementProceduresAssigned by airportOperations.airport.controlTower;
+            satisfy requirement noiseAbatementProceduresAssigned_tracon :> SystemLevelRequirements::AirportAndSurface::noiseAbatementProceduresAssigned by airspaceManagement.tracon;
+            satisfy requirement noiseAbatementProceduresAssigned_dispatcher :> SystemLevelRequirements::AirportAndSurface::noiseAbatementProceduresAssigned by flightOperations.airlineOperationsCenter.dispatcher;
+            satisfy requirement gateArrivalReportedAgainstSchedule_aoc :> SystemLevelRequirements::MeasurementAndRecords::gateArrivalReportedAgainstSchedule by flightOperations.airlineOperationsCenter;
+            satisfy requirement initiativeDelayReportedByAirline_atcscc :> SystemLevelRequirements::MeasurementAndRecords::initiativeDelayReportedByAirline by airspaceManagement.atcscc;
         }
     }
 }

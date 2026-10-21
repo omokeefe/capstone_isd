@@ -10,6 +10,7 @@ deliverable itself. Python 3, dependencies in `tools/requirements.txt`
   are counted but not extracted unless `--include-handwritten` is passed, since they're
   strokes, not text, and need a visual (not textual) read. See
   `workflows/extract-pdf-annotations.md` for how this fits into the literature pipeline.
+- **`export_requirements_xlsx.py`** — reads the three requirement files in `projects/nas-sos-capstone/cameo_models/` and writes a review workbook, `cameo_models/print/requirements-review.xlsx`. Its first sheet is the decomposition: stakeholder requirement, then the system requirements that answer it, then the HLRs under each. A Coverage sheet counts requirements by scope (in the study, background, out of study; D-031) and lists any trace gap, and one sheet per tier follows with every attribute and a blank Review notes column. The workbook is a derived copy (D-006): mark it up, apply the changes to the `.sysml` files, and regenerate. Needs `openpyxl`.
 - **`extract_seamster_interactions.py`** — extracts the interaction tables (2.1–2.10, 3.1, A, C, D, E-1..E-13) from
   Seamster et al. (2011) in `evidence/sources/` into a CSV plus a readable markdown file under
   `evidence/literature-notes/annotations/`, using PyMuPDF table geometry, and prints a token-coverage check with
