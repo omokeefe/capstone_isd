@@ -35,6 +35,7 @@ from openpyxl.utils import get_column_letter
 REPO = Path(__file__).resolve().parent.parent
 MODEL = REPO / "projects" / "nas-sos-capstone" / "cameo_models"
 DEFAULT_OUT = MODEL / "print" / "requirements-review.xlsx"
+ONTOLOGY = REPO / "knowledge" / "models" / "stakeholder-objective-ontology.md"
 
 FILES = {
     "SN": MODEL / "requirements_stakeholders.sysml",
@@ -156,6 +157,19 @@ def parse_requirements(path: Path, tier: str) -> list[dict]:
     for r in reqs:
         r["allocated"] = allocation.get(r["name"], [])
     return reqs
+
+
+def parse_objective_rows() -> list[tuple[str, str, str]]:
+    """(category, objective, trajectory impact) for each row of the ontology's tables."""
+    rows, cat = [], None
+    for line in ONTOLOGY.read_text(encoding="utf-8").splitlines():
+        if line.startswith("## "):
+            cat = line[3:].strip()
+        elif line.startswith("| ") and not line.startswith(("| Objective", "|---")) and cat and not cat.startswith(("How", "Synthesis", "Status")):
+            cells = [c.strip() for c in line.strip("|").split("|")]
+            if len(cells) >= 5:
+                rows.append((cat, cells[0], re.sub(r"\*+", "", cells[4]).split(" ")[0].rstrip(",;")))
+    return rows
 
 
 def words(values: list[str]) -> str:
@@ -372,6 +386,54 @@ def build(out: Path) -> dict:
         ("Measure", 30, measure),
     ] + common_tail)
 
+    # ---- Sheet: objectives, read from the objective rows down
+    ob = wb.create_sheet("Objectives", 1)
+    header(ob, 1, [
+        ("Category", "SN", 18), ("Objective row", "SN", 24), ("Trajectory impact", "SN", 12),
+        ("Stakeholder requirements in the study", "SN", 30), ("Background / out of study", "SN", 30),
+        ("In-study system requirements reached", "SLR", 34), ("HLRs reached", "HLR", 34),
+        ("Review notes", "note", 40),
+    ])
+    refs: dict[str, list[dict]] = {}
+    for s in sn:
+        for o in s["attrs"].get("objectiveRefs", []):
+            refs.setdefault(o, []).append(s)
+    rows = parse_objective_rows()
+    known = {f"{c}: {o}" for c, o, _ in rows}
+    i = 2
+    for c, o, impact in rows:
+        needs = refs.get(f"{c}: {o}", [])
+        inside = [s for s in needs if scope(s) == "inStudy"]
+        outside = [s for s in needs if scope(s) != "inStudy"]
+        reached = [r for r in slr if scope(r) == "inStudy" and any(s["id"] in slr_parents[r["id"]] for s in needs if scope(s) != "outOfStudy")]
+        hl = [h for h in hlr if any(r["id"] in hlr_parents[h["id"]] for r in reached)]
+        fill = None if inside else (OUT_FILL if outside else None)
+        put(ob, i, 1, c, fill=fill)
+        put(ob, i, 2, o, fill=fill, bold=bool(inside))
+        put(ob, i, 3, impact, fill=fill)
+        put(ob, i, 4, ", ".join(s["id"] for s in inside), fill=TIER_TINT["SN"] if inside else fill)
+        put(ob, i, 5, ", ".join(f"{s['id']} ({SCOPE_TAGS[scope(s)].lower()})" for s in outside) or ("(no requirement)" if not inside else None),
+            fill=fill, italic=not needs, color=GREY if not needs else None)
+        put(ob, i, 6, ", ".join(r["id"] for r in reached), fill=TIER_TINT["SLR"] if reached else fill)
+        put(ob, i, 7, ", ".join(h["id"] for h in hl), fill=TIER_TINT["HLR"] if hl else fill)
+        put(ob, i, 8, None)
+        i += 1
+    for s in sn:
+        if not s["attrs"].get("objectiveRefs"):
+            put(ob, i, 1, GROUP_NAMES.get(one(s, "stakeholderGroup")), fill=GROUP_FILL)
+            put(ob, i, 2, "(no objective row)", italic=True, fill=GROUP_FILL)
+            put(ob, i, 3, None, fill=GROUP_FILL)
+            put(ob, i, 4 if scope(s) == "inStudy" else 5, f"{s['id']} ({SCOPE_TAGS.get(scope(s), 'in study').lower()})", fill=GROUP_FILL)
+            for col in (4, 5, 6, 7, 8):
+                if ob.cell(row=i, column=col).value is None:
+                    put(ob, i, col, None, fill=GROUP_FILL)
+            i += 1
+    unknown = sorted(k for k in refs if k not in known)
+    if unknown:
+        put(ob, i, 1, "objectiveRefs with no matching row", bold=True, color="C00000")
+        put(ob, i, 2, "; ".join(unknown), color="C00000")
+    ob.auto_filter.ref = f"A1:H{max(i - 1, 1)}"
+
     # ---- Sheet 5: coverage
     cv = wb.create_sheet("Coverage", 1)
     cv.column_dimensions["A"].width = 62
@@ -416,6 +478,8 @@ def build(out: Path) -> dict:
         (f"Generated {dt.datetime.now():%Y-%m-%d %H:%M} from commit {commit} by tools/export_requirements_xlsx.py.", False),
         ("Source of truth: the .sysml files in projects/nas-sos-capstone/cameo_models/ (D-006). This workbook is a derived copy: mark it up, then apply the changes to the .sysml files and regenerate.", False),
         (f"Counts: {len(sn)} stakeholder requirements, {len(slr)} system requirements, {len(hlr)} sub-system HLRs. The Coverage sheet counts each by scope and lists any trace gap.", False),
+        ("", False),
+        ("Objectives sheet: reads the other way, from each objective row of knowledge/models/stakeholder-objective-ontology.md to the stakeholder requirements that name it (attribute objectiveRefs), and on to the in-study system requirements and HLRs below them. Bold objective: carried into the study. Grey: carried only by a background or out-of-study requirement. '(no requirement)': no stakeholder requirement names it. Requirements that name no objective row are listed at the end.", False),
         ("", False),
         ("How the Decomposition sheet reads", True),
         ("Left to right: stakeholder requirement (SN) -> the system requirements (SLR) that answer it -> the HLRs that come from each SLR. Merged cells span the rows beneath them.", False),

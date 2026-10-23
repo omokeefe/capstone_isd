@@ -61,7 +61,7 @@ that split.
 
 | Objective | Classification | MOP | MOE | Trajectory impact | Abstraction comment |
 |---|---|---|---|---|---|
-| Ticket price | Hard constraint / Cost (to the passenger) | Fare paid | Perceived affordability | **No** | Set at booking/pricing time; unrelated to how the trajectory is later flown — leave out of the trajectory-optimization model entirely. |
+| Ticket price | Hard constraint / Cost (to the passenger) | Fare paid | Perceived affordability | **No** | Set at booking/pricing time; unrelated to how the trajectory is later flown — leave out of the trajectory-optimization model entirely. Owner, 2026-10-22: the airline sets prices from its costs, as represented in the fuel, time and maintenance impacts of its flight schedules as planned; so the fare traces to the plan (SN-AIR-01), not to how a flight is flown tactically (D-032). |
 | Travel time | Optimization objective (minimize) / MOE | Gate-to-gate time; actual vs. scheduled block time | Total trip time incl. connections | **Yes** — direct | Same underlying trajectory variable as the airline's schedule-integrity objective, viewed from the passenger's side — good candidate to show one trajectory decision affecting two stakeholders' MOEs differently. |
 | Connection reliability | MOE | Missed-connection rate experienced | Successful-itinerary completion rate | **Yes** | Mirrors "Passenger connections" above; keep as one modeled quantity referenced by both stakeholder views rather than duplicating. |
 | Schedule convenience | Cost/penalty if violated | Deviation from preferred departure/arrival window | Passenger-perceived schedule satisfaction | Indirect | Mostly set at network/timetable design; trajectory only intrudes when delay pushes arrival outside the convenient window. |
@@ -122,7 +122,8 @@ objective set.
 | Contrail/climate effects | Emerging optimization objective / Cost (non-CO2 climate forcing) | Contrail-forming flight distance/time (ISSR transit) | Estimated non-CO2 radiative forcing avoided | **Yes** | Directly addressable via altitude/route changes avoiding ice-supersaturated regions — this is the §9 "CO2 optimization vs non-CO2 climate impacts" conflict, and it can conflict with the CO2 objective directly above. |
 | Noise | Hard constraint (Part 150/noise-abatement procedures) / Cost | Noise level (dB) at monitored points; complaint volume | Population within noise-contour thresholds | **Yes** | Approach/departure trajectory (noise-abatement procedures, track/altitude) is the direct lever. |
 | Local air quality | Regulatory constraint | Pollutant concentration near airport | Community health/compliance metrics | Indirect | Mainly a ground-ops/taxi and landing-takeoff-cycle effect; secondarily linked to trajectory via low-altitude segments. |
-| Community impacts | Cost/penalty (externality, often unpriced) | Complaint volume; property-value studies | Community acceptance / social license to operate | **Yes** (via noise/emissions pathway) | Rolls up the noise and air-quality trajectory levers above rather than adding a new one — model as a composite, not a fresh variable. |
+
+**Community impacts** was struck on 2026-10-22 (owner, D-033): it was not clear what the impact is if not noise and emissions, which have their own rows (Noise, CO2, NOx, Local air quality); the row's own comment already called it a roll-up of those levers. Its MOE, community acceptance or social license to operate, is not something the study measures.
 
 ## Military
 

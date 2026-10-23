@@ -21,7 +21,7 @@ when the owner has written that part.
 - [ ] **Results and Discussion (preliminary)** (Section 5): the model's measures against the Deliverables measures, the two hand checks, the outcome table and its discussion with the trace back to the model, emissions; marked preliminary in the heading.
 - [ ] **References**: every cited key exists in `evidence/sources/references.bib`; remove `\nocite{*}` from `main.tex` if the list should show only what is cited.
 - [ ] **Generative AI disclosure** drafted (Appendix). It must cover the passages Claude drafted on 2026-10-11, 2026-10-13 and 2026-10-17 unless each has been rewritten.
-- [ ] Every blue `AI-DRAFTED, owner to rewrite` note rewritten and deleted (the `\aidraft` macro in `main.tex`). Seventeen as of 2026-10-17 (seven added that day, D-028); the 2026-10-13 list is item 7 under "Open after this pass" in `handwritten/2026-10-13_main.md`.
+- [x] Every blue `AI-DRAFTED, owner to rewrite` note rewritten and deleted (the `\aidraft` macro in `main.tex`). None left as of 2026-10-22: the last one, the ten-row stakeholder excerpt in Appendix A.2, went when that excerpt was replaced by the generated full table (D-034). The macro stays defined for future use.
 - [x] Title page says Interim Report #2 (changed 2026-10-11).
 - [ ] Review meeting with the adviser held (or confirm the earlier meeting counts).
 - [ ] Word copy produced and sent to the adviser (Mark Petrotta, mpetrott@umich.edu).

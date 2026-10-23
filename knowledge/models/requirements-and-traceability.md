@@ -45,7 +45,7 @@ If this file and those disagree, the `.sysml` files win. Mark changes here by ha
 
 ## 1. What is here
 
-- **30 stakeholder requirements** in 8 stakeholder groups: 11 in the study, 2 tagged background (SN-GOV-01, SN-ENV-01) and 17 out of study (section 6, D-031). Each says what that group wants from the NAS and names the objective rows it comes from in `knowledge/models/stakeholder-objective-ontology.md`. Sections 3 and 4 show the 13 in the study or background; section 6 the rest.
+- **30 stakeholder requirements** in 8 stakeholder groups: 11 in the study, 2 tagged background (SN-GOV-01, SN-ENV-01) and 17 out of study (section 6, D-031). Each says what that group wants from the NAS and names the objective rows it serves in `knowledge/models/stakeholder-objective-ontology.md` (its own group's and, since D-032, other groups'). Sections 3 and 4 show the 13 in the study or background; section 6 the rest.
 - **42 system requirements** in 7 areas: the 23 in the study, in 6 areas that follow the lifecycle of trajectory intent, and 19 out of study (section 6). Each is allocated to parts of `NationalAirspaceSystem` in `projects/nas-sos-capstone/cameo_models/nas_sysml_package_definitions.sysml`.
 - **29 constituent system requirements** (section 11), one tier down, on the five systems D-007 models. Only in-study system requirements have them: the HLR tier is where the study's cut is made (D-031).
 - **Every stakeholder requirement is answered by at least one system requirement, and every system requirement traces to a stakeholder requirement.** None is derived.
@@ -80,25 +80,25 @@ The Wording column is explained under "Who wrote what". The note under each tabl
 
 D-007 treatment: Modeled system (Flight Operations).
 
-| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+| ID | The stakeholder wants | Wording | Objective rows it serves | Answered by | Basis |
 |---|---|---|---|---|---|
-| SN-AIR-01 | The NAS shall provide a means for the airline to plan and fly each flight on the route, altitude and speed it chooses. | Owner edit | Airline: Fuel cost; Airline: Delay cost | SLR-PLN-01, SLR-PLN-02, SLR-CLR-09, SLR-EXE-03, SLR-MEA-02 | [B] `mori2022massCruise`, `munro2018managingVariability` |
-| SN-AIR-02 | The NAS shall provide a means for each flight to achieve arrival at its destination gate at its scheduled arrival time. | Owner | Airline: Schedule integrity; Airline: Aircraft utilization; Airline: Passenger connections | SLR-INF-07, SLR-APT-04 | [C] |
+| SN-AIR-01 | The NAS shall provide a means for the airline to plan and fly each flight on the route, altitude and speed it chooses. | Owner edit | Airline: Fuel cost; Airline: Delay cost; Airline: Crew cost; Airline: Maintenance; Airline: Revenue; Passenger: Ticket price; Passenger: Schedule convenience; Passenger: Comfort; Flight Crew: Operational flexibility; Environmental / Societal: CO2; Environmental / Societal: NOx; Environmental / Societal: Contrail/climate effects; Environmental / Societal: Noise; Environmental / Societal: Local air quality | SLR-PLN-01, SLR-PLN-02, SLR-CLR-09, SLR-EXE-03, SLR-MEA-02 | [B] `mori2022massCruise`, `munro2018managingVariability` |
+| SN-AIR-02 | The NAS shall provide a means for each flight to achieve arrival at its destination gate at its scheduled arrival time. | Owner | Airline: Schedule integrity; Airline: Aircraft utilization; Airline: Passenger connections; Airline: Dispatch reliability; Passenger: Travel time; Passenger: Connection reliability; Passenger: Disruption risk; ATC / ANSP: Predictability; ATC / ANSP: Delay (ATC-attributed); Airport: Gate utilization; Airport: Runway utilization; Airport: Surface congestion; Airport: Turnaround performance; Airport: Passenger throughput; Flight Crew: Schedule/duty constraints | SLR-INF-07, SLR-APT-04 | [C] |
 | SN-AIR-03 | The NAS shall inform the airline of airspace and airport constraints that will delay or reroute its flights early enough for the airline to re-plan. | Claude, kept | Airline: Delay cost; Airline: Schedule integrity | SLR-CLR-04, SLR-INF-07 | [A] `faa2025jo72103ee` |
-| SN-AIR-05 | The NAS shall take the airline's priorities for a flight (fuel against time, and protected connections) into account when a change to that flight's trajectory is required. | Owner | Airline: Fuel cost; Airline: Schedule integrity; Airline: Passenger connections | SLR-CLR-13, SLR-INF-02 | [B] `schultz2012adaptiveClimb`, `coppenbarger1999climbPrediction` |
+| SN-AIR-05 | The NAS shall take the airline's priorities for a flight (fuel against time, and protected connections) into account when a change to that flight's trajectory is required. | Owner | Airline: Fuel cost; Airline: Schedule integrity; Airline: Passenger connections; Flight Crew: Operational flexibility; Environmental / Societal: CO2; Environmental / Societal: NOx; Environmental / Societal: Contrail/climate effects; Environmental / Societal: Noise; Environmental / Societal: Local air quality | SLR-CLR-13, SLR-INF-02 | [B] `schultz2012adaptiveClimb`, `coppenbarger1999climbPrediction`, `kulkarni2019ctopSlotSubstitution` |
 
 - **SN-AIR-01**: The planned cruise altitude and speed are what a conflict resolution takes the aircraft away from, so this is what the experiment scores a resolution against. The owner struck "at its lowest operating cost": what the airline optimizes for is the airline's own business. On 2026-10-20 the owner also struck ", so that the flight is flown within safety and capacity limits".
 - **SN-AIR-02**: The time side of the fuel-against-time trade, and the reason one flight's connections can outweigh its fuel (case D of the experiment).
 - **SN-AIR-03**: Flights are separated as filed; as uncertainty is realized, aircraft deviate and interventions are needed. The intervention is the constraint the airline needs to hear about, and the crew and the dispatchers are the ones who coordinate to make that happen (both points are the owner's). Traffic management initiatives are outside the study (D-021).
-- **SN-AIR-05**: The requirement the experiment is about (`knowledge/models/experiment-definition.md` section 2). Not met today: the controller does not receive weight or cost index.
+- **SN-AIR-05**: The requirement the experiment is about (`knowledge/models/experiment-definition.md` section 2). Met today in part, before departure: in the FAA's Collaborative Trajectory Options Program the airline gives each route option a Relative Trajectory Cost, which the FAA's allocation adds to the assigned delay (`kulkarni2019ctopSlotSubstitution`, p. 4; owner, 2026-10-22). Not met in tactical conflict resolution in cruise: the controller does not receive weight or cost index.
 
 ### Air traffic control and traffic flow management (FAA Air Traffic Organization)
 
 D-007 treatment: Modeled system (Airspace Management).
 
-| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+| ID | The stakeholder wants | Wording | Objective rows it serves | Answered by | Basis |
 |---|---|---|---|---|---|
-| SN-ATC-01 | The NAS shall keep every controlled aircraft separated from every other aircraft by at least the applicable separation minimum. | Claude, kept | ATC / ANSP: Safety/separation | SLR-PLN-06, SLR-CLR-01, SLR-CLR-02, SLR-INF-01, SLR-EXE-02 | [A] `faa2025jo711065bb` |
+| SN-ATC-01 | The NAS shall keep every controlled aircraft separated from every other aircraft by at least the applicable separation minimum. | Claude, kept | ATC / ANSP: Safety/separation; Airline: Flight Safety | SLR-PLN-06, SLR-CLR-01, SLR-CLR-02, SLR-INF-01, SLR-EXE-02 | [A] `faa2025jo711065bb` |
 | SN-ATC-02 | The NAS shall keep the number of aircraft in each sector and at each airport within its declared capacity. | Claude, kept | ATC / ANSP: Capacity | SLR-PLN-06 | [A] `faa2025jo72103ee` |
 | SN-ATC-04 | The NAS shall keep the number of control actions a sector controller must take within what one sector team can sustain. | Claude, kept | ATC / ANSP: Sector workload; ATC / ANSP: Traffic complexity | SLR-CLR-15 | [B] `rantanen2012conflictManeuvers`, `kirwan2001coraStrategies` |
 
@@ -110,7 +110,7 @@ D-007 treatment: Modeled system (Airspace Management).
 
 D-007 treatment: Modeled system (Flight Crew).
 
-| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+| ID | The stakeholder wants | Wording | Objective rows it serves | Answered by | Basis |
 |---|---|---|---|---|---|
 | SN-CRW-03 | The NAS shall give the flight crew only trajectory clearances and instructions that the aircraft can fly, with enough time to set them up. | Owner edit | Flight Crew: Workload; Flight Crew: Safety | SLR-CLR-10, SLR-INF-02, SLR-EXE-03, SLR-EXE-06 | [SME] |
 | SN-CRW-06 | The NAS shall provide the flight crew clearances that account for air traffic. | Owner | Flight Crew: Safety | SLR-CLR-01, SLR-CLR-02 | [SME] |
@@ -126,7 +126,7 @@ D-007 treatment: Modeled system (Flight Crew).
 
 D-007 treatment: Boundary actor. **Scope: background** (D-031).
 
-| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+| ID | The stakeholder wants | Wording | Objective rows it serves | Answered by | Basis |
 |---|---|---|---|---|---|
 | SN-GOV-01 | The NAS shall conduct every flight within the operating rules of 14 CFR and the FAA's air traffic orders. | Claude, kept | none (see note) | SLR-PLN-04, SLR-PLN-05, SLR-CLR-08, SLR-EXE-06, SLR-MEA-01 | [A] `faa2025jo711065bb`, `faa2025jo72103ee`, 14 CFR 91, 14 CFR 121 |
 
@@ -136,9 +136,9 @@ D-007 treatment: Boundary actor. **Scope: background** (D-031).
 
 D-007 treatment: Boundary actor (acts through Governance per D-007). **Scope: background** (D-031).
 
-| ID | The stakeholder wants | Wording | Objective rows it comes from | Answered by | Basis |
+| ID | The stakeholder wants | Wording | Objective rows it serves | Answered by | Basis |
 |---|---|---|---|---|---|
-| SN-ENV-01 | The NAS shall keep the CO2 emitted by each flight as low as safety, economics and capacity allow. | Owner edit | Environmental / Societal: CO2 | SLR-CLR-13, SLR-MEA-02 | [C] `icao2024icecMethodology` |
+| SN-ENV-01 | The NAS shall keep the CO2 emitted by each flight as low as safety, economics and capacity allow. | Owner edit | Environmental / Societal: CO2; Environmental / Societal: NOx; Environmental / Societal: Contrail/climate effects; Environmental / Societal: Local air quality | SLR-CLR-13, SLR-MEA-02 | [C] `icao2024icecMethodology` |
 
 - **SN-ENV-01**: CO2 is fuel burned times 3.16 (D-015), so the experiment's fuel column is also this stakeholder's column. "Economics" is the owner's addition. Owner, 2026-10-20: "This is currently in my cost, but not in my stakeholders. They're treated as background/input."
 
@@ -313,19 +313,33 @@ These four were first printed on 2026-10-20. Owner's marks: item 1 "ok"; item 2 
 3. **Two allocations and one tag.** SLR-EXE-03 lost "on board", so the airline's flight planning system was added beside the flight management system. SLR-EXE-06 now alerts dispatchers and controllers, so the dispatcher and air traffic control were added. SLR-EXE-06 is still tagged `baseline`; whether a controller is alerted to low predicted fuel today was not checked against a source.
 4. **SLR-CLR-04 now also answers SN-AIR-03.** This applies the owner's answer of 2026-10-11, that the crew and the dispatchers are the ones who coordinate so the airline is informed. The trace link itself has not been seen on a print. Two requirements in section 11 carry it: HLR-CRW-04 and HLR-OPS-06.
 
-## 8. Objectives with no requirement
+## 8. Objectives and the requirements that serve them
 
-Rows of `knowledge/models/stakeholder-objective-ontology.md` that no stakeholder requirement picks up, and the reason. The rows are not judged unimportant to the NAS; they are outside the study (section 2). The owner's note on the second print: "These are derived reqts @ the HLR level". That is, where one of these matters to the thread, it enters as a derived requirement one tier down, not as a stakeholder requirement on the NAS. Owner, 2026-10-20: "I think I need to keep all stakeholder requirements, even those I won't be keeping... drop at the sub-system/HLR level." Done as D-031 (section 6). These objective rows are not yet picked up by any requirement.
+Since the owner's workbook review of 2026-10-22 (D-032), `objectiveRefs` names every objective row a stakeholder requirement serves, including rows of other stakeholders: an airline requirement can serve a passenger, airport or environmental objective. The full map, from each objective row down to the HLRs, is the **Objectives** sheet of `projects/nas-sos-capstone/cameo_models/print/requirements-review.xlsx`; the owner's edited copy is `projects/nas-sos-capstone/handwritten/2026-10-22_requirements-review_objectives.xlsx`. The Community impacts row was struck from the ontology on 2026-10-22 (D-033).
 
-| Category | Objective rows | Why not carried |
+Of the 43 objective rows in `knowledge/models/stakeholder-objective-ontology.md`, 37 are served by a requirement in the study or tagged background, 1 only by out-of-study requirements, and 5 by none.
+
+**Served only by out-of-study requirements:**
+
+| Category | Objective row | Trajectory impact | Requirement |
+|---|---|---|---|
+| Military | Airspace access | Yes | SN-MIL-01 |
+
+**Served by no requirement:**
+
+| Category | Objective row | Trajectory impact |
 |---|---|---|
-| Airline | Crew cost; Maintenance; Revenue; Dispatch reliability; Flight Safety | The first four are marked Indirect in the ontology's 'Trajectory impact' column. Flight Safety was carried only by the struck SN-PAX-01; separation is carried by SN-ATC-01. |
-| Passenger | all rows | The owner struck all three passenger requirements ("Not D-007"). Connections reach the study through the Airline row 'Passenger connections' (SN-AIR-02, SN-AIR-05). |
-| ATC / ANSP | Predictability; Delay (ATC-attributed) | SN-ATC-03 and SN-ATC-05 struck. |
-| Airport | all rows | "All of these are not D-007" (owner). |
-| Flight Crew | Operational flexibility; Schedule/duty constraints | SN-CRW-01, SN-CRW-04 and SN-CRW-05 struck. |
-| Environmental / Societal | NOx; Contrail/climate effects; Noise; Local air quality; Community impacts | Noise: "Not important for cruise" (owner). The others: no source is held, and D-015 notes the altitude link to non-CO2 effects still needs one. |
-| Military | all rows | SN-MIL-01 struck. D-007 makes military operations a boundary actor. |
+| Military | Mission effectiveness | Yes |
+| Military | Mission timing | Yes |
+| Military | Fuel availability | Indirect |
+| Military | Operational security | No |
+| Military | Resilience | Indirect |
+
+The five military rows are not a concern (owner, 2026-10-22): their connection to the studied scenario is minuscule.
+
+**Requirements that name no objective row:** SN-AIR-06 (out of study; the ontology has no row for data privacy), SN-GOV-01 (background) and SN-GOV-02 (out of study); Governance has no table in the ontology, by the owner's call of 2026-10-10.
+
+The earlier version of this section, listing the rows left without a requirement after the second hand review, is in git history (`git show 43a454d:knowledge/models/requirements-and-traceability.md`).
 
 ## 9. How the two example workbooks were used
 

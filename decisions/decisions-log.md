@@ -6,6 +6,55 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-034 — Requirements in the report: SN-AIR-05 as the throughline, full tables in the appendices, no RACCI
+
+**Date:** 2026-10-22
+**Status:** active. Owner direction in session; the tables are generated, the text around them is the owner's to write.
+
+**Decision:**
+
+1. **SN-AIR-05 is the throughline** the report's claims are made around. Its decomposition (the objectives it serves, SLR-INF-02 and SLR-CLR-13, their HLRs) and the four improvement HLRs (HLR-OPS-05, HLR-ATC-04, HLR-ATC-05, HLR-ATC-08, each traced to its system and stakeholder requirements and objectives) are the report's output. They go in Section 3, System of Interest, after the context diagram: Tables `tab:thread-decomposition` and `tab:improvement-hlrs`.
+2. **Appendix A.2, Full Stakeholder Register:** the whole stakeholder assessment (all 48 rows; seven of the workbook's thirteen columns) and the whole objectives-to-requirements trace (landscape).
+3. **New Appendix A.3, Requirements Decomposition:** the review workbook's Decomposition sheet in full, landscape, between the stakeholder register and the SysML diagram set. A requirement's text is given where it first appears and its ID after that; out-of-study rows are grey.
+4. **All five tables are generated** by `tools/export_report_tables.py` from the model and the stakeholder workbook, into `report/figures/tables/`, the way the SysML figures are; they are not edited by hand.
+5. **No RACCI matrix:** removed from the appendix's plan note and from `to-do-list.md`.
+
+**Rationale:** the owner wants the decomposition of one stakeholder need, from objective to the sub-system requirements the improvement adds, to carry the argument, with the full set in the appendices so the thread can be seen as a subset of it (D-031). Generating the tables keeps them in step with the model.
+
+**Alternatives considered:** a hand-picked excerpt of the stakeholder assessment (the earlier ten-row table); portrait tables for the decomposition and the objectives trace (too long: one ID per line).
+
+**Consequences:** the report compiles at 75 pages. Owner's text still to write: the introductions to the two body tables and the two appendices (`\plantodo` notes in place). The owner also noted that the military objective rows left without a requirement are not a concern: their connection to the studied scenario is minuscule.
+
+---
+
+## D-033 — The Community impacts objective row is struck
+
+**Date:** 2026-10-22
+**Status:** active. Owner direction in session.
+
+**Decision:** the Environmental / Societal row "Community impacts" is removed from `knowledge/models/stakeholder-objective-ontology.md`. SN-ENV-02 (out of study) now serves only Noise.
+
+**Rationale:** owner: it was not clear what the impact is if not noise and emissions, which have their own rows; an unneeded, ambiguous objective. The row's own comment already called it a roll-up of the noise and air-quality levers, and its MOE (community acceptance) is not something the study measures.
+
+**Alternatives considered:** keeping it as a roll-up row served by no requirement directly (D-032's state).
+
+**Consequences:** 43 objective rows: 37 served by an in-study or background requirement, 1 only out of study (military airspace access), 5 by none (the other military rows).
+
+## D-032 — A stakeholder requirement traces to every objective row it serves, including other stakeholders'
+
+**Date:** 2026-10-22
+**Status:** active. Owner's edits to the Objectives sheet of the review workbook (`projects/nas-sos-capstone/handwritten/2026-10-22_requirements-review_objectives.xlsx`).
+
+**Decision:** `objectiveRefs` on a stakeholder requirement names every row of `knowledge/models/stakeholder-objective-ontology.md` the requirement serves, not only rows of its own group. Added: SN-AIR-01 (12 rows: airline crew cost, maintenance, revenue; passenger ticket price, schedule convenience, comfort; crew operational flexibility; all five environmental rows but community impacts), SN-AIR-02 (12 rows: airline dispatch reliability; passenger travel time, connection reliability, disruption risk; ATC predictability and delay; all five airport rows; crew schedule/duty), SN-AIR-05 (crew operational flexibility and the same five environmental rows), SN-ATC-01 (airline flight safety), SN-ENV-01 (NOx, contrail/climate effects, local air quality), SN-APT-01 (airport passenger throughput). Nothing was removed.
+
+**Rationale:** the owner's review of the objectives-first view of the trace. The in-study requirements, chiefly the airline's choice of trajectory (SN-AIR-01, SN-AIR-05) and its on-time arrival (SN-AIR-02), are how several other stakeholders' objectives reach the studied decision.
+
+**Owner's reasons for two links questioned in session:** *Ticket price* → SN-AIR-01: the airline sets prices from its costs, as represented in the fuel, time and maintenance impacts of its flight schedules as planned, so the link runs through the plan, not the tactical trajectory. *Community impacts* is left without an airline requirement: it is not clear what the impact is if not noise and emissions, which have their own rows; the owner judges it possibly an unneeded, ambiguous objective (the ontology's own comment already calls it a roll-up of the noise and air-quality levers).
+
+**Alternatives considered:** keeping `objectiveRefs` to the requirement's own group and leaving the other rows unserved or carried by out-of-study requirements only (the state after D-031).
+
+**Consequences:** of 44 objective rows, 37 are now served by an in-study or background requirement, 2 only by out-of-study ones (environmental community impacts, military airspace access) and 5 by none (the other military rows). Section 8 of `requirements-and-traceability.md` rebuilt; its section 3 column is now "Objective rows it serves". The breadth of SN-AIR-01 and SN-AIR-02 (14 and 15 rows) makes them hubs: they show reach, not a reason any single row exists.
+
 ## D-031 — Keep every stakeholder requirement; make the study's cut at the HLR tier
 
 **Date:** 2026-10-20

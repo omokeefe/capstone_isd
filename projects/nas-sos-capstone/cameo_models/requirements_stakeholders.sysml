@@ -51,10 +51,10 @@ package StakeholderRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::operators;
-            :>> objectiveRefs = ("Airline: Fuel cost", "Airline: Delay cost");
+            :>> objectiveRefs = ("Airline: Fuel cost", "Airline: Delay cost", "Airline: Crew cost", "Airline: Maintenance", "Airline: Revenue", "Passenger: Ticket price", "Passenger: Schedule convenience", "Passenger: Comfort", "Flight Crew: Operational flexibility", "Environmental / Societal: CO2", "Environmental / Societal: NOx", "Environmental / Societal: Contrail/climate effects", "Environmental / Societal: Noise", "Environmental / Societal: Local air quality");
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("mori2022massCruise", "munro2018managingVariability");
-            :>> rationale = "In the study: the planned cruise altitude and speed are what a conflict resolution takes the aircraft away from, so this is what the experiment scores a resolution against. The owner struck 'at its lowest operating cost' (hand review 2026-10-11): what the airline optimizes for is the airline's own business. The owner struck ', so that the flight is flown within safety and capacity limits' (hand review 2026-10-20).";
+            :>> rationale = "In the study: the planned cruise altitude and speed are what a conflict resolution takes the aircraft away from, so this is what the experiment scores a resolution against. The owner struck 'at its lowest operating cost' (hand review 2026-10-11): what the airline optimizes for is the airline's own business. The owner struck ', so that the flight is flown within safety and capacity limits' (hand review 2026-10-20). Objective rows added by the owner in the workbook review of 2026-10-22 (D-032): Airline: Crew cost; Airline: Maintenance; Airline: Revenue; Passenger: Ticket price; Passenger: Schedule convenience; Passenger: Comfort; Flight Crew: Operational flexibility; Environmental / Societal: CO2; Environmental / Societal: NOx; Environmental / Societal: Contrail/climate effects; Environmental / Societal: Noise; Environmental / Societal: Local air quality. Owner on 'Passenger: Ticket price' (2026-10-22): the airline sets prices from its costs, as represented in the fuel, time and maintenance impacts of its flight schedules as planned.";
         }
 
         requirement <'SN-AIR-02'> onScheduleArrival : StakeholderNeed {
@@ -63,9 +63,9 @@ package StakeholderRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::operators;
-            :>> objectiveRefs = ("Airline: Schedule integrity", "Airline: Aircraft utilization", "Airline: Passenger connections");
+            :>> objectiveRefs = ("Airline: Schedule integrity", "Airline: Aircraft utilization", "Airline: Passenger connections", "Airline: Dispatch reliability", "Passenger: Travel time", "Passenger: Connection reliability", "Passenger: Disruption risk", "ATC / ANSP: Predictability", "ATC / ANSP: Delay (ATC-attributed)", "Airport: Gate utilization", "Airport: Runway utilization", "Airport: Surface congestion", "Airport: Turnaround performance", "Airport: Passenger throughput", "Flight Crew: Schedule/duty constraints");
             :>> basis = EvidenceGrade::generalKnowledge;
-            :>> rationale = "In the study: the time side of the fuel-against-time trade, and the reason one flight's connections can outweigh its fuel (case D of the experiment). Owner's wording, hand review 2026-10-10.";
+            :>> rationale = "In the study: the time side of the fuel-against-time trade, and the reason one flight's connections can outweigh its fuel (case D of the experiment). Owner's wording, hand review 2026-10-10. Objective rows added by the owner in the workbook review of 2026-10-22 (D-032): Airline: Dispatch reliability; Passenger: Travel time; Passenger: Connection reliability; Passenger: Disruption risk; ATC / ANSP: Predictability; ATC / ANSP: Delay (ATC-attributed); Airport: Gate utilization; Airport: Runway utilization; Airport: Surface congestion; Airport: Turnaround performance; Airport: Passenger throughput; Flight Crew: Schedule/duty constraints.";
         }
 
         requirement <'SN-AIR-03'> advanceNoticeOfConstraints : StakeholderNeed {
@@ -87,10 +87,10 @@ package StakeholderRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::operators;
-            :>> objectiveRefs = ("Airline: Fuel cost", "Airline: Schedule integrity", "Airline: Passenger connections");
+            :>> objectiveRefs = ("Airline: Fuel cost", "Airline: Schedule integrity", "Airline: Passenger connections", "Flight Crew: Operational flexibility", "Environmental / Societal: CO2", "Environmental / Societal: NOx", "Environmental / Societal: Contrail/climate effects", "Environmental / Societal: Noise", "Environmental / Societal: Local air quality");
             :>> basis = EvidenceGrade::literature;
-            :>> evidenceRefs = ("schultz2012adaptiveClimb", "coppenbarger1999climbPrediction");
-            :>> rationale = "In the study: this is the requirement the experiment is about (knowledge/models/experiment-definition.md section 2). It is not met today: the controller does not receive weight or cost index. Owner's wording, hand review 2026-10-10.";
+            :>> evidenceRefs = ("schultz2012adaptiveClimb", "coppenbarger1999climbPrediction", "kulkarni2019ctopSlotSubstitution");
+            :>> rationale = "In the study: this is the requirement the experiment is about (knowledge/models/experiment-definition.md section 2). Met today in part, before departure (owner, 2026-10-22): in the FAA's Collaborative Trajectory Options Program the airline submits a Trajectory Options Set, each route option carrying a Relative Trajectory Cost in equivalent ground-delay minutes, and the FAA's algorithm adds that cost to the assigned delay and picks the cheapest option (kulkarni2019ctopSlotSubstitution, p. 4). It is not met in tactical conflict resolution in cruise, the decision the study examines: the controller does not receive weight or cost index. Owner's wording, hand review 2026-10-10. Objective rows added by the owner in the workbook review of 2026-10-22 (D-032): Flight Crew: Operational flexibility; Environmental / Societal: CO2; Environmental / Societal: NOx; Environmental / Societal: Contrail/climate effects; Environmental / Societal: Noise; Environmental / Societal: Local air quality.";
         }
 
         requirement <'SN-AIR-04'> airlineChoosesDelayedFlight : StakeholderNeed {
@@ -130,10 +130,10 @@ package StakeholderRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::airTrafficControl;
-            :>> objectiveRefs = "ATC / ANSP: Safety/separation";
+            :>> objectiveRefs = ("ATC / ANSP: Safety/separation", "Airline: Flight Safety");
             :>> basis = EvidenceGrade::normativeSource;
             :>> evidenceRefs = "faa2025jo711065bb";
-            :>> rationale = "In the study: the hard constraint every resolution option must meet. It is never traded against cost (knowledge/models/experiment-definition.md section 6).";
+            :>> rationale = "In the study: the hard constraint every resolution option must meet. It is never traded against cost (knowledge/models/experiment-definition.md section 6). Objective rows added by the owner in the workbook review of 2026-10-22 (D-032): Airline: Flight Safety.";
         }
 
         requirement <'SN-ATC-02'> demandWithinCapacity : StakeholderNeed {
@@ -328,10 +328,10 @@ package StakeholderRequirements {
             :>> status = RequirementStatus::draft;
             :>> stakeholderGroup = StakeholderGroup::environmentalAndSocietalOrganizations;
             :>> studyScope = StudyScope::background; // D-031
-            :>> objectiveRefs = "Environmental / Societal: CO2";
+            :>> objectiveRefs = ("Environmental / Societal: CO2", "Environmental / Societal: NOx", "Environmental / Societal: Contrail/climate effects", "Environmental / Societal: Local air quality");
             :>> basis = EvidenceGrade::generalKnowledge;
             :>> evidenceRefs = "icao2024icecMethodology";
-            :>> rationale = "In the study: CO2 is fuel burned times 3.16 (D-015), so the experiment's fuel column is also this stakeholder's column. 'Economics' was added by the owner (hand review 2026-10-10) and left standing in the second review. Owner (hand review 2026-10-20): 'This is currently in my cost, but not in my stakeholders. They're treated as background/input.' Tagged background (D-031).";
+            :>> rationale = "In the study: CO2 is fuel burned times 3.16 (D-015), so the experiment's fuel column is also this stakeholder's column. 'Economics' was added by the owner (hand review 2026-10-10) and left standing in the second review. Owner (hand review 2026-10-20): 'This is currently in my cost, but not in my stakeholders. They're treated as background/input.' Tagged background (D-031). Objective rows added by the owner in the workbook review of 2026-10-22 (D-032): Environmental / Societal: NOx; Environmental / Societal: Contrail/climate effects; Environmental / Societal: Local air quality.";
         }
 
         requirement <'SN-ENV-02'> noiseWithinAbatementProcedures : StakeholderNeed {
@@ -341,7 +341,7 @@ package StakeholderRequirements {
             :>> status = RequirementStatus::draft;
             :>> studyScope = StudyScope::outOfStudy; // D-031
             :>> stakeholderGroup = StakeholderGroup::environmentalAndSocietalOrganizations;
-            :>> objectiveRefs = ("Environmental / Societal: Noise", "Environmental / Societal: Community impacts");
+            :>> objectiveRefs = "Environmental / Societal: Noise"; // Community impacts row struck from the ontology 2026-10-22 (D-033)
             :>> basis = EvidenceGrade::generalKnowledge;
             :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'Not important for cruise.'";
         }
@@ -359,9 +359,9 @@ package StakeholderRequirements {
             :>> status = RequirementStatus::draft;
             :>> studyScope = StudyScope::outOfStudy; // D-031
             :>> stakeholderGroup = StakeholderGroup::airportAuthority;
-            :>> objectiveRefs = ("Airport: Gate utilization", "Airport: Turnaround performance");
+            :>> objectiveRefs = ("Airport: Gate utilization", "Airport: Turnaround performance", "Airport: Passenger throughput");
             :>> basis = EvidenceGrade::generalKnowledge;
-            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'All of these are not D-007'.";
+            :>> rationale = "Restored as out of study (D-031): the owner's hand review of 2026-10-20 keeps every stakeholder requirement of the first draft and makes the cut at the sub-system (HLR) tier. Text as on the 2026-10-10 print. Struck 2026-10-10: 'All of these are not D-007'. Objective rows added by the owner in the workbook review of 2026-10-22 (D-032): Airport: Passenger throughput.";
         }
 
         requirement <'SN-APT-02'> declaredRunwayCapacityUsed : StakeholderNeed {

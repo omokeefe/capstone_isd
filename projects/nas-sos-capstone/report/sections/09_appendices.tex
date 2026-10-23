@@ -25,38 +25,29 @@ and cite each one from it.}
 
 \subsection{Full Stakeholder Register}
 \label{app:stakeholders}
-\plantodo{S7}{Complete stakeholder register (needs, goals, responsibilities,
-authorities, resources, constraints, information needs, measures of value).
-The RACCI matrix will not be done (owner, 2026-10-19 print; the milestone table already marks it ``will not implement'').}
+\plantodo{S7}{Introduce the two tables below and cite each from the body: the stakeholder assessment (Table~\ref{tab:stakeholder-assessment-excerpt}) and the trace from each stakeholder objective to the requirements (Table~\ref{tab:requirements-objectives}).}
 
-% Added 2026-10-13 (owner's note on the print, page 7, beside the paragraph on the
-% workbook: "Add excerpt or put in Appendix & reference."). Rows and columns were
-% chosen by Claude; the cell values are copied from the "Stakeholder Assessment"
-% sheet of knowledge/models/capstone_stakeholder_assessment.xlsx.
-\aidraft{Excerpt of the stakeholder assessment. Ten of the workbook's 48 rows and four of its thirteen columns, chosen by Claude to show each recommended treatment. Choose your own rows, or replace the excerpt with the whole sheet.}
-\begin{table}[h]
-\centering
-\small
-\caption{Excerpt of the stakeholder assessment (\texttt{capstone\_stakeholder\_assessment.xlsx}): ten of 48 candidates. Score is importance (high 3, medium 2, low 1) plus trajectory-decision impact (yes 2, indirect 1, no 0).}
-\label{tab:stakeholder-assessment-excerpt}
-\begin{tabular}{@{}p{4.6cm}p{2.6cm}p{2.2cm}p{1.0cm}p{4.2cm}@{}}
-\toprule
-Stakeholder (PESTLE domain) & Trajectory-decision impact & Standalone importance & Score & Recommended treatment \\
-\midrule
-Airlines (economic) & Yes & High & 5 & Standalone \\
-Airports (economic) & Yes & High & 5 & Standalone \\
-Air traffic controllers (technical) & Yes & High & 5 & Standalone \\
-Dispatchers (technical) & Yes & High & 5 & Standalone \\
-Flight crews (social) & Indirect & High & 4 & Consider / consolidate \\
-Local communities (environmental) & Indirect & High & 4 & Consider / consolidate \\
-Federal Aviation Administration (political) & No & High & 3 & Consider / consolidate \\
-Passengers (economic) & No & High & 3 & Consider / consolidate \\
-Aircraft manufacturers (economic) & Indirect & Low & 2 & Boundary input / omit \\
-Congress and legislatures (political) & No & Low & 1 & Boundary input / omit \\
-\bottomrule
-\end{tabular}
-\end{table}
-% ---- end AI draft
+% ---- Generated tables (tools/export_report_tables.py). Do not edit the .tex files in
+% figures/tables/: change the stakeholder workbook or the model and rerun the script.
+% Owner, 2026-10-22: the whole assessment sheet and the whole objectives sheet go here.
+\input{figures/tables/stakeholder_assessment}
+
+\begin{landscape}
+\input{figures/tables/requirements_objectives}
+\end{landscape}
+% ---- end generated tables
+\FloatBarrier
+
+\subsection{Requirements Decomposition}
+\label{app:requirements}
+\plantodo{S7, S10}{Introduce the decomposition (Table~\ref{tab:requirements-decomposition}) and cite it from the body: how to read it, why out-of-study requirements stop at the system tier (D-031), and where the studied thread runs (SN-AIR-05 $\rightarrow$ SLR-INF-02 / SLR-CLR-13).}
+
+% ---- Generated table (tools/export_report_tables.py): the Decomposition sheet of
+% cameo_models/print/requirements-review.xlsx in full. Owner, 2026-10-22.
+\begin{landscape}
+\input{figures/tables/requirements_decomposition}
+\end{landscape}
+% ---- end generated table
 
 \subsection{Full SysML Diagram Set}
 \label{app:architecture}
@@ -101,18 +92,15 @@ symbols defined, and the table of abstractions with reason and risk.}
 \subsection{Generative AI Use Disclosure}
 \label{app:genai}
 
-% Placeholder added 2026-10-10. The course GenAI policy (prework/course-info-canvas.md)
-% requires citing GenAI tools when used. The owner drafts this; nothing is written
-% here on purpose. Formats the course page gives:
-%   APA:  Author. (Date). Name of tool (Version of tool) [Large language model]. URL.
-%   IEEE: Author. "Page Title." Website name. URL. Prompt. (accessed date)
-% Decide: what to cite (tool, version, dates, kinds of use), where (here and/or
-% References), and check with the adviser. Claude Code (Anthropic) has been used
-% throughout for scaffolding, model text, scripts and review; all report prose is
-% the owner's.
-\irtwo{Generative AI disclosure: owner to draft. Required by the course policy
-whenever GenAI is used; Interim Report \#2 is the first submission after the
-policy was read (2026-09-21).}
+Generative AI was used as an assistant throughout this project. VS Code was the primary environment in which content was created, and the Claude Code extension (Anthropic) [cite] provided guidance, feedback, and draft content within it. Before that, two ChatGPT (OpenAI) [cite] conversations helped shape the project's direction. They were part of the reasoning that moved it from a trajectory-optimization study to the NAS modeled as a system of systems, with optimization as one capability inside the architecture. All AI-drafted content was reviewed and modified as needed to reflect my own views, understanding, and work.
+
+Beyond drafting content, AI was used as a guide in three ways. It supported schedule and progress management against the course milestones. It gave technical guidance. And it critiqued the work, sometimes in deliberately demanding reviewer roles. AI gave initial reviews of all sources I identified and downloaded, to help me prioritize my own reading. After I read and marked up a source, AI extracted my markings and folded them into a library of sources and excerpts that I drew on while writing. As I wrote report sections, I asked AI for reviews, modifications, critiques, and relevant sources and excerpts.
+
+The project's engineering content was produced the same way: AI drafted, and I reviewed, usually by hand, on paper. AI drafted much of the SysML v2 model text and the requirements, using my own work (leveraged from prior classes and authored as part of this project) as a starting point. I printed the diagrams and requirements, marked them up by hand, and AI transcribed my markings and applied them for me to check. The requirements show the effect. AI's first draft had 27 stakeholder and 53 system requirements. Over three hand reviews I struck, reworded, or wrote requirements until the set covered only what bears on the decision studied. Links in the model carry an evidence grade, so a reader can tell a link drawn from a published source or FAA order from one drawn from my industry experience or from general knowledge.
+
+I formulated the experiment, both conceptually and in detail. AI drafted the code that implements it, runs it, and measures its outputs. AI also wrote the supporting scripts: rendering the model's diagrams, exporting the requirements, generating this report's requirement tables, and extracting annotations from PDFs. Every scenario value used in the report was set or confirmed by me. 
+
+This disclosure is itself an example of the process. I wrote the first version. AI checked it against the project's decision log and journals and found what it left out: the ChatGPT conversations, the extent of the model and requirements drafting, and the transcription of my hand reviews. It then drafted this revision, which I edited. As with the rest of the work, the check against the record was the useful part, and the final wording is mine.
 
 \subsection{Source Register}
 \label{app:sources}
