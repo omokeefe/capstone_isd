@@ -34,8 +34,9 @@ package NasAnalysis {
          * function below takes (D-025). Flight levels, Mach and kilograms, because that is
          * what a clearance and the performance model work in and the experiment compares
          * levels exactly. AircraftSystems::AircraftState stays in SI (metres, metres per
-         * second) and is what the time-step model (vehicle_dynamics.py) uses; the two are
-         * not converted into each other anywhere. */
+         * second); the experiment does not use it (the kinematic vehicle_dynamics.py that
+         * steps it is kept but unused, D-017 item 4). The two are not converted into each
+         * other anywhere. */
         attribute massKg : Real;
         attribute machNumber : Real;
         attribute altitudeFt : Real;

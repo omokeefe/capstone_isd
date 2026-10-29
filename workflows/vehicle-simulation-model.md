@@ -5,6 +5,8 @@ architecture — `to-do-list.md` §12 ("Implement Simulation / Analysis Capabili
 §13 ("Connect Simulation Back to MBSE"). Read `workflows/sysml-instance-modeling.md`
 first if the scenario that will drive the simulation doesn't exist yet.
 
+**Status (2026-10-28):** the experiment does not use a time-step model. It scores with OpenAP steady-state performance functions in `simulation/experiment_scoring.py`, declared as `calc def`s in `cameo_models/nas_analysis.sysml` (D-017). The kinematic `simulation/vehicle_dynamics.py` is kept but not used by the experiment. The ground rule below (interface in SysML, physics in Python, trace checked by test) applies to both.
+
 ## Ground rule: interface in SysML, physics in Python, trace between them explicitly
 
 SysML v2 does have a mechanism for an "opaque" external-language calculation body
@@ -32,8 +34,10 @@ Instead:
 This mirrors how the project already treats decision-support/optimization generally
 (README.md / `index.md` working assumptions: a capability layered on the architecture,
 not the whole subject) — the vehicle dynamics model is that same kind of capability, not
-a physical constituent system, which is why its `calc def` lives in the `DecisionSupport`
-package rather than under `AircraftSystems`.
+a physical constituent system, which is why `VehicleDynamicsModel` lives in the
+`DecisionSupport` package rather than under `AircraftSystems`. Its `StepDynamics` calc was
+removed (D-012); the calculations the experiment uses are the `calc def`s in `NasAnalysis`
+(D-017).
 
 **Since D-025 (2026-10-11) the trace is also checked by a test.** `projects/nas-sos-capstone/simulation/nas_types.py` holds one Python class per SysML definition the code uses, with the same name and the same attribute names. `simulation/test_model_conformance.py` reads the `.sysml` text and fails when a Python field, an enumeration value, a performance-function parameter or a camelCase key of `scenario_base.yaml` is not in the model. The order of work is: change the model first (`workflows/update-architecture.md`), then `nas_types.py`, then the code that uses it. The doc comment naming the Python function is still written.
 
@@ -75,8 +79,9 @@ package rather than under `AircraftSystems`.
 ## Notes
 
 - If a future need genuinely requires more fidelity (wind, weight-and-balance-driven
-  performance, engine-out cases), extend the same Python module rather than starting a
-  parallel one — keep one vehicle-dynamics implementation per vehicle class.
+  performance, engine-out cases), extend the OpenAP-based `PerformanceModel` in
+  `experiment_scoring.py` rather than starting a parallel one (D-017 chose OpenAP over
+  extending `vehicle_dynamics.py`). Keep one performance implementation per vehicle class.
 - If the model is ever brought into a tool (Cameo or otherwise) whose simulation tooling
   offers a real binding to this Python model, that supersedes the doc-comment trace above — note
   the change in `decisions/decisions-log.md` rather than silently dropping the manual

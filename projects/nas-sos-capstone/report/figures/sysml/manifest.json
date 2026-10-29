@@ -62,5 +62,17 @@
   "flightCrewIbd": {
     "sha256": "ed308d631319d412a6697e14c4b2cd3fa9d59f5e344fd0a924bb9b3363d758fd",
     "rendered": "2026-10-19"
+  },
+  "aircraftClearanceStates": {
+    "sha256": "5afee7cfe4436e6027483d3946a3db48ce1e28546334a7b1cadc75b50f46d40f",
+    "rendered": "2026-10-28"
+  },
+  "caseCConflictResolve": {
+    "sha256": "f0843853fe6a654bd4710243f8dfca46a75119bc7d6c1f33379409faa52bf0e8",
+    "rendered": "2026-10-28"
+  },
+  "analysisParametrics": {
+    "sha256": "4eaa73f1d35b2c253b6b10908f3e89c0c7b598cb001f217b5152c299f1a61bc1",
+    "rendered": "2026-10-28"
   }
 }

@@ -1,0 +1,46 @@
+<mxfile host="Electron">
+  <diagram id="uc-operate-scheduled-flight" name="Operate Scheduled Flight">
+    <mxGraphModel dx="1036" dy="842" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="720" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nas" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;align=center;fillColor=#F8FBFF;strokeColor=#1F4E79;strokeWidth=1.5;fontSize=14;spacingTop=6;" value="&lt;b&gt;National Airspace System&lt;/b&gt;&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="460" width="540" x="220" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ucOperate" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#1F4E79;fontSize=13;" value="Operate Scheduled Flight" vertex="1">
+          <mxGeometry height="80" width="240" x="300" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="ucResolve" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#DDEBF7;strokeColor=#1F4E79;fontSize=13;" value="Resolve En-Route Conflict" vertex="1">
+          <mxGeometry height="80" width="240" x="300" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="ucSua" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#EDEDED;strokeColor=#7F7F7F;fontColor=#7F7F7F;dashed=1;fontSize=12;" value="Use Special Use Airspace&lt;br&gt;&lt;i&gt;[out of study]&lt;/i&gt;" vertex="1">
+          <mxGeometry height="70" width="210" x="520" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="actPassenger" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=13;" value="Passenger" vertex="1">
+          <mxGeometry height="80" width="40" x="90" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="actMilitary" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=12;strokeColor=#7F7F7F;fontColor=#7F7F7F;" value="Military airspace user&lt;br&gt;&lt;i&gt;[out of study]&lt;/i&gt;" vertex="1">
+          <mxGeometry height="80" width="40" x="850" y="395" as="geometry" />
+        </mxCell>
+        <mxCell id="assocPassenger" edge="1" parent="1" source="actPassenger" style="endArrow=none;html=1;strokeColor=#000000;" target="ucOperate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="assocMilitary" edge="1" parent="1" source="actMilitary" style="endArrow=none;html=1;strokeColor=#7F7F7F;dashed=0;" target="ucSua">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="incResolve" edge="1" parent="1" source="ucOperate" style="endArrow=open;endSize=10;dashed=1;html=1;strokeColor=#000000;fontSize=11;labelBackgroundColor=#F8FBFF;" target="ucResolve" value="«include»">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="noteResolve" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=12;align=left;spacingLeft=6;fontSize=10;fillColor=#FFF2CC;strokeColor=#7F6000;" value="Realized by the experiment&#39;s scenario (cases A to D).&lt;br&gt;Zoomed in by the sequence &quot;Case C Conflict Resolve&quot;." vertex="1">
+          <mxGeometry height="70" width="180" x="560" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="noteResolveLink" edge="1" parent="1" source="noteResolve" style="endArrow=none;dashed=1;html=1;strokeColor=#7F6000;" target="ucResolve">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="noteKey" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=12;align=left;verticalAlign=top;spacingLeft=6;spacingTop=4;fontSize=10;fillColor=#F2F2F2;strokeColor=#7F7F7F;" value="&lt;b&gt;Not actors.&lt;/b&gt; Airline operations, air traffic control, the flight crew, the aircraft and airport operations are inside the NAS (D-007; the airline per D-035), so they act within the subject, not on it. The regulator constrains the NAS through requirements (SN-GOV-01, background); it does not use it.&lt;br&gt;&lt;b&gt;Grey:&lt;/b&gt; out of study (SN-MIL-01, D-031). Source: D-035." vertex="1">
+          <mxGeometry height="90" width="540" x="220" y="530" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -282,15 +282,21 @@ def build(out: Path) -> dict:
         ("SN ID", "SN", 11), ("Stakeholder requirement", "SN", 48),
         ("SLR ID", "SLR", 12), ("System requirement (the NAS shall)", "SLR", 48),
         ("HLR ID", "HLR", 12), ("Sub-system HLR (constituent system shall)", "HLR", 52),
-        ("Review notes", "note", 40),
+        ("Objectives addressed", "SN", 40), ("Review notes", "note", 40),
     ])
+    # The objective rows each stakeholder requirement names (objectiveRefs), in the
+    # ontology's order; the owner's column of 2026-10-27, written here so it survives a rerun.
+    order = {f"{c}: {o}": k for k, (c, o, _) in enumerate(parse_objective_rows())}
+    def objectives(s: dict) -> str:
+        refs = sorted(s["attrs"].get("objectiveRefs", []), key=lambda o: order.get(o, len(order)))
+        return ", ".join(o.split(": ", 1)[-1] for o in refs)
     row = 2
     group = None
     for s in sn:
         g = GROUP_NAMES.get(one(s, "stakeholderGroup"), one(s, "stakeholderGroup"))
         if g != group:
             group = g
-            for c in range(1, 8):
+            for c in range(1, 9):
                 put(ws, row, c, None, fill=GROUP_FILL)
             ws.cell(row=row, column=1, value=f"Stakeholder: {g}").font = Font(bold=True)
             row += 1
@@ -314,7 +320,7 @@ def build(out: Path) -> dict:
                         put(ws, row, 6, "(no HLR: gap)", italic=True, bold=True, color="C00000")
                     else:
                         put(ws, row, 6, "(no HLR: not carried into the study)", italic=True, color=GREY)
-                put(ws, row, 7, None)
+                put(ws, row, 8, None)
                 row += 1
             if r:
                 others = [p for p in slr_parents[r["id"]] if p != s["id"]]
@@ -327,10 +333,12 @@ def build(out: Path) -> dict:
                     ws.merge_cells(start_row=r_start, end_row=row - 1, start_column=4, end_column=4)
         put(ws, sn_start, 1, s["id"], fill=TIER_TINT["SN"], bold=True)
         put(ws, sn_start, 2, label(s), fill=fill_for(s, TIER_TINT["SN"]), color=GREY if scope(s) == "outOfStudy" else None)
+        put(ws, sn_start, 7, objectives(s) or "(no objective row)", fill=fill_for(s, TIER_TINT["SN"]),
+            italic=not s["attrs"].get("objectiveRefs"), color=GREY if scope(s) == "outOfStudy" else None)
         if row - 1 > sn_start:
-            ws.merge_cells(start_row=sn_start, end_row=row - 1, start_column=1, end_column=1)
-            ws.merge_cells(start_row=sn_start, end_row=row - 1, start_column=2, end_column=2)
-    ws.auto_filter.ref = f"A1:G{row - 1}"
+            for c in (1, 2, 7):
+                ws.merge_cells(start_row=sn_start, end_row=row - 1, start_column=c, end_column=c)
+    ws.auto_filter.ref = f"A1:H{row - 1}"
 
     # ---- Sheets 2-4: one per tier, every attribute
     def tier_sheet(title, tier, reqs, cols):

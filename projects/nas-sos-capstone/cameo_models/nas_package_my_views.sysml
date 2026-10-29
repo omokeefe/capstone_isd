@@ -163,6 +163,28 @@ package MyViews {
             filter @NASBlockDiagrams::IBDVisible;
         }
 
+        // ---- Behavior: the aircraft's state machine in nas_state_aircraft.sysml (D-035) ----
+
+        // caption: Aircraft state machine: the clearance the aircraft is flying, from the ground before departure to the ground after arrival
+        view aircraftClearanceStates : StateTransitionView {
+            expose AircraftStates::AircraftClearanceStates::**;
+        }
+
+        // ---- Behavior: the Case C Conflict Resolve sequence in nas_sequence_case_c.sysml (D-035; draft) ----
+
+        // caption: Case C Conflict Resolve: the exchanges when ATC decision support scores the options with the airline's shared data
+        view caseCConflictResolve : SequenceView {
+            expose CaseCConflictResolve::CaseCConflictResolveSequence::**;
+        }
+
+        // ---- Parametrics: the analysis package in nas_analysis.sysml (D-017, D-035) ----
+
+        // caption: Analysis definitions: the performance calculations, the two fidelity usages and the conflict-resolution scoring analysis
+        view analysisParametrics : GeneralView {
+            attribute showInheritedRows = false;   // CLI only
+            expose NasAnalysis::*;
+        }
+
         // Additional views can be added as needed to support the development and
         // understanding of the system of interest.
     }

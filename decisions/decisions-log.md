@@ -6,6 +6,55 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-036 — Each analysis-based verification procedure starts by confirming the tool matches the model
+
+**Date:** 2026-10-28
+**Status:** active. Owner direction in session: the D-025 conformance check is performed as part of verifying an HLR, as a step of the test procedure, not as a requirement of its own. Amends D-025 (the check existed but nothing required it to run before a verification run).
+
+**Decision:**
+
+1. **`VerifyByExperimentCase` has two ordered steps:** `confirmToolConformsToModel` (run `simulation/test_model_conformance.py`; if it fails, the case is not run), then `runExperimentCase`. Every experiment-based verification case inherits them.
+2. **The run's configuration is recorded with its results:** `modelCommit` (git commit of the model and code) and `toolConformsToModel` on `VerifyByExperimentCase`, both optional until filled.
+3. **The executable procedure does the same:** `tools/run_experiment.py` runs the conformance test first and stops on failure, before any result is written.
+4. **The drift is caught when it is made:** `workflows/update-architecture.md` step 7 runs the conformance test after any `.sysml` change.
+5. **The project plan gets a "Traceability and configuration control" section** (owner writes it; to-do item added under the verification checklist).
+
+**Rationale:** the conformance test checks the test equipment, not the NAS. The HLRs are requirements on the constituent systems under study; the Python is an enabling system (ISO/IEC/IEEE 15288) that produces the evidence. A requirement on the NAS verified by a check on Python names would mix the system under study with the instrument. As a setup step, the check makes every analysis-based result traceable to a model version that the tool was confirmed to match, like a calibration check before a measurement.
+
+**Alternatives considered:** a new HLR or system requirement on the analysis tool (rejected by the owner: the check belongs to the procedure); a git pre-commit hook (not done: the workflow step and the pipeline gate cover the two points where drift matters, and a hook would also fire on prose-only commits).
+
+**Limits:** the test matches names and enumeration values with regular expressions; it does not check units, physics or whether the scoring is right. Validation of the dynamics model is separate (to-do-list §12). `modelCommit` and `toolConformsToModel` are not yet written by the pipeline into `results/experiment_results.sysml`; they are filled by hand.
+
+**Consequences:** `cameo_models/nas_verification.sysml`, `tools/run_experiment.py`, `tools/README.md`, `workflows/update-architecture.md`, `projects/nas-sos-capstone/to-do-list.md`. `syside check` passes; 17 conformance tests pass.
+
+---
+
+## D-035 — Behavior views: a use case, a state machine on the aircraft, and the sequence that zooms in between them
+
+**Date:** 2026-10-28 (discussed 2026-10-27 to 10-28)
+**Status:** active. Owner's choices after a Professor critique of four proposed diagrams; nothing modeled yet.
+
+**Decision:**
+
+1. **Model map by the six classic content areas** (requirements, use cases, behavior, structure, parametrics, tests), drawn over the packages as they are, not by moving content into six new packages before the 2026-11-29 freeze. Its purpose is to show the model's gaps. The owner's mapping table is the start.
+2. **Use case: "Operate Scheduled Flight"**, subject the `NationalAirspaceSystem`, including "Resolve En-Route Conflict", whose realization is the experiment's scenario. Actors are outside the subject: passengers are the primary actor. The airline is inside the NAS (consistent with the BDD: flight operations is a part of `NationalAirspaceSystem`), so it is not an actor. The regulator constrains the NAS and is shown as requirements (SN-GOV-01, background), not as an actor. Military uses the airspace for its own goal (special use airspace), a separate use case out of study (SN-MIL-01). The flight crew is inside the NAS (D-007) and is not an actor.
+3. **Sequence diagram "Case C Conflict Resolve"** (named apart from the `ResolveConflict` activity and its view) zooms in on the included use case. It names the crew. Each lifeline is a part from the IBDs and each message rides an existing connection or interface; a message with none shows a missing link.
+4. **State machine owned by the aircraft**, its states defined by the clearance it is flying: on planned trajectory → on amended clearance → returning to planned trajectory → on planned trajectory. The crew is the agent of the transitions (accepts, enters and flies the clearance), not the owner of the states. Under IFR en route, separation is ATC's responsibility (JO 7110.65BB 2-1-1); the crew flies the clearance, says "unable" (HLR-CRW-02) or requests another (HLR-CRW-03). "In conflict" is ATC's view of an encounter between two aircraft, which an aircraft cannot observe; it belongs in the sequence and `ResolveConflict`, not in the aircraft's states. The aircraft slowed in trail passes through "on amended clearance" without being in conflict. Strategic conflict (traffic flow management before departure) is out of study and not a state.
+5. **Layering:** the activity diagrams say what a flight does; the state machine says which condition the aircraft is in; the sequence shows the exchanges that move it between two of those states.
+6. **The crew-versus-aircraft distinction goes in the report** (owner's request; owner writes the prose).
+
+7. **Start and end states (owner, 2026-10-28):** "on the ground before departure" and "on the ground after arrival", tied to the Depart and Arrive activities. "Out of service" was considered and dropped: it belongs to a fleet-lifecycle machine (maintenance, scheduling), not to this one.
+8. **Tests (owner, 2026-10-28):** the verification cases in `nas_verification.sysml` stay (D-018); no separate test diagram is drawn.
+9. **Parametrics view:** `analysisParametrics` (GeneralView of `NasAnalysis`, added 2026-10-28; appendix). It shows the analysis definitions, not a parametric diagram proper: no binding connectors tie the calculations' parameters to values in the model, because the bindings are made in `experiment_scoring.py` (D-025). Logged as a gap for the model map.
+
+**Rationale:** each diagram has to add something the others do not. A use case listing flight phases would repeat the nominal-operations activity; one built around the goal and its included conflict use case links stakeholder needs to the scenario through a model element. An aircraft state machine keyed to clearances fits what the aircraft can observe and puts the cost-accruing states (amended clearance, returning) where the scoring analysis can refer to them.
+
+**Alternatives considered:** a use case with the crew and its sub-roles as decomposed stick figures (rejected: the crew is inside the subject, and a use case diagram shows actor generalization, not composition); a state machine on `FlightDeckCrew` (rejected: the crew does not own separation under IFR); a state machine on a conflict encounter (the conflict is ATC's view; kept in the sequence instead); starting the sequence at normal cruise (the state machine now carries the normal flight, so the sequence opens with one collapsed monitoring loop).
+
+**Consequences:** three new views (use case, state, sequence) plus a model map. The use case is modeled in `cameo_models/nas_use_cases.sysml` (2026-10-28): actors typed by the `Environment` defs (`Passengers::PassengersDomain`, `Military::MilitaryDomain`), each use case naming the activity that carries it out and refining its stakeholder requirement (SN-PAX-02, SN-AIR-05, SN-MIL-01). Syside has no use case view, so its picture is a hand-drawn draw.io figure (`report/figures/use-case-operate-scheduled-flight.drawio`, PNG exported by the owner). The state machine is modeled in `cameo_models/nas_state_aircraft.sysml` (2026-10-28), exhibited by `AircraftSystems::Aircraft`, view `aircraftClearanceStates` (appendix); it adds an `amendedAgain` transition (a new amended clearance while returning) and an `arrivesOnAmended` transition (arrival vectors), and has no final-state marker. The sequence is drafted in `cameo_models/nas_sequence_case_c.sysml` (2026-10-28, Claude's draft for the owner's review), view `caseCConflictResolve` (appendix): six lifelines, 14 ordered messages, each naming the connection it rides; it shows four gaps (G1 to G4, `open-questions.md`); whether Syside renders use case, state and sequence views is untested. Lessons recorded in `projects/nas-sos-capstone/lessons-learned.md` (2026-10-28).
+
+---
+
 ## D-034 — Requirements in the report: SN-AIR-05 as the throughline, full tables in the appendices, no RACCI
 
 **Date:** 2026-10-22

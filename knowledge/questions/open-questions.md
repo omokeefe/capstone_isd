@@ -17,10 +17,12 @@ questions it didn't resolve:
   definition's method section describes absorbed capabilities as staying attached to the
   modeled systems they inform (effects preserved as information/cost/performance
   attributes), not living as external actors. They were placed in `Environment` anyway as
-  a structural simplification. `DecisionSupport::VehicleDynamicsModel` in particular feeds
-  §12-§13 simulation traceability — confirm whether it (and `InformationServices`) should
-  move back to being a capability allocated onto `AircraftSystems`/`FlightOperations`
-  rather than a peer of Governance/Passengers/Military in `Environment`.
+  a structural simplification. ~~`DecisionSupport::VehicleDynamicsModel` in particular feeds
+  §12-§13 simulation traceability — confirm whether it should move back to being a
+  capability allocated onto the modeled systems.~~ **Decision Support resolved by D-012
+  (2026-10-08):** it no longer has a domain in `Environment`; each deciding system owns its
+  own `DecisionSupportSystem`. Still open for `InformationServices`, which remains a peer of
+  Governance/Passengers/Military in `Environment`.
 - [ ] **Flight Crew role split.** The new `FlightCrew` package (added because D-007 rates
   Flight Crew a Modeled System and the pre-ratification BDD had no representation for it
   at all) currently models `FlightDeckCrew` (`Captain`/`FirstOfficer`, renamed from `PilotInCommand` by D-010) and `CabinCrew` (absorbed at context level, D-009; its passenger-interface role recorded 2026-09-27). Remote Pilot
@@ -48,7 +50,8 @@ questions it didn't resolve:
 - [x] **The similar-weights check fails after D-024 (raised 2026-10-11; resolved the same day: the owner had it replaced by two tests, one that equal weights give equal numbers for every option, one that with the climb closed case C matches case B).** With both crossing aircraft at the nominal mass, case C still chooses differently from case B, because knowing the weight lifts the FL350 rule. `test_similar_weights_variation_makes_c_match_b` is left failing. Restate the check or keep the finding; see the third run in `knowledge/models/experiment-options-and-scoring.md` section 8.
 - [x] **The scoring costs a climb at 1,500 ft/min that its own thrust model does not allow (raised 2026-10-11; resolved the same day, D-024: climbs are flown at the rate maximum thrust allows).** `simulation/experiment_scoring.py` uses a fixed 1,500 ft/min for every level change. For the light aircraft's climb from FL380 to FL400 (option O4) that needs about 56 kN; OpenAP's maximum thrust there is 42 kN, and the climb left is about 400 ft/min. The climb term is 22.6 kg of O4's 13.0 kg net, and O4 beats O9 by 0.1 kg, so this decides which option cases C and D choose. Options: cost the climb at the rate the thrust allows (longer, at maximum thrust), or state the fixed rate as an abstraction and its effect. Also found the same day: no compressibility drag in the model, and the fuel curve is OpenAP's default, not fitted to the type. All listed in the report's placeholder subsection "Scoring Model Calculations" (`report/sections/03_assumptions_methodology.tex`).
 - [ ] **Experiment scenario Decide items (2026-10-10).** `knowledge/models/experiment-scenario-numbers.md` lists every number the first scoring run used and which are the owner's to confirm: the city pairs (MCO-LAX crossing IAH-DEN near DFW, or MIA-LAX crossing SAT-DEN), the nominal mass (70,000 kg) and ±6 percent spread, cost indexes, schedule deltas, the 15-minute hold, the vector's extra miles, the case A tie-breaker, the fuel and carbon prices. The first run's result (C minus B = 0) depends on the hold length and the pair's level; see `experiment-options-and-scoring.md` §8.
-- [ ] **Sequence view in Syside (2026-10-10).** `SequenceView` is listed as supported, but the docs give no example of the elements it needs. Test a small occurrence/message example before drawing the conflict-resolution sequence (plan turn 3); record the result in `knowledge/models/sysml-diagram-rendering.md` §9.
+- [ ] **Gaps shown by the draft "Case C Conflict Resolve" sequence (2026-10-28, D-035; `cameo_models/nas_sequence_case_c.sysml`).** Each message should ride a connection between its two lifelines. G1: no connection between ATC and its decision support (`atc.decisionSupport`), so the conflict alert and the scored options have nothing to ride; the airspace IBD draws `atc` as one box. G2: the performance share's interface ends at `atc.performanceShareIn`, and nothing carries it on to the decision support that uses it. G3: there is no sector controller part; `atc` stands for both the controller and the facility (the open `atc` umbrella question). G4: four exchanges had no item def (`ConflictAlert`, `ClearanceReadback`, `FmsEntry`, `TrajectoryChangeNotice`; drafted in the sequence file). Decide for each: add the connection or part, or state the abstraction.
+- [ ] **Sequence view in Syside (2026-10-10).** *(Answered 2026-10-28: it renders; `sysml-diagram-rendering.md` §9.)* `SequenceView` is listed as supported, but the docs give no example of the elements it needs. Test a small occurrence/message example before drawing the conflict-resolution sequence (plan turn 3); record the result in `knowledge/models/sysml-diagram-rendering.md` §9.
 
 ## Scenario / simulation content (§10, §12-§13)
 
@@ -57,10 +60,11 @@ questions it didn't resolve:
   22L" are placeholders, not verified against real published procedures. Replace with a
   real scenario once one is chosen (see `knowledge/models/conops-scenarios.md`), or
   verify the procedure names if this specific scenario is kept.
-- [ ] `simulation/vehicle_dynamics.py`'s point-mass model (2026-09-19 first pass) is
+- [x] `simulation/vehicle_dynamics.py`'s point-mass model (2026-09-19 first pass) is
   kinematic, not aerodynamic — no drag, wind, or weight-dependent performance. Fine as a
   §12 "minimum viable simulation," but don't treat its output as physically validated
-  beyond that.
+  beyond that. **Update 2026-10-28:** moot for the experiment, which scores with OpenAP
+  and does not use this module (D-017 item 4); the module is kept, marked unused.
 - [ ] SysML v2's `individual` modifier (specific occurrence-with-a-lifetime) wasn't
   confirmed against this project's tool as of 2026-09-19 — public documentation didn't
   have a worked example. `workflows/sysml-instance-modeling.md` uses plain usages with

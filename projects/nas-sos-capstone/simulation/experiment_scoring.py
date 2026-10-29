@@ -233,6 +233,11 @@ def maneuver_cost(perf: PerformanceModel | None, sc: Scenario, ac: ScenarioFligh
     """Cost of one maneuver for one aircraft, evaluated at ``mass``.
 
     ``perf`` is None at conceptual fidelity: only counts are returned.
+
+    Must update if scenario changes provide for speed to resolve conflicts.
+
+    #TODO: Review cost when perf==None. Only instructions & only one?? 
+    #TODO: What about the maneuver_hold_min for the reclimb? We're not ensuring the full "hold" is maintained across all cases...there should be a rest_h.
     """
     g = sc.geometry
     cost = AircraftCost(instructions=1)
@@ -308,7 +313,9 @@ def maneuver_cost(perf: PerformanceModel | None, sc: Scenario, ac: ScenarioFligh
 
 
 def option_feasible_for_decider(sc: Scenario, opt: ResolutionOption, case: str, perf: PerformanceModel | None) -> tuple[bool, str]:
-    """Can this case offer this option, given what it knows?"""
+    """Can this case offer this option, given what it knows?
+    
+    Must update if scenario changes provide for speed to resolve conflicts."""
     g = sc.geometry
     for man in opt.maneuvers:
         ac = sc.by_flight_number(man.flightNumber)
@@ -328,7 +335,9 @@ def option_feasible_for_decider(sc: Scenario, opt: ResolutionOption, case: str, 
 
 
 def score_option(sc: Scenario, opt: ResolutionOption, perf: PerformanceModel | None, mass_of: dict[str, float]) -> OptionScore:
-    """Truth-model score of an option: every aircraft, at the masses given."""
+    """Truth-model score of an option: every aircraft, at the masses given.
+    
+    #TODO: Should cost for man None be set prohibitively high?"""
     g = sc.geometry
     feasible, why = True, ""
     for man in opt.maneuvers:
@@ -355,7 +364,10 @@ def score_option(sc: Scenario, opt: ResolutionOption, perf: PerformanceModel | N
 
 
 def airline_cost_usd(sc: Scenario, score: OptionScore, with_connections: bool) -> dict[str, dict[str, float | bool]]:
-    """Per-airline cost: fuel + CI x time (in fuel-equivalent kg, then USD), connection flag, CO2 priced."""
+    """Per-airline cost: fuel + CI x time (in fuel-equivalent kg, then USD), connection flag, CO2 priced.
+    
+    #TODO: Review "missed" definition. delta < min isn't the same as delta > max, right? Treat differently?
+    #TODO: Why is co2 costs divide by 1000?"""
     costs = sc.costs
     out: dict[str, dict[str, float | bool]] = {}
     for ac in sc.flights:
@@ -373,7 +385,10 @@ def airline_cost_usd(sc: Scenario, score: OptionScore, with_connections: bool) -
 
 # --------------------------------------------------------------------------- the cases
 def decide(sc: Scenario, case: str, perf: PerformanceModel | None, scores_by_mass: dict[str, dict[str, OptionScore]]) -> tuple[str | None, str]:
-    """Which option this case picks, using only what it knows. Returns (option id, reason)."""
+    """Which option this case picks, using only what it knows. Returns (option id, reason).
+    
+    #TODO: I don't yet understand the len(opt.maneuvers) part.
+    #TODO: Why is perf==None being handled only as instructions"""
     if case == "A":
         # One descent clearance (rantanen2012conflictManeuvers). Tie-breaker: move the
         # crossing aircraft with farther to go (farther from top of descent).
@@ -426,7 +441,7 @@ def run(sc: Scenario, fidelity: str) -> dict[str, Any]:
     perf = None if fidelity == FidelityLevel.conceptual else PerformanceModel(sc.aircraftType)
     actual = {a.flightNumber: a.cruise.massKg for a in sc.flights}
     nominal = {a.flightNumber: sc.nominalMassKg for a in sc.flights}
-    truth_mass = nominal if fidelity == FidelityLevel.nominalMass else actual
+    truth_mass = nominal if fidelity == FidelityLevel.nominalMass else actual  #TODO: How is "truth_mass" used. Is it a misnomer for nominal, or is this wrong?
     scores = {
         "actual": {o.optionId: score_option(sc, o, perf, actual) for o in sc.options},
         "nominal": {o.optionId: score_option(sc, o, perf, nominal) for o in sc.options},

@@ -8,7 +8,8 @@ hold fewer attributes than its definition (only what the code uses), never more.
 field, add it to the model first (``workflows/update-architecture.md``).
 
 Units are the model's. ``AircraftState`` and ``Position`` are SI (metres, metres per second,
-kilograms) and are what ``vehicle_dynamics.py`` steps. ``CruiseCondition`` is feet, Mach and
+kilograms) and are what ``vehicle_dynamics.py`` steps; that module is kept but not used by
+the experiment (D-017 item 4). ``CruiseCondition`` is feet, Mach and
 kilograms and is what the experiment (``experiment_scoring.py``) works in. Nothing converts
 one into the other.
 

@@ -39,8 +39,9 @@ through §6-§9.
    bullets). Partial traces are fine mid-project; note the gap in
    `knowledge/questions/open-questions.md`.
 6. Check off the corresponding `projects/nas-sos-capstone/to-do-list.md` §10 box(es).
-7. If a `.sysml` file or a view changed, re-render per `workflows/render-sysml-diagrams.md` so the report's diagrams match the model.
-8. Sign off per `workflows/session-signoff.md`.
+7. If a `.sysml` file changed, run the conformance test (`.venv/Scripts/python.exe -m pytest projects/nas-sos-capstone/simulation/test_model_conformance.py -q`). A failure means the Python in `simulation/` uses a name the model no longer defines: fix `nas_types.py` and the code that uses it in this session, not at the next experiment run (D-025, D-036).
+8. If a `.sysml` file or a view changed, re-render per `workflows/render-sysml-diagrams.md` so the report's diagrams match the model.
+9. Sign off per `workflows/session-signoff.md`.
 
 ## Getting the model into Cameo (not planned)
 

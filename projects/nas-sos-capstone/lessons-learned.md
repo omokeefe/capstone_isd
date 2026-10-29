@@ -69,3 +69,31 @@ The report uses this file twice: the course's learning objectives ask the studen
 - **What changes:** out-of-scope requirements are tagged (`studyScope`), not deleted; drafts that may be cut are committed before a hand review, so struck text stays in git.
 - **Where in the report:** Section 2, methodology (requirements and scoping); the requirements appendix.
 
+
+## 2026-10-28 — An actor is outside the subject
+
+- **What happened:** the first idea for a use case diagram drew the flight crew, with the captain and first officer under it, as actors of the NAS (D-035).
+- **What was learned:** an actor acts on the subject from outside it. The crew is a modeled system inside the NAS (D-007), so it cannot be an actor of the NAS. A use case diagram shows one actor as a kind of another (generalization), not as part of it; composition belongs in the BDD. With the airline also inside the NAS, the passengers are the primary actor of "operate scheduled flight".
+- **What changes:** before drawing a use case, name the subject, then check every actor against the D-007 boundary.
+- **Where in the report:** Section 2, methodology (modeling method); the use case figure's text.
+
+## 2026-10-28 — A constraint is not an actor
+
+- **What happened:** the regulator and the military were proposed as actors of "fly en route" because they set up the environment the flight flies in (D-035).
+- **What was learned:** an actor interacts with the subject to get something of value. The regulator does not use the NAS; it constrains it, and that is already modeled as a requirement (SN-GOV-01, background). The military does use the airspace, for its own goal, so it is an actor, but of its own use case (special use airspace, out of study).
+- **What changes:** a party that only sets rules is modeled as requirements or constraints; a party is an actor only if it uses the subject for a goal of its own.
+- **Where in the report:** Section 2, methodology; the use case figure's text.
+
+## 2026-10-28 — A sequence diagram tests the structure
+
+- **What happened:** connecting the planned behavior diagrams to the BDD and IBDs raised the question of what ties them together (D-035).
+- **What was learned:** every lifeline in a sequence diagram is a part from the IBDs and every message is an item carried over a connection or interface between those parts. A message with no connection under it means the IBD is missing a link or the sequence is wrong. Drawing the exchange is a check of the structure, not only a picture of the behavior. The same holds for a state machine: each transition is triggered by something a port of its owner receives.
+- **What changes:** the "Resolve Conflict" sequence is drawn against the IBDs, and each message with no connection is logged as a gap to close or to justify.
+- **Where in the report:** Section 2, methodology; Section 4 or 5, where the sequence diagram is discussed.
+
+## 2026-10-28 — The tool decides part of the layout
+
+- **What happened:** in the "Case C Conflict Resolve" sequence, Syside drew the messages in an order of its own until each was ordered explicitly, and it places lifelines left to right by first appearance in the messages, not in the order declared. The heavy aircraft landed between ATC decision support and ATC, and could only be moved by changing which message comes first (D-035).
+- **What was learned:** a text-first tool trades layout control for a model that stays the source; some reading order in a diagram is the renderer's, not the modeler's. That is a property of the tool to state, not a defect of the model to work around.
+- **What changes:** order every message explicitly; accept the tool's lifeline order unless it misleads, and say so in the figure's text when it matters; record each such limit in `knowledge/models/sysml-diagram-rendering.md` the day it is found.
+- **Where in the report:** Section 2 or 3, tool reflection (the validity of the tools used).

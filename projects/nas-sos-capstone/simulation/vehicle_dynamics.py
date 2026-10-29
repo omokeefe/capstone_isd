@@ -1,5 +1,9 @@
 """Minimum-viable point-mass vehicle dynamics model.
 
+Not used by the experiment. The experiment scores with OpenAP in `experiment_scoring.py`
+(D-017 item 4); this module is kept as the first §12 constituent model and is exercised
+only by `test_vehicle_dynamics.py`.
+
 Implements `DecisionSupport::VehicleDynamicsModel` (the `StepDynamics` calc def was removed
 2026-10-08, D-012; the signature is recorded in that part def's doc)
 in `cameo_models/nas_sysml_package_definitions.sysml` (see `workflows/vehicle-simulation-model.md` for why the

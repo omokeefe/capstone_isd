@@ -682,6 +682,9 @@ package NationalAirspaceSystem {
             attribute currentPosition: Common::Position;
             attribute status: String; // e.g., "On Ground", "In Flight", "Maintenance"
             attribute flightState: AircraftState; // "state" is a reserved SysML keyword
+            // The clearance the aircraft is flying (D-035): the aircraft owns these states;
+            // the flight deck crew makes the transitions. Defined in nas_state_aircraft.sysml.
+            exhibit state clearanceStates : AircraftStates::AircraftClearanceStates;
 
             // Top level of the aircraft decomposition (D-011, 2026-10-08). Each part opens
             // into its own definition below, so a diagram can stop at this level or go
@@ -1244,10 +1247,14 @@ package NationalAirspaceSystem {
 
         part def VehicleDynamicsModel {
             doc /* The vehicle physics model: propulsion and aerodynamics (owner, 2026-10-08).
-             * Reads an aircraft state and predicts the next one. Implemented in Python at
-             * projects/nas-sos-capstone/simulation/vehicle_dynamics.py, function
-             * step_dynamics (see workflows/vehicle-simulation-model.md); the trace between
-             * the two is kept by hand (D-005).
+             * Reads an aircraft state and predicts the next one. In the experiment, how good
+             * this model is for the deciding party is what MeansOfAchievement varies (cases A
+             * to D, D-022); the truth model that scores every case is OpenAP, declared in
+             * NasAnalysis (D-017). Neither steps an aircraft state through time.
+             * A first kinematic implementation, simulation/vehicle_dynamics.py (function
+             * step_dynamics, 2026-09-19), is kept but not used by the experiment (D-017
+             * item 4). Its AircraftState fields are still checked against the model by
+             * simulation/test_model_conformance.py (D-025).
              * The time step is not a component of this model. A `calc def StepDynamics`
              * sat here until 2026-10-08 as the interface to step_dynamics; removed (D-012)
              * because it drew the integration step as an internal part. Its signature, for

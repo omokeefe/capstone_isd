@@ -1,6 +1,8 @@
 """Run the whole experiment pipeline from one command (D-017).
 
 Steps, in order:
+  0. confirm the Python matches the model (simulation/test_model_conformance.py); stop if
+     it does not, so no results are produced from a tool out of step with the model (D-036);
   1. score the experiment at the requested fidelity (simulation/experiment_scoring.py),
      writing the CSV and LaTeX tables and the results .sysml file;
   2. draw the two OpenAP figures (simulation/b739_envelope.py);
@@ -43,7 +45,8 @@ def main() -> int:
     args = ap.parse_args()
 
     py = sys.executable
-    score = [py, str(SIM / "experiment_scoring.py"), "--fidelity", args.fidelity]
+    run([py, "-m", "pytest", str(SIM / "test_model_conformance.py"), "-q"])
+    score =[py, str(SIM / "experiment_scoring.py"), "--fidelity", args.fidelity]
     if args.variation:
         score += ["--variation", args.variation]
     run(score)

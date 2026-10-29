@@ -25,12 +25,30 @@ package NasVerification {
          * file it runs on, and what was measured when it ran. The scenario file holds the
          * flights (NasAnalysis::ScenarioFlight) and the options
          * (NasAnalysis::ResolutionOption); its values are cited here by file and are not
-         * repeated in the model (D-025). */
+         * repeated in the model (D-025).
+         * The procedure has two steps in order: confirm the analysis tool matches the model,
+         * then run the case (D-036). The first is a setup step on the test equipment, not a
+         * verification of any requirement. */
         attribute experimentCase : String; // "A", "B", "C" or "D"
         attribute scenarioFile : String default "projects/nas-sos-capstone/simulation/scenario_base.yaml";
         attribute measuredSystemDeltaFuelKg : Real[0..1];
         attribute measuredInstructions : Integer[0..1];
+        // Configuration of the run, recorded with the measured values (D-036).
+        attribute modelCommit : String[0..1]; // git commit of the model and code the run used
+        attribute toolConformsToModel : Boolean[0..1]; // test_model_conformance.py passed before the run
         subject scoring : ConflictResolutionScoring;
+
+        action confirmToolConformsToModel {
+            doc /* Run projects/nas-sos-capstone/simulation/test_model_conformance.py. If it
+             * fails, stop: the case is not run. It confirms that the names and enumeration
+             * values in nas_types.py, experiment_scoring.py and scenario_base.yaml are
+             * defined in the model (D-025). It does not check units, physics or whether the
+             * scoring is right; validating the dynamics model is separate (to-do-list §12). */
+        }
+        then action runExperimentCase {
+            doc /* Score the case with tools/run_experiment.py and read the measured values
+             * from results/experiment_results.sysml. */
+        }
     }
 
     verification def VerifyWeightToDecidingParty :> VerifyByExperimentCase {
