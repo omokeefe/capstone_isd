@@ -5,6 +5,9 @@
 ## 1. Central claim (Decide)
 
 **Proposed:** the architecture model can be checked, decision by decision, for one thing: does the actor who makes this decision receive the information the decision depends on? The experiment measures what one of the gaps found by that check costs. It is one worked example, not the main result.
+    - OOK, 10/29/2026, This will be the main claim. It seems feasable. Objective -> Requirement -> Activity Diagram -> Sequence Diagram -> exchanges w/or w/o info
+                                                                        |               |                   |                   |                           |
+                                                               (from stakeholders)   (for objectives)  (Nominal Ops)    (conflict resol.)       (controller w/o GW, ACM)
 
 **Alternative:** the four-aircraft experiment is the main result. This is weaker for three reasons. The expected effect is small (about 27 gallons and 2.3 minutes per flight for the typical case, a switch to a more wind-optimal trajectory, in NASA's TASAR study; the three cases range from 12 to 103 gallons: `engility2014tasarAlaska`, p. 12). The value of sharing aircraft data with ATC has already been studied (Coppenbarger; SESAR's downlink of the aircraft's predicted profile). And the simulation compares two ways of operating, so it cannot test MBSE as an engineering method.
 
@@ -17,6 +20,9 @@ An en-route sector controller resolves a crossing conflict between two aircraft 
 ## 3. Scenario
 
 Four aircraft in one invented sector, shown as a single snapshot: one crossing pair, and two aircraft in trail that block some level changes. Two of the four belong to the same airline, one late with connections and one early. Weights are spread using the published 4.5 to 7 percent standard deviation of take-off weight. Each case picks from a short list of discrete maneuvers by enumeration; there is no solver.
+
+The scenario makes a lot of sense to me:
+![flight_crossing_map_partial_us_pasted](../../attachments/flight_crossing_map_partial_us_pasted.png)
 
 ## 4. The one thing that differs
 
@@ -33,7 +39,9 @@ B against A is the value of automation. C against B is the value of the informat
 One descent clearance. This is the most common observed choice for this geometry: 23 of 36 cases in `rantanen2012conflictManeuvers`.
 
 - **Which aircraft descends (Decide).** Proposed: leave the aircraft in steady state alone and move the one that already needs something (`kirwan2001coraStrategies`). If both are in steady cruise this rule does not choose, so a second rule is needed. Candidates are the published resolver tie-breakers (farthest from top of descent; not recently maneuvered).
+    - OOK, 10/29/2026, Let's assume that AC3 & AC4 are closer to AC1 laterally than would be permitted if they were at the same flight level, so the aircraft that has to descend is AC2.
 - **After the descent (Decide).** Proposed: the aircraft is cleared back up later, counted as a second instruction.
+    - OOK, 10/29/2026, Yes, they need to re-climb. If they're going to Denver and this occurs somewhere in Texas, they'd want to get cleared to a more optimal altitude b/c they're only about 1/3 through the flight
 
 ## 6. Metrics
 

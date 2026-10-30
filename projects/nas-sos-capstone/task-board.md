@@ -6,11 +6,11 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-20, evening (requirements third hand review applied, D-031; see `journal/2026-10-20.md` Sign-Off).
+**Last updated:** 2026-10-29, evening (scenario numbers confirmed, D-037; fifth run; see `journal/2026-10-29.md` Sign-Off). No sign-off ran 10-22 to 10-28; those sessions are in their journals.
 
 ## Current phase
 
-**Turn 1 of the nine-turn plan (Oct 10 to 18; D-016).** Interim Report #2 is due Sun 2026-10-25. The plan of record is the turn table at the top of `to-do-list.md`; each turn has an exit test. Report #1 was submitted 2026-09-17 with all content reviewed and finalized by the owner.
+**Turn 3 of the nine-turn plan (Oct 26 to Nov 1; D-016).** Interim Report #2 was due 10-25 (Word copy committed 10-27; submission not recorded in the repo). Next graded dates: presentation Nov 17 to 20, Review #3 Nov 22. OpenAP fallback decision Nov 8.
 
 **Still open from Report #1 (Track C edits):** the literature-review annotation-coverage claim, citation spot-checks against skimmed-only sources, the 1998-dollar disruption-cost figure.
 
@@ -20,7 +20,11 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 - Requirements (Track A), 2026-10-20: third hand review applied (D-031). 30 SN / 42 SLR / 29 HLR; struck ones restored as out of study, cut at the HLR tier. Owner reviewing HLRs and traceability next in `cameo_models/print/requirements-review.xlsx`. Open: five HLR edits from questions, SLR-CLR-13 measure TBD, sector controller part (`open-questions.md` "Requirements review"). See journal 2026-10-20.
 
-- Experiment (Track B): OpenAP chosen and installed (D-017); `simulation/experiment_scoring.py` runs the base scenario end to end, 14 tests pass; first result C minus B = 0 (`experiment-options-and-scoring.md` §8). Every scenario number is a Decide item in `knowledge/models/experiment-scenario-numbers.md`. Two OpenAP figures in `report/figures/`. 2026-10-11: the Python now uses the model's definitions (`simulation/nas_types.py`), checked by `simulation/test_model_conformance.py`; 32 tests pass, no number changed (D-025).
+- Experiment (Track B), 2026-10-29: scenario numbers confirmed (D-037); fifth run A O10, B O8, C/D O4; C − B = −19.9 kg. Figure 12 is now the altitude-time plot (`simulation/scenario_profile.py`). Open: two hand checks, Nov 8 fallback criterion. See journal 2026-10-29.
+
+- Behavior views (Track A), 2026-10-28: use case, aircraft state machine, "Case C Conflict Resolve" sequence modeled (D-035); conformance check made a verification step (D-036). Sequence gaps G1, G2, G4 open. See journal 2026-10-28.
+
+- Blocked: Syside diagram rendering, 2026-10-29. Windows Application Control blocks a DLL in `AppData\Local\Programs\Syside\drawer`; `render_sysml_diagrams.py` and the last step of `tools/run_experiment.py` fail. Owner to unblock or reinstall Syside.
 
 - Model (Track A): `nas_analysis.sysml` (fidelity levels, calc defs, analysis def), `nas_verification.sysml` (six verification cases), and the D-019 interface (`AirlinePerformanceShare`, ports on the AOC and ATC, unrendered interface usage on the context diagram) added 2026-10-10; whole folder passes `syside check`. The other two thread interfaces (FMS → AOC, ATC → crew) are turn 2. Swimlane answer recorded in `sysml-diagram-rendering.md` §9; sequence view untested.
 
@@ -106,8 +110,8 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Next session priority
 
-Turn 2; Interim Report #2 due Sun 2026-10-25. See journal 2026-10-20 Sign-Off.
+Turn 3 ends Nov 1; fallback decision Nov 8. See journal 2026-10-29 Sign-Off.
 
-1. Owner: review the HLRs and traceability in `cameo_models/print/requirements-review.xlsx` (Decomposition + Coverage sheets); confirm or reject the five edits from questions; mark up, then Claude applies to the `.sysml` and regenerates.
-2. Owner: update the requirement counts in `02_introduction.tex` line 99 and `03_assumptions_methodology.tex` lines 36-37 (13/23/28 → D-031 totals) before the report goes in.
-3. Carried over, needed before 10-25: confirm the scenario numbers and compressibility and re-run; transcribe the untracked `handwritten/2026-10-19_v2main.pdf`; two claims into the Executive Summary.
+1. Write the Nov 8 OpenAP fallback criterion and read OpenAP's validation section (`sun2020openap` §5, §7).
+2. Do the two hand checks (`experiment-definition.md` §9): recompute one table entry by hand against OpenAP; the information check by hand.
+3. Unblock Syside rendering; then commit today's changes (uncommitted at sign-off).

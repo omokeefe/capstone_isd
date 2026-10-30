@@ -24,7 +24,8 @@ The decider's case and the truth model's fidelity are independent settings.
 
 Scoring of one maneuver (steady cruise, ISA, still air):
   altitude change   climb or descent increment (OpenAP enroute fuel flow with a
-                    vertical speed; a descent at 1,500 ft/min, a climb at the rate
+                    vertical speed; a descent at OpenAP's typical constant-Mach descent
+                    rate for the type (WRAP, about 1,100 ft/min), a climb at the rate
                     maximum thrust allows at the mid-altitude, capped at 1,500 ft/min,
                     D-024) 
                     + cruise at the new level for the hold period
@@ -33,7 +34,7 @@ Scoring of one maneuver (steady cruise, ISA, still air):
                     the new level for the rest of the flight
   vector            extra track miles at cruise fuel flow and cruise speed
   speed             infeasible for separation by construction (D-014 item 2)
-  slow (AC3, O9)    a Mach reduction held for a few minutes: time lost, fuel saved
+  slow (AC3, AC4, O9) a Mach reduction held for a few minutes: time lost, fuel saved
 Feasibility of an altitude: the level must not be occupied under the crossing
 (``blocked_levels_ft``); a climb must be within the aircraft's thrust limit at the
 mass the DECIDER believes (cases A and B: climb only at or below the climb rule
@@ -94,7 +95,7 @@ CASE_LABEL = {
     "D": "case C plus connection information",
 }
 CLIMB_RATE_FPM = 1500.0  # cap; a climb is flown at the rate maximum thrust allows when that is less (D-024)
-DESCENT_RATE_FPM = -1500.0
+M_S_TO_FPM = 196.850394
 EFFORT = {"A": 1, "B": 3, "C": 3, "D": 3}  # 1 rule from memory, 2 mental estimate, 3 automation proposes
 RISK = {"altitude": "low", "vector": "medium", "speed": "high", "slow": "medium"}
 
@@ -118,7 +119,7 @@ class PerformanceModel:
     """
 
     def __init__(self, aircraftType: str) -> None:
-        from openap import Drag, FuelFlow, Thrust
+        from openap import WRAP, Drag, FuelFlow, Thrust
 
         self.aircraftType = aircraftType
         with warnings.catch_warnings():
@@ -126,6 +127,9 @@ class PerformanceModel:
             self.fuel = FuelFlow(aircraftType, use_synonym=True)
             self.thrust = Thrust(aircraftType, use_synonym=True)
             self.drag = Drag(aircraftType, use_synonym=True)
+            # typical constant-Mach descent rate from flight data (B737 data for B39M via synonym);
+            # replaced the fixed 1,500 ft/min on 2026-10-29
+            self.descent_rate_fpm = float(WRAP(aircraftType, use_synonym=True).descent_vs_conmach()["default"]) * M_S_TO_FPM
 
     def cruise_fuel_flow(self, massKg: float, machNumber: float, altitudeFt: float, verticalSpeedFtPerMin: float = 0.0) -> float:
         """Fuel flow in kg/s."""
@@ -186,7 +190,7 @@ class Scenario:
             sc.name = "similar-weights"
             for a in sc.flights[:2]:
                 a.cruise.massKg = sc.nominalMassKg
-                a.costIndex = 1.0
+                a.costIndex = sc.costs["nominal_cost_index"]
         elif variation:
             raise SystemExit(f"unknown variation {variation!r}")
         for a in sc.flights:
@@ -263,7 +267,7 @@ def maneuver_cost(perf: PerformanceModel | None, sc: Scenario, ac: ScenarioFligh
             cost.unable = True
             cost.note = f"cannot hold FL{int(new_alt/100)} at {mass:.0f} kg"
             return cost
-        rate = perf.climb_rate_fpm(mass, ac.cruise.machNumber, ac.cruise.altitudeFt, new_alt) if man.deltaFt > 0 else DESCENT_RATE_FPM
+        rate = perf.climb_rate_fpm(mass, ac.cruise.machNumber, ac.cruise.altitudeFt, new_alt) if man.deltaFt > 0 else perf.descent_rate_fpm
         t_change_h = abs(man.deltaFt / rate) / 60.0
         ff_change = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, (ac.cruise.altitudeFt + new_alt) / 2, verticalSpeedFtPerMin=rate)
         ff_new = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, new_alt)
@@ -299,8 +303,8 @@ def maneuver_cost(perf: PerformanceModel | None, sc: Scenario, ac: ScenarioFligh
         return cost
 
     if kind == "slow":
-        new_mach = ac.cruise.machNumber - g["slow_ac3_mach"]
-        t_h = g["slow_ac3_min"] / 60.0
+        new_mach = ac.cruise.machNumber - g["slow_mach"]
+        t_h = g["slow_min"] / 60.0
         ff_slow = perf.cruise_fuel_flow(mass, new_mach, ac.cruise.altitudeFt)
         dist = tas * t_h  # NM covered at the slower speed during the hold
         t_slow_h = dist / tas_kt(new_mach, ac.cruise.altitudeFt)
@@ -391,15 +395,15 @@ def decide(sc: Scenario, case: str, perf: PerformanceModel | None, scores_by_mas
     #TODO: Why is perf==None being handled only as instructions"""
     if case == "A":
         # One descent clearance (rantanen2012conflictManeuvers). Tie-breaker: move the
-        # crossing aircraft with farther to go (farther from top of descent).
-        pair = sorted(sc.flights[:2], key=lambda a: -a.distanceToGoNm)
+        # crossing aircraft with no in-trail traffic on its track first (owner 2026-10-29).
+        pair = sorted(sc.flights[:2], key=lambda a: a.flightNumber != sc.geometry["case_a_moves_first"])
         for ac in pair:
             for opt in sc.options:
                 man = opt.maneuver_for(ac.flightNumber)
                 if man and man.kind == "altitude" and man.deltaFt < 0 and len(opt.maneuvers) == 1:
                     ok, why = option_feasible_for_decider(sc, opt, case, perf)
                     if ok:
-                        return opt.optionId, f"rule: one descent; {ac.flightNumber} moved (farther to go)"
+                        return opt.optionId, f"rule: one descent; {ac.flightNumber} moved (no in-trail traffic on its track)"
             # a descent blocked under the crossing: the combined option (descend + open a gap)
             for opt in sc.options:
                 man = opt.maneuver_for(ac.flightNumber)
@@ -423,7 +427,7 @@ def decide(sc: Scenario, case: str, perf: PerformanceModel | None, scores_by_mas
         for ac in sc.flights:
             c = sc_opt.per_aircraft[ac.flightNumber]
             share = ac.performanceShare if case in ("C", "D") else None  # A and B are not given the share
-            ci = share.costIndex if share else 1.0  # B knows no cost index: time at 1 kg/min
+            ci = share.costIndex if share else sc.costs["nominal_cost_index"]  # B knows no cost index: a typical one
             est += c.delta_fuel_kg + ci * c.delta_time_min
             if case == "D" and share.delayMarginMin is not None:
                 over = c.delta_time_min > share.delayMarginMin >= 0

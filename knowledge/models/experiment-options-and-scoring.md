@@ -322,4 +322,30 @@ What changed: the cost of a climb to a higher level barely moved (O4 13.0 to 12.
 
 **Not rigged, and not yet a result either.** The run is one afternoon old. Before any of it goes in the report: confirm the Decide items, run the variations, and read across the rows for who pays (AC3 and airline X carry O9's second instruction).
 
+### Fourth run (2026-10-29): descents at OpenAP's typical rate
+
+Same scenario as the third run, with the hold (15 min) and the sector and routes now confirmed. The only change: a descent is flown at OpenAP's typical constant-Mach descent rate for the type (WRAP `descent_vs_conmach`, about 1,110 ft/min, B737 data via synonym) instead of a fixed 1,500 ft/min, so a 4,000 ft descent takes 3.6 min instead of 2.7. Owner's request, to match `report/figures/scenario_altitude_vs_time.png`.
+
+| Case | Option chosen | System fuel (kg, vs undisturbed) | Third run |
+|---|---|---|---|
+| A | O8 | +32.3 | +32.0 |
+| B | O9 | +15.9 | +16.0 |
+| C | O4 | +12.4 | +12.4 |
+| D | O4 | +12.4 | +12.4 |
+
+No case changed its choice; descending options moved by 0.1 to 0.3 kg. 32 tests pass.
+
+### Fifth run (2026-10-29): scenario numbers confirmed
+
+Every Decide item in `experiment-scenario-numbers.md` answered by the owner. Changes from the fourth run: cost indexes on Boeing's scale (AC1 CI 60 = 45.36 kg/min, AC2 and AC3 CI 10 = 7.56, AC4 CI 30 = 22.68); case B and the similar-weights variation assume CI 30 (22.68 kg/min, Claude's choice, to confirm) in place of 1.0; fuel 2.50 USD/kg; O9 slows AC3 and AC4 by 0.04 Mach for 12 minutes; new option O10 (AC2 descends 4,000 ft); case A moves AC2 first. Vector stays 6 NM.
+
+| Case | Option chosen | System fuel (kg) | Largest cost to one aircraft (fuel-equiv kg) | Fourth run |
+|---|---|---|---|---|
+| A | O10: AC2 descends 4,000 ft | +41.2 | 40.1 (AC2) | O8, +32.3 |
+| B | O8: AC1 descends 4,000 ft | +32.3 | 25.9 (AC1) | O9, +15.9 |
+| C | O4: AC2 climbs 2,000 ft | +12.4 | 12.4 (AC2) | O4, +12.4 |
+| D | O4 | +12.4 | 12.4 (AC2) | O4, +12.4 |
+
+B minus A is −8.9 kg of system fuel; C minus B is −19.9 kg. B no longer picks O9: slowing two aircraft by 0.04 Mach for 12 minutes costs 12.2 kg of fuel each (OpenAP puts Mach 0.80 at the best fuel per mile at FL360, so slowing costs fuel as well as time) plus 0.63 min each, valued at CI 30. **Sensitivity:** B's choice turns on the nominal cost index it assumes. Re-run at 0.5 to 45.36 kg/min: B picks O8 above about 9.9 kg/min (CI 13) and the vector O5 (AC1 turns behind, +28.9 kg system fuel) below it. So B minus A and C minus B both depend on an assumed value that is not confirmed. Similar-weights variation: A O10, B O8, C and D O3 (AC1 climbs), so C still differs from B. 32 tests pass.
+
 A scope note: §4 is as far as the scoring should go as a capability inside the architecture. The owner's own note says the same: this is not an optimization paper, it is an exploration of what interchangeable models are worth. If the next step looks like tuning weights or searching a larger option space, that is the pull to flag.

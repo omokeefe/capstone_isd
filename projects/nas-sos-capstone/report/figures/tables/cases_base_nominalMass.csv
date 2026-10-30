@@ -1,0 +1,5 @@
+case,label,option,reason,"largest cost to any one aircraft (fuel-equiv kg, vs A)",airline totals USD (vs A),sector: clearances / effort / risk,system fuel kg (vs A),system CO2 kg (vs A),missed connection
+A,"rule, today's information",O10,rule: one descent; AC2 moved (no in-trail traffic on its track),35.7 (AC2); vs A +0.0,X: 0 (+0); Y: 91 (+0); Z: 0 (+0),1+1 / 1 / low,36.7 (+0.0),116.1,no
+B,"automation, nominal model",O8,lowest estimated cost 33.5 (kg fuel-equivalent),30.3 (AC1); vs A -5.3,X: 78 (+78); Y: 0 (-91); Z: 0 (+0),1+1 / 3 / low,36.7 (+0.0),116.1,no
+C,"automation, shared weight and cost index",O4,lowest estimated cost 12.4 (kg fuel-equivalent),16.0 (AC2); vs A -19.7,X: 0 (+0); Y: 41 (-50); Z: 0 (+0),1+1 / 3 / low,16.0 (-20.8),50.4,no
+D,case C plus connection information,O4,lowest estimated cost 12.4 (kg fuel-equivalent),16.0 (AC2); vs A -19.7,X: 0 (+0); Y: 41 (-50); Z: 0 (+0),1+1 / 3 / low,16.0 (-20.8),50.4,no

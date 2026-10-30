@@ -19,12 +19,12 @@ The scenario used to explore the value of the proposed interface is a simple one
 \label{fig:scenario-plan}
 \end{figure}
 
-The crossing pair is at FL380, which places the heavy aircraft is near its service ceiling (Figure~\ref{fig:envelope}). The two trailing aircraft are at FL360. The scenario is shown in profile view in Figure~\ref{fig:scenario-profile}. The scenario is static, with no time evolution, similar to the studies that informed the scenario (\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).
+The crossing pair is at FL380, which places the heavy aircraft is near its service ceiling (Figure~\ref{fig:envelope}). The two trailing aircraft are at FL360. The decision is made 12 minutes before AC1 and AC2 reach the waypoint. Figure~\ref{fig:scenario-profile} shows what follows when AC2 is moved down 4,000 ft: it descends for about 3.6 minutes, holds FL340 for 15 minutes while AC1, AC3 and AC4 pass, and climbs back for about 6.4 minutes. The 15-minute hold is about 5 minutes longer than the least that would let the three aircraft pass at minimum separation, which allows for delays in radio contact. Apart from this timeline, the scenario is a single snapshot that is scored, not simulated over time, as in the studies that informed it (\cite{kirwan2001coraStrategies}, \cite{fothergill2013resolutionHeuristics}).
 
 \begin{figure}[htbp]
 \centering
-\figorbox[0.6\textwidth]{4-ac-scenario_altitude_vs_time_plot.png}{\texttt{attachments/4-ac-scenario\_altitude\_vs\_time\_plot.png}}
-\caption{Level of each aircraft against its time at the waypoint. AC1 and AC2 arrive together at FL380.}
+\figorbox[0.95\textwidth]{scenario_altitude_vs_time.png}{\texttt{figures/scenario\_altitude\_vs\_time.png}}
+\caption{Level against time when AC2 is moved down 4,000 ft and back. The decision is made 12 minutes before AC1 and AC2 reach the waypoint and the descent starts a minute later; AC2 holds FL340 for 15 minutes while AC1, AC3 and AC4 pass, then climbs back. Descent and climb times are from OpenAP at AC2's mass.}
 \label{fig:scenario-profile}
 \end{figure}
 
@@ -77,12 +77,13 @@ O5 & Turn behind AC2 & -- & -- & -- \\
 O6 & -- & Turn behind AC1 & -- & -- \\
 O7 & Reduce speed & -- & -- & -- \\
 O8 & Descend 4,000 ft & -- & -- & -- \\
-O9 & Descend 2,000 ft & -- & Slow or turn & --\\
+O9 & Descend 2,000 ft & -- & Slow 0.04 Mach & Slow 0.04 Mach \\
+O10 & -- & Descend 4,000 ft & -- & -- \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\plantodo{S11}{\textbf{Resolution options.} State which aircraft descends and the tie-breaker (undecided), and whether the aircraft is cleared back up. For each option give the instructions it costs now, the follow-up it creates, and what the decider must know to use it. Cite \cite{fothergill2013resolutionHeuristics} for the instruction accounting.}
+\plantodo{S11}{\textbf{Resolution options.} State which aircraft descends and the tie-breaker (decided 2026-10-29: case A moves AC2, which has no in-trail traffic on its track), and whether the aircraft is cleared back up. For each option give the instructions it costs now, the follow-up it creates, and what the decider must know to use it. Cite \cite{fothergill2013resolutionHeuristics} for the instruction accounting.}
 
 The conflict depicted in the scenario can be resolved by several options, which are listed in Table~\ref{tab:options} and are available to all four cases, with the exception of options 3 and 4, which are not available for cases A and B for reasons described previously.
 
@@ -92,7 +93,7 @@ Options 3 and 4 are climbs of the heavy and light aircraft, respectively, which 
 
 In Options 5 and 6, a lateral modification is assigned by the controller to achieve separation without the need for changes to flight level. Option 7 considers a speed reduction of the heavy aircraft, which is a less common resolution option, but which is practical and straight forward way to achieve separation if there is sufficient separation on either side of the pair. Aircraft 3 and 4 complicate its application to this scenario. 
 
-Option 8 is a 4,000 ft descent of the heavy aircraft, which a controller may deem necessary to simplify the separation with aircraft 3 and 4, which are in trail 2,000 ft below aircraft 1. Option 9 is a descent of the heavy aircraft and a speed reduction or turn of the light aircraft, which is a less common resolution option.
+Option 8 is a 4,000 ft descent of the heavy aircraft, which a controller may deem necessary to simplify the separation with aircraft 3 and 4, which are in trail 2,000 ft below aircraft 1. Option 9 is a descent of the heavy aircraft to FL360 with AC3 and AC4 both slowed by 0.04 Mach (to Mach 0.76, about 440 KTAS) for 12 minutes, which opens a gap of more than 3 NM ahead of AC3 for AC1 to descend into; it is a less common resolution option and the only one that moves three aircraft. Option 10 is a 4,000 ft descent of the light aircraft, the mirror of option 8.
 
 While not comprehensive, this set of options is representative of controller practices. \cite{fothergill2013resolutionHeuristics} found that controllers relied on five lateral vectoring heuristics and eight vertical level-change heuristics to resolve potential conflicts between aircraft. \cite{rantanen2012conflictManeuvers} found that level-offs constituted the most frequent maneuver category, which are only applicable to aircraft ascending or descending and which represented 44\%. Turns were the next most frequent, at 32\%, followed by descents at 18\%, and climbs at 5\%. Turns occurred much less frequently than vertical trajectory changes, accounting for 32\% compared with 68\%. These percentages reflect actions taken across all types of conflicts, rather than the cruise scenario alone. 
 
@@ -116,9 +117,9 @@ Individual aircraft costs are limited to time and fuel, and are equated through 
 c_i = \Delta m_{f,i} + \mathit{CI}_i\, \Delta t_i ,
 \label{eq:ac-cost}
 \end{equation}
-where the extra fuel $\Delta m_{f,i}$ and the extra time $\Delta t_i$ are the option minus the baseline of flying on undisturbed, and $\mathit{CI}_i$ is the cost index of aircraft $i$ in kilograms of fuel per minute.
+where the extra fuel $\Delta m_{f,i}$ and the extra time $\Delta t_i$ are the option minus the baseline of flying on undisturbed, and $\mathit{CI}_i$ is the cost index of aircraft $i$ in kilograms of fuel per minute. Boeing states the cost index as the cost of time in dollars per hour over the cost of fuel in cents per pound, on a scale of about 0 to 100, with fuel-saving operations below 15 and time-critical ones above 60; one unit is 100 lb of fuel per hour, or 0.756 kg/min. The scenario gives AC1 a cost index of 60 (45.4 kg/min), AC2 and AC3 10 (7.6 kg/min) and AC4 30 (22.7 kg/min).
 
-An airline's cost is the sum over its aircraft plus a step cost when a flight misses a connection, plus CO2 converted to dollars. 
+An airline's cost is the sum over its aircraft plus a step cost when a flight misses a connection, plus CO2 converted to dollars. Fuel is priced at \$2.50 per kg (about \$7.60 per gallon, within the \$4.80 to \$8.47 per gallon seen for Jet-A with airport markups) and CO2 at \$15 per tonne, a CORSIA-style credit price.
 
 The cost experienced by the sector include all individual aircraft costs as well as clearances issued, effort to devise them, and residual risk. The latter three costs are associated with the sector
 
@@ -130,7 +131,7 @@ Total airspace cost is that of the system of interest, and totals all costs expe
 \subsubsection{Case Considerations}
 
 
-Case A applies its rule, one descent. Each automated case chooses, among the options it is allowed to offer, the option whose estimated total of Eq.~\ref{eq:ac-cost} over all aircraft is lowest. Case B uses the type's nominal mass for every aircraft and values time at 1 kg/min. Cases C and D use each aircraft's actual mass and cost index. Case D also rejects an option that delays a flight with connections past its threshold. Whatever a case chooses is then scored at the actual masses, and that score is what the tables report.
+Case A applies its rule, one descent. Each automated case chooses, among the options it is allowed to offer, the option whose estimated total of Eq.~\ref{eq:ac-cost} over all aircraft is lowest. Case B uses the type's nominal mass for every aircraft and values time at a typical cost index of 30 (22.7 kg/min). Cases C and D use each aircraft's actual mass and cost index. Case D also rejects an option that delays a flight with connections past its threshold. Whatever a case chooses is then scored at the actual masses, and that score is what the tables report.
 
 Schedule reliability enters as a step cost, as described by \cite{pilon2019udppMargins}, which occurs when a flight with connections is delayed past a given threshold. At the time threshold associated with missed connections, the flight incurs a cost $K$ on top of Eq.~\ref{eq:ac-cost}. No sourced value of $K$ is presently held, so the tables report whether the threshold is crossed, not a dollar figure. This may change in a future draft. 
 
@@ -151,7 +152,7 @@ Each aircraft is a point mass in steady flight at a constant Mach number. Drag, 
 
 \plantodo{S11, S12}{\textbf{OpenAP Review}Read Sections 5 and 7 of the OpenAP paper (pp.~6 to 17) before submission. What the paper says about its own accuracy is in \texttt{evidence/literature-notes/summaries/4 - sun2020openap.md} and belongs in the discussion of the truth model's uncertainty (Section~\ref{sec:experiment-results}).}
 
-A descent is flown at 1,500 ft/min. A climb is flown at maximum thrust, at the rate that thrust allows and no more than 1,500 ft/min. A level is available to an aircraft only if it would still have 150 ft/min of climb left there. Cases A and B do not know the mass and so cannot make that test; they offer a climb only at or below FL350, which the scenario does not explore. Cases C and D make it at the aircraft's actual mass. Figure~\ref{fig:envelope} depicts a typical flight envelope, drawn assuming lift equals weight and using the OpenAP models. 
+A descent is flown at OpenAP's typical constant-Mach descent rate for the type, about 1,100 ft/min. A climb is flown at maximum thrust, at the rate that thrust allows and no more than 1,500 ft/min. A level is available to an aircraft only if it would still have 150 ft/min of climb left there. Cases A and B do not know the mass and so cannot make that test; they offer a climb only at or below FL350, which the scenario does not explore. Cases C and D make it at the aircraft's actual mass. Figure~\ref{fig:envelope} depicts a typical flight envelope, drawn assuming lift equals weight and using the OpenAP models. 
 
 \begin{figure}[htbp]
 \centering

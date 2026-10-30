@@ -72,7 +72,7 @@ def test_speed_lever_fails(base):
 def test_instruction_counts_match_options_table(base):
     """Instructions now per experiment-options-and-scoring.md section 2."""
     sc, res = base
-    expected_now = {"O1": 1, "O2": 1, "O3": 1, "O4": 1, "O5": 1, "O6": 1, "O7": 1, "O8": 1, "O9": 2}
+    expected_now = {"O1": 1, "O2": 1, "O3": 1, "O4": 1, "O5": 1, "O6": 1, "O7": 1, "O8": 1, "O9": 3, "O10": 1}
     for oid, n in expected_now.items():
         assert res["truth"][oid].total_instructions() == n, oid
 

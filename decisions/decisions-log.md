@@ -6,6 +6,28 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-037 — Experiment scenario numbers confirmed
+
+**Date:** 2026-10-29
+**Status:** active. Owner answered every Decide item in `knowledge/models/experiment-scenario-numbers.md` (OOK 10/29/2026 notes) and four follow-up questions in session. Amends D-013 to D-015 and D-023 where values changed.
+
+**Decision:**
+
+1. **Confirmed as proposed:** sector (ZFW), crossing routes (AC1 MCO-LAX, AC2 IAH-DEN), nominal mass 67,000 kg, carbon price 15 USD/t, schedule deltas, 12-minute connection threshold.
+2. **Maneuver hold: 15 minutes level at the new altitude.** AC2 needs about 3.6 min to descend 4,000 ft and 6.3 min to climb back (OpenAP); about 10 min level is the least that lets AC1, AC3 and AC4 pass at minimum separation; 15 allows for radio delays.
+3. **Descent rate from OpenAP** (WRAP typical constant-Mach descent, about 1,110 ft/min) in place of a fixed 1,500 ft/min.
+4. **Cost index on Boeing's scale,** converted at 1 CI = 100 lb/hr = 0.756 kg/min: AC1 CI 60 (45.36 kg/min), AC2 and AC3 CI 10 (7.56), AC4 CI 30 (22.68) [SME]. **Case B and the similar-weights variation assume CI 30** (22.68 kg/min), the middle of the range, in place of 1.0 kg/min.
+5. **Fuel price 2.50 USD/kg** (about 7.60 USD/gal; owner: Jet-A seen at 4.80 to 8.47 USD/gal with airport markups).
+6. **Vector stays a 6 NM path stretch**, flown over the roughly 90 NM to the crossing. A 5 NM parallel offset (the owner's first proposal) was rejected: AC2's track still crosses the offset track, leaving about 1.8 NM at closest approach at the 43° crossing; passing behind needs about 5.4 NM of delay (5 ÷ cos 21.5°).
+7. **O9 slows AC3 and AC4 by 0.04 Mach (to 0.76) for 12 minutes**, opening 3+ NM ahead of AC3 (was AC3 only, 0.02 Mach for 10 minutes).
+8. **Case A's tie-breaker moves AC2**, the crossing aircraft with no in-trail traffic on its track (was "farther to go", AC1). This needs **a new option O10, AC2 descends 4,000 ft**, because AC2's 2,000 ft descent is blocked by AC3 and AC4.
+
+**Rationale:** the result had moved with every unconfirmed number (C − B went 0, 0.1, 3.6 kg over three runs); nothing about it could be defended until the inputs were fixed. The cost-index rescale brings the values onto the scale airlines use, where the old values (CI 1 to 3) were effectively CI 0.
+
+**Consequences:** fifth run (`experiment-options-and-scoring.md` §8): A O10 +41.2 kg, B O8 +32.3, C and D O4 +12.4; B − A = −8.9 kg, C − B = −19.9 kg. Case B's choice turns on item 4: below about 9.9 kg/min (CI 13) it picks the vector O5. Files: `simulation/scenario_base.yaml`, `simulation/experiment_scoring.py`, `simulation/scenario_profile.py` (new, Figure 12), `report/sections/05_experiment.tex`, generated tables and `results/experiment_results.sysml`. 32 tests pass.
+
+---
+
 ## D-036 — Each analysis-based verification procedure starts by confirming the tool matches the model
 
 **Date:** 2026-10-28

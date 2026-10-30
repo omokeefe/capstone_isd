@@ -1,0 +1,11 @@
+option,feasible,why,AC1 fuel kg,AC2 fuel kg,AC3 fuel kg,AC4 fuel kg,AC1 time min,AC2 time min,AC3 time min,AC4 time min,airline X USD,airline Y USD,airline Z USD,instructions,follow-ups,risk,system fuel kg,system CO2 kg,largest fuel-equiv kg (ac)
+O1,no,FL360 occupied under the crossing,,,,,,,,,,,,1,1,low,,,
+O2,no,FL360 occupied under the crossing,,,,,,,,,,,,1,1,low,,,
+O3,yes,,,,,,,,,,,,,1,1,low,,,
+O4,yes,,,,,,,,,,,,,1,1,low,,,
+O5,yes,,,,,,,,,,,,,1,1,medium,,,
+O6,yes,,,,,,,,,,,,,1,1,medium,,,
+O7,no,AC1 unable: built to fail: cannot separate the pair within +/-0.04 Mach,,,,,,,,,,,,1,1,high,,,
+O8,yes,,,,,,,,,,,,,1,1,low,,,
+O9,yes,,,,,,,,,,,,,3,1,medium,,,
+O10,yes,,,,,,,,,,,,,1,1,low,,,
