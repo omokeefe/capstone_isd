@@ -63,7 +63,7 @@ from typing import Any
 import yaml
 
 from nas_types import (
-    AirlinePerformanceShare,
+    ExperimentPerformanceShare,
     CruiseCondition,
     FidelityLevel,
     Flight,
@@ -150,14 +150,14 @@ class PerformanceModel:
 
 
 # --------------------------------------------------------------------------- scenario
-def airline_share(ac: ScenarioFlight, connection_threshold_min: float) -> AirlinePerformanceShare:
+def airline_share(ac: ScenarioFlight, connection_threshold_min: float) -> ExperimentPerformanceShare:
     """What the airline would send about one flight (``ScenarioFlight.performanceShare``).
 
     The airline keeps its schedule and connection data and states one number: the minutes
     of further delay the flight can take before connections are lost.
     """
     margin = connection_threshold_min - ac.scheduleDeltaMin if ac.hasConnections else None
-    return AirlinePerformanceShare(grossWeightKg=ac.cruise.massKg, costIndex=ac.costIndex, delayMarginMin=margin)
+    return ExperimentPerformanceShare(grossWeightKg=ac.cruise.massKg, costIndex=ac.costIndex, delayMarginMin=margin)
 
 
 @dataclass

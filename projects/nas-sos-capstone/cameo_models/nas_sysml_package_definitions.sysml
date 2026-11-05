@@ -137,16 +137,49 @@ package NationalAirspaceSystem {
             attribute instruction: String;   // e.g. "descend FL360", "reduce M0.78"
         }
 
+        item def ConflictAlert {
+            doc /* A predicted loss of separation between two aircraft, from the conflict probe
+             * (EDST, JO 7110.65BB 13-1-1). Goes to the controller; the crews never see it.
+             * Moved here from nas_sequence_case_c.sysml (D-040). */
+        }
+
+        item def ResolutionAdvisory {
+            doc /* The resolution options ATC decision support offers the controller, each with
+             * its estimated impact (HLR-ATC-10, HLR-ATC-11). In the experiment, the scored
+             * NasAnalysis::ResolutionOption (D-040). */
+        }
+
+        port def DecisionSupportAdvisoryPort {
+            doc /* Supplier side: ATC decision support to the controller (D-040). The controller's
+             * side is the conjugate, AirTrafficControlSystem::controllerPosition. */
+            out item alert: ConflictAlert;
+            out item options: ResolutionAdvisory;
+        }
+
+        part def AtcDecisionSupport :> DecisionSupport::DecisionSupportSystem {
+            doc /* ATC's own decision support (D-012): the conflict probe, the trajectory
+             * predictor and, in the improved architecture, the option generator and scorer.
+             * It receives the airline's performance share passed on from atc's boundary port,
+             * and gives its alerts and scored options to the controller (D-040). Its own type,
+             * so these two ports stay off the other actors' decision support. */
+            port performanceShareIn: ~FlightOperations::AirlinePerformanceSharePort;
+            port advisoriesOut: DecisionSupportAdvisoryPort;
+        }
+
         part def AirTrafficControlSystem {
             doc /* Top-level ATC system node per candidate-systems-inventory.md. */
             // ATC's own decision support (D-012), e.g. conflict probes and trajectory predictors.
-            part decisionSupport: DecisionSupport::DecisionSupportSystem;
+            part decisionSupport: AtcDecisionSupport;
             // Inputs from outside the SoI (D-012). Drawn as ports; the sender is not drawn.
             in port rulesIn;   // Governance: 14 CFR, JO 7110.65 / 7210.3
             // IMPROVED ARCHITECTURE (D-019): receives the airline's performance share for the
             // flights it decides about (SLR-INF-02). That it discloses it to no one else is an
             // assumption, not a requirement (D-020). Conjugate of the AOC's supplier port.
             port performanceShareIn: ~FlightOperations::AirlinePerformanceSharePort;
+            // Where the decision support's alerts and scored options reach the controller
+            // (D-040). atc stands for the sector controller or team and stays one box (D-038),
+            // so the controller's position is a port on atc, not a part of its own.
+            port controllerPosition: ~DecisionSupportAdvisoryPort;
         }
 
         part def TRACON {
@@ -159,10 +192,10 @@ package NationalAirspaceSystem {
 
         part def ATCSCC {
             doc /* Air Traffic Control System Command Center — national traffic-flow authority. */
-            // Inputs from outside the SoI (D-012). Why these two arrive here and not at the
-            // TMU or the controllers is an open question (open-questions.md, 2026-10-08).
+            // Input from outside the SoI (D-012). Why it arrives here and not at the TMU or the
+            // controllers is an open question (open-questions.md, 2026-10-08). The special-use
+            // airspace input was removed 2026-11-05 (D-040): no source and no experiment use.
             in port weatherIn;              // Infrastructure: weather service
-            in port specialUseAirspaceIn;   // Military: special-use airspace status
         }
 
         part def TMU {
@@ -340,24 +373,22 @@ package NationalAirspaceSystem {
         }
 
         item def AirlinePerformanceShare {
-            doc /* IMPROVED ARCHITECTURE (D-019, 2026-10-10). What the airline, or the FMS on
-             * its behalf, shares with the party that decides a change to one flight's
-             * trajectory. The digital-thread payload the project's thesis names. The first
-             * three attributes are what the experiment exercises (cases C and D; requirement
-             * SLR-INF-02, which covers all three since D-020). The three model references are present so the full
-             * vision (thrust, drag and fuel-flow models exposed through an airline API) is in
-             * the model; they are NOT exercised by the experiment. Confidentiality is an
-             * assumption (D-019 item 3 as amended by D-020), not a mechanism modeled here.
+            doc /* IMPROVED ARCHITECTURE (D-019, 2026-10-10; abstracted 2026-11-05, D-040). What
+             * the airline, or the FMS on its behalf, shares with the party that decides a
+             * change to one flight's trajectory: the aircraft's current state, its
+             * performance, and the airline's priorities for the flight (SLR-INF-02,
+             * HLR-OPS-05). The digital-thread payload the project's thesis names. How the
+             * experiment represents it (gross weight, cost index, delay margin) is
+             * NasAnalysis::ExperimentPerformanceShare, which specializes this item; the
+             * architecture does not depend on that choice. Confidentiality is an assumption
+             * (D-019 item 3 as amended by D-020), not a mechanism modeled here.
              * Compare coppenbarger1999climbPrediction Table 2 (take-off weight, thrust and
              * drag factors, speed profile, offered from the AOC to ground automation) and
-             * SESAR's ADS-C EPP (the FMS's predicted profile, downlinked to ATC): same items,
-             * a different receiver and a different decision. */
-            attribute grossWeightKg: Real;            // the FMS's current gross weight
-            attribute costIndex: Real;                // the flight's cost index (kg of fuel per minute, or the airline's own units)
-            attribute delayMarginMin: Real[0..1];     // connection priority (case D), stated as the minutes of further delay the flight can take before connections are lost; absent = no connection constraint. Replaced connectionPriority: Integer on 2026-10-11 (D-025): the airline states a margin and keeps its schedule and connection data to itself. Precedent: the "Time not after" an airline assigns a flight in SESAR's UDPP Margins feature (pilon2019udppMargins Section III.C.3, p. 3), there for slot prioritisation before departure, not for a tactical clearance
-            attribute thrustModelRef: String[0..1];   // unexercised: identifier of the airline's thrust model
-            attribute dragModelRef: String[0..1];     // unexercised: identifier of the airline's drag model
-            attribute fuelFlowModelRef: String[0..1]; // unexercised: identifier of the airline's fuel-flow model
+             * SESAR's ADS-C EPP (the FMS's predicted profile, downlinked to ATC): the same kind
+             * of information, a different receiver and a different decision. */
+            attribute aircraftState[0..*];       // e.g. gross weight, fuel on board, the FMS's predicted profile
+            attribute aircraftPerformance[0..*]; // e.g. thrust, drag and fuel-flow models; optimum and maximum altitudes
+            attribute airlinePriorities[0..*];   // e.g. the cost of time against fuel; connections to protect
         }
 
         port def AirlinePerformanceSharePort {

@@ -136,6 +136,18 @@ package NasAnalysis {
         attribute maneuvers : Maneuver[1..*];
     }
 
+    item def ExperimentPerformanceShare :> NationalAirspaceSystem::FlightOperations::AirlinePerformanceShare {
+        doc /* How the experiment represents the airline's share (D-040). The aircraft's state
+         * is its gross weight; the airline's priorities are its cost index (the cost of time,
+         * kg of fuel per minute) and, in case D, its delay margin. The aircraft's performance
+         * is not carried: the decider applies the type's performance model
+         * (actualPerformance) at the shared weight. Section 5 of the report gives this
+         * detail; the architecture names only the abstract item. */
+        attribute grossWeightKg : Real :> aircraftState;              // the FMS's current gross weight
+        attribute costIndex : Real :> airlinePriorities;              // kg of fuel per minute
+        attribute delayMarginMin : Real[0..1] :> airlinePriorities;   // minutes of further delay before connections are lost; absent = no connection constraint
+    }
+
     part def ScenarioFlight {
         doc /* One flight as the experiment needs it: where it is, what it would cost its
          * airline to move it, and what the airline would share about it. The truth model
@@ -148,7 +160,7 @@ package NasAnalysis {
         attribute costIndex : Real;           // airline's fact: kg of fuel per minute
         attribute scheduleDeltaMin : Real;    // airline's fact: positive = late on entry
         attribute hasConnections : Boolean;   // airline's fact
-        item performanceShare : NationalAirspaceSystem::FlightOperations::AirlinePerformanceShare;
+        item performanceShare : ExperimentPerformanceShare;
         // performanceShare is derived from the facts above, as the airline would send it:
         // grossWeightKg = cruise.massKg; costIndex = costIndex; delayMarginMin =
         // the connection threshold minus scheduleDeltaMin when hasConnections, else absent.

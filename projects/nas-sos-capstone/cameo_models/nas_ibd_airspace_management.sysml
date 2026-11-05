@@ -24,13 +24,23 @@ package AirspaceManagementIBD {
         //   (c) keep all flat and accept the overlap at context level only.
         // (b) keeps the context diagram's rendered `atc` endpoint unchanged while the IBD
         // opens it up; it needs `tracon` / `artcc` to move under AirTrafficControlSystem in the
-        // definitions. Not decided.
+        // definitions. Decided 2026-11-05 (D-038): (c), atc stays one box. Only its decision
+        // support is opened up, for the studied exchange (D-040).
         #IBDVisible part airspaceMgmt: AirspaceManagementDomain {
             #IBDVisible part :>> atc {
                 // IMPROVED ARCHITECTURE (D-019). Drawn here so the report can point at the
                 // port the aircraft performance data would arrive on (owner's 2026-10-19
                 // print, Section 3.6: "be able to point to the port that would have the I/O").
                 #IBDVisible port :>> performanceShareIn;
+                // D-040: the decision support inside atc, and the two links the "Case C
+                // Conflict Resolve" sequence needs (its gaps G1 and G2).
+                #IBDVisible part :>> decisionSupport {
+                    #IBDVisible port :>> performanceShareIn;
+                    #IBDVisible port :>> advisoriesOut;
+                }
+                #IBDVisible port :>> controllerPosition;
+                #IBDVisible connection shareToDecisionSupport connect performanceShareIn to decisionSupport.performanceShareIn;
+                #IBDVisible connection advisoriesToController connect decisionSupport.advisoriesOut to controllerPosition;
             }
             #IBDVisible part :>> tracon;
             #IBDVisible part :>> artcc;
@@ -85,6 +95,9 @@ package AirspaceManagementIBD {
         comment about airspaceMgmt::requestsToAtc /* [A] Crew requests, read-backs and reports by voice or datalink (atcToCrew, atcAircraftDatalink). */
         comment about airspaceMgmt::clearancesFromAtc /* [A] Clearances and instructions, including the conflict-resolution instruction (item AirspaceManagement::Clearance; atcToCrew). */
         comment about airspaceMgmt::tfmTools /* [A] The ATCSCC works through the TFM tools (TFMS, FSM, NTML, TBFM, DRT): media, not a party (D-007 absorbed; JO 7210.3EE 18-5-3, 18-10-3). The TMUs use the same tools; that link is not drawn. Owner's "?" on the 2026-10-19 print. */
+
+        comment about airspaceMgmt::atc::shareToDecisionSupport /* [B] IMPROVED (D-019, D-040). The airline's performance share, passed from atc's boundary port to the decision support that uses it (HLR-ATC-08). */
+        comment about airspaceMgmt::atc::advisoriesToController /* [A] Conflict alerts and scored resolution options from the decision support to the controller (EDST, JO 7110.65BB 13-1-1; HLR-ATC-02, HLR-ATC-10, HLR-ATC-11). */
 
         #IBDVisible connection trafficManagementInitiatives connect airspaceMgmt.atcscc to airspaceMgmt.tmu;
         comment about trafficManagementInitiatives /* [A] National <-> local traffic flow management.

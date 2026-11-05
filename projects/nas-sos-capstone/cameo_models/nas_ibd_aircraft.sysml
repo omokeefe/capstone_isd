@@ -18,9 +18,16 @@ package AircraftIBD {
      *                tagged #IBDVisible: propulsion, airframe, landing gear, utilities
      *                (pitot-static included, with every air data link), cabin crew,
      *                passengers, and the fuel, power and physical-response links.
+     *   #IBDDefaultOnly  drawn only by MyViews::aircraftIbd: a summary link that stands
+     *                for detailed links hidden at the default level (D-040: the flight deck
+     *                controls are one box there, so their links start at the box).
      *   untagged     in the definitions for reference, drawn by neither view (engine
      *                internals, landing gear sub-parts, wings, empennage). To show one,
      *                redefine it here with a tag.
+     * Rule for the default level (D-040, owner's hand review 2026-11-05): a box shows its
+     * internals only where the studied decision's information or commands run between
+     * them (the avionics); otherwise it is drawn as one box (the crew, the flight deck
+     * controls, the flight control system).
      * To move something between levels, change its tag. A part is drawn only if its
      * container is drawn, and a connection only if both ends are.
      *
@@ -42,6 +49,10 @@ package AircraftIBD {
         doc /* Tag for elements only the detailed aircraft IBD view renders. */
     }
 
+    metadata def IBDDefaultOnly {
+        doc /* Tag for summary links only the default aircraft IBD view renders (D-040). */
+    }
+
     part def CommercialTransportAirlinerInternals {
         private import NationalAirspaceSystem::AircraftSystems::*;
         private import NationalAirspaceSystem::FlightCrew::*;
@@ -49,8 +60,8 @@ package AircraftIBD {
         // People on board are independent of the aircraft (D-007: Flight Crew is its own
         // domain, Passengers a boundary actor), so they are referenced, not owned.
         ref #IBDVisible part flightDeckCrew: FlightDeckCrew {
-            #IBDVisible part :>> captain;
-            #IBDVisible part :>> firstOfficer;
+            #IBDDetail part :>> captain;
+            #IBDDetail part :>> firstOfficer;
         }
         ref #IBDDetail part cabinCrew: CabinCrew;
         ref #IBDDetail part passengers[*];   // no part def: Common::Passenger is an attribute def
@@ -63,11 +74,11 @@ package AircraftIBD {
             in #IBDDetail port :>> ambientAir;
 
             #IBDVisible part :>> flightDeckControls {
-                #IBDVisible part :>> modeControlPanel;
-                #IBDVisible part :>> yokes;
-                #IBDVisible part :>> rudderPedals;
-                #IBDVisible part :>> configurationLevers;
-                #IBDVisible part :>> thrustLevers;
+                #IBDDetail part :>> modeControlPanel;
+                #IBDDetail part :>> yokes;
+                #IBDDetail part :>> rudderPedals;
+                #IBDDetail part :>> configurationLevers;
+                #IBDDetail part :>> thrustLevers;
             }
 
             #IBDVisible part :>> avionics {
@@ -117,10 +128,14 @@ package AircraftIBD {
             // ---- Default level: flight deck controls -> the systems they command ----
             // The crew's only paths to autoflight and the flight control system (D-012).
 
-            #IBDVisible connection mcpSelections connect flightDeckControls.modeControlPanel to avionics.autoFlightControlSystem;
-            #IBDVisible connection pitchRollInput connect flightDeckControls.yokes to flightControlSystem;
-            #IBDVisible connection yawInput connect flightDeckControls.rudderPedals to flightControlSystem;
-            #IBDVisible connection configurationInput connect flightDeckControls.configurationLevers to flightControlSystem;
+            // Default level: the flight deck controls are one box (D-040), so one link each to
+            // what they command. The detailed view draws the per-control links instead.
+            #IBDDefaultOnly connection autoflightSelections connect flightDeckControls to avionics.autoFlightControlSystem;
+            #IBDDefaultOnly connection manualControlInput connect flightDeckControls to flightControlSystem;
+            #IBDDetail connection mcpSelections connect flightDeckControls.modeControlPanel to avionics.autoFlightControlSystem;
+            #IBDDetail connection pitchRollInput connect flightDeckControls.yokes to flightControlSystem;
+            #IBDDetail connection yawInput connect flightDeckControls.rudderPedals to flightControlSystem;
+            #IBDDetail connection configurationInput connect flightDeckControls.configurationLevers to flightControlSystem;
 
             // ---- Default level: information and command inside the aircraft ----
 

@@ -41,7 +41,7 @@ package AircraftStates {
         entry; then onGroundBeforeDeparture;
 
         state onGroundBeforeDeparture {
-            doc /* From prework to takeoff: the Prework, PrepareForDeparture and Depart
+            doc /* From flight planning to takeoff: the PlanFlight, PrepareForDeparture and Depart
              * activities. */
         }
         state onPlannedTrajectory {

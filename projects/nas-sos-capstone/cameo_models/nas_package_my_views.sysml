@@ -48,7 +48,6 @@ package MyViews {
             // attribute exposeMode = "flat";
         }
 
-        // placement: body
         // caption: Airspace management internal block diagram
         view airspaceManagementIbd : InterconnectionView {
             attribute showInheritedRows = false;   // CLI only: hide inherited (^) rows such as performedActions
@@ -67,7 +66,7 @@ package MyViews {
             // controls, fuel system, boundary ports and the information / command links.
             // Draws only #IBDVisible elements.
             expose AircraftIBD::CommercialTransportAirlinerInternals::*::**;
-            filter @AircraftIBD::IBDVisible;
+            filter @AircraftIBD::IBDVisible or @AircraftIBD::IBDDefaultOnly;
         }
 
         // placement: body
@@ -89,12 +88,6 @@ package MyViews {
         }
 
         // One action-flow view per decomposed phase (owner's nominal-ops sequence, 2026-10-18).
-        // placement: body
-        // caption: Nominal operations, Prework: airline planning before flight planning
-        view preworkActivity : ActionFlowView {
-            expose NominalOpsActivity::Prework::**;
-        }
-
         // placement: body
         // caption: Nominal operations, Prepare for Departure: parallel fueling, FMS entry, configuration and gate turnaround
         view prepareForDepartureActivity : ActionFlowView {

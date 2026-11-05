@@ -38,13 +38,15 @@ package SystemLevelRequirements {
      *    number. Where a common figure is known but not yet confirmed, rationale says so.
      *
      * GOALS (D-020)
-     * SLR-CLR-13 carries obligation = goal and is written with "should": the owner
-     * judged it not required. It is measured by the experiment, not passed or failed.
+     * None since 2026-11-05. SLR-CLR-13 was a goal written with "should" until the owner
+     * made it a requirement (D-040): controllers weigh impact today, inside their own
+     * reasoning, if not as an explicit step.
      *
      * IMPROVED ARCHITECTURE (D-018)
-     * SLR-CLR-10, SLR-CLR-13, SLR-INF-02 describe what today's system does not do and
-     * carry architectureState = improved. They are what the experiment in
-     * knowledge/models/experiment-definition.md is about.
+     * SLR-CLR-13 and SLR-INF-02 describe what today's system does not do and carry
+     * architectureState = improved. They are what the experiment in
+     * knowledge/models/experiment-definition.md is about. SLR-CLR-10 was improved until
+     * 2026-11-05 (D-040): today's rule meets it by descending.
      *
      * 42 system requirements (23 in the study, 19 out) answer 30 stakeholder requirements.
      * If knowledge/models/requirements-and-traceability.md and this file disagree, this
@@ -310,28 +312,27 @@ package SystemLevelRequirements {
             doc /* The NAS shall issue only clearances that the aircraft can fly. */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::designConstraint;
-            :>> architectureState = ArchitectureState::improved; // D-018
+            :>> architectureState = ArchitectureState::baseline; // D-018; baseline since D-040
             :>> parentNeeds = StakeholderRequirements::FlightCrews::flyableAndTimelyInstructions;
             :>> verificationMethod = VerificationMethod::byAnalysis;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("coppenbarger1999climbPrediction", "engility2014tasarAlaska");
-            :>> rationale = "The owner struck 'at its current weight': weight is not required, but it helps when it is included in the model behind a decision aid. Not fully met today: the ground system assumes one nominal weight per aircraft type (coppenbarger1999climbPrediction), and the crew answers 'unable' when a clearance cannot be flown. The rule in D-013 (offer a climb only at or below FL350) stands in for the missing knowledge. Kept as improved (D-018); left standing in the second review.";
+            :>> rationale = "The owner struck 'at its current weight': weight is not required, but it helps when it is included in the model behind a decision aid. Not fully met today: the ground system assumes one nominal weight per aircraft type (coppenbarger1999climbPrediction), and the crew answers 'unable' when a clearance cannot be flown. The rule in D-013 (offer a climb only at or below FL350) stands in for the missing knowledge. Kept as improved (D-018); left standing in the second review. Baseline since 2026-11-05 (owner, D-040): the rule of thumb's descent is a clearance the aircraft can fly, so today's NAS meets this; what it does not do is consider every option the aircraft could fly (SLR-CLR-13, HLR-ATC-10).";
         }
 
         requirement <'SLR-CLR-13'> lowestImpactResolution : SystemLevelRequirement {
-            doc /* The NAS should choose, among the maneuvers that restore separation, the one with the
+            doc /* The NAS shall choose, among the maneuvers that restore separation, the one with the
              * lowest impact on the aircraft involved.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::performance;
-            :>> obligation = Obligation::goal; // D-020
             :>> architectureState = ArchitectureState::improved; // D-018
             :>> parentNeeds = (StakeholderRequirements::Operators::airlinePrioritiesInTrajectoryChanges, StakeholderRequirements::EnvironmentalAndSocietalOrganizations::lowCo2PerFlight);
             :>> verificationMethod = VerificationMethod::byAnalysis;
             :>> measureOfPerformance = "TBD"; // owner, hand review 2026-10-20
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "mori2022massCruise", "kirwan2001coraStrategies");
-            :>> rationale = "A goal, not a requirement (owner, hand review 2026-10-10). Re-worded by the owner on 2026-10-11: 'impact' replaces 'combined cost' because it is generic and leaves what counts to each controller, and 'with the same number of control instructions' is struck. The held sources agree it is not a duty: the controller's aim is to separate aircraft 'first safely, and then expeditiously' (kirwan2001coraStrategies, p. 4). Not pursued today, because the deciding party lacks the information in SLR-INF-02. In the study: the experiment has to pick one measure of impact to score with; it uses fuel cost plus cost index times time (mori2022massCruise), which is the experiment's choice and not part of this goal. Owner (hand review 2026-10-20): the measure is 'TBD', so the Measure is left TBD here; the experiment's scoring choice stays on HLR-ATC-05.";
+            :>> rationale = "A goal, not a requirement (owner, hand review 2026-10-10). Re-worded by the owner on 2026-10-11: 'impact' replaces 'combined cost' because it is generic and leaves what counts to each controller, and 'with the same number of control instructions' is struck. The held sources agree it is not a duty: the controller's aim is to separate aircraft 'first safely, and then expeditiously' (kirwan2001coraStrategies, p. 4). Not pursued today, because the deciding party lacks the information in SLR-INF-02. In the study: the experiment has to pick one measure of impact to score with; it uses fuel cost plus cost index times time (mori2022massCruise), which is the experiment's choice and not part of this goal. Owner (hand review 2026-10-20): the measure is 'TBD', so the Measure is left TBD here; the experiment's scoring choice is on HLR-ATC-11 since 2026-11-05. A requirement ('shall') since 2026-11-05 (owner, D-040): 'It is done, even if a conceptual consideration that's not necessarily explicit, but is wrapped up in a controller's thought process.' Still improved: the deciding party lacks the information to do it well (SLR-INF-02). Decomposed (owner, same review) into HLR-ATC-10 (determine the viable options), HLR-ATC-11 (determine the impact of each) and HLR-ATC-05 (choose the lowest).";
         }
 
         requirement <'SLR-CLR-15'> instructionsWithinSustainableWorkload : SystemLevelRequirement {
@@ -421,7 +422,7 @@ package SystemLevelRequirements {
             :>> verificationMethod = VerificationMethod::byAnalysis;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "coppenbarger1999climbPrediction", "sheth2010creditsConcept");
-            :>> rationale = "Owner's wording (hand review 2026-10-10). It replaces three statements that named gross weight, cost index and connection priority one at a time (the first draft's SLR-INF-02, SLR-INF-03 and SLR-INF-04); the owner judged them implied. Those three items are the attributes of AirlinePerformanceShare in nas_sysml_package_definitions.sysml (D-019) and are where the next tier of requirements starts. Not met today: the controller does not receive weight or cost index (schultz2012adaptiveClimb, page 2). Cases C and D of the experiment.";
+            :>> rationale = "Owner's wording (hand review 2026-10-10). It replaces three statements that named gross weight, cost index and connection priority one at a time (the first draft's SLR-INF-02, SLR-INF-03 and SLR-INF-04); the owner judged them implied. Since 2026-11-05 (D-040) the share is stated as the aircraft's state, its performance and the airline's priorities (AirlinePerformanceShare in nas_sysml_package_definitions.sysml); the experiment represents them as weight, cost index and delay margin (NasAnalysis::ExperimentPerformanceShare). Not met today: the controller does not receive the aircraft's weight or the airline's cost of time (schultz2012adaptiveClimb, page 2). Cases C and D of the experiment.";
         }
 
         requirement <'SLR-INF-07'> arrivalEstimateUpdates : SystemLevelRequirement {

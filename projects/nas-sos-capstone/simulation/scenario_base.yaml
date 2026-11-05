@@ -45,7 +45,7 @@ costs:
   nominal_cost_index: 22.68         # kg/min (Boeing CI 30): the cost index case B and the similar-weights variation assume; middle of the scenario's range, owner confirmed 2026-10-29 (D-037)
 
 # The airline's facts about each flight. What the airline would share with the deciding
-# party (FlightOperations::AirlinePerformanceShare: grossWeightKg, costIndex,
+# party (NasAnalysis::ExperimentPerformanceShare: grossWeightKg, costIndex,
 # delayMarginMin) is not written here; experiment_scoring.airline_share derives it:
 # delayMarginMin = costs.connection_threshold_min - scheduleDeltaMin when hasConnections.
 flights:

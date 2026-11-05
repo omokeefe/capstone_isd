@@ -106,8 +106,8 @@ class Flight:
 
 
 @dataclass
-class AirlinePerformanceShare:
-    """FlightOperations::AirlinePerformanceShare: what the airline shares with the deciding party (D-019)."""
+class ExperimentPerformanceShare:
+    """NasAnalysis::ExperimentPerformanceShare: how the experiment represents what the airline shares (D-019, D-040)."""
 
     grossWeightKg: float
     costIndex: float
@@ -149,7 +149,7 @@ class ScenarioFlight:
     costIndex: float
     scheduleDeltaMin: float
     hasConnections: bool
-    performanceShare: AirlinePerformanceShare | None = None
+    performanceShare: ExperimentPerformanceShare | None = None
 
     @property
     def flightNumber(self) -> str:
@@ -169,7 +169,7 @@ SYSML_SOURCE: dict[type, tuple[str, str]] = {
     AircraftState: ("nas_sysml_package_definitions.sysml", "AircraftState"),
     CruiseCondition: ("nas_analysis.sysml", "CruiseCondition"),
     Flight: ("nas_sysml_package_definitions.sysml", "Flight"),
-    AirlinePerformanceShare: ("nas_sysml_package_definitions.sysml", "AirlinePerformanceShare"),
+    ExperimentPerformanceShare: ("nas_analysis.sysml", "ExperimentPerformanceShare"),
     Maneuver: ("nas_analysis.sysml", "Maneuver"),
     ResolutionOption: ("nas_analysis.sysml", "ResolutionOption"),
     ScenarioFlight: ("nas_analysis.sysml", "ScenarioFlight"),

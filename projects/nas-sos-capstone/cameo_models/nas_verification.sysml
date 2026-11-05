@@ -1,16 +1,26 @@
 package NasVerification {
-    doc /* Verification cases for the requirements the experiment exercises (D-018, 2026-10-10).
+    doc /* Verification cases for the requirements the experiment exercises (D-018, 2026-10-10;
+     * revised 2026-11-05, D-040).
      * INCOSE layering, as used here: the verification case is the test procedure; the
      * analysis (NasAnalysis::ConflictResolutionScoring, run by experiment_scoring.py)
      * executes it and produces the measures of performance; the measures of effectiveness
      * are read off the outcome table per stakeholder level. The measured values land in
      * results/experiment_results.sysml, which the script generates.
      *
-     * Three verification defs for SLR-INF-02 (one per item shared: weight, cost index,
-     * connection priority), one each for the other two `improved` statements (SLR-CLR-10,
-     * SLR-CLR-13), plus one for the instruction-count requirement (SLR-CLR-15, D-021).
-     * SLR-CLR-13 is a goal (D-020): the case measures it, it does not pass or fail it.
+     * System requirements: three verification defs for SLR-INF-02 (one per kind of
+     * information shared: the aircraft's state and performance, the airline's cost of time,
+     * its connection priority), one each for SLR-CLR-10 (baseline since D-040) and
+     * SLR-CLR-13 (a requirement since D-040, was a goal), plus one for the
+     * instruction-count requirement (SLR-CLR-15, D-021).
+     * Constituent system requirements: one def for each improved HLR (HLR-OPS-05,
+     * HLR-ATC-08, HLR-ATC-10, HLR-ATC-11), and one per means for the three HLRs whose means
+     * the experiment scores side by side (HLR-ATC-04, HLR-ATC-05, HLR-ATC-06).
      * Each def names the experiment case that exercises it.
+     *
+     * VERIFICATION STATEMENTS (D-040). Where a def's objective carries a doc, that doc
+     * says in one sentence how the requirement is verified and what counts as met.
+     * tools/export_report_tables.py prints it in the report's table of improved HLRs, with
+     * the def's name. Drafted by Claude, 2026-11-05, for the owner to review.
      * tools/check_model.py (plan turn 5) asserts every `improved` requirement is verified. */
 
     public import ScalarValues::*;
@@ -19,6 +29,7 @@ package NasVerification {
     private import NasAnalysis::*;
     private import RequirementDefinitions::MeansOfAchievement;
     private import ConstituentSystemRequirements::AirspaceManagementRequirements::*;
+    private import ConstituentSystemRequirements::FlightOperationsRequirements::*;
 
     verification def VerifyByExperimentCase {
         doc /* Common shape: which case of the experiment is the procedure, which scenario
@@ -51,37 +62,41 @@ package NasVerification {
         }
     }
 
-    verification def VerifyWeightToDecidingParty :> VerifyByExperimentCase {
-        doc /* Case C: the deciding party receives the aircraft's weight. Verified by analysis
-         * if case C can offer a climb to the light aircraft that cases A and B cannot.
-         * One of three cases on SLR-INF-02, which after the hand review of 2026-10-10
-         * (D-020) covers weight, cost index and connection priority in one statement. */
+    verification def VerifyPerformanceToDecidingParty :> VerifyByExperimentCase {
+        doc /* Case C: the deciding party receives the aircraft's state and performance (in the
+         * experiment, its weight). Verified by analysis if case C can offer a climb to the
+         * light aircraft that cases A and B cannot. One of three cases on SLR-INF-02, which
+         * after the hand review of 2026-10-10 (D-020) covers everything shared in one
+         * statement. Was VerifyWeightToDecidingParty (renamed by D-040). */
         objective { verify decisionInformationToDecidingParty; }
     }
 
-    verification def VerifyCostIndexToDecidingParty :> VerifyByExperimentCase {
-        doc /* Case C: the deciding party receives the cost index. Verified by analysis if
-         * the option chosen changes with the pair's cost indexes (similar-weights variation
-         * as the control). Second case on SLR-INF-02. */
+    verification def VerifyCostOfTimeToDecidingParty :> VerifyByExperimentCase {
+        doc /* Case C: the deciding party receives the airline's cost of time (in the
+         * experiment, the cost index). Verified by analysis if the option chosen changes with
+         * the pair's cost of time (similar-weights variation as the control). Second case on
+         * SLR-INF-02. Was VerifyCostIndexToDecidingParty (renamed by D-040). */
         objective { verify decisionInformationToDecidingParty; }
     }
 
     verification def VerifyConnectionPriorityToDecidingParty :> VerifyByExperimentCase {
         doc /* Case D: the deciding party receives the airline's connection priority, stated
-         * as AirlinePerformanceShare.delayMarginMin (minutes of further delay before
+         * as ExperimentPerformanceShare.delayMarginMin (minutes of further delay before
          * connections are lost; D-025). Third case on SLR-INF-02. */
         objective { verify decisionInformationToDecidingParty; }
     }
 
     verification def VerifyClearanceWithinCapability :> VerifyByExperimentCase {
         doc /* Case C: no clearance is issued that the aircraft cannot fly (the truth model's
-         * thrust check against the option chosen). */
+         * thrust check against the option chosen). SLR-CLR-10 is baseline since D-040 (the
+         * rule's descent meets it); the case stays because every case is measured on it. */
         objective { verify clearanceWithinAircraftCapability; }
     }
 
     verification def VerifyLowestImpactResolution :> VerifyByExperimentCase {
         doc /* Cases C and D against B: the lowest impact on the aircraft involved, scored by
-         * the experiment as fuel cost plus cost index times time. A goal (D-020, D-021). */
+         * the experiment as fuel cost plus cost index times time. A requirement since D-040
+         * (was a goal, D-020, D-021). */
         objective { verify lowestImpactResolution; }
     }
 
@@ -95,12 +110,61 @@ package NasVerification {
 
     // One usage per case that runs. Measured values are filled from
     // results/experiment_results.sysml by hand or by tools/check_model.py (turn 5).
-    verification weightShareCaseC : VerifyWeightToDecidingParty { :>> experimentCase = "C"; }
-    verification costIndexCaseC : VerifyCostIndexToDecidingParty { :>> experimentCase = "C"; }
+    verification performanceShareCaseC : VerifyPerformanceToDecidingParty { :>> experimentCase = "C"; }
+    verification costOfTimeCaseC : VerifyCostOfTimeToDecidingParty { :>> experimentCase = "C"; }
     verification connectionsCaseD : VerifyConnectionPriorityToDecidingParty { :>> experimentCase = "D"; }
     verification capabilityCaseC : VerifyClearanceWithinCapability { :>> experimentCase = "C"; }
     verification lowestImpactCaseC : VerifyLowestImpactResolution { :>> experimentCase = "C"; }
     verification instructionCountCaseA : VerifyInstructionsWithinWorkload { :>> experimentCase = "A"; }
+
+    // ---- Improved HLRs (D-040, 2026-11-05) -----------------------------------------------
+    // One def per HLR the report's table of improved HLRs lists, each with its statement.
+    // HLR-ATC-05's is VerifyLowestImpactByMeans, below.
+
+    verification def VerifyPerformanceShareProvided :> VerifyByExperimentCase {
+        doc /* HLR-OPS-05: the airline makes its share available. Case C. */
+        objective {
+            doc /* By inspection of the case C run: met if, for every aircraft in the conflict,
+             * the airline's share (the aircraft's state and performance, and the airline's
+             * priorities) reaches the deciding party before the options are scored. */
+            verify performanceShareProvided;
+        }
+    }
+
+    verification def VerifyPerformanceShareUsed :> VerifyByExperimentCase {
+        doc /* HLR-ATC-08: the decision support uses what it is given. Case C against case B. */
+        objective {
+            doc /* By analysis, case C against case B: met if the decision support's estimates
+             * use the shared values where case B uses the type's nominal ones, so that the
+             * options or the choice change where the two differ. */
+            verify performanceShareUsedInResolution;
+        }
+    }
+
+    verification def VerifyViableOptionsDetermined :> VerifyByExperimentCase {
+        doc /* HLR-ATC-10: every viable option is found. Case C. */
+        objective {
+            doc /* By analysis, case C: met if the options the decision support finds viable are
+             * exactly those the truth model finds restore separation and can be flown by every
+             * aircraft moved. */
+            verify viableOptionsDetermined;
+        }
+    }
+
+    verification def VerifyOptionImpactDetermined :> VerifyByExperimentCase {
+        doc /* HLR-ATC-11: the impact of each viable option is estimated. Case C. */
+        objective {
+            doc /* By analysis, case C: met if the decision support's estimate of each viable
+             * option's impact (fuel burned and airline cost, per aircraft and summed) matches
+             * the truth model's within a stated tolerance (to be set). */
+            verify optionImpactDetermined;
+        }
+    }
+
+    verification performanceShareProvidedCaseC : VerifyPerformanceShareProvided { :>> experimentCase = "C"; }
+    verification performanceShareUsedCaseC : VerifyPerformanceShareUsed { :>> experimentCase = "C"; }
+    verification viableOptionsCaseC : VerifyViableOptionsDetermined { :>> experimentCase = "C"; }
+    verification optionImpactCaseC : VerifyOptionImpactDetermined { :>> experimentCase = "C"; }
 
     // ---- Means of achievement (D-022, 2026-10-11) ----------------------------------------
     // Three constituent system requirements can each be achieved four ways. The experiment
@@ -121,9 +185,15 @@ package NasVerification {
     }
 
     verification def VerifyLowestImpactByMeans :> VerifyMeansByExperimentCase {
-        doc /* HLR-ATC-05 (a goal): the fuel and airline cost of the option this means chose,
-         * per aircraft and summed. Compared across means; not passed or failed. */
-        objective { verify lowestImpactResolutionChosen; }
+        doc /* HLR-ATC-05 (a requirement since D-040, was a goal): the fuel and airline cost of
+         * the option this means chose, per aircraft and summed, against the lowest-impact
+         * viable option. Compared across means. */
+        objective {
+            doc /* By analysis, one case per means (A to D): met if the option chosen has the
+             * lowest impact among the viable options under the truth model; the four means are
+             * compared side by side. */
+            verify lowestImpactResolutionChosen;
+        }
     }
 
     verification def VerifyWorkloadByMeans :> VerifyMeansByExperimentCase {

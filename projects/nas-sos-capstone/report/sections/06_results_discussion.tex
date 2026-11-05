@@ -49,7 +49,9 @@
 
 Each column of Table~\ref{tab:outcomes} belongs to a part of the context diagram (Figure~\ref{fig:sysml-systemContext}). The aircraft column belongs to the aircraft and its flight crew. The airline column belongs to the airline operations center within flight operations. The sector column belongs to air traffic control within airspace management. The system column belongs to no single part. It is a property of the NAS as a whole, which is the reason no constituent system computes it today and the reason the model is needed to state it.
 
-The exchange that cases C and D add is one interface in the model: the airline operations center's performance share to air traffic control's decision support, carrying gross weight, cost index and the flight's delay margin. It satisfies system requirement SLR-INF-02, which is tagged as part of the improved architecture because today's NAS does not meet it. The interface is not drawn on Figure~\ref{fig:sysml-systemContext}, which shows the baseline.
+The exchange that cases C and D add is one interface in the model: the airline operations center's performance share to air traffic control's decision support, carrying the aircraft's performance and the flight's delay margin. It satisfies system requirement SLR-INF-02, which is tagged as part of the improved architecture because today's NAS does not meet it. The interface is not drawn on Figure~\ref{fig:sysml-systemContext}, which shows the baseline.
+
+Reliability and resilience were set aside as objectives of the study (Section~\ref{sec:scope}) because a single choice between resolution options does not change them. Across many conflicts, more efficient resolution would serve them as a side benefit: a resolution that costs less time and fewer instructions leaves each flight closer to its plan and the sector with more margin for the next disruption. The experiment does not measure this.
 
 
 \subsection{Emissions and Who Pays}

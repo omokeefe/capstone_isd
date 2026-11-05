@@ -6,6 +6,66 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-040 — The owner's answers on the 2026-11-05 review: ATC decision support wired, SLR-CLR-13 split three ways, the share abstracted, verification statements in Table 5
+
+**Date:** 2026-11-05
+**Status:** active. Owner's answers in session to the change set and questions Claude put after D-039. Amends D-018 (the improved set), D-019 (the share's contents), D-020 (no goals remain) and D-022 (HLR-ATC-05).
+
+**Decision:**
+
+1. **ATC decision support is wired inside `atc`**, which stays one box (D-038). New in the definitions: `AtcDecisionSupport :> DecisionSupportSystem` with `performanceShareIn` and `advisoriesOut`; `DecisionSupportAdvisoryPort` carrying `ConflictAlert` (moved from the sequence file) and `ResolutionAdvisory`; `controllerPosition` on `AirTrafficControlSystem`. The two connections (`shareToDecisionSupport`, `advisoriesToController`) are in the airspace IBD file, where every other connection in the model is drawn, not in the definition as first described. They close the sequence's gaps G1 and G2. The airspace IBD shows `decisionSupport` inside `atc`; tracon, artcc and tmu stay undecomposed.
+2. **Requirements.** SLR-CLR-10 and HLR-ATC-04 become baseline (met today by the rule's descent). SLR-CLR-13 becomes "shall" (owner: controllers do it today, inside their own reasoning) and stays improved; it decomposes into HLR-ATC-10 (determine every viable option, new), HLR-ATC-11 (determine each option's impact, new) and HLR-ATC-05 (choose the lowest, now "shall", satisfied by `atc` alone). HLR-ATC-08 is narrowed to the input so the three do not overlap (owner: "the requirements should have no overlap"). HLR-OPS-05 and HLR-ACF-05 are abstracted to the aircraft's state and performance and the airline's priorities; HLR-ACF-05's model name is `aircraftStateShared`. 31 HLRs; no goals remain.
+3. **`AirlinePerformanceShare` is abstract**: `aircraftState`, `aircraftPerformance`, `airlinePriorities`. The experiment's representation (gross weight, cost index, delay margin) is `NasAnalysis::ExperimentPerformanceShare`, which specializes it; the Python class is renamed to match, so the conformance test still ties code to model. Scoring code is otherwise unchanged; 32 tests pass.
+4. **Verification statements.** Each improved HLR has a verification def in `nas_verification.sysml` whose objective doc states how it is verified and what counts as met; `tools/export_report_tables.py` prints the statement and the def's name in Table 5. Statements are Claude's drafts for the owner to review. The SLR-INF-02 defs are renamed to the abstract terms (`VerifyPerformanceToDecidingParty`, `VerifyCostOfTimeToDecidingParty`).
+5. **Tables.** Table 4 loses the legend, the tags, the header notes and the "Done today" and "Objectives served" text (the CTOP fact moves to the call-out for the owner's introduction). Table 5 loses the means lines (kept in the model) and gains the verification column.
+6. **Model trims.** `Prework` (definition, flow step, allocation, view and appendix figure) and the ATCSCC's `specialUseAirspaceIn` are removed. In the default aircraft IBD a box shows its internals only where the studied decision's information or commands run between them: the crew and the flight deck controls are single boxes, with two summary links (tag `#IBDDefaultOnly`) in place of the per-control links.
+7. **Report.** Section 1.3 removed (owner: no intermediate report deliveries remain). Section 2.1's emphasis paragraph cut to its first sentence and the 15288 sentence. Owner's answers 3, 4, 5, 10 applied; 9 (the second data obstacle) and 12 (reliability as a side benefit) drafted by Claude for the owner to check. Table 3's requirement counts brought up to date.
+
+**Rationale:** the owner's review, item by item (`handwritten/2026-11-05_main.md`). Abstracting the share and the requirements keeps the architecture independent of the experiment's chosen representation, which is the project's interchangeable-fidelity claim.
+
+**Consequences:** model checks clean; 18 views rendered (10 changed, `preworkActivity` removed); report 78 pages, no undefined references. `requirements-review.xlsx`, the requirements diagrams and `requirements-and-traceability.md` regenerated or updated (30 SN, 42 SLR, 31 HLR, no trace gaps).
+
+---
+
+## D-039 — Hand review of the 2026-11-05 print: dictated edits applied, Figure 10 to the appendix, requirement changes held for one pass
+
+**Date:** 2026-11-05
+**Status:** applied; the held requirement changes went in under D-040. Transcription: `projects/nas-sos-capstone/handwritten/2026-11-05_main.md`.
+
+**Decision:**
+
+1. **Dictated report edits applied** (Sections 1 to 5): word changes, two strikes (the opening problem paragraph of Section 2, the list of six kept objectives in 3.1.2), one joined and reordered paragraph (3.1.1), EPP and FMS spelled out at first use. Notes that ask for new prose stay with the owner.
+2. **The airspace management IBD leaves the body** (owner: "Remove Fig 10"). Its view loses `// placement: body` and prints in Appendix A.4; Section 3.5 points there for the other systems.
+3. **The "Case C Conflict Resolve" sequence follows the fifth run** (D-037): AC2 climbs 2,000 ft (O4) and is cleared back; the in-trail aircraft's lifelines and messages are gone, since no case now slows them. G1 and G2 stay open; G3 stays withdrawn (`atc` is one box, D-038).
+4. **Requirement changes from Tables 4 and 5 are held** until the owner confirms one change set, so that the requirement files, verification cases, satisfy relations, generated tables, requirements views and review workbook change together. The marked changes: SLR-CLR-13 decomposed into three HLRs (viable options, cost of each, choose the lowest impact); HLR-OPS-05, HLR-ATC-08 and HLR-ACF-05 abstracted; HLR-ATC-04 possibly baseline; the table legend, header notes and the means lines removed.
+
+**Rationale:** the owner asked for care with requirement changes that propagate through several artifacts. Prose edits are local; requirement edits are not.
+
+**Consequences:** report compiles, 80 pages. `nas_sequence_case_c.sysml` and `nas_package_my_views.sysml` changed; diagrams re-rendered.
+
+---
+
+## D-038 — OpenAP kept as an example; ATC stays one box; the report speaks of aircraft performance
+
+**Date:** 2026-11-05
+**Status:** active. Owner direction in session, answering the five open decisions Claude listed on 2026-11-02.
+
+**Decision:**
+
+1. **Review #3 format:** resolved by the owner; nothing further to plan here.
+2. **OpenAP fallback (D-017 item 5) closed: OpenAP stays,** and is treated as an example of a scoring model, not as the subject of analysis. No validation study of OpenAP is done. The owner adds a discussion to the report of what a "sufficiently accurate" scoring system has to be for the decision.
+3. **Cost index:** the owner has handwritten notes on the CI formulation and relative cost. Owner [SME]: airlines typically fly cost indexes between 6 and 30. *If time,* a second run with every cost index at the low end (CI 0 or 6), with a discussion of the relative changes. CI 30 for case B (D-037 item 4) stands as the top of that typical range.
+4. **`atc` stays one box.** No sector-controller part is added (closes the "Is the sector controller modeled?" question, raised 2026-10-20); `atc` stands for the sector controller or the controller team, as the sequence's doc already states. The sequence's unconnected messages (G1, G2) are still open and go to the owner with options.
+5. **The report abstracts the shared information to "aircraft performance".** Where the report's framing named gross weight, cost index or performance models, it now says the aircraft's performance. Applied 2026-11-05 to the executive summary, introduction, assumptions, system model and results sections. Not yet decided: whether Section 5's method keeps the specifics, and whether the model's `AirlinePerformanceShare` attributes change.
+
+**Rationale:** the project is a systems-engineering study of where the information sits and who decides, not of the performance model (CLAUDE.md, README "Working Assumptions"). Naming one model's inputs in the framing ties the claim to that model; "aircraft performance" states it at the level the architecture works at.
+
+**Alternatives considered:** switching to the `mori2022massCruise` lookup, or checking OpenAP against it (rejected: a validation study is outside the study's scope); adding a sector part on the thread only (rejected by the owner).
+
+**Consequences:** `to-do-list.md` fallback item checked, the "sufficiently accurate" discussion and the low-CI run added; `knowledge/questions/open-questions.md` sector-controller item closed.
+
+---
+
 ## D-037 — Experiment scenario numbers confirmed
 
 **Date:** 2026-10-29

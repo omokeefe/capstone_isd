@@ -36,7 +36,7 @@ package NasUseCases {
     use case def OperateScheduledFlight {
         doc /* Carry passengers between two airports on a scheduled Part 121 flight. The
          * passenger is the primary actor. Carried out by the NominalFlightOperations
-         * activity (prework to close-out); en-route conflict resolution is included because
+         * activity (flight planning to close-out); en-route conflict resolution is included because
          * every flight in cruise may need it. */
         subject nas : NationalAirspaceSystem::NationalAirspaceSystem;
         actor passenger : NationalAirspaceSystem::Passengers::PassengersDomain;

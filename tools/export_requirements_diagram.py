@@ -47,7 +47,7 @@ TINT = {"SN": "#DDEBF7", "SLR": "#E2EFDA", "HLR": "#FFF2CC"}  # the workbook's t
 SCOPE_FILL = {"outOfStudy": "#EDEDED", "background": "#E4DFEC"}
 GREY = "#7F7F7F"
 WRAP = 52
-# Acronyms the camelCase names spell in lower case (fmsFiguresSentToAirline).
+# Acronyms the camelCase names spell in lower case (fmsPredictsPerformance).
 ACRONYMS = {"fms": "FMS", "atc": "ATC", "aoc": "AOC", "adsb": "ADS-B", "co2": "CO2", "nas": "NAS",
             "sua": "SUA", "eta": "ETA", "ifr": "IFR", "tfm": "TFM"}
 

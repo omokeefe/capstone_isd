@@ -11,16 +11,16 @@
 | Turn | Dates | Model (Track A) | Experiment (Track B) | Report and course (Track C) | Exit test |
 |---|---|---|---|---|---|
 | 1 | Oct 10 to 18 | ✅ D-016 to D-019 logged. ✅ `architectureState` on requirements, five tagged `improved`. ✅ Swimlane test and Syside Python licence test. ✅ Owner hand-reviewed the requirements; 27 + 53 cut to 12 + 28 (D-020), then to 13 + 23 in a second review 2026-10-11 (D-021). ✅ Owner reads section 7 of `requirements-and-traceability.md` (third hand review 2026-10-20, D-031). | ✅ Central claim and scenario numbers proposed (D-016; `experiment-scenario-numbers.md`). ✅ OpenAP installed; smoke and envelope scripts run; first scoring run. ☐ Owner confirms the Decide items and re-runs. | ✅ Housekeeping. ✅ `\irtwo` call-outs in place. ✅ Owner drafts Assumptions and Methodology (5 h). | Four decisions logged ✅; OpenAP returns B39M numbers ✅; both figures render ✅; stakeholder requirements reviewed ✅ (third review 2026-10-20). |
-| 2 | Oct 19 to 25 | ☐ Interface defs for the FMS → AOC and ATC → crew exchanges (AOC → ATC done, D-019). ☐ Caption re-wording. | ☐ Both hand checks (`experiment-definition.md` §9). ☐ Preliminary number and baseline row in Section 4. | ✅ **Interim Report #2** to the adviser; Progress Update #2. ☐ Ask which Review #3 option. | Report sent. |
-| 3 | Oct 26 to Nov 1 | ✅ Test `SequenceView`; draft the conflict-resolution sequence (2026-10-28, D-035). ☐ `atc` umbrella decided. | ✅ `experiment_scoring.py` passes its tests at `nominalMass` and the first variation (2026-10-29). | ☐ Apply adviser comments. | Tests pass; sequence renders. |
-| 4 | Nov 2 to 8 | ☐ Hand-review the sequence diagram. ☐ Owner names a verification case and measure for the nine thread system requirements and reviews the 28 next-tier requirements Claude drafted 2026-10-11 (D-022) *(first review done 2026-10-20, D-031: 29 HLRs, five edits from questions await confirmation)*. ☐ Verification cases filled with measured values. | ✅ Run A to D at `actualMass` on the confirmed scenario; fill tables (early, 2026-10-29, D-037). **Fallback decision Nov 8** (D-017). | ☐ Tables into Section 4. | Tables have confirmed numbers. |
+| 2 | Oct 19 to 25 | ☐ Interface defs for the FMS → AOC and ATC → crew exchanges (AOC → ATC done, D-019). ☐ Caption re-wording. | ☐ Both hand checks (`experiment-definition.md` §9). ☐ Preliminary number and baseline row in Section 4. | ✅ **Interim Report #2** to the adviser; Progress Update #2. ✅ Ask which Review #3 option (owner, 2026-11-05). | Report sent. |
+| 3 | Oct 26 to Nov 1 | ✅ Test `SequenceView`; draft the conflict-resolution sequence (2026-10-28, D-035). ✅ `atc` umbrella decided (2026-11-05, D-038: one box). | ✅ `experiment_scoring.py` passes its tests at `nominalMass` and the first variation (2026-10-29). | ☐ Apply adviser comments. | Tests pass; sequence renders. |
+| 4 | Nov 2 to 8 | ☐ Hand-review the sequence diagram. ☐ Owner names a verification case and measure for the nine thread system requirements and reviews the 28 next-tier requirements Claude drafted 2026-10-11 (D-022) *(first review done 2026-10-20, D-031; second 2026-11-05, D-040: edits settled, SLR-CLR-13 split into three HLRs, 31 HLRs; verification statements drafted for the five improved HLRs, for the owner to review)*. ☐ Verification cases filled with measured values. | ✅ Run A to D at `actualMass` on the confirmed scenario; fill tables (early, 2026-10-29, D-037). ✅ **Fallback decision** (D-017; closed 2026-11-05, D-038). | ☐ Tables into Section 4. | Tables have confirmed numbers. |
 | 5 | Nov 9 to 15 | ☐ Grade the airspace IBD and the thread links. ☐ `tools/check_model.py` passes. | ☐ Similar-weights variation written up. | ☐ Presentation from the diagrams and tables (course template). | Slides complete. |
 | 6 | Nov 16 to 22 | Corrections only. | ☐ What the result shows and does not. | ☐ **Presentation** and **Review #3**. | Both submitted. |
 | 7 | Nov 23 to 29 | ☐ Final diagram review. **Model freeze Nov 29.** | Closed. | ☐ Results and Discussion in full; architecture evaluation; SE-approach table. | No body diagram below state 3. |
 | 8 | Nov 30 to Dec 6 | ☐ Final renders. | Closed. | ☐ Recommendations, Impact, Conclusions, Executive Summary, GenAI citation. ☐ Draft to the adviser. | Whole draft sent. |
 | 9 | Dec 7 to 13 | None. | None. | ☐ Adviser comments, synopsis, **Final Report #4**. | Submitted. |
 
-"If time" items (not in any exit test): the Pareto-front yes/no column; the two-type variation (B777 and 737, D-014); the at-or-below-FL350 variation; typing connections beyond the three on the thread.
+"If time" items (not in any exit test): a second run at a low cost index (CI 0 or 6, D-038); the Pareto-front yes/no column; the two-type variation (B777 and 737, D-014); the at-or-below-FL350 variation; typing connections beyond the three on the thread.
 
 ## Track A — Model (§10, §13)
 
@@ -32,18 +32,18 @@
 | Definitions tree | `cameo_models/nas_sysml_package_definitions.sysml` | 2 | 2 | 3 | 4 |
 | Aircraft IBD, default view | `nas_ibd_aircraft.sysml`, view `aircraftIbd` | 2 (links not graded) | 3 | 4 | 4 |
 | Aircraft IBD, detail view | same file, view `aircraftIbdDetail` | 2 | 2 | 2 | appendix only |
-| Airspace management IBD | `nas_ibd_airspace_management.sysml` | 1 (placeholder; `atc` umbrella question open) | 1 | 3 | 4 |
+| Airspace management IBD | `nas_ibd_airspace_management.sysml` | 1 (`atc` one box, D-038; its decision support and two connections drawn 2026-11-05, D-040; in the appendix since D-039) | 1 | 3 | 4 |
 | NAS BDD (composition only) | `nas_block_diagrams.sysml`, view `nasBdd` | 2 (2026-10-19, D-029; not hand-reviewed) | 2 | 3 | 4 |
 | Flight operations, airport operations and flight crew IBDs | `nas_block_diagrams.sysml`, views `flightOperationsIbd`, `airportOperationsIbd`, `flightCrewIbd` | 1 (Claude draft 2026-10-19 with evidence tags; owner review open) | 1 | 2 | 3 |
 | Nominal operations activity diagram | `nas_activity_diagram-nominal_ops.sysml`, views `nominalOpsActivity` + one per phase | 2 (all phases decomposed from the owner's notes 2026-10-18, [SME], no sources cited yet; swimlanes answered in `sysml-diagram-rendering.md` §9, not built) | 1 | 2 | 4 |
-| Sequence diagram, case C conflict resolution | new file | 1 (draft 2026-10-28, `nas_sequence_case_c.sysml`, view `caseCConflictResolve`; renders; gaps G1 to G4 in `open-questions.md`; named "Case C Conflict Resolve", zooms in on the included use case, names the crew; D-035) | 1 | 3 | 4 |
+| Sequence diagram, case C conflict resolution | new file | 1 (updated 2026-11-05 to the fifth run, G1 and G2 closed, D-039/D-040; owner hand review open. First draft 2026-10-28, `nas_sequence_case_c.sysml`, view `caseCConflictResolve`; renders; gaps G1 to G4 in `open-questions.md`; named "Case C Conflict Resolve", zooms in on the included use case, names the crew; D-035) | 1 | 3 | 4 |
 | Use case "Operate Scheduled Flight" including "Resolve En-Route Conflict" | `nas_use_cases.sysml`; picture `report/figures/use-case-operate-scheduled-flight.drawio` (.png exported) | 1 (2026-10-28; Syside has no use case view, so the picture is a hand-drawn draw.io figure kept in step with the file) | — | 2 | 4 |
 | Aircraft state machine, keyed to the clearance flown | new file | `nas_state_aircraft.sysml`, view `aircraftClearanceStates` | 1 (2026-10-28; renders; owner review open) | — | 2 | 4 |
 | Model map: content by requirements, use cases, behavior, structure, parametrics, tests | owner's mapping table 2026-10-28; drawn over the current packages | 1 (table) | — | 2 | 3 |
 | Typed interfaces on the thread | `AirlinePerformanceShare` (D-019) done; FMS → AOC and ATC → crew | 1 of 3 | 3 of 3 | 3 | 4 |
 | Analysis package | `nas_analysis.sysml` (D-017); view `analysisParametrics` (2026-10-28, D-035; definitions only, no bindings) | 1 | 1 | 3 | 4 |
-| Verification cases | `nas_verification.sysml` (D-018) | 1 (no measured values yet) | 1 | 3 | 4 |
-| Requirements model | `requirements_*.sysml` | 2 (stakeholder and system sets hand-reviewed three times, HLRs once; 2026-10-20, D-031) | 2 (stakeholder set reviewed) | 3 (thread set reviewed, next tier written) | 4 |
+| Verification cases | `nas_verification.sysml` (D-018) | 1 (no measured values yet; verification statements for the five improved HLRs drafted 2026-11-05, D-040, owner to review) | 1 | 3 | 4 |
+| Requirements model | `requirements_*.sysml` | 2 (stakeholder and system sets hand-reviewed three times, HLRs twice; 2026-10-20, D-031; 2026-11-05, D-040: 31 HLRs) | 2 (stakeholder set reviewed) | 3 (thread set reviewed, next tier written) | 4 |
 | Trace thread | the chain above, read end to end in one appendix table | 1 | 1 | 3 | 4 |
 
 Kept items from the August §10 list, with their state above:
@@ -85,7 +85,9 @@ Design files: `knowledge/models/experiment-definition.md`, `experiment-options-a
 - [ ] Quantify externalities: who pays, read across the rows (largest cost to any one aircraft; AC3 and airline X carry O9's second instruction).
 - [ ] Compare the local and system-level readings of the table (the sub-system against system discussion).
 - [ ] Write what the result shows and does not show, including the limits in `experiment-definition.md` §10 and the OpenAP polar limitation.
-- [ ] Fallback decision by 2026-11-08: keep OpenAP or switch to a `mori2022massCruise` lookup (D-017).
+- [x] Fallback decision by 2026-11-08: keep OpenAP or switch to a `mori2022massCruise` lookup (D-017). *(2026-11-05, D-038: OpenAP kept as an example of a scoring model; no further analysis of OpenAP.)*
+- [ ] Owner writes a discussion of what makes a scoring system "sufficiently accurate" for the decision (D-038; the assumption is already named in Section 2's paragraph on the controllers' information).
+- [ ] *If time:* a second run with every cost index at the low end of the typical range (CI 0 or 6; owner [SME]: airlines typically use 6 to 30) and a discussion of the relative changes (D-038). The owner's handwritten notes on the CI formulation and relative cost feed this.
 - [ ] Fill the verification cases' measured values from `cameo_models/results/experiment_results.sysml`.
 
 ## Track C — Report and course (§1 report fixes, §16)
@@ -94,7 +96,7 @@ Interim Report #2 checklist: `report/README.md`. Red `\irtwo` notes in the compi
 
 - [ ] **Interim Report #2 (Oct 25):** Introduction updated; Assumptions and Methodology; Results and Discussion (preliminary); References; GenAI disclosure; review meeting; Word copy to the adviser; Progress Update #2 in Canvas; ask which Review #3 option.
 - [ ] **Peer presentation** (upload by Nov 20; sign up for a Nov 17 to 19 slot; `prework/503 Project Presentation Template-v26.pptx`).
-- [ ] **Project Review #3** (Nov 22): option per the adviser.
+- [ ] **Project Review #3** (Nov 22): option per the adviser. *(Option question resolved by the owner, 2026-11-05.)*
 - [ ] **Final Report #4 and synopsis** (Dec 13): adviser first, then Canvas.
 - [ ] Report fixes carried from §1: the literature-review annotation-coverage claim (check the real count in `evidence/source-register.md`); spot-check citations sourced to skimmed-only references (`castro2013aoccMasThesis`, `great2020d21tboConcept`, `great2021d22operationalArch`, `hu2024disruptionOptReview`); replace or caveat the 1998-dollar `clarke1998irregular` figures.
 - [ ] Section 2 Assumptions and Methodology (section numbers as printed in the report since D-026): working assumptions (including the security assumption, D-019, and the experiment's limits); systems-engineering-approach table and tailoring paragraph (D-016), with the process names still to check against ISO/IEC/IEEE 15288; the proposed interface (owner reviewed 2026-10-13; where it goes is open). Second hand review applied 2026-10-13 (D-027): the owner expands the opening paragraph; the decomposition paragraph (§6) and the MBSE-methodology call-out are dropped ("WNI", "Done").

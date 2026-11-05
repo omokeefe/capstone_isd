@@ -6,11 +6,11 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-10-29, evening (scenario numbers confirmed, D-037; fifth run; see `journal/2026-10-29.md` Sign-Off). No sign-off ran 10-22 to 10-28; those sessions are in their journals.
+**Last updated:** 2026-11-05, evening (owner's 11-05 print review applied, D-038 to D-040; see `journal/2026-11-05.md` Sign-Off). No sign-off on 11-02 (welcome only).
 
 ## Current phase
 
-**Turn 3 of the nine-turn plan (Oct 26 to Nov 1; D-016).** Interim Report #2 was due 10-25 (Word copy committed 10-27; submission not recorded in the repo). Next graded dates: presentation Nov 17 to 20, Review #3 Nov 22. OpenAP fallback decision Nov 8.
+**Turn 4 of the nine-turn plan (Nov 2 to 8; D-016).** Next graded dates: presentation slot Nov 17 to 19 (upload Nov 20), Review #3 Nov 22 (option resolved by the owner). OpenAP fallback closed (D-038).
 
 **Still open from Report #1 (Track C edits):** the literature-review annotation-coverage claim, citation spot-checks against skimmed-only sources, the 1998-dollar disruption-cost figure.
 
@@ -18,13 +18,15 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 - Report (Track C), 2026-10-14: the owner wrote the literature review and research gap in Section 1 and stated the two claims there (not yet in the Executive Summary). `\cite{great2023}` is undefined; fix before rebuilding. See journal 2026-10-14 21:44.
 
-- Requirements (Track A), 2026-10-20: third hand review applied (D-031). 30 SN / 42 SLR / 29 HLR; struck ones restored as out of study, cut at the HLR tier. Owner reviewing HLRs and traceability next in `cameo_models/print/requirements-review.xlsx`. Open: five HLR edits from questions, SLR-CLR-13 measure TBD, sector controller part (`open-questions.md` "Requirements review"). See journal 2026-10-20.
+- Report and model (all tracks), 2026-11-05: owner's print review transcribed (`handwritten/2026-11-05_main.md`) and applied (D-039, D-040). Owner-prose items and Claude drafts to review are listed there. See journal 2026-11-05.
 
-- Experiment (Track B), 2026-10-29: scenario numbers confirmed (D-037); fifth run A O10, B O8, C/D O4; C − B = −19.9 kg. Figure 12 is now the altitude-time plot (`simulation/scenario_profile.py`). Open: two hand checks, Nov 8 fallback criterion. See journal 2026-10-29.
+- Requirements (Track A), 2026-11-05: second HLR review applied (D-040). 30 SN / 42 SLR / 31 HLR; SLR-CLR-13 "shall", split into HLR-ATC-10/11/05; no overlap (owner rule). Open: SLR-CLR-13 measure TBD; HLR-ATC-11 verification tolerance. See journal 2026-11-05.
 
-- Behavior views (Track A), 2026-10-28: use case, aircraft state machine, "Case C Conflict Resolve" sequence modeled (D-035); conformance check made a verification step (D-036). Sequence gaps G1, G2, G4 open. See journal 2026-10-28.
+- Experiment (Track B), 2026-10-29: scenario numbers confirmed (D-037); fifth run A O10, B O8, C/D O4; C − B = −19.9 kg. Fallback closed (D-038); low-CI run is "if time". Open: two hand checks. See journal 2026-10-29.
 
-- Blocked: Syside diagram rendering, 2026-10-29. Windows Application Control blocks a DLL in `AppData\Local\Programs\Syside\drawer`; `render_sysml_diagrams.py` and the last step of `tools/run_experiment.py` fail. Owner to unblock or reinstall Syside.
+- Behavior views (Track A): sequence updated to the fifth run and G1/G2 closed 2026-11-05 (D-040); owner hand review open. G4 down to three drafted item defs. See journal 2026-11-05.
+
+- Syside rendering unblocked by 2026-11-02 (renders with `.venv/Scripts/python.exe`; plain `python` not on PATH).
 
 - Model (Track A): `nas_analysis.sysml` (fidelity levels, calc defs, analysis def), `nas_verification.sysml` (six verification cases), and the D-019 interface (`AirlinePerformanceShare`, ports on the AOC and ATC, unrendered interface usage on the context diagram) added 2026-10-10; whole folder passes `syside check`. The other two thread interfaces (FMS → AOC, ATC → crew) are turn 2. Swimlane answer recorded in `sysml-diagram-rendering.md` §9; sequence view untested.
 
@@ -32,7 +34,7 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 - Report (Track C), 2026-10-11: restructured from the owner's hand review of the print (D-026; `handwritten/2026-10-11_main.md`). Six sections; the experiment is Section 3. Eight passages are Claude's drafts, marked blue in the PDF, for the owner to rewrite; five notes are still open (list at the end of the transcription). Before that: `\irtwo` call-outs mark every part Interim Report #2 needs; checklist in `report/README.md`. Section 3 has the SE-approach table skeleton, the two-claims and proposed-interface subsections; Section 4 has the two figure slots and the experiment tables. Owner writes the prose.
 
-- Operational IBDs (§10, ECD 10-25): aircraft IBD built and hand-reviewed 2026-10-08 (D-011, D-012); links not evidence-graded. Airspace IBD is a placeholder with the `atc` umbrella question open. See journal 2026-10-08.
+- Operational IBDs (§10, ECD 10-25): aircraft IBD built and hand-reviewed 2026-10-08 (D-011, D-012); links not evidence-graded. Airspace IBD: `atc` one box (D-038), its decision support drawn inside it (D-040), moved to the appendix (D-039). Aircraft default view simplified 2026-11-05 (D-040). See journal 2026-10-08, 2026-11-05.
 
 - Context diagram (§10, slipped from 09-07): revised per the owner's hand review 2026-10-08 (D-012). Box still open: the reason behind each link is not written. See `open-questions.md` "Diagram review".
 
@@ -110,8 +112,8 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Next session priority
 
-Turn 3 ends Nov 1; fallback decision Nov 8. See journal 2026-10-29 Sign-Off.
+Turn 4 ends Nov 8; slides are Turn 5's exit test. See journal 2026-11-05 Sign-Off.
 
-1. Write the Nov 8 OpenAP fallback criterion and read OpenAP's validation section (`sun2020openap` §5, §7).
-2. Do the two hand checks (`experiment-definition.md` §9): recompute one table entry by hand against OpenAP; the information check by hand.
-3. Unblock Syside rendering; then commit today's changes (uncommitted at sign-off).
+1. Review the D-040 drafts: five verification statements in Table 5 (set HLR-ATC-11's tolerance), Section 3.6 "same obstacle" passage (manufacturer claim unsourced), Section 5 reliability paragraph; answer transcription item 3.2.
+2. Commit the 11-02 to 11-05 work (message drafted in session; leave out the `~$…pptx` lock file).
+3. Hand-review the updated sequence and do the O4 hand check; then start the slides and sign up for a presentation slot.

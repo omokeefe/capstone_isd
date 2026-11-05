@@ -16,8 +16,8 @@ This file tracks references at two different depths — keep them straight:
 
 ## Processing Ledger
 
-**Last full sweep:** 2026-10-04 (files added and processed on their own 2026-10-09 and 2026-10-10; not full sweeps)
-**Files in `evidence/sources/` at last sweep:** 73 of 73 processed; 75 of 75 after the two 2026-10-09 additions; 81 of 81 after the six 2026-10-10 additions; four more added and processed 2026-10-11 (the FAA circular, the Pilon paper, the Kulkarni memorandum and the OpenAP paper), 87 of 87
+**Last full sweep:** 2026-11-05 (two new files found and processed; files between 2026-10-04 and 2026-10-11 were added and processed on their own)
+**Files in `evidence/sources/` at last sweep:** 90 of 90 processed (2026-11-05). Earlier: 73 of 73 at the 2026-10-04 sweep; 75, 81 and 88 after the 2026-10-09, 2026-10-10 and 2026-10-11 additions (the 2026-10-11 figure was first written as 87; the 2026-11-05 recount found 88)
 
 **PDF highlight extraction (2026-10-09):** ran the extractor on the one file added today, `engility2014tasarAlaska`. 38 highlights (PDF pp. 3–12), no typed comments, no ink. Merged into its summary's `## Highlighted passages` section. The other PDFs were not re-run.
 
@@ -71,8 +71,8 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | Irregular airline operations a review of the state-of-the-practice in airline operations control centers.pdf | `clarke1998irregular` | 5 | [clarke1998irregular.md](literature-notes/summaries/clarke1998irregular.md) | 2026-08-29 |
 | Model-Based Systems Engineering Approach for a Systematic Design of Aircraft Engine Inlet.pdf | `jagtap2025mbseEngineInlet` | 2 | [jagtap2025mbseEngineInlet.md](literature-notes/summaries/jagtap2025mbseEngineInlet.md) | 2026-08-29 |
 | NAS-Infrastructure-Roadmaps-v20.pdf | `faaNasInfrastructureRoadmaps2025` | 5 | [faaNasInfrastructureRoadmaps2025.md](literature-notes/summaries/faaNasInfrastructureRoadmaps2025.md) | 2026-08-29 |
-| NASA's Use of MBSE and SysML Modeling to Architect the Future of Human Exploration.pdf | `hill2024nasaMbseHumanExploration` | 3 | [hill2024nasaMbseHumanExploration.md](literature-notes/summaries/hill2024nasaMbseHumanExploration.md) | 2026-08-29 |
-| Systems Engineering - 2011 - Bartolomei - Engineering Systems Multiple‐Domain Matrix ... .pdf | `bartolomei2012esmdm` | 4 | [bartolomei2012esmdm.md](literature-notes/summaries/bartolomei2012esmdm.md) | 2026-08-29 |
+| NASA’s Use of MBSE and SysML Modeling to Architect the Future of Human Exploration.pdf | `hill2024nasaMbseHumanExploration` | 3 | [hill2024nasaMbseHumanExploration.md](literature-notes/summaries/hill2024nasaMbseHumanExploration.md) | 2026-08-29 |
+| Systems Engineering - 2011 - Bartolomei - Engineering Systems Multiple‐Domain Matrix  An organizing framework for modeling.pdf | `bartolomei2012esmdm` | 4 | [bartolomei2012esmdm.md](literature-notes/summaries/bartolomei2012esmdm.md) | 2026-08-29 |
 | Workload Balancing for Flight Dispatchers.pdf | `dispatcherWorkload2025` | 5 | [dispatcherWorkload2025.md](literature-notes/summaries/dispatcherWorkload2025.md) | 2026-08-29 |
 | an-approach-for-system-analysis-with-model-based-systems-engineering-and-graph-data-engineering.pdf | `schummer2022mbseGraphAnalysis` | 2 | [schummer2022mbseGraphAnalysis.md](literature-notes/summaries/schummer2022mbseGraphAnalysis.md) | 2026-08-29 |
 | de Neufville_Engineering Systems.pdf | `bartolomei2012esmdm` (duplicate/earlier draft — see flag) | 1 | [de-neufville-conference-draft-of-bartolomei2012esmdm.md](literature-notes/summaries/de-neufville-conference-draft-of-bartolomei2012esmdm.md) | 2026-08-29 |
@@ -147,6 +147,17 @@ Rating scale (be honest — a register where everything is a 4 or 5 is not usefu
 | Pilon_2019_SIDs_UDPP_Reducing_Impact_of_Delays.pdf | `pilon2019udppMargins` (conference paper; an airline states a delay margin per flight and keeps its costs private, D-025) | 4 | [4 - pilon2019udppMargins.md](literature-notes/summaries/4%20-%20pilon2019udppMargins.md) | 2026-10-11 |
 | Impact of Slot Substitution on CTOP Performance.pdf | `kulkarni2019ctopSlotSubstitution` (NASA technical memorandum; an airline states a relative cost per trajectory option to the FAA, and can gain by overstating it) | 3 | [3 - kulkarni2019ctopSlotSubstitution.md](literature-notes/summaries/3%20-%20kulkarni2019ctopSlotSubstitution.md) | 2026-10-11 |
 | sun2020openap_aerospace-07-00104.pdf | `sun2020openap` (journal paper for the experiment's scoring model, D-017; was a web-only entry until the file was added 2026-10-11) | 4 | [4 - sun2020openap.md](literature-notes/summaries/4%20-%20sun2020openap.md) | 2026-10-11 |
+| air-traffic-by-the-numbers-FY2024.pdf | `faa2025airTrafficByNumbers` (FAA ATO fact book, FY2024 data; the official IFR flight count; no conflict counts) | 3 | [3 - faa2025airTrafficByNumbers.md](literature-notes/summaries/3%20-%20faa2025airTrafficByNumbers.md) | 2026-11-05 |
+| ModelingwithSysMLTutorial.pdf | `friedenthal2010modelingSysmlTutorial` (INCOSE 2010 tutorial slides; SysML v1, not v2) | 2 | [2 - friedenthal2010modelingSysmlTutorial.md](literature-notes/summaries/2%20-%20friedenthal2010modelingSysmlTutorial.md) | 2026-11-05 |
+
+**Distribution as of 2026-11-05 (recounted from the table rows):** 17 x 5, 30 x 4, 23 x 3, 16 x 2, 3 x 1, 1 x 0 — 90 rows, one per file in `evidence/sources/` (90 files besides `references.bib`). The recount settles the doubt in the 2026-10-11 note below: the Pilon row was not inside the 85, so that count was 88 (30 x 4), not 87.
+
+### Flags raised 2026-11-05 (2 files: 1 added 2026-11-02, 1 added 2026-10-19 and never registered)
+
+- **`faa2025airTrafficByNumbers` (rated 3).** The FAA's annual fact book, the official IFR flight count: 16.2 million IFR flights in FY2024, 5,500 en route per minute at the peak, 14,264 controllers, 21 centers and 4 combined control facilities. The report states no size for the NAS today; this is the source for one. **It does not count conflicts or resolutions**, so the experiment's per-conflict result cannot be scaled to a national figure from it. The p. 33 text misdates 1,026 losses of separation to FY2024 (the table says FY2023). Most tables are images; the key ones were read from rendered pages.
+- **`friedenthal2010modelingSysmlTutorial` (rated 2).** INCOSE 2010 SysML v1 tutorial. In `evidence/sources/` since 2026-10-19 (commit 1785b6c) without a ledger row. Its slides 10 and 11 are the owner's two SysML pictures in `attachments/`. The only SysML language source held, but v1 and a slide deck: for any SysML claim in the report, the OMG SysML v2 specification or a current Friedenthal book would be stronger. Neither is held.
+- **Ledger file names corrected.** Two rows did not match the file names on disk, so a name-by-name comparison reported them as unregistered: the NASA paper (the file uses a curly apostrophe) and the Bartolomei paper (the row was shortened with "..."). Both rows now carry the exact file name.
+- No digital highlights in either PDF. Nothing rated 0–1.
 
 **Distribution as of 2026-10-11 (the 2026-10-10 evening count plus one file added and processed on its own, `AC_61-107B_CHG_1_FAA.pdf`):** 17 x 5, 28 x 4, 21 x 3, 15 x 2, 3 x 1, 1 x 0 — 85 rows. Every file in `evidence/sources/` now has a ledger row.
 

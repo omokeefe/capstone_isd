@@ -47,6 +47,7 @@ or conversation — don't let definitions live only in someone's head or a singl
 - **KARMA** — Kombination of ARchitecture Model specificAtion; a semantic MBSE modeling
   language (paired with the GOPPRR metamodel) used by `lu2022karmaRoadmap` and
   `liu2025mbseAtmSmt` for ATM architecture modeling and formal verification.
+- **OOSEM** — Object-Oriented Systems Engineering Method: an MBSE method whose activities are analyze needs, define system requirements, define logical architecture, synthesize allocated architecture, optimize and evaluate alternatives, and support validation and verification, with requirements management running throughout (`friedenthal2010modelingSysmlTutorial`, slides 9 and 138; a SysML v1 source).
 
 ## Airspace / ATC
 
@@ -57,6 +58,9 @@ or conversation — don't let definitions live only in someone's head or a singl
 - **Service ceiling** — "The maximum height above MSL at which an airplane can maintain a rate of climb of 100 ft per minute (ft/min) under normal conditions" (`faa2015ac61107b` para. 1-4r, p. 2). It depends on weight: a heavier aircraft has a lower one. The experiment asks for 150 ft/min, an operator margin [SME] (D-023).
 - **Coffin corner (Q-corner)** — the top of the envelope for a given weight, where the low-speed and high-speed limits close in and a disturbance can push the aircraft past either (`faa2015ac61107b` para. 1-4q, p. 2).
 - **ARTCC** — Air Route Traffic Control Center (enroute control).
+- **CCF** — Combined Control Facility: an ATC facility that gives approach control for one or more airports and en route (center) control over a large area; some also give tower services. The U.S. has four; with the 21 ARTCCs they make the 25 en route facilities (`faa2025airTrafficByNumbers`, p. 8 and glossary).
+- **OPSNET** — Operations Network: the FAA's official source for operations counts at towers, TRACONs and centers, and for delay data. IFR delays of 15 minutes or more caused by the ATC system must be reported to it by the controlling facility (`faa2025airTrafficByNumbers`, p. 16).
+- **Loss of standard separation** — a breach of the specified separation minima between airborne aircraft in controlled airspace, counted per ARTCC from airborne loss event data: 679 across all centers in FY2024 (`faa2025airTrafficByNumbers`, p. 33). A count of failures, not of conflicts resolved.
 - **ATFM** — Air Traffic Flow Management.
 - **NOTAM** — Notice to Air Missions (formerly Notice to Airmen).
 - **IFR** — Instrument Flight Rules.

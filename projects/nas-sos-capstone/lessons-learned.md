@@ -97,3 +97,10 @@ The report uses this file twice: the course's learning objectives ask the studen
 - **What was learned:** a text-first tool trades layout control for a model that stays the source; some reading order in a diagram is the renderer's, not the modeler's. That is a property of the tool to state, not a defect of the model to work around.
 - **What changes:** order every message explicitly; accept the tool's lifeline order unless it misleads, and say so in the figure's text when it matters; record each such limit in `knowledge/models/sysml-diagram-rendering.md` the day it is found.
 - **Where in the report:** Section 2 or 3, tool reflection (the validity of the tools used).
+
+## 2026-11-05 — A requirement change is a change set, not an edit
+
+- **What happened:** the owner's print review changed six requirements and split one into three. Each requirement is copied into a verification case, satisfy relations, two report tables, a review workbook, a diagram set and a readable copy. The changes were held until the owner confirmed one set, then applied in one pass, tried first on a copy of the model and checked by `syside check` and the conformance tests (D-039, D-040). The split also produced an overlap (HLR-ATC-08 against the two new HLRs), which the owner resolved by narrowing: "the requirements should have no overlap."
+- **What was learned:** in a model-based workflow a requirement's text is the cheapest part of the change; its trace is the expensive part. Splitting a requirement is where overlap appears, because the new children restate what a sibling already says.
+- **What changes:** requirement edits go to the owner as one change set listing every artifact they touch, are applied together, and each split is checked against its siblings for overlap before it is proposed.
+- **Where in the report:** Section 2, methodology (the working loop); the MBSE claim's cost side (what a change costs to carry through).

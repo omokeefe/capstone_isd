@@ -47,8 +47,8 @@ package ContextDiagram {
         // D-012 (2026-10-08): the environment is in the model but NOT drawn. "Environment"
         // misleads when the thing outside is a passenger or a military airspace schedule
         // rather than law or weather (owner). What comes from outside is drawn as an
-        // input port on the system that receives it (rulesIn, weatherIn,
-        // specialUseAirspaceIn, tagged below). The links from the environment parts to
+        // input port on the system that receives it (rulesIn, weatherIn, tagged below;
+        // specialUseAirspaceIn was removed 2026-11-05, D-040). The links from the environment parts to
         // those ports are at the bottom ("ENVIRONMENT"), untagged.
         part environment: EnvironmentDomain;
         #ContextVisible part airportOps: AirportOperationsDomain {
@@ -72,7 +72,6 @@ package ContextDiagram {
             // schedule reliability. Rendered (cross-domain link: aocTfm).
             #ContextVisible part :>> atcscc {
                 in #ContextVisible port :>> weatherIn;
-                in #ContextVisible port :>> specialUseAirspaceIn;
             }
             // tmu: D-007 MODELED (local TM latitude; 18-2-3 NOTE), but every tmu exchange is
             // inside Airspace Management (ATCSCC <-> TMU <-> controllers), so per D-010 it is
@@ -758,12 +757,10 @@ package ContextDiagram {
         connection rulesToAoc connect environment.governance to flightOps.airlineOperationsCenter.rulesIn;
         connection rulesToAtc connect environment.governance to airspaceMgmt.atc.rulesIn;
         // Disturbance [A]: weather drives TMIs and SWAP (7210.3EE 18-15/16), ATIS (BB 2-9) and dispatch planning.
-        // TODO(owner, 2026-10-08): why weather and special-use airspace end on the ATCSCC
+        // TODO(owner, 2026-10-08): why weather ends on the ATCSCC
         // and not the TMU or the controllers needs a rationale (open-questions.md).
         connection weatherToTfm connect environment.infrastructure.weatherService to airspaceMgmt.atcscc.weatherIn;
         connection weatherToAoc connect environment.infrastructure.weatherService to flightOps.airlineOperationsCenter.weatherIn;
-        // Disturbance [C]: special-use airspace status as a scenario condition (D-007).
-        connection suaToTfm connect environment.military to airspaceMgmt.atcscc.specialUseAirspaceIn;
 
 
         // ==================================================================

@@ -21,6 +21,7 @@ Usage (from the repo root):
 from __future__ import annotations
 
 import datetime as dt
+import re
 import sys
 from pathlib import Path
 
@@ -112,7 +113,7 @@ def tags(r) -> str:
     return (r"\textsc{[" + ", ".join(t) + r"]} ") if t else ""
 
 
-def cell(r, seen: set, also: list[str] | None = None) -> str:
+def cell(r, seen: set, also: list[str] | None = None, show_tags: bool = True) -> str:
     """ID in bold and the text the first time a requirement appears; the ID alone after that."""
     rid = rf"\textbf{{{r['id']}}}"
     grey = ex.scope(r) == "outOfStudy"
@@ -120,7 +121,7 @@ def cell(r, seen: set, also: list[str] | None = None) -> str:
         body = rf"{rid} \textit{{(text above)}}"
     else:
         seen.add(r["id"])
-        body = f"{rid} {tags(r)}{tex(r['text'])}"
+        body = f"{rid} {tags(r) if show_tags else ''}{tex(r['text'])}"
         if also:
             body += rf" \textit{{(also {', '.join(also)})}}"
     return rf"\textcolor{{gray}}{{{body}}}" if grey else body
@@ -234,11 +235,20 @@ def grouped(objectives: list[str]) -> str:
 
 
 THREAD_SN = "SN-AIR-05"  # the stakeholder requirement the report's claims run through (owner, 2026-10-22)
-# What today's NAS already does toward the thread requirement, with its source. Shortened
-# from SN-AIR-05's rationale in requirements_stakeholders.sysml; keep the two in step.
-THREAD_TODAY = (r"before departure, in the FAA's Collaborative Trajectory Options Program, the airline gives each of its "
-                r"route options a relative cost, which the FAA's allocation uses \cite[p.~4]{kulkarni2019ctopSlotSubstitution}; "
-                r"not in tactical conflict resolution in cruise")
+VERIFICATION = ex.MODEL / "nas_verification.sysml"
+STATEMENT_RE = re.compile(r"verification def (?P<vdef>\w+)\b.*?objective\s*\{\s*doc\s*/\*(?P<doc>.*?)\*/\s*verify\s+(?P<req>\w+)\s*;",
+                          re.S)
+
+
+def verification_statements() -> dict[str, tuple[str, str]]:
+    """Requirement name -> (verification def, statement), from the objective docs in nas_verification.sysml (D-040)."""
+    text = VERIFICATION.read_text(encoding="utf-8")
+    out = {}
+    for chunk in re.split(r"(?=\n    verification def )", text):
+        m = STATEMENT_RE.search(chunk)
+        if m:
+            out[m["req"]] = (m["vdef"], ex.clean_doc(m["doc"]))
+    return out
 
 
 def thread_table() -> str:
@@ -247,14 +257,12 @@ def thread_table() -> str:
     s = next(r for r in sn if r["id"] == THREAD_SN)
     kids = [r for r in slr if s["id"] in slr_par[r["id"]]]
     spec = "@{}" + col("4.4cm") + col("5.0cm") + col("6.5cm") + "@{}"
-    objs = grouped(s["attrs"].get("objectiveRefs", []))
     out = [header_note("cameo_models/requirements_*.sysml"),
            r"\begin{table}[htbp]", r"\centering", r"\footnotesize\setlength{\tabcolsep}{4pt}",
-           (rf"\caption{{The study's thread: {THREAD_SN}, the system requirements that answer it and the sub-system requirements (HLRs) under them, from the SysML v2 model. "
-            r"\textsc{[improved]}: not done by today's NAS. \textsc{[goal]}: written with ``should''.}"),
+           rf"\caption{{The study's thread: {THREAD_SN}, the system requirements that answer it and the sub-system requirements (HLRs) under them, from the SysML v2 model.}}",
            r"\label{tab:thread-decomposition}",
            rf"\begin{{tabular}}{{{spec}}}", r"\toprule",
-           r"\textbf{Stakeholder requirement} & \textbf{System requirement (the NAS shall)} & \textbf{Sub-system requirement (HLR)} \\", r"\midrule"]
+           r"\textbf{Stakeholder requirement} & \textbf{System requirement} & \textbf{Sub-system requirement} \\", r"\midrule"]
     seen: set = set()
     first = True
     for k, r in enumerate(kids):
@@ -262,11 +270,10 @@ def thread_table() -> str:
             out.append(r"\cmidrule(l){2-3}")
         hs = [h for h in hlr if r["id"] in hlr_par[h["id"]]]
         for j, h in enumerate(hs or [None]):
-            c1 = (cell(s, seen) + rf"\par\smallskip\textit{{Done today, in part:}} {THREAD_TODAY}."
-                  + rf"\par\smallskip\textit{{Objectives served:}} {objs}") if first else ""
+            c1 = cell(s, seen, show_tags=False) if first else ""
             first = False
-            c2 = cell(r, seen) if j == 0 else ""
-            c3 = cell(h, seen) if h else r"\textbf{(no HLR)}"
+            c2 = cell(r, seen, show_tags=False) if j == 0 else ""
+            c3 = cell(h, seen, show_tags=False) if h else r"\textbf{(no HLR)}"
             out.append(f"{c1} & {c2} & {c3} " + r"\\")
     out += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
     return "\n".join(out)
@@ -277,14 +284,15 @@ def improvement_table() -> str:
     sn, slr, hlr, slr_par, hlr_par = load_model()
     by_id = {r["id"]: r for r in sn + slr + hlr}
     imp = [h for h in hlr if ex.one(h, "architectureState") == "improved"]
-    spec = "@{}" + col("5.8cm") + col("1.6cm") + col("1.8cm") + col("6.4cm") + "@{}"
+    ver = verification_statements()
+    spec = "@{}" + col("4.4cm") + col("2.0cm") + col("4.0cm") + col("5.2cm") + "@{}"
     out = [header_note("cameo_models/requirements_*.sysml"),
            r"\begin{table}[htbp]", r"\centering", r"\footnotesize\setlength{\tabcolsep}{4pt}",
-           (rf"\caption{{The improvement: the {len(imp)} sub-system requirements (HLRs) that today's NAS does not meet, each traced to its system and stakeholder requirements and the objectives those serve. "
-            r"The experiment's cases B to D are the means of meeting them.}"),
+           (rf"\caption{{The improvement: the {len(imp)} sub-system requirements (HLRs) that today's NAS does not meet, each traced to its system and stakeholder requirements and the objectives those serve, "
+            r"with how each is verified (the verification definition in \texttt{nas\_verification.sysml}). The experiment's cases B to D are the means of meeting them.}"),
            r"\label{tab:improvement-hlrs}",
            rf"\begin{{tabular}}{{{spec}}}", r"\toprule",
-           r"\textbf{HLR (improved)} & \textbf{System req.} & \textbf{Stakeholder req.} & \textbf{Objectives served} \\", r"\midrule"]
+           r"\textbf{HLR} & \textbf{Traces to} & \textbf{Objectives served} & \textbf{Verification} \\", r"\midrule"]
     for k, h in enumerate(imp):
         if k:
             out.append(r"\midrule")
@@ -292,9 +300,11 @@ def improvement_table() -> str:
         needs = list(dict.fromkeys(n for p in parents for n in slr_par.get(p, [])
                                    if ex.scope(by_id[n]) != "outOfStudy"))  # the study's own trace only
         objs = list(dict.fromkeys(o for n in needs for o in by_id[n]["attrs"].get("objectiveRefs", [])))
-        means = ex.one(h, "candidateMeans")
-        txt = rf"\textbf{{{h['id']}}} {tex(h['text'])}" + (rf"\par\textit{{Means:}} {tex(means)}" if means else "")
-        out.append(f"{txt} & {', '.join(parents)} & {', '.join(needs)} & {grouped(objs)} " + r"\\")
+        txt = rf"\textbf{{{h['id']}}} {tex(h['text'])}"
+        vdef, statement = ver.get(h["name"], ("", ""))
+        check = (rf"{tex(statement)}\par\texttt{{{vdef}}}" if vdef else r"\textit{(no verification definition)}")
+        traces = ", ".join(parents) + r"; \par " + ", ".join(needs)
+        out.append(f"{txt} & {traces} & {grouped(objs)} & {check} " + r"\\")
     out += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
     return "\n".join(out)
 

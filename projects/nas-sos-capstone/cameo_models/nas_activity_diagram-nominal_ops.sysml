@@ -50,7 +50,7 @@ package NominalOpsActivity {
         // Inputs are what the decider can know (owner's 2026-10-19 print, Fly Enroute):
         in surveillance : AircraftState[*];                   // ADS-B position reports, radar: type, level, speed (today)
         in flightPlans : FlightPlan[*];                       // filed route and requested level (today)
-        in performanceShare : AirlinePerformanceShare[0..*];  // MISSING today: weight, cost index, delay margin. IMPROVED (D-019), cases C and D
+        in performanceShare : AirlinePerformanceShare[0..*];  // MISSING today: the aircraft's state and performance, the airline's priorities. IMPROVED (D-019), cases C and D
         out clearance : Clearance;                            // to the crew of the aircraft that moves
 
         first start;
@@ -100,23 +100,6 @@ package NominalOpsActivity {
         then done;
 
         bind clearance = atcIssueResolutionClearance.clearance;
-    }
-
-    action def Prework {
-        doc /* The top-level airline business plan and design of the service model. */
-        // Owner's wording, 2026-10-19 print. Kept from the earlier doc: steps in the
-        // owner's listed order (the planning literature, to-do-list.md §2, may reorder or
-        // iterate them); exogenous to the study (conops-hub-to-hub-trajectory-cost.md:
-        // schedule, fleet assignment and crew pairing are given). [SME]
-
-        first start;
-        then action defineMarketSegmentation;
-        then action selectServiceModel;
-        then action designNetwork;
-        then action publishSchedule;
-        then action assignFleet { doc /* Fleet assignment strategy. */ }
-        then action assignCrew;
-        then done;
     }
 
     action def PlanFlight {
@@ -487,7 +470,6 @@ package NominalOpsActivity {
 
         // --- Control flow (the ordering of phases) ---
         first start;
-        then action prework : Prework;
         then action planFlight : PlanFlight;
         then action prepareForDeparture : PrepareForDeparture;
         then action depart : Depart;
@@ -514,7 +496,6 @@ package NominalOpsActivity {
 
     part def NominalOpsContext {
         part flightOps : FlightOperationsDomain {
-            perform nominalFlight.prework;
             perform nominalFlight.planFlight;
         }
         part airportOps : AirportOperationsDomain {
