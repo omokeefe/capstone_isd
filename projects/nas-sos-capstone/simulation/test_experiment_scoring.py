@@ -132,7 +132,72 @@ def test_tables_and_results_file(tmp_path, monkeypatch, base):
     monkeypatch.setattr(es, "TABLE_DIR", tmp_path / "tables")
     monkeypatch.setattr(es, "RESULTS_SYSML", tmp_path / "results" / "experiment_results.sysml")
     written = es.write_tables(res)
-    assert len(written) == 3 and all(p.exists() for p in written)
+    assert len(written) == 5 and all(p.exists() for p in written)  # options, cases (csv, tex), level check (csv, tex)
+    assert any(p.name.startswith("level_check_") and p.suffix == ".tex" for p in written)
     out = es.write_results_sysml(res)
     text = out.read_text(encoding="utf-8")
     assert "package ExperimentResults" in text and "caseAOption" in text
+
+
+# --------------------------------------------------------------------------- D-041: stay at the new level
+def _o(sc, oid):
+    return next(o for o in sc.options if o.optionId == oid)
+
+
+def _stay(sc):
+    sc.geometry = {**sc.geometry, "stay_at_new_level": "if_better"}
+    return sc
+
+
+def test_stay_rule_is_off_by_default():
+    """Table 8 is the 'never' run: O4's climb is followed by a call back, and the level check is only reported."""
+    sc = es.Scenario.load(SCENARIO)
+    assert sc.geometry["stay_at_new_level"] == "never"
+    perf = es.PerformanceModel(sc.aircraftType)
+    actual = {a.flightNumber: a.cruise.massKg for a in sc.flights}
+    c = es.score_option(sc, _o(sc, "O4"), perf, actual).per_aircraft["AC2"]
+    assert c.follow_ups == 1 and not c.stays
+    assert c.new_level_better is True and c.beyond_hold_fuel_kg < 0
+
+
+def test_stay_if_better_keeps_the_fuel_and_drops_the_return_call():
+    never = es.Scenario.load(SCENARIO)
+    stay = _stay(es.Scenario.load(SCENARIO))
+    perf = es.PerformanceModel(never.aircraftType)
+    actual = {a.flightNumber: a.cruise.massKg for a in never.flights}
+    for oid, flight in (("O4", "AC2"), ("O8", "AC1"), ("O10", "AC2")):
+        a = es.score_option(never, _o(never, oid), perf, actual).per_aircraft[flight]
+        b = es.score_option(stay, _o(stay, oid), perf, actual).per_aircraft[flight]
+        assert b.delta_fuel_kg == pytest.approx(a.delta_fuel_kg, rel=1e-12), oid  # hold window unchanged
+        assert b.follow_ups == (0 if a.new_level_better else a.follow_ups), oid
+    assert es.run(stay, "actualMass")["cases"]["C"]["option"] == "O4"
+
+
+def test_after_the_hold_is_the_rest_of_the_flight_at_the_new_level():
+    sc = es.Scenario.load(SCENARIO)
+    perf = es.PerformanceModel(sc.aircraftType)
+    ac2 = sc.by_flight_number("AC2")
+    m, M, alt = ac2.cruise.massKg, ac2.cruise.machNumber, ac2.cruise.altitudeFt
+    c = es.score_option(sc, _o(sc, "O4"), perf, {a.flightNumber: a.cruise.massKg for a in sc.flights}).per_aircraft["AC2"]
+    rest_h = ac2.distanceToGoNm / es.tas_kt(M, alt) - sc.geometry["maneuver_hold_min"] / 60
+    assert c.beyond_hold_min == pytest.approx(rest_h * 60)
+    assert c.beyond_hold_fuel_kg == pytest.approx((perf.cruise_fuel_flow(m, M, alt + 2000) - perf.cruise_fuel_flow(m, M, alt)) * rest_h * 3600)
+
+
+def test_a_climb_that_is_not_better_comes_back_and_the_descent_is_costed(monkeypatch):
+    """Make FL400 worse for AC2 (10% more fuel there): under if_better it returns, and the descent back is costed."""
+    never = es.Scenario.load(SCENARIO)
+    stay = _stay(es.Scenario.load(SCENARIO))
+    perf = es.PerformanceModel(never.aircraftType)
+    real = perf.cruise_fuel_flow
+    monkeypatch.setattr(perf, "cruise_fuel_flow", lambda m, M, alt, verticalSpeedFtPerMin=0.0: real(m, M, alt, verticalSpeedFtPerMin) * (1.1 if alt == 40000 and verticalSpeedFtPerMin == 0 else 1.0))
+    actual = {a.flightNumber: a.cruise.massKg for a in never.flights}
+    a = es.score_option(never, _o(never, "O4"), perf, actual).per_aircraft["AC2"]
+    b = es.score_option(stay, _o(stay, "O4"), perf, actual).per_aircraft["AC2"]
+    assert a.new_level_better is False and b.new_level_better is False
+    assert not b.stays and b.follow_ups == 1 and b.beyond_hold_fuel_kg == 0.0
+    ac2 = stay.by_flight_number("AC2")
+    t_back_h = 2000 / abs(perf.descent_rate_fpm) / 60
+    descent_back = (real(ac2.cruise.massKg, 0.80, 39000, perf.descent_rate_fpm) - real(ac2.cruise.massKg, 0.80, 38000)) * t_back_h * 3600
+    assert descent_back < 0  # a descent burns less than cruise
+    assert b.delta_fuel_kg == pytest.approx(a.delta_fuel_kg + descent_back)

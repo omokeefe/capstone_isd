@@ -32,6 +32,11 @@ Scoring of one maneuver (steady cruise, ISA, still air):
                     - cruise at the old level for the same period; then a re-climb
                     (second instruction) if the scenario allows it, else cruise at
                     the new level for the rest of the flight
+                    With ``stay_at_new_level: if_better`` (D-041) an aircraft whose new
+                    level burns less fuel per nautical mile stays there: no second
+                    instruction, same hold-window cost; one whose new level is worse
+                    returns, and a climb's descent back is then costed too. Either way
+                    the fuel and time after the hold are reported, not counted.
   vector            extra track miles at cruise fuel flow and cruise speed
   speed             infeasible for separation by construction (D-014 item 2)
   slow (AC3, AC4, O9) a Mach reduction held for a few minutes: time lost, fuel saved
@@ -212,6 +217,14 @@ class AircraftCost:
     follow_ups: int = 0
     unable: bool = False  # the truth model says the aircraft cannot fly the maneuver
     note: str = ""
+    # Level check (D-041), altitude maneuvers only. Reported, never added to the cost above.
+    fuel_per_nm_old: float = 0.0  # kg/NM at the planned level
+    fuel_per_nm_new: float = 0.0  # kg/NM at the new level
+    new_level_better: bool | None = None  # None: not an altitude maneuver, or not scored
+    stays: bool = False  # stayed at the new level under stay_at_new_level: if_better
+    beyond_hold_min: float = 0.0  # rest of the flight after the hold, if it stayed
+    beyond_hold_fuel_kg: float = 0.0  # fuel difference over that time if it stayed (negative: saved)
+    beyond_hold_time_min: float = 0.0  # time difference over that time if it stayed
 
     @property
     def fuel_equivalent_kg(self) -> float:
@@ -275,22 +288,44 @@ def maneuver_cost(perf: PerformanceModel | None, sc: Scenario, ac: ScenarioFligh
         # the change itself, then the hold at the new level
         delta_fuel = (ff_change - ff_old) * t_change_h * 3600 + (ff_new - ff_old) * hold_h * 3600
         delta_time_h = hold_h * (tas / tas_new - 1.0)  # same ground distance at a different TAS
-        if man.deltaFt < 0 and g["reclimb_available"]:
-            # second instruction: climb back after the hold
-            rate_back = perf.climb_rate_fpm(mass, ac.cruise.machNumber, new_alt, ac.cruise.altitudeFt)
-            t_back_h = abs(man.deltaFt / rate_back) / 60.0
-            ff_back = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, (ac.cruise.altitudeFt + new_alt) / 2, verticalSpeedFtPerMin=rate_back)
-            delta_fuel += (ff_back - ff_old) * t_back_h * 3600
-            cost.follow_ups = 1
-        elif man.deltaFt < 0:
-            # stays at the lower level for the rest of the flight
-            rest_h = max(0.0, ac.distanceToGoNm / tas - hold_h)
-            delta_fuel += (ff_new - ff_old) * rest_h * 3600
-            delta_time_h += rest_h * (tas / tas_new - 1.0)
+        # D-041: is the new level better for this aircraft, per nautical mile, at this mass? Computed
+        # from the model, so a level above the aircraft's best one comes out worse.
+        cost.fuel_per_nm_old = ff_old * 3600 / tas
+        cost.fuel_per_nm_new = ff_new * 3600 / tas_new
+        cost.new_level_better = cost.fuel_per_nm_new < cost.fuel_per_nm_old
+        stay_rule = g.get("stay_at_new_level", "never")
+        rest_after_hold_h = max(0.0, ac.distanceToGoNm / tas - hold_h)
+        if man.deltaFt < 0 and not g["reclimb_available"]:
+            # stays at the lower level for the rest of the flight (counted, so nothing is "beyond")
+            delta_fuel += (ff_new - ff_old) * rest_after_hold_h * 3600
+            delta_time_h += rest_after_hold_h * (tas / tas_new - 1.0)
             cost.follow_ups = 0
             cost.note = "stays at the lower level"
         else:
-            cost.follow_ups = 1  # cleared back to the planned level, or left higher: one more call
+            if cost.new_level_better:
+                # what staying would add after the hold: reported, not counted (D-041)
+                cost.beyond_hold_min = rest_after_hold_h * 60
+                cost.beyond_hold_fuel_kg = (ff_new - ff_old) * rest_after_hold_h * 3600
+                cost.beyond_hold_time_min = rest_after_hold_h * (tas / tas_new - 1.0) * 60
+            if stay_rule == "if_better" and cost.new_level_better:
+                cost.stays = True
+                cost.follow_ups = 0  # no instruction to return
+                cost.note = f"stays at FL{int(new_alt/100)}: less fuel per NM there (D-041)"
+            elif man.deltaFt < 0:
+                # second instruction: climb back after the hold
+                rate_back = perf.climb_rate_fpm(mass, ac.cruise.machNumber, new_alt, ac.cruise.altitudeFt)
+                t_back_h = abs(man.deltaFt / rate_back) / 60.0
+                ff_back = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, (ac.cruise.altitudeFt + new_alt) / 2, verticalSpeedFtPerMin=rate_back)
+                delta_fuel += (ff_back - ff_old) * t_back_h * 3600
+                cost.follow_ups = 1
+            else:
+                cost.follow_ups = 1  # cleared back to the planned level: one more call
+                if stay_rule == "if_better":
+                    # D-041: the descent back is costed, as a descent's climb back is
+                    # (descent_rate_fpm is negative: OpenAP's WRAP gives descent rates below zero)
+                    t_back_h = abs(man.deltaFt / perf.descent_rate_fpm) / 60.0
+                    ff_back = perf.cruise_fuel_flow(mass, ac.cruise.machNumber, (ac.cruise.altitudeFt + new_alt) / 2, verticalSpeedFtPerMin=perf.descent_rate_fpm)
+                    delta_fuel += (ff_back - ff_old) * t_back_h * 3600
         cost.delta_fuel_kg = delta_fuel
         cost.delta_time_min = delta_time_h * 60
         return cost
@@ -521,9 +556,11 @@ def write_tables(res: dict[str, Any]) -> list[Path]:
     lines = [
         "% Generated by simulation/experiment_scoring.py; do not edit. Fidelity: " + res["fidelity"],
         "% Scenario: " + sc.name + "; run " + dt.date.today().isoformat(),
-        r"\begin{tabular}{@{}llp{3.0cm}p{3.2cm}p{2.6cm}p{2.4cm}@{}}",
+        # Ragged-right columns: justified p{} columns stretched the header's word spacing
+        # and hyphenated "ef-fort" (owner, 2026-11-07, capturing the table for the slides).
+        r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.4cm}@{}}",
         r"\toprule",
-        r"Case & Option & Largest cost to any one aircraft (kg fuel-equiv.) & Airline totals (USD) & Sector (calls / effort / risk) & System fuel, CO2 (kg) \\",
+        r"Case & Option & Largest cost to any one aircraft (kg fuel-equiv.) & Airline totals (USD) & Sector (calls / effort / risk) & System fuel, CO$_2$ (kg) \\",
         r"\midrule",
     ]
     for case in CASES:
@@ -543,7 +580,74 @@ def write_tables(res: dict[str, Any]) -> list[Path]:
     lines += [r"\bottomrule", r"\end{tabular}"]
     p3.write_text("\n".join(lines) + "\n", encoding="utf-8")
     written.append(p3)
+    if not conceptual:
+        written += write_level_check(res, tag)
     return written
+
+
+def level_check_rows(res: dict[str, Any]) -> list[dict[str, Any]]:
+    """One row per altitude maneuver in the option each case chose (D-041)."""
+    sc: Scenario = res["scenario"]
+    rows = []
+    for case in CASES:
+        s: OptionScore | None = res["cases"][case]["truth"]
+        if s is None:
+            continue
+        alt_mans = [m for m in s.option.maneuvers if m.kind == ManeuverKind.altitude]
+        if not alt_mans:
+            rows.append({"case": case, "option": s.option.optionId, "flight": "", "change": "no level change"})
+            continue
+        n_returning_better = sum(1 for m in alt_mans if s.per_aircraft[m.flightNumber].new_level_better and not s.per_aircraft[m.flightNumber].stays and s.per_aircraft[m.flightNumber].follow_ups)
+        for m in alt_mans:
+            ac = sc.by_flight_number(m.flightNumber)
+            c = s.per_aircraft[m.flightNumber]
+            rows.append({
+                "case": case, "option": s.option.optionId, "flight": m.flightNumber,
+                "change": f"{m.flightNumber} FL{int(ac.cruise.altitudeFt/100)} to FL{int((ac.cruise.altitudeFt + m.deltaFt)/100)}",
+                "per_nm_old": c.fuel_per_nm_old, "per_nm_new": c.fuel_per_nm_new, "better": c.new_level_better, "stays": c.stays,
+                "calls_if_stays": f"{s.total_instructions()}+{s.total_follow_ups() - n_returning_better}" if c.new_level_better else "",
+                "beyond_min": c.beyond_hold_min, "beyond_fuel_kg": c.beyond_hold_fuel_kg, "beyond_time_min": c.beyond_hold_time_min,
+            })
+    return rows
+
+
+def write_level_check(res: dict[str, Any], tag: str) -> list[Path]:
+    """Is each moved aircraft better off at its new level, and what would staying add after the hold (D-041)."""
+    sc: Scenario = res["scenario"]
+    rows = level_check_rows(res)
+    p_csv = TABLE_DIR / f"level_check_{tag}.csv"
+    with p_csv.open("w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["case", "option", "level change", "fuel per NM planned kg", "fuel per NM new kg", "new level better", "stays (this run)", "calls if it stays", "minutes after the hold", "fuel after the hold if it stays kg", "time after the hold if it stays min"])
+        for r in rows:
+            if not r["flight"]:
+                w.writerow([r["case"], r["option"], r["change"]] + [""] * 8)
+                continue
+            w.writerow([r["case"], r["option"], r["change"], f"{r['per_nm_old']:.3f}", f"{r['per_nm_new']:.3f}", "yes" if r["better"] else "no", "yes" if r["stays"] else "no",
+                        r["calls_if_stays"], f"{r['beyond_min']:.1f}" if r["better"] else "", f"{r['beyond_fuel_kg']:.1f}" if r["better"] else "", f"{r['beyond_time_min']:.2f}" if r["better"] else ""])
+
+    def signed(x: float, fmt: str) -> str:
+        return ("$-$" if x < 0 else "+") + format(abs(x), fmt)
+
+    p_tex = TABLE_DIR / f"level_check_{tag}.tex"
+    lines = [
+        "% Generated by simulation/experiment_scoring.py; do not edit. Fidelity: " + res["fidelity"] + "; D-041",
+        "% Scenario: " + sc.name + "; stay_at_new_level: " + str(sc.geometry.get("stay_at_new_level", "never")) + "; run " + dt.date.today().isoformat(),
+        r"\begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{3.0cm}@{}}",
+        r"\toprule",
+        r"Case & Option & Level change & Fuel per NM, planned / new (kg) & New level better? & Calls if it stays & After the hold, if it stays (this scenario's distance to go) \\",
+        r"\midrule",
+    ]
+    for r in rows:
+        if not r["flight"]:
+            lines.append(f"{r['case']} & {r['option']} & {r['change']} & -- & -- & -- & -- \\\\")
+            continue
+        after = f"{signed(r['beyond_fuel_kg'], '.0f')} kg, {signed(r['beyond_time_min'], '.1f')} min over {r['beyond_min']:.0f} min" if r["better"] else "returns"
+        change = r["change"].replace(" to ", r"$\to$")
+        lines.append(f"{r['case']} & {r['option']} & {change} & {r['per_nm_old']:.2f} / {r['per_nm_new']:.2f} & {'yes' if r['better'] else 'no'} & {r['calls_if_stays'] or '--'} & {after} \\\\")
+    lines += [r"\bottomrule", r"\end{tabular}"]
+    p_tex.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return [p_csv, p_tex]
 
 
 def write_results_sysml(res: dict[str, Any]) -> Path:
@@ -579,9 +683,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--variation", choices=["similar-weights"], default=None)
     ap.add_argument("--scenario", type=Path, default=HERE / "scenario_base.yaml")
     ap.add_argument("--no-sysml", action="store_true", help="do not write the results .sysml file")
+    ap.add_argument("--stay-if-better", action="store_true",
+                    help="D-041: an aircraft moved to a level with less fuel per NM stays there (no second instruction); "
+                         "tables are tagged '-stay' and the results .sysml file is not written")
     args = ap.parse_args(argv)
 
     sc = Scenario.load(args.scenario, args.variation)
+    if args.stay_if_better:
+        sc.geometry = {**sc.geometry, "stay_at_new_level": "if_better"}
+        sc.name += "-stay"
+        if not args.no_sysml:
+            print("--stay-if-better: results .sysml not written (it holds the baseline run)")
+        args.no_sysml = True
     res = run(sc, args.fidelity)
     for case in CASES:
         c = res["cases"][case]

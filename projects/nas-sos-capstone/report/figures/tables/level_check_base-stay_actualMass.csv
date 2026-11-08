@@ -1,0 +1,5 @@
+case,option,level change,fuel per NM planned kg,fuel per NM new kg,new level better,stays (this run),calls if it stays,minutes after the hold,fuel after the hold if it stays kg,time after the hold if it stays min
+A,O10,AC2 FL380 to FL340,4.371,4.613,no,no,,,,
+B,O8,AC1 FL380 to FL340,4.813,4.972,no,no,,,,
+C,O4,AC2 FL380 to FL400,4.371,4.288,yes,yes,1+0,61.4,-39.1,0.00
+D,O4,AC2 FL380 to FL400,4.371,4.288,yes,yes,1+0,61.4,-39.1,0.00

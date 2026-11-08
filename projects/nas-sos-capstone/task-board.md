@@ -6,15 +6,17 @@ _Cross-session focus state only. The full task checklist lives in
 terse and current-state-only — narrative reasoning belongs in the daily
 `journal/`, not here._
 
-**Last updated:** 2026-11-05, evening (owner's 11-05 print review applied, D-038 to D-040; see `journal/2026-11-05.md` Sign-Off). No sign-off on 11-02 (welcome only).
+**Last updated:** 2026-11-07, morning (owner's presentation slot and slide deck recorded; 11-02 to 11-05 work committed as `af4109c`). Last sign-off: `journal/2026-11-05.md`.
 
 ## Current phase
 
-**Turn 4 of the nine-turn plan (Nov 2 to 8; D-016).** Next graded dates: presentation slot Nov 17 to 19 (upload Nov 20), Review #3 Nov 22 (option resolved by the owner). OpenAP fallback closed (D-038).
+**Turn 4 of the nine-turn plan (Nov 2 to 8; D-016).** Next graded dates: **presentation Thu Nov 19, 10 AM** (slot registered by the owner weeks ago; upload by Fri Nov 20), Review #3 Nov 22 (option resolved by the owner). OpenAP fallback closed (D-038).
 
 **Still open from Report #1 (Track C edits):** the literature-review annotation-coverage claim, citation spot-checks against skimmed-only sources, the 1998-dollar disruption-cost figure.
 
 ## Active
+
+- Presentation (Track C), 2026-11-07: slot Thu Nov 19, 10 AM. Working deck: `report/presentations/503 Project Presentation - O'Keefe (210055806) - NAS SoI.pptx`, saved from the template on 11-07; not yet in git. `503 Project Presentation Template-v26.pptx` in the same folder holds the 11-05 copy (committed) and is no longer the working file. The deck has 13 slides: six of the owner's (title, overview, methodology, preliminary results, benefits, thank you) and the template's seven example slides (7 to 13), still to remove. Slides complete by Sun Nov 15 (Turn 5 exit test).
 
 - Report (Track C), 2026-10-14: the owner wrote the literature review and research gap in Section 1 and stated the two claims there (not yet in the Executive Summary). `\cite{great2023}` is undefined; fix before rebuilding. See journal 2026-10-14 21:44.
 
@@ -112,8 +114,8 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Next session priority
 
-Turn 4 ends Nov 8; slides are Turn 5's exit test. See journal 2026-11-05 Sign-Off.
+Turn 4 ends Nov 8; slides complete by Nov 15 (Turn 5 exit test); presenting Thu Nov 19, 10 AM. See journal 2026-11-05 Sign-Off and 2026-11-07.
 
 1. Review the D-040 drafts: five verification statements in Table 5 (set HLR-ATC-11's tolerance), Section 3.6 "same obstacle" passage (manufacturer claim unsourced), Section 5 reliability paragraph; answer transcription item 3.2.
-2. Commit the 11-02 to 11-05 work (message drafted in session; leave out the `~$…pptx` lock file).
-3. Hand-review the updated sequence and do the O4 hand check; then start the slides and sign up for a presentation slot.
+2. Finish the slides in the working deck (above): remove the template's example slides 7 to 13; add the deck to git when ready (leave out the `~$…pptx` lock file).
+3. Hand-review the updated sequence and do the O4 hand check.

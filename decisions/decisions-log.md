@@ -6,6 +6,30 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-041 — An aircraft moved to a better level may stay there: an optional scoring rule, judged over the hold only, with the benefit after the hold reported and not counted
+
+**Date:** 2026-11-07
+**Status:** active. Owner direction in session, during the hand check of O4: "an aircraft cleared to a more efficient altitude would not choose to be cleared to its previous altitude if it didn't have to be"; "we should just look at the holding time to keep this a generic scenario"; "speak to the remaining unanalyzed benefit". Amends D-024 (how a climb is costed, in the new setting only).
+
+**Decision:**
+
+1. **New scenario setting `stay_at_new_level: never | if_better`** in `simulation/scenario_base.yaml`, default `never`, which is Table 8 unchanged. `--stay-if-better` sets it for one run; its tables are tagged `-stay` and it does not write `cameo_models/results/experiment_results.sysml`.
+2. **"Better" is fuel per nautical mile at the new level against the planned one, from OpenAP at the aircraft's mass.** It is computed, not assumed: a level above the aircraft's best one comes out worse (owner: higher is not always better at the aircraft level).
+3. **With `if_better`:** an aircraft whose new level is better stays. Its cost over the climb or descent and the 15-minute hold is unchanged, and the second instruction (the call back) is dropped. An aircraft whose new level is worse returns, and a climb's descent back is now costed, as a descent's climb back already was.
+4. **The window is the hold, in both settings.** What staying would add after the hold depends on the distance to go, so it is reported (a new level-check table, `level_check_<tag>`) and never added to the cost. The scenario stays general: a flight near its descent would see little of it.
+5. **For this scenario only, the benefit after the hold is quantified:** AC2 in cases C and D (O4, FL380 to FL400; 4.37 against 4.29 kg/NM) would save about 39 kg more over the 61 minutes left after the hold (584 NM to go, 76.4 minutes in all). In the similar-weights variation, case C's AC1 (O3) about 59 kg over 125 minutes. Cases A and B descend to a worse level and return.
+6. **The report says, as a simplification, that the high-altitude gain is aerodynamic only:** OpenAP's fuel flow is a function of thrust alone, with no altitude or Mach term. At Mach 0.80 the least fuel per mile is at FL410 (AC1) and FL430 (AC2), above the highest level each can hold with 150 ft/min left (FL380, FL410), so every climb an aircraft can make in this scenario is to a better level.
+
+**Rationale:** a crew cleared to a more efficient level asks to stay; returning it costs the airline fuel and the controller a call. Judging over the hold keeps the comparison the same for every option and every route. Reporting the rest separately keeps the experiment's numbers general while saying how conservative they are.
+
+**Alternatives considered:** count the rest of the flight (rejected by the owner: ties the result to one route, and the aircraft may be near its destination); make `if_better` the default (not now: Table 8, the slides and the verification values use `never`; the fuel is the same either way, only the calls for C and D change, 1+1 to 1+0).
+
+**Evidence / source:** OpenAP (`sun2020openap`); the level scan in `journal/2026-11-07.md`; owner [SME] on crew behavior.
+
+**Consequences:** `simulation/experiment_scoring.py` (level check on every altitude maneuver, the stay rule, the costed descent back, `--stay-if-better`, the level-check table), `scenario_base.yaml`, four new tests (36 pass), a new stop in `debug_o4_walkthrough.py`. Report: Table 9 (level check) and an AI-drafted paragraph after Table 8; an AI-drafted simplification item on fuel flow and altitude; the Section 5 planning note updated. `knowledge/models/experiment-options-and-scoring.md` §8 and `experiment-definition.md` §10 updated.
+
+---
+
 ## D-040 — The owner's answers on the 2026-11-05 review: ATC decision support wired, SLR-CLR-13 split three ways, the share abstracted, verification statements in Table 5
 
 **Date:** 2026-11-05

@@ -83,6 +83,7 @@ information-flow, and decision-authority decompositions before committing.
 Latest first — full rationale and history in
 [[decisions-log]] (`../../decisions/decisions-log.md`):
 
+- **D-041** — Optional scoring rule `stay_at_new_level: if_better`: an aircraft moved to a level with less fuel per NM stays (no call back), judged over the 15-minute hold only; the benefit after the hold is reported in Table 9, not counted; the report states that OpenAP's high-altitude gain is aerodynamic only (2026-11-07).
 - **D-040** — ATC decision support wired inside `atc`; SLR-CLR-13 a "shall" split into three HLRs with no overlap; `AirlinePerformanceShare` abstract, the experiment's version a specialization; verification statements in Table 5; `Prework` and the special-use airspace input removed; Section 1.3 removed (2026-11-05).
 - **D-039** — Hand review of the 2026-11-05 print: dictated edits, Figure 10 to the appendix, sequence on the fifth run (2026-11-05).
 - **D-038** — OpenAP kept as an example (fallback closed); `atc` stays one box; the report says "aircraft performance" in place of weight, cost index and performance models; a low-cost-index run is "if time" (2026-11-05).

@@ -348,4 +348,17 @@ Every Decide item in `experiment-scenario-numbers.md` answered by the owner. Cha
 
 B minus A is −8.9 kg of system fuel; C minus B is −19.9 kg. B no longer picks O9: slowing two aircraft by 0.04 Mach for 12 minutes costs 12.2 kg of fuel each (OpenAP puts Mach 0.80 at the best fuel per mile at FL360, so slowing costs fuel as well as time) plus 0.63 min each, valued at CI 30. **Sensitivity:** B's choice turns on the nominal cost index it assumes. Re-run at 0.5 to 45.36 kg/min: B picks O8 above about 9.9 kg/min (CI 13) and the vector O5 (AC1 turns behind, +28.9 kg system fuel) below it. So B minus A and C minus B both depend on an assumed value that is not confirmed. Similar-weights variation: A O10, B O8, C and D O3 (AC1 climbs), so C still differs from B. 32 tests pass.
 
+### Stay at the new level (2026-11-07, D-041): an optional rule, same fuel, fewer calls
+
+Rule: with `stay_at_new_level: if_better` (default `never`; `--stay-if-better` for one run), an aircraft whose new level burns less fuel per nautical mile than its planned one (OpenAP, at its mass) stays there and is not called back; one whose new level is worse returns, and a climb's descent back is then costed. The window is the climb or descent plus the 15-minute hold in both settings; the rest of the flight is reported in the level-check table (`report/figures/tables/level_check_<tag>`), never counted.
+
+| Case | Option | Level change | kg/NM planned / new | Better? | Calls (never → if_better) | After the hold, if it stays |
+|---|---|---|---|---|---|---|
+| A | O10 | AC2 FL380 → FL340 | 4.37 / 4.61 | no | 1+1 → 1+1 | returns |
+| B | O8 | AC1 FL380 → FL340 | 4.81 / 4.97 | no | 1+1 → 1+1 | returns |
+| C | O4 | AC2 FL380 → FL400 | 4.37 / 4.29 | yes | 1+1 → 1+0 | −39 kg over 61 min (584 NM to go) |
+| D | O4 | as C | as C | yes | 1+1 → 1+0 | as C |
+
+System fuel is unchanged in every case (41.2, 32.3, 12.4, 12.4 kg). Similar-weights variation: C and D choose O3 (AC1 at 67,000 kg to FL400, 4.59 / 4.52 kg/NM), which stays: calls 1+0, about −59 kg over 125 minutes after the hold. In this scenario every climb an aircraft can make is to a better level, because each aircraft's best level for fuel per mile at Mach 0.80 (FL410 for AC1, FL430 for AC2) lies above the highest level it can hold with 150 ft/min left; so the costed descent back never occurs here and is checked by a test with a made-worse level.
+
 A scope note: §4 is as far as the scoring should go as a capability inside the architecture. The owner's own note says the same: this is not an optimization paper, it is an exploration of what interchangeable models are worth. If the next step looks like tuning weights or searching a larger option space, that is the pull to flag.

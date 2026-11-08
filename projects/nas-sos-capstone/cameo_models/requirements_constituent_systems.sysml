@@ -17,7 +17,7 @@ package ConstituentSystemRequirements {
      *  - objectiveStatement says, in one sentence, what the requirement is for.
      *  - parentRequirements names the system requirement(s) in
      *    requirements_nas_system.sysml that it comes from. Every system requirement has
-     *    at least one requirement here, and every requirement here has a parent.
+     *    at least one requirement here, if in study, and every requirement here has a parent.
      *  - candidateMeans lists the different ways the objective can be achieved, where
      *    there is more than one: a rule of thumb, a low-fidelity model, a high-fidelity
      *    model, and a high-fidelity model that also has the airline's connection

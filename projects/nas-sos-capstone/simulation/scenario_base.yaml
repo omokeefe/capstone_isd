@@ -26,6 +26,7 @@ geometry:
   time_to_crossing_min: 12          # decision made this far ahead of the crossing
   maneuver_hold_min: 15             # an altitude or vector change is held this long before the conflict has cleared
   reclimb_available: true           # a descended aircraft is cleared back up afterwards (second instruction)
+  stay_at_new_level: never          # D-041: never (Table 8) | if_better: an aircraft with less fuel per NM at its new level stays there, no second instruction; --stay-if-better sets it for one run
   vector_extra_nm: 6.0              # extra track miles for a "pass behind" path stretch: delays the aircraft ~5.4 NM (5 NM / cos 21.5 deg at the 43 deg crossing) plus margin, flown over the ~90 NM to the crossing (owner 2026-10-29)
   speed_change_mach: 0.04           # lever built to fail (D-014 item 2): cannot separate the pair
   speed_lever_separates: false

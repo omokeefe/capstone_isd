@@ -1,0 +1,18 @@
+{
+    // Run and Debug configurations. The experiment's walk-throughs stop at each
+    // breakpoint() in the script; see the docstring at the top of the script.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug O4 walk-through (experiment hand check)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/projects/nas-sos-capstone/simulation/debug_o4_walkthrough.py",
+            "cwd": "${workspaceFolder}/projects/nas-sos-capstone/simulation",
+            "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+            "console": "integratedTerminal",
+            // false so F11 can step into OpenAP's drag, thrust and fuel-flow code
+            "justMyCode": false
+        }
+    ]
+}

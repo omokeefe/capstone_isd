@@ -82,6 +82,8 @@ Design files: `knowledge/models/experiment-definition.md`, `experiment-options-a
 - [ ] Do the two checks before trusting any number (`experiment-definition.md` §9): effect size by hand; the information check by hand on three or four context-diagram decisions.
 - [x] Establish the baseline scenario as confirmed and re-run cases A to D at `actualMass`. *(Fifth run 2026-10-29: A O10, B O8, C and D O4; `experiment-options-and-scoring.md` §8.)*
 - [x] Run the similar-weights variation (the not-rigged check). *(Re-run on the confirmed numbers 2026-10-29: B O8, C and D O3. Write-up is turn 5.)*
+- [x] Optional "stay at a better level" rule, judged over the hold (D-041, 2026-11-07). *(`--stay-if-better`; Table 9 level check; C and D calls 1+1 to 1+0, fuel unchanged; benefit after the hold reported, about 39 kg for this scenario's AC2.)*
+- [ ] Owner rewrites the two D-041 AI drafts in the report (the simplification on fuel flow and altitude in Section 5; the "staying at the new level" paragraph after Table 8) and decides whether Table 8 uses `never` or `if_better`.
 - [ ] Quantify externalities: who pays, read across the rows (largest cost to any one aircraft; AC3 and airline X carry O9's second instruction).
 - [ ] Compare the local and system-level readings of the table (the sub-system against system discussion).
 - [ ] Write what the result shows and does not show, including the limits in `experiment-definition.md` §10 and the OpenAP polar limitation.
@@ -95,7 +97,7 @@ Design files: `knowledge/models/experiment-definition.md`, `experiment-options-a
 Interim Report #2 checklist: `report/README.md`. Red `\irtwo` notes in the compiled PDF mark every required part.
 
 - [ ] **Interim Report #2 (Oct 25):** Introduction updated; Assumptions and Methodology; Results and Discussion (preliminary); References; GenAI disclosure; review meeting; Word copy to the adviser; Progress Update #2 in Canvas; ask which Review #3 option.
-- [ ] **Peer presentation** (upload by Nov 20; sign up for a Nov 17 to 19 slot; `prework/503 Project Presentation Template-v26.pptx`).
+- [ ] **Peer presentation** (upload by Nov 20; slot Thu Nov 19, 10 AM, registered by the owner; deck `report/presentations/503 Project Presentation - O'Keefe (210055806) - NAS SoI.pptx`).
 - [ ] **Project Review #3** (Nov 22): option per the adviser. *(Option question resolved by the owner, 2026-11-05.)*
 - [ ] **Final Report #4 and synopsis** (Dec 13): adviser first, then Canvas.
 - [ ] Report fixes carried from §1: the literature-review annotation-coverage claim (check the real count in `evidence/source-register.md`); spot-check citations sourced to skimmed-only references (`castro2013aoccMasThesis`, `great2020d21tboConcept`, `great2021d22operationalArch`, `hu2024disruptionOptReview`); replace or caveat the 1998-dollar `clarke1998irregular` figures.

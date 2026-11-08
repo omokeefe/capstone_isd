@@ -74,6 +74,10 @@ One model scores every case, at higher fidelity than the model any case used to 
 - Cost index understates a connection-critical flight, and dispatchers rate schedule integrity and connections above fuel (Sheth, Gutierrez-Nolasco, Courtney and Smith, credits-concept paper, Figure 7, PDF p. 11; held in `evidence/sources/` but not yet registered; the paper says the averages are not statistically significant).
 - Airlines could misreport what they share. Published gains from misreporting cost index are small (1 to 3 percent).
 - The ±0.04 M speed figure is still unsourced.
+- Flight-path angle (found 2026-11-07, O4 walk-through): OpenAP takes γ = atan(vs / TAS), treating TAS as the horizontal side; TAS lies along the path, so the exact angle is asin(vs / TAS). For O4's climb the difference is 0.00002° and 0.001 kg of fuel. Negligible; stated so a hand check does not trip on it. In the report: `\plantodo` after the simplifications list in `report/sections/05_experiment.tex`.
+- Round trip costed one way (found 2026-11-07, O4 walk-through; the owner's `#TODO` in `maneuver_cost`): in the default setting a descent's climb back is costed (O8, O10), a climb's descent back is not (O4). With `stay_at_new_level: if_better` (D-041) a climb to a worse level comes back and the descent is costed; in this scenario every climb is to a better level, so the aircraft stays. Same `\plantodo`.
+- Fuel flow depends on thrust alone (2026-11-07, D-041): OpenAP's fuel flow has no altitude or Mach term, so every difference between levels is aerodynamic (lift coefficient toward its best lift-to-drag value, 0.69, and lower drag); a real engine's fuel per unit thrust also changes with altitude. Best level for fuel per mile at Mach 0.80: FL410 (AC1), FL430 (AC2), above what each can hold with 150 ft/min left. In the report: AI-drafted item in the simplifications list, `report/sections/05_experiment.tex`.
+- The benefit of staying at a better level after the hold is not counted (D-041): reported in the level-check table (Table 9); for this scenario's AC2 about 39 kg over 61 minutes. Table 8 is conservative for cases C and D.
 
 ## 11. For the adviser
 
