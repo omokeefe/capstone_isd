@@ -2,7 +2,11 @@
 
 **Status: draft, nothing decided.** Drafted by Claude on 2026-10-06 from the 2026-10-04 and 2026-10-05 journal discussions, at the owner's request. Every item marked **Decide** is the owner's call; the option written down is a proposal. Not report text.
 
-## 1. Central claim (Decide)
+## 1. Central claim (decided 2026-11-08, D-042)
+
+**Decided (owner, 2026-11-08):** the objectives, requirements and interfaces established by the literature show that the information is insufficient. Resolving a conflict with regard to its impact on every aircraft involved needs information that does not reach ATC: there is no extended projected profile in the NAS, the manufacturers provide no performance models, and the AOC provides no API to its models. Case A is what ATC has and uses today, so its decision is suboptimal. Decomposing the requirement to consider impact (SLR-CLR-13 into HLR-ATC-10, HLR-ATC-11 and HLR-ATC-05) leaves several ways to meet it, at different fidelity and impact; comparing them (cases A to D, the means of D-022) is the study. The model's part is the trace from objective to requirement to the missing interface, and the decomposition that turns one requirement into alternative means. Checking other decisions in the model the same way has value but is not the main claim; fuel load is the first candidate, if time (`to-do-list.md` Track B).
+
+*Earlier proposal, kept for the record (superseded by D-042):*
 
 **Proposed:** the architecture model can be checked, decision by decision, for one thing: does the actor who makes this decision receive the information the decision depends on? The experiment measures what one of the gaps found by that check costs. It is one worked example, not the main result.
     - OOK, 10/29/2026, This will be the main claim. It seems feasable. Objective -> Requirement -> Activity Diagram -> Sequence Diagram -> exchanges w/or w/o info
@@ -66,7 +70,9 @@ One model scores every case, at higher fidelity than the model any case used to 
 ## 9. Two checks before building anything
 
 - **Effect size.** Rough first pass, by Claude, to be verified: `mori2022massCruise` reports about 1,000 ft of optimum altitude per 20,000 lb for a B787-8, which is roughly 4 to 5 percent of its weight. Two aircraft of one type at one standard deviation above and below the mean differ by 9 to 14 percent, so their optimum altitudes would differ by roughly 2,000 to 3,000 ft. That is more than one flight level, so the better aircraft to descend can plausibly change with weight. This assumes the B787 relation carries over to other types by percentage, which is unchecked, and it says nothing yet about how many pounds of fuel the wrong choice costs.
+    - **Done (owner, 2026-11-08).** The runs answered whether the choice changes: in the sixth run (2026-11-10, D-047) case B moves AC2 down 4,000 ft like case A (+41.2 kg) and case C climbs AC2 2,000 ft (+12.4 kg), so C − B = −28.8 kg; knowing the weight opens the climb above FL350 (D-024). The fifth run's C − B of −19.9 kg rested on case B picking AC1's descent, which passes AC3 too closely and was a tie broken by list order (D-047). The owner's O4 hand check (2026-11-07, `simulation/debug_o4_walkthrough.py`) confirmed the arithmetic. OpenAP's own accuracy is not validated (D-038); how large the gap is against the scoring model's error goes into the "sufficiently accurate" discussion.
 - **The check by hand** on three or four decisions already in the context diagram. Not done. The owner should do it, because the test is whether it turns up something the owner did not already know.
+    - **Done for the studied decision (owner, 2026-11-08).** The objectives, requirements and interfaces established by the literature show that the information is insufficient: resolving a conflict with regard to its impact on every aircraft involved needs information that does not reach ATC (no extended projected profile in the NAS, no performance models from the manufacturers, no interface from the airline operations center carrying its models). Case A is the decision as made today, so it is suboptimal whatever the rule. Decomposing the requirement to consider impact leaves several ways to meet it, at different fidelity and impact; that is what the study compares. Applying the check to other decisions has value; fuel load is the first candidate (if time, `to-do-list.md` Track B).
 
 ## 10. Known limits
 

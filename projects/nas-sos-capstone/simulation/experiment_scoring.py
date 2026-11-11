@@ -102,6 +102,7 @@ CASE_LABEL = {
 CLIMB_RATE_FPM = 1500.0  # cap; a climb is flown at the rate maximum thrust allows when that is less (D-024)
 M_S_TO_FPM = 196.850394
 EFFORT = {"A": 1, "B": 3, "C": 3, "D": 3}  # 1 rule from memory, 2 mental estimate, 3 automation proposes
+GIVEN_SHARE = {"A": False, "B": False, "C": True, "D": True}  # cases A and B are not given the airline's share (D-019)
 RISK = {"altitude": "low", "vector": "medium", "speed": "high", "slow": "medium"}
 
 
@@ -362,6 +363,10 @@ def option_feasible_for_decider(sc: Scenario, opt: ResolutionOption, case: str, 
             new_alt = ac.cruise.altitudeFt + man.deltaFt
             if new_alt in g["blocked_levels_ft"] and not any(m.kind == ManeuverKind.slow for m in opt.maneuvers):
                 return False, f"FL{int(new_alt/100)} occupied under the crossing"
+            lo, hi = sorted((ac.cruise.altitudeFt, new_alt))
+            for lvl in g.get("no_transit_levels_ft", {}).get(ac.flightNumber, []):
+                if lo < lvl < hi:  # every case: a safety limit, not a matter of what the decider knows (D-047)
+                    return False, f"{ac.flightNumber} cannot pass through FL{int(lvl/100)} (traffic in trail)"
             if man.deltaFt > 0:
                 if case in ("A", "B"):  # not given the share: no weight
                     if ac.cruise.altitudeFt > g["climb_rule_ft"]:
@@ -448,30 +453,50 @@ def decide(sc: Scenario, case: str, perf: PerformanceModel | None, scores_by_mas
                         return opt.optionId, f"rule: one descent, gap opened; {ac.flightNumber} moved"
         return None, "no descent available"
 
-    key = "nominal" if case == "B" else "actual"
+    key = known_mass(case)
     best, best_cost, reason = None, math.inf, ""
-    for opt in sc.options:
-        ok, why = option_feasible_for_decider(sc, opt, case, perf)
-        if not ok:
-            continue
-        sc_opt = scores_by_mass[key][opt.optionId]
-        if not sc_opt.feasible:
-            continue
-        # the decider's estimate: sum over the aircraft it moves of fuel + CI x time
-        est = 0.0
-        for ac in sc.flights:
-            c = sc_opt.per_aircraft[ac.flightNumber]
-            share = ac.performanceShare if case in ("C", "D") else None  # A and B are not given the share
-            ci = share.costIndex if share else sc.costs["nominal_cost_index"]  # B knows no cost index: a typical one
-            est += c.delta_fuel_kg + ci * c.delta_time_min
-            if case == "D" and share.delayMarginMin is not None:
-                over = c.delta_time_min > share.delayMarginMin >= 0
-                est += 1e6 if over else 0.0  # K unsourced: treated as prohibitive
-        if perf is None:
-            est = sc_opt.total_instructions() + sc_opt.total_follow_ups()  # conceptual: fewest calls
+    for oid in offered_options(sc, case, perf, scores_by_mass):
+        est = case_estimate(sc, case, perf, scores_by_mass[key][oid])
         if est < best_cost - 1e-9:
-            best, best_cost, reason = opt.optionId, est, f"lowest estimated cost {est:.1f} ({'calls' if perf is None else 'kg fuel-equivalent'})"
+            best, best_cost, reason = oid, est, f"lowest estimated cost {est:.1f} ({'calls' if perf is None else 'kg fuel-equivalent'})"
     return best, reason
+
+
+def known_mass(case: str) -> str:
+    """Which scoring a case's own estimate reads: the type's nominal mass (A, B) or the shared mass (C, D)."""
+    return "actual" if GIVEN_SHARE[case] else "nominal"
+
+
+def offered_options(sc: Scenario, case: str, perf: PerformanceModel | None, scores_by_mass: dict[str, dict[str, OptionScore]]) -> list[str]:
+    """The options this case treats as viable, in the scenario's order: those its own information
+    confirms (HLR-ATC-10, D-043), less any its own scoring finds infeasible. Split out of decide()
+    on 2026-11-10 so the verification verdicts read the same set; decide()'s choices are unchanged."""
+    key = known_mass(case)
+    out = []
+    for opt in sc.options:
+        ok, _ = option_feasible_for_decider(sc, opt, case, perf)
+        if ok and scores_by_mass[key][opt.optionId].feasible:
+            out.append(opt.optionId)
+    return out
+
+
+def case_estimate(sc: Scenario, case: str, perf: PerformanceModel | None, sc_opt: OptionScore) -> float:
+    """A decider's own estimate of an option's impact (cases B to D; HLR-ATC-11, D-042): fuel plus
+    cost index times time, summed over the aircraft, scored at the mass the case knows. Split out of
+    decide() on 2026-11-10, unchanged."""
+    if perf is None:
+        return sc_opt.total_instructions() + sc_opt.total_follow_ups()  # conceptual: fewest calls
+    # the decider's estimate: sum over the aircraft it moves of fuel + CI x time
+    est = 0.0
+    for ac in sc.flights:
+        c = sc_opt.per_aircraft[ac.flightNumber]
+        share = ac.performanceShare if GIVEN_SHARE[case] else None  # A and B are not given the share
+        ci = share.costIndex if share else sc.costs["nominal_cost_index"]  # B knows no cost index: a typical one
+        est += c.delta_fuel_kg + ci * c.delta_time_min
+        if case == "D" and share is not None and share.delayMarginMin is not None:
+            over = c.delta_time_min > share.delayMarginMin >= 0
+            est += 1e6 if over else 0.0  # K unsourced: treated as prohibitive
+    return est
 
 
 # --------------------------------------------------------------------------- outputs
@@ -490,7 +515,7 @@ def run(sc: Scenario, fidelity: str) -> dict[str, Any]:
     for case in CASES:
         chosen, reason = decide(sc, case, perf, scores)
         cases[case] = {"option": chosen, "reason": reason, "truth": truth[chosen] if chosen else None}
-    return {"fidelity": fidelity, "scenario": sc, "truth": truth, "cases": cases}
+    return {"fidelity": fidelity, "scenario": sc, "truth": truth, "cases": cases, "scores": scores, "perf": perf}
 
 
 def write_tables(res: dict[str, Any]) -> list[Path]:
@@ -677,6 +702,137 @@ def write_results_sysml(res: dict[str, Any]) -> Path:
     return RESULTS_SYSML
 
 
+# --------------------------------------------------------------------------- verification verdicts
+# One verdict per verification def of cameo_models/nas_verification.sysml and per case, read from
+# this run. Each rule applies the "met if" of the def's objective doc. Rules drafted by Claude on
+# 2026-11-10 from the docs as they stood after D-044; owner to review. Every def is judged for all
+# four cases, also those whose usage names one case: the others are "read alongside" (D-044).
+# Verdicts: met; not met; reported (the def sets no pass or fail); not exercised (the condition the
+# def tests for did not arise in this run); not run (needs a run this script does not make);
+# not applicable (the def compares other cases).
+VERDICT_DEFS = (
+    "VerifyPerformanceToDecidingParty", "VerifyCostOfTimeToDecidingParty", "VerifyConnectionPriorityToDecidingParty",
+    "VerifyClearanceWithinCapability", "VerifyLowestImpactResolution", "VerifyInstructionsWithinWorkload",
+    "VerifyPerformanceShareProvided", "VerifyPerformanceShareUsed", "VerifyFlyableClearanceByMeans",
+    "VerifyLowestImpactByMeans", "VerifyWorkloadByMeans", "VerifyViableOptionsByMeans", "VerifyOptionImpactByMeans",
+)
+
+
+def _is_climb(opt: ResolutionOption) -> bool:
+    return any(m.kind == ManeuverKind.altitude and (m.deltaFt or 0) > 0 for m in opt.maneuvers)
+
+
+def _truth_impact(sc: Scenario, s: OptionScore) -> float:
+    """The truth model's impact of an option: fuel plus each aircraft's own cost index times time, summed (kg)."""
+    return sum(s.per_aircraft[a.flightNumber].delta_fuel_kg + a.costIndex * s.per_aircraft[a.flightNumber].delta_time_min
+               for a in sc.flights)
+
+
+def _past_margin(sc: Scenario, s: OptionScore) -> list[str]:
+    """Flights with connections that an option delays past their delay margin (the test case D applies)."""
+    out = []
+    for a in sc.flights:
+        margin = a.performanceShare.delayMarginMin if a.performanceShare is not None else None
+        if margin is not None and s.per_aircraft[a.flightNumber].delta_time_min > margin >= 0:
+            out.append(a.flightNumber)
+    return out
+
+
+def verification_verdicts(res: dict[str, Any]) -> list[dict[str, str]]:
+    """Rows of (verification def, case, verdict, measured) for a run at nominalMass or actualMass."""
+    sc: Scenario = res["scenario"]
+    perf, scores, truth, cases = res["perf"], res["scores"], res["truth"], res["cases"]
+    if perf is None:
+        raise ValueError("verdicts need fuel numbers; not available at conceptual fidelity")
+    opts = {o.optionId: o for o in sc.options}
+    offered = {k: offered_options(sc, k, perf, scores) for k in CASES}
+    est = {k: {o: case_estimate(sc, k, perf, scores[known_mass(k)][o]) for o in offered[k]} for k in CASES if k != "A"}
+    chosen = {k: cases[k]["option"] for k in CASES}
+    flyable_climbs = [o for o in offered["C"] if _is_climb(opts[o]) and truth[o].feasible]  # at the actual mass
+    c_past = _past_margin(sc, truth[chosen["C"]]) if chosen["C"] else []
+    rows: list[dict[str, str]] = []
+
+    def add(vdef: str, case: str, verdict: str, measured: str) -> None:
+        rows.append({"verification def": vdef, "case": case, "verdict": verdict, "measured": measured})
+
+    for k in CASES:
+        ch = chosen[k]
+        s = truth[ch] if ch else None
+        truth_txt = f"truth {_truth_impact(sc, s):.1f}" if s else "no option"
+
+        # SLR-INF-02, the aircraft's state and performance: every climb the aircraft can hold is offered.
+        if not flyable_climbs:
+            add("VerifyPerformanceToDecidingParty", k, "not exercised", "no climb is flyable in this scenario")
+        else:
+            got = [o for o in flyable_climbs if o in offered[k]]
+            add("VerifyPerformanceToDecidingParty", k, "met" if len(got) == len(flyable_climbs) else "not met",
+                f"flyable climbs offered: {', '.join(got) or 'none'} of {', '.join(flyable_climbs)}")
+        # SLR-INF-02, the cost of time: needs a run at another cost index (if time, D-038).
+        add("VerifyCostOfTimeToDecidingParty", k, "not run", "needs the cost-index variation")
+        # SLR-INF-02, connection priorities: case D against case C, only where C's choice breaks a margin.
+        if not c_past:
+            add("VerifyConnectionPriorityToDecidingParty", k, "not exercised", "case C's choice keeps every connection")
+        elif k != "D":
+            add("VerifyConnectionPriorityToDecidingParty", k, "not applicable", "case D against case C")
+        else:
+            d_past = _past_margin(sc, s) if s else c_past
+            add("VerifyConnectionPriorityToDecidingParty", k, "met" if not d_past else "not met",
+                f"C breaks {', '.join(c_past)}; D breaks {', '.join(d_past) or 'none'}")
+        # SLR-CLR-10 and HLR-ATC-04: the clearance chosen passes the truth model's thrust check.
+        for vdef in ("VerifyClearanceWithinCapability", "VerifyFlyableClearanceByMeans"):
+            add(vdef, k, "met" if s and s.feasible else "not met", f"{ch}: {'flyable' if s and s.feasible else (s.why if s else 'none chosen')}")
+        # SLR-CLR-15 and HLR-ATC-06: instructions counted, no ceiling.
+        for vdef in ("VerifyInstructionsWithinWorkload", "VerifyWorkloadByMeans"):
+            add(vdef, k, "reported", f"{s.total_instructions()}+{s.total_follow_ups()} calls" if s else "no option")
+        # SLR-CLR-13 and HLR-ATC-05 (D-044): lowest by the case's own estimate; the truth model is reported.
+        if k == "A":
+            low, why = bool(ch), f"rule chose {ch}; {truth_txt}"
+        elif ch in est[k]:
+            lo = min(est[k].values())
+            ties = [o for o, v in est[k].items() if o != ch and abs(v - est[k][ch]) < 1e-6]
+            low = est[k][ch] <= lo + 1e-9
+            why = f"{ch} own estimate {est[k][ch]:.1f}" + (f", tied with {', '.join(ties)}" if ties else "") + f"; {truth_txt}"
+        else:
+            low, why = False, "no option chosen"
+        for vdef in ("VerifyLowestImpactResolution", "VerifyLowestImpactByMeans"):
+            add(vdef, k, "met" if low else "not met", why)
+        # HLR-ATC-10 (D-043): every option treated as viable is one the case's own information confirms.
+        # True by construction here (the offered set is the confirmed set); the count is what is reported.
+        add("VerifyViableOptionsByMeans", k, "met", f"{len(offered[k])} options: {', '.join(offered[k])}")
+        # HLR-ATC-11 (D-042): options compared by an estimate of any fidelity.
+        how = {"A": "rule of thumb", "B": "decision support, nominal mass, typical cost index",
+               "C": "decision support, shared mass and cost index", "D": "as C, plus delay margin"}[k]
+        add("VerifyOptionImpactByMeans", k, "met", how)
+        # HLR-OPS-05: the airline's share reaches the deciding party for every aircraft.
+        n = sum(1 for a in sc.flights if a.performanceShare is not None) if GIVEN_SHARE[k] else 0
+        add("VerifyPerformanceShareProvided", k, "met" if n == len(sc.flights) else "not met",
+            f"share for {n} of {len(sc.flights)} aircraft")
+        # HLR-ATC-08 (D-046): the decision support uses the best information it receives. A and B
+        # receive what ATC receives today; C and D must use the share where B uses nominal values.
+        if k == "A":
+            add("VerifyPerformanceShareUsed", k, "met", "surveillance and flight plans (no share); the rule decides")
+        elif not GIVEN_SHARE[k]:
+            add("VerifyPerformanceShareUsed", k, "met", "nominal mass and typical cost index (no share)")
+        else:
+            changed = [o for o in est[k] if o not in est["B"] or abs(est[k][o] - est["B"][o]) > 1e-6]
+            new = [o for o in offered[k] if o not in offered["B"]]
+            add("VerifyPerformanceShareUsed", k, "met" if changed else "not met",
+                f"estimates differ from B on {len(changed)} options" + (f"; adds {', '.join(new)}" if new else "")
+                + f"; chose {ch} (B {chosen['B']})")
+    return rows
+
+
+def write_verdicts(res: dict[str, Any], tag: str) -> Path:
+    """verdicts_<tag>.csv, read by tools/export_report_tables.py for the thread trace table."""
+    TABLE_DIR.mkdir(parents=True, exist_ok=True)
+    p = TABLE_DIR / f"verdicts_{tag}.csv"
+    with p.open("w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=["verification def", "case", "verdict", "measured"])
+        w.writeheader()
+        w.writerows(verification_verdicts(res))
+    return p
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--fidelity", choices=FIDELITIES, default="actualMass")
@@ -706,6 +862,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"case {case}: {c['option']} ({c['reason']}){extra}")
     for p in write_tables(res):
         print("wrote", p.relative_to(PROJECT.parent.parent))
+    if args.fidelity != "conceptual":
+        print("wrote", write_verdicts(res, f"{sc.name}_{res['fidelity']}").relative_to(PROJECT.parent.parent))
     if not args.no_sysml:
         print("wrote", write_results_sysml(res).relative_to(PROJECT.parent.parent))
     return 0

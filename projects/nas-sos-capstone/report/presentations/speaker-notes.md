@@ -56,11 +56,11 @@ This slide walks through what the work has produced so far, in order.
 
 **[click 5]** *(sequence diagram)* — **5. The information gap.** This sequence shows the conflict being resolved, message by message. The circled message, the airline sharing the aircraft's performance with ATC's decision support, does not exist today. The model makes the gap visible: who decides, who holds the data, and the missing link between them.
 
-**[click 6]** *(route map)* — **6. Three alternative approaches tested** on one example conflict: an Orlando to Los Angeles flight crossing a Houston to Denver flight over Texas. Four cases. Case A is today: the controller's rule of thumb. B, C and D are the three alternatives: B is decision support with a generic aircraft model; C adds the airline's real data, the aircraft's weight and the airline's cost of time; D adds the airline's connection priorities on top of C.
+**[click 6]** *(route map)* — **6. Three alternative approaches tested** on one example conflict: an Orlando to Los Angeles flight crossing a Houston to Denver flight over Texas. Four cases. Case A is today: the controller's rule of thumb. B, C and D are the three alternatives: B is decision support with a generic aircraft model; C adds the airline's real data, the aircraft's weight and the airline's cost of time; D adds the airline's connection priorities on top of C. These alternatives come out of the model: the requirement to weigh each option's impact says what has to be done, not how well, so it can be met by the rule or by decision support at each level of fidelity, and each level needs different data from the airline.
 
 **[click 7]** *(envelope chart)* — Why the information matters. This is the heavier 737 MAX 9 at 38,000 feet. It cannot climb 2,000 feet or speed up; both fall outside its envelope. Only a descent or a slowdown is left for it.
 
-**[click 8]** *(results table)* — Today's rule, case A, descends AC2 4,000 feet: 41 kg of extra fuel. Case B, without the real numbers, descends AC1 instead: 32 kg. With the airline's data, case C sees that the lighter AC2 can climb 2,000 feet: 12 kg. Case D, with connection information, makes the same choice, because no connection was at risk in this example. Every case takes the same number of radio calls; what changes is the controller's effort, a rule from memory in A against reviewing an automated proposal in B to D.
+**[click 8]** *(results table)* — Today's rule, case A, descends AC2 4,000 feet: 41 kg of extra fuel. Case B, automation without the real numbers, can't tell the two aircraft apart and makes the same choice: 41 kg. AC1 can't descend, because AC3 is right behind it at FL360. With the airline's data, case C sees that the lighter AC2 can climb 2,000 feet: 12 kg. Case D, with connection information, makes the same choice, because no connection was at risk in this example. Every case takes the same number of radio calls; what changes is the controller's effort, a rule from memory in A against reviewing an automated proposal in B to D.
 
 ## Slide 6 — Project Benefits (1:30)
 
@@ -70,7 +70,7 @@ In this one example, against today's rule of thumb, the high-fidelity case cuts 
 - **The airline's cost.** That saving is the airline's incentive to share its performance data, and to pay for securing and transmitting it.
 - **System fuel and emissions,** which serve national goals and the system's longevity.
 
-That is claim one: better information, better decision. Even against the automated case with generic data, the airline's real data cuts system fuel from 32 kg to 12 kg.
+That is claim one: better information, better decision. Automation with generic data does no better than today's rule here, so the whole gain comes from the airline's real data: system fuel falls from 41 kg to 12 kg.
 
 *(chart)* This is one conflict. On the right are the FAA's counts of losses of standard separation by en-route center: 679 in fiscal 2024, over a thousand the year before. Those are only the conflicts that ended in a loss of separation. The conflicts controllers resolve in time are far more common, so a per-conflict saving like this one recurs many times a year.
 

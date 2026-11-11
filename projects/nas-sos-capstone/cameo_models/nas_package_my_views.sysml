@@ -165,6 +165,7 @@ package MyViews {
 
         // ---- Behavior: the Case C Conflict Resolve sequence in nas_sequence_case_c.sysml (D-035; draft) ----
 
+        // placement: body
         // caption: Case C Conflict Resolve: the exchanges when ATC decision support scores the options with the airline's shared data
         view caseCConflictResolve : SequenceView {
             expose CaseCConflictResolve::CaseCConflictResolveSequence::**;
@@ -172,6 +173,7 @@ package MyViews {
 
         // ---- Parametrics: the analysis package in nas_analysis.sysml (D-017, D-035) ----
 
+        // placement: body
         // caption: Analysis definitions: the performance calculations, the two fidelity usages and the conflict-resolution scoring analysis
         view analysisParametrics : GeneralView {
             attribute showInheritedRows = false;   // CLI only

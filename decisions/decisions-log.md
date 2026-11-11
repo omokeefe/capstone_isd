@@ -6,6 +6,128 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-047 — AC1 cannot descend through FL360: option O8 is closed to every case; case B now chooses what case A chooses
+
+**Date:** 2026-11-10
+**Status:** active. Owner direction in session: "The 2NM is insufficient", then "Agreed. Let's do it as you describe, with AC1 getting the setting." Amends D-037 (option set and fifth-run numbers); corrects D-044 item 4. The tie-breaker that moves AC2 in case A is a preference, not a safety limit (owner, same day), and is unchanged.
+
+**Decision:**
+
+1. **AC1 may not pass through FL360.** AC3 is about 2 NM behind AC1 on its track at FL360 (owner's note of 2026-10-29 on O9), which is insufficient. New scenario setting `no_transit_levels_ft: {AC1: [36000]}`, checked in `option_feasible_for_decider` for every case, since it is a safety limit and not a matter of what the decider knows. O8 (AC1 down 4,000 ft) is offered by no case. O10 (AC2 down 4,000 ft) stays open: AC2 passes FL360 far from AC3 and AC4. A general pass-through check on `blocked_levels_ft` was not used because it would also close O10.
+2. **Sixth run.** Base scenario at `actualMass`: A O10 +41.2 kg; B O10 +41.2 kg (was O8, +32.3); C and D O4 +12.4 kg. B − A = 0 (was −8.9 kg); C − B = −28.8 kg (was −19.9); C − A = −28.8 kg, 70 percent, unchanged. In the similar-weights variation every number is unchanged (B O10 in place of its mirror O8). B's sensitivity to the cost index it assumes keeps its threshold, about 9.9 kg/min (CI 13): below it B picks the vector O5 (+28.9 kg).
+3. **Correction to D-044 item 4 and to Claude's statements of 2026-11-10.** Case B never ranked AC1's descent lower. It estimates O8 and O10 at the same cost (33.5 kg fuel-equivalent each; one type at nominal mass and an assumed CI 30), and `decide()` keeps the first of equal estimates, so B − A = −8.9 kg came from the order of the option list. It was not a gain from method. With O8 closed there is no tie: automation with today's information chooses what the rule chooses, and the whole gain is the information's (C − B = C − A).
+
+**Rationale:** an option no controller could issue safely should not be offered by any case. Its presence also produced a B − A that the report would have had to explain as the value of automation, when it was an artifact of option order.
+
+**Alternatives considered:** deleting O8 from the scenario (rejected: the setting records the reason, and O8's truth score stays in the options table); a pass-through check on every blocked level (rejected: it would close O10 too).
+
+**Consequences:** `scenario_base.yaml`, `experiment_scoring.py` (the transit check), a new test (42 pass), and `debug_o4_walkthrough.py` (comment; still matches). Rerun at every fidelity and variation the report uses: Table 8 (`cases_*`), the level-check tables, the options CSVs, `verdicts_base_actualMass.csv`, `cameo_models/results/experiment_results.sysml` (case B O10, +41.2) and the thread trace (`export_report_tables.py`). `nas_sequence_case_c.sysml`'s doc comment is updated; it is not drawn on the view, so no re-render. The report gets an `\aidraft` sentence after the option descriptions in Section 5. `speaker-notes.md` slides 5 and 6 are updated. In the deck, slide 5's results-table image and the notes on slides 5 and 6 still show the fifth run, for the owner to replace. `experiment-options-and-scoring.md` §8 (sixth run), `experiment-scenario-numbers.md`, `experiment-definition.md` §9, `index.md`, `task-board.md` and `to-do-list.md` are updated.
+
+---
+
+## D-046 — HLR-ATC-08 is baseline, met by every means; Table 3 uses the 15288 clause names; Section 3 reordered to one subsection per step
+
+**Date:** 2026-11-10
+**Status:** active. Owner direction in session: "it should be met. It uses the best info available, right? That's what it has with the limited info interface"; the list of the fourteen 15288 technical processes; "I agree with your ordering table and the section moving. It seems to align with the order of the 15288 sections." Amends D-040 and D-045 for HLR-ATC-08, D-034 for where the two body tables sit, and D-045 item 4 for the process names.
+
+**Decision:**
+
+1. **HLR-ATC-08 is met in every case and tagged `baseline`.** Each means uses the best information it receives: cases A and B what air traffic control receives today, cases C and D the airline's share in place of the nominal values. The tag follows D-018 (today's NAS meets it), as for HLR-ATC-10, -11 and -05 (D-042 to D-044); Claude applied the tag as the consequence of the owner's answer and flagged it for veto. `VerifyPerformanceShareUsed` becomes a per-means def with four usages (A to D), replacing the case C usage. HLR-ATC-08 gets `candidateMeans`.
+2. **The improvement is SLR-INF-02 and HLR-OPS-05:** what is missing today is the share, not its use. Table 5 (`tab:improvement-hlrs`) lists HLR-OPS-05 only, and its caption says cases C and D (which receive the share), not B to D.
+3. **Table 3 names each process as the standard does, with its clause** (owner's list): 6.4.1 business or mission analysis, 6.4.2 stakeholder needs and requirements definition, 6.4.3 system requirements definition, 6.4.4 architecture definition, 6.4.5 design definition, 6.4.6 system analysis, 6.4.9 verification, 6.4.11 validation. Rows 8 and 9 (setting out and choosing the means) are design definition; decision management, a technical management process, is dropped from the table.
+4. **Section 3 order:** 3.1 Stakeholders, 3.2 Constituent Systems, 3.3 System of Interest (context diagram only), 3.4 Requirements (new; the thread table and the D-034 note), 3.5 Architecture, 3.6 Operational Concept (now opening with the use-case figure, `fig:use-cases`), 3.7 The Gap in the Model and the Means to Close It (now holding Table 5), 3.8 Proposed Interface. The Section 3 opening paragraph and the header comment are revised; the deliverables table in Section 1 points at the right places.
+
+**Rationale:** the requirement asks for use of the information available, which every means does; grading the information belongs to SLR-INF-02 and HLR-OPS-05 (the D-044 reasoning). The order puts one subsection per step of the throughline and follows the order of the 15288 technical processes.
+
+**Alternatives considered:** keeping HLR-ATC-08 `improved` while met in every case (rejected: contradicts D-018); "met" in B to D but not in A, where the rule decides (rejected: the decision support still raises the alert from what it receives, and the owner's comment in `nas_verification.sysml` says "expected to be met in all cases").
+
+**Consequences:** `requirements_constituent_systems.sysml` (HLR-ATC-08 tag, means, rationale), `nas_verification.sysml` (the def moved to the per-means section, four usages, header); the model checks clean (`syside check`). `experiment_scoring.py` verdict rule and two tests (41 pass); `tools/export_report_tables.py` (singular caption). Regenerated: verdicts, the report tables, `requirements-review.xlsx` and the requirement diagrams. `requirements-and-traceability.md` and `index.md` updated. Report: Sections 1, 2 (Table 3), 3 (reordered), 5; 87 pages, no undefined references. The other sentences of Section 3.7 that name HLR-ATC-08 still read correctly.
+
+---
+
+## D-045 — The report walks the gap and the means in the model (new Section 3.6); a generated thread trace with a verdict per case; claim 1 measured against the kept objectives; Table 3 as the ten steps
+
+**Date:** 2026-11-10
+**Status:** active. Owner direction in session, answering the throughline review of 2026-11-08 (journal 16:16). Every new passage of report prose is Claude's draft, marked `\aidraft` for the owner to rewrite; the verdict rules are Claude's draft for the owner to review.
+
+**Decision:**
+
+1. **New Section 3.6, "The Gap in the Model and the Means to Close It",** between Architecture (3.5) and the Proposed Airline-to-ATC Interface (now 3.7). It walks the owner's 2026-10-29 chain (`experiment-definition.md` §1): the airline's objectives → SN-AIR-05 → the use case `ResolveEnRouteConflict` → SLR-CLR-13 and SLR-INF-02 → the `ResolveConflict` activity's inputs (the performance share has no baseline source) → the case C sequence (the share is the one message with no baseline connection) → the requirements today's NAS does not meet. It then sets out the solution space: SLR-CLR-13's three baseline HLRs, the four means, and the two fidelity usages of the analysis. The views `caseCConflictResolve` and `analysisParametrics` move to the body (`// placement: body`).
+2. **Framing (owner):** the literature did identify the gap; the work does not claim new gaps. It shows the gap could have been identified proactively with modeling, from the architecture alone (D-044 item 4). Section 2 says so after its opening list; Section 3.6 opens with it.
+3. **Claim 1** reads "... can and will mitigate disruptions better, as measured against the stakeholder objectives the study keeps"; the Executive Summary matches.
+4. **Table 3 (`tab:se-processes`) is the project's ten steps,** each with its 15288 process and where its artifacts are. The process names in rows 3, 7, 8 and 9 are still to check against the standard.
+5. **Thread trace table (Appendix A.4, `tab:thread-trace`),** generated by `tools/export_report_tables.py` from the model and `verdicts_base_actualMass.csv`, which `simulation/experiment_scoring.py` now writes (`verification_verdicts`). One verdict per verification def and case, applying the "met if" of each def's objective; HLR-ATC-05 and SLR-CLR-13 are judged by the case's own estimate with the truth model reported (D-044). Result: the improved information requirements (SLR-INF-02, HLR-OPS-05, HLR-ATC-08) are not met in A and B and are met in C and D; the baseline decision requirements are met by every case. No sequence-step column: the model holds no link from a requirement to a sequence message.
+6. **Step-10 placeholders** (`\plantodo`) in Section 5 (verdicts by tier; the outcome table read back to the objectives, with the 70 percent of C against A and case B held back until the O8 decision), Section 6 (the FAA count of losses of separation, `faa2025airTrafficByNumbers`, as a floor) and Section 7 (closing both claims).
+
+**Rationale:** steps 7 and 8 of the throughline, and the read-back of step 10, were not in the report body although the deck makes them (review 2026-11-08). The trace table is the verification checklist's "thread reads end to end in one appendix table".
+
+**Alternatives considered:** moving Table `tab:improvement-hlrs` into the new subsection now (deferred: the owner reviews the order of Section 3 after these updates); a sequence-step column derived from the lifelines of the satisfying parts (rejected: it would list unrelated messages and invent links the model does not hold).
+
+**Consequences:** `nas_package_my_views.sysml` (two placement lines); `experiment_scoring.py` (`decide()` reads two new helpers, `offered_options` and `case_estimate`, with its comments kept; the options and cases tables are byte-identical; `verification_verdicts`, `write_verdicts`); `test_experiment_scoring.py` (five tests; 41 pass); `tools/export_report_tables.py` (`trace_table`); `tools/export_requirements_xlsx.py` (the satisfy pattern accepts `:>X`, which HLR-ATC-11's decision-support allocation uses); report Sections 1, 2, 3, 5, 6, 7, the Executive Summary and Appendix A.4; `speaker-notes.md` slide 5. Syside's drawer could not run (a Windows Application Control policy blocked one of its DLLs), so the figure list was rewritten from the existing images with the render script's own functions; the images and manifest are untouched. The report compiles at 85 pages with no undefined references.
+
+---
+
+## D-044 — SLR-CLR-13 and HLR-ATC-05 ask for the lowest *estimated* impact and are baseline; the improvement sits in the information requirements
+
+**Date:** 2026-11-10
+**Status:** active. Owner direction in session ("Go ahead"), after asking what the truth-model reading meant and how it bears on the claim that the model gives proactive help. Amends D-040 and D-043 for SLR-CLR-13 and HLR-ATC-05; supersedes D-043 item 1's reason for keeping SLR-CLR-13 improved.
+
+**Decision:**
+
+1. **SLR-CLR-13 reads "The NAS shall choose, among the maneuvers it can confirm restore separation safely, the one with the lowest estimated impact on the aircraft involved."** **HLR-ATC-05 reads "Air traffic control shall choose, among the viable resolution options, the one with the lowest estimated impact on the systems involved."** Both are tagged `baseline`. Owner: the deciding party can pass "without the truth model because they have limited knowledge, but C and D have the ability to use a higher fidelity estimate."
+2. **Every case passes by its own estimate; the truth model is reported, not graded.** For HLR-ATC-05, `VerifyLowestImpactByMeans` (one case per means) is met if the option chosen is lowest by the case's own estimate. In case A that estimate is the controller's rule of thumb; in cases B to D it is the decision support's fuel and airline cost. For SLR-CLR-13, `VerifyLowestImpactResolution` now runs on case A (usage `lowestImpactCaseA`, was `lowestImpactCaseC`), with cases B to D read alongside. The truth model's impact of each case's choice is reported side by side.
+3. **Table 5 lists two HLRs, HLR-OPS-05 and HLR-ATC-08: the information requirements.** With SLR-INF-02, they are the requirements today's NAS does not meet.
+4. **How the claim reads now (discussed with the owner; not report text).** Tracing finds structural gaps, not performance shortfalls. The model *flags* the deficiency: the trace from SN-AIR-05 through SLR-INF-02 to the baseline interfaces shows that no interface carries the aircraft's performance or the airline's priorities to ATC. That is found from the architecture alone, before any simulation, and is the proactive part; it finds unmet needs that have been written, and does not invent new ones. The analysis *confirms and sizes* the deficiency (C − B). The requirement breakdown *generates and scores the fixes* (the means of cases A to D, each tested for sufficiency). What this gives up: no requirement fails on decision quality, so B − A (method, the same information used better) is reported side by side but not graded.
+
+**Rationale:** "the lowest impact" read as actual impact would fail any decider without perfect information, so the requirement would grade the information, not the decision process; that is SLR-INF-02's job. With "estimated", the decision requirements describe what deciders do, and the deficiency appears where the architecture has it: in an interface that does not exist. The improvement and the course's improvement claim (D-018) then rest on the information requirements, measured by cases C and D.
+
+**Alternatives considered:** keeping the truth-model reading for HLR-ATC-05 so that B − A shows as a failure (offered by Claude; the owner chose the estimate reading). D-043's reason for keeping SLR-CLR-13 improved (case A could equally confirm AC1's descent, O8) no longer applies. Whether O8 is safe at all, with AC3 about 2 NM behind AC1 at FL360 (owner's note, 2026-10-29), is open with the owner as of this entry.
+
+**Consequences:** `requirements_nas_system.sysml` (SLR-CLR-13 statement, tag, rationale), `requirements_constituent_systems.sysml` (HLR-ATC-05 statement, tag, objective, measure, rationale), `nas_verification.sysml` (the two objectives, the SLR usage moved to case A, header). The model checks clean and 36 tests pass. The tables, workbook and requirement diagrams are regenerated, and `requirements-and-traceability.md` is updated. The improved set is now SLR-INF-02, HLR-OPS-05 and HLR-ATC-08, plus whatever else is tagged outside the SN-AIR-05 thread.
+
+---
+
+## D-043 — SLR-CLR-13 covers only the options the NAS can confirm are safe; HLR-ATC-10 is baseline and met by every means
+
+**Date:** 2026-11-08
+**Status:** active. Owner direction in session, following D-042: "HLR-ATC-10 needs to be updated. Here again, every case must not be considered. SLR-CLR-13 only pertains to viable options that the controllers can ensure are safe; this is why they don't recommend a climb above FL350. Maybe update SLR-13 to say 'that safely restore separation'?" Amends D-040 for SLR-CLR-13's statement and HLR-ATC-10.
+
+**Decision:**
+
+1. **SLR-CLR-13 reads "The NAS shall choose, among the maneuvers it can confirm restore separation safely, the one with the lowest impact on the aircraft involved."** It was "among the maneuvers that restore separation". The owner proposed "that safely restore separation"; Claude added "it can confirm", so the wording says whose judgment "safely" rests on, as the owner's own explanation does. The tag stays `improved`: case A chooses by rule, and in the fifth run it moves AC2 down 4,000 ft (+41.2 kg), although AC1's descent (+32.3 kg) costs less and is one it could equally confirm (only FL360 is blocked).
+2. **HLR-ATC-10 is `baseline`** and reads "Air traffic control shall determine, for each predicted conflict, the resolution options it can confirm restore separation safely and can be flown by each aircraft it moves." It was "ATC decision support shall determine ... every resolution option that restores separation and that each aircraft it moves can fly". Today's controller meets it by the rule of thumb.
+3. **HLR-ATC-10 is verified once per means (A to D)**, like HLR-ATC-11 (D-042). `VerifyViableOptionsByMeans`: met if every option the case treats as viable is one its own information confirms. The number of options each case finds is reported, not passed or failed. It replaces `VerifyViableOptionsDetermined` (case C only, met if the case's set matched the truth model's). It is satisfied by `atc` and by `atc.decisionSupport`.
+4. **Where the improvement now sits.** More information widens the set of options the NAS can confirm (SLR-INF-02, HLR-OPS-05, HLR-ATC-08): that is case C against case B. SLR-CLR-13 and HLR-ATC-05 ask for the best choice within that set: that is case B against case A. Table 5 lists three HLRs: HLR-OPS-05, HLR-ATC-05 and HLR-ATC-08.
+
+**Rationale:** controllers do not offer what they cannot confirm is safe; a requirement to find every option the truth model allows asks for something no decider can know without the information. Stating "it can confirm" keeps "safely" from being a vague term and ties the size of the option set to the information requirements, where the study's information claim belongs.
+
+**Alternatives considered:** the owner's "that safely restore separation" without saying who judges (offered to the owner; Claude's preference is the version above, since "safely" alone would invite "by whose judgment?"); keeping HLR-ATC-10 as every viable option, improved (rejected by the owner).
+
+**Consequences:** `requirements_nas_system.sysml` (SLR-CLR-13 statement and rationale; SLR-CLR-10 rationale), `requirements_constituent_systems.sysml` (HLR-ATC-10; HLR-ATC-04 rationale; a satisfy by `atc`), `nas_verification.sysml` (the new per-means def with four usages; SLR-CLR-13's statement; header). The model checks clean and 36 tests pass. The generated tables, the review workbook and the requirement diagrams are regenerated, and `requirements-and-traceability.md` is updated.
+
+---
+
+## D-042 — HLR-ATC-11 is baseline, met by every means, with no tolerance; the central claim restated; the two checks closed
+
+**Date:** 2026-11-08
+**Status:** active. Owner direction in session, answering the HLR-ATC-11 tolerance question and the two checks in `knowledge/models/experiment-definition.md` §9 ("Update everything accordingly"). Amends D-040 for HLR-ATC-11 only; supersedes the proposed central claim in `experiment-definition.md` §1.
+
+**Decision:**
+
+1. **HLR-ATC-11 is `baseline`.** Owner: "the controller doing it is baseline; they meet ATC-11, they just do it poorly." Controllers' rules of thumb remove the climb options before any assessment is made; "the point is that they measure impact (turns vs. descents)." The statement becomes "Air traffic control shall determine the impact of each resolution option it considers on the systems involved." It was "ATC decision support shall determine the impact of each viable resolution option". The subject is now air traffic control, because today it is the controller who does it, and "each viable" becomes "each it considers", because which options are viable is HLR-ATC-10's.
+2. **No tolerance.** Owner: "The use of any info to determine impact does not require a tolerance; it simply requires the use of info. The value of that info depends on the relative accuracy of the info they use vs. reality, which is why Case C & D have more value in the estimation of impact." The verification does not check that every option gets an estimate. HLR-ATC-11 joins the per-means pattern of D-022: `candidateMeans` set, `VerifyOptionImpactByMeans` with one case per means (A to D), met if the case compares the options it considers by an estimate of their impact, of any fidelity. It is satisfied by `atc` and by `atc.decisionSupport`, as HLR-ATC-04 is.
+3. **Central claim, as the owner states it.** The objectives, requirements and interfaces established by the literature show that the information is insufficient. Resolving a conflict with regard to its impact on every aircraft involved needs information that does not reach ATC: there is no extended projected profile in the NAS, the manufacturers provide no performance models, and the AOC provides no API to its models. Case A is what ATC has and uses today, so its decision is suboptimal. Decomposing the requirement to consider impact leaves several ways to meet it, at different fidelity and impact, and comparing them is the study. A check of other decisions in the model has value but is not the main claim; fuel load is the first candidate, if time.
+4. **The two checks of `experiment-definition.md` §9 are closed.** Effect size: by the runs (C − B = −19.9 kg) and the owner's O4 hand check (2026-11-07); OpenAP's own accuracy goes to the "sufficiently accurate" discussion (D-038). Information check: done for the studied decision by the traced chain (item 3).
+5. **Owner [SME] on airline and FMS performance data.** Airline flight-planning software typically uses historical data, not ship-specific models, so there is no common performance factor that could align it with the FMS. The FMS can downlink a lot of performance information, but every character downlinked costs money, and the owner does not believe airlines tend to use it for this. The owner does not know how the final weight and balance gets back to the AOC.
+
+**Rationale:** a requirement states what has to be done, not how well a particular means does it. Fidelity is what the study varies. A tolerance would build the study's answer into the requirement, passing case C and failing case B by definition. It would also measure accuracy a third time, after HLR-ATC-05 (the side-by-side reading against the truth model) and HLR-ATC-08 (the shared values are used), which the owner's no-overlap rule (D-040) forbids. The tag follows D-018: today's NAS meets the requirement, so it is `baseline`.
+
+**Alternatives considered:** a tolerance on the estimate against the truth model (Claude's D-040 draft; "+/- 50%" in the owner's working copy). Rejected, for the reasons above. Keeping "each viable resolution option" was also rejected: controllers assess only what their rules of thumb leave.
+
+**Consequences:** `requirements_constituent_systems.sysml` (HLR-ATC-11 statement, tag, means, measure, rationale; a satisfy by `atc`), `requirements_nas_system.sysml` (SLR-CLR-13 rationale), and `nas_verification.sysml` (`VerifyOptionImpactDetermined` and its case C usage replaced by `VerifyOptionImpactByMeans` and four usages; header). The model checks clean. Table 5 now lists four HLRs (HLR-OPS-05, HLR-ATC-05, HLR-ATC-08, HLR-ATC-10). The other generated tables, `requirements-review.xlsx` and the requirement diagrams are regenerated. The report compiles at 79 pages with no undefined references. `requirements-and-traceability.md`, `experiment-definition.md` §1 and §9, `open-questions.md` (central claim closed, the FMS-sharing question answered) and `to-do-list.md` Track B are updated. The requirement counts are unchanged (30 SN, 42 SLR, 31 HLR).
+
+---
+
 ## D-041 — An aircraft moved to a better level may stay there: an optional scoring rule, judged over the hold only, with the benefit after the hold reported and not counted
 
 **Date:** 2026-11-07

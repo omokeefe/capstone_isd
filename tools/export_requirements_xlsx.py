@@ -46,7 +46,7 @@ FILES = {
 REQ_RE = re.compile(r"^(?P<ind>[ \t]*)requirement <'(?P<id>[^']+)'> (?P<name>\w+) : (?P<type>\w+) \{", re.M)
 PKG_RE = re.compile(r"^[ \t]*package (?P<name>\w+) \{\s*\n[ \t]*doc /\*(?P<doc>.*?)\*/", re.M | re.S)
 ATTR_RE = re.compile(r"^[ \t]*:>> (?P<name>\w+) = (?P<value>.*)$")
-SATISFY_RE = re.compile(r"satisfy requirement \w+ :> (?P<req>[\w:]+) by (?P<part>[\w.]+);")
+SATISFY_RE = re.compile(r"satisfy requirement \w+ :>\s*(?P<req>[\w:]+) by (?P<part>[\w.]+);")  # ":>X" as well as ":> X" (2026-11-10)
 TOKEN_RE = re.compile(r'"((?:[^"\\]|\\.)*)"|([A-Za-z_][\w:]*(?:\.\d+)?|\d+(?:\.\d+)?)')
 
 # Readable names for the parts named in the Allocation packages (the same names the

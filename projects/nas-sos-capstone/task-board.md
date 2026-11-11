@@ -22,9 +22,9 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 - Report and model (all tracks), 2026-11-05: owner's print review transcribed (`handwritten/2026-11-05_main.md`) and applied (D-039, D-040). Owner-prose items and Claude drafts to review are listed there. See journal 2026-11-05.
 
-- Requirements (Track A), 2026-11-05: second HLR review applied (D-040). 30 SN / 42 SLR / 31 HLR; SLR-CLR-13 "shall", split into HLR-ATC-10/11/05; no overlap (owner rule). Open: SLR-CLR-13 measure TBD; HLR-ATC-11 verification tolerance. See journal 2026-11-05.
+- Requirements (Track A), 2026-11-05: second HLR review applied (D-040). 30 SN / 42 SLR / 31 HLR; SLR-CLR-13 "shall", split into HLR-ATC-10/11/05; no overlap (owner rule). Open: SLR-CLR-13 measure TBD. HLR-ATC-10, 11 and 05 and SLR-CLR-13 baseline, every case judged by its own estimate (D-042 to D-044, 2026-11-08 and 11-10); Table 5 has two HLRs (HLR-OPS-05, HLR-ATC-08). See journal 2026-11-05.
 
-- Experiment (Track B), 2026-10-29: scenario numbers confirmed (D-037); fifth run A O10, B O8, C/D O4; C − B = −19.9 kg. Fallback closed (D-038); low-CI run is "if time". Open: two hand checks. See journal 2026-10-29.
+- Experiment (Track B), 2026-11-10: sixth run (D-047; O8 closed, AC1 cannot pass FL360): A and B O10, C/D O4; B − A = 0, C − B = −28.8 kg. Slide 5's results-table image and the notes on slides 5 and 6 still show the fifth run. Fallback closed (D-038); hand checks done (D-042); low-CI run is "if time". See journal 2026-11-10.
 
 - Behavior views (Track A): sequence updated to the fifth run and G1/G2 closed 2026-11-05 (D-040); owner hand review open. G4 down to three drafted item defs. See journal 2026-11-05.
 
@@ -116,6 +116,6 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 Turn 4 ends Nov 8; slides complete by Nov 15 (Turn 5 exit test); presenting Thu Nov 19, 10 AM. See journal 2026-11-05 Sign-Off and 2026-11-07.
 
-1. Review the D-040 drafts: five verification statements in Table 5 (set HLR-ATC-11's tolerance), Section 3.6 "same obstacle" passage (manufacturer claim unsourced), Section 5 reliability paragraph; answer transcription item 3.2.
+1. Review the D-040 drafts: two verification statements in Table 5 (HLR-ATC-05, 10 and 11 settled, D-042 to D-044, and out of Table 5), Section 3.6 "same obstacle" passage (manufacturer claim unsourced), Section 5 reliability paragraph; answer transcription item 3.2.
 2. Finish the slides in the working deck (above): remove the template's example slides 7 to 13; add the deck to git when ready (leave out the `~$…pptx` lock file).
 3. Hand-review the updated sequence and do the O4 hand check.

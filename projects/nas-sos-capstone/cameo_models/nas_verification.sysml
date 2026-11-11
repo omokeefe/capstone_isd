@@ -10,11 +10,12 @@ package NasVerification {
      * System requirements: three verification defs for SLR-INF-02 (one per kind of
      * information shared: the aircraft's state and performance, the airline's cost of time,
      * its connection priority), one each for SLR-CLR-10 (baseline since D-040) and
-     * SLR-CLR-13 (a requirement since D-040, was a goal), plus one for the
+     * SLR-CLR-13 (a requirement since D-040, was a goal; baseline since D-044), plus one for the
      * instruction-count requirement (SLR-CLR-15, D-021).
-     * Constituent system requirements: one def for each improved HLR (HLR-OPS-05,
-     * HLR-ATC-08, HLR-ATC-10, HLR-ATC-11), and one per means for the three HLRs whose means
-     * the experiment scores side by side (HLR-ATC-04, HLR-ATC-05, HLR-ATC-06).
+     * Constituent system requirements: one def for the improved HLR (HLR-OPS-05), and one
+     * per means for the six HLRs whose means the experiment scores side by side
+     * (HLR-ATC-04, HLR-ATC-05, HLR-ATC-06, HLR-ATC-08, HLR-ATC-10, HLR-ATC-11; ATC-10 and
+     * ATC-11 moved there 2026-11-08, D-042 and D-043; ATC-08 2026-11-10, D-046).
      * Each def names the experiment case that exercises it.
      *
      * VERIFICATION STATEMENTS (D-040; form set by the owner 2026-11-07). Every def that
@@ -127,15 +128,19 @@ package NasVerification {
     }
 
     verification def VerifyLowestImpactResolution :> VerifyByExperimentCase {
-        doc /* SLR-CLR-13: Verify that the NAS resolves a conflict with the maneuver that has the
-         * lowest impact on the aircraft involved. */
+        doc /* SLR-CLR-13: Verify that the NAS resolves a conflict with the maneuver it estimates
+         * has the lowest impact on the aircraft involved. */
         objective {
-            doc /* By analysis, cases C and D against case B: met if the option chosen has the
-             * lowest impact among the options that restore separation, scored as fuel cost
-             * plus cost index times time. */
+            doc /* By analysis, case A (today's NAS), with cases B to D read alongside: met if the
+             * option chosen has the lowest impact by the deciding party's own estimate, among the
+             * options it can confirm restore separation safely. The truth model's impact of each
+             * case's choice (fuel cost plus cost index times time) is reported side by side, not
+             * graded. */
             verify lowestImpactResolution;
         }
-        // A requirement since D-040 (was a goal, D-020, D-021).
+        // A requirement since D-040 (was a goal, D-020, D-021). Baseline since 2026-11-10
+        // (owner, D-044): judged by the decider's own estimate; was cases C and D against case B,
+        // met if the choice was lowest under the truth model.
         // This is a requirement that requires more information - whether tested at the individual aircraft level, the airspace (aircraft group) level, or a higher level (airline, NAS SoI). I should speak in the report to the level of the requirement, and discussing how the pass/fail decision changes when viewing the requirement at different levels. 
     }
 
@@ -158,12 +163,12 @@ package NasVerification {
     verification costOfTimeCaseC : VerifyCostOfTimeToDecidingParty { :>> experimentCase = "C"; }
     verification connectionsCaseD : VerifyConnectionPriorityToDecidingParty { :>> experimentCase = "D"; }
     verification capabilityCaseC : VerifyClearanceWithinCapability { :>> experimentCase = "C"; }
-    verification lowestImpactCaseC : VerifyLowestImpactResolution { :>> experimentCase = "C"; }
+    verification lowestImpactCaseA : VerifyLowestImpactResolution { :>> experimentCase = "A"; }
     verification instructionCountCaseA : VerifyInstructionsWithinWorkload { :>> experimentCase = "A"; }
 
     // ---- Improved HLRs (D-040, 2026-11-05) -----------------------------------------------
     // One def per HLR the report's table of improved HLRs lists, each with its statement.
-    // HLR-ATC-05's is VerifyLowestImpactByMeans, below.
+    // Since D-046 that is HLR-OPS-05 only; HLR-ATC-08's def is per means, below.
 
     verification def VerifyPerformanceShareProvided :> VerifyByExperimentCase {
         doc /* HLR-OPS-05: Verify that the airline shares its performance information. */
@@ -176,46 +181,10 @@ package NasVerification {
     }
     // Case A will fail, because the airline does not share its performance information. Case B will fail, because the airline shares only the aircraft's weight, not its performance. Cases C and D will pass, because the airline shares both the aircraft's weight and performance information.
 
-    verification def VerifyPerformanceShareUsed :> VerifyByExperimentCase {
-        doc /* HLR-ATC-08: Verify that the decision support uses what it is given. */
-        objective {
-            doc /* By analysis, case C against case B: met if the decision support's estimates
-             * use the shared values where case B uses the type's nominal ones, so that the
-             * options or the choice change where the two differ. */
-            verify performanceShareUsedInResolution;
-        }
-    }
-    // This is a requirement that is expected to be met in all cases. 
-
-    verification def VerifyViableOptionsDetermined :> VerifyByExperimentCase {
-        doc /* HLR-ATC-10: Verify that the conflict resolution considers only viable options. */
-        objective {
-            doc /* By analysis, case C: met if the options the decision support finds viable are
-             * exactly those the truth model finds restore separation and can be flown by every
-             * aircraft moved. */
-            verify viableOptionsDetermined;
-        }
-    }
-    // This is a requirement that is expected to be met in all cases. It is the reason why Case A is limited to a descent only. 
-
-    verification def VerifyOptionImpactDetermined :> VerifyByExperimentCase {
-        doc /* HLR-ATC-11: Verify that the impact of each viable option is estimated. */
-        objective {
-            doc /* By analysis, case C: met if the decision support's estimate of each viable
-             * option's impact (fuel burned and airline cost, per aircraft and summed) matches
-             * the truth model's within a large tolerance (+/- 50%). */
-            verify optionImpactDetermined;
-        }
-    }
-    // This is a requirement that is expected to be met in all cases. 
-
     verification performanceShareProvidedCaseC : VerifyPerformanceShareProvided { :>> experimentCase = "C"; }
-    verification performanceShareUsedCaseC : VerifyPerformanceShareUsed { :>> experimentCase = "C"; }
-    verification viableOptionsCaseC : VerifyViableOptionsDetermined { :>> experimentCase = "C"; }
-    verification optionImpactCaseC : VerifyOptionImpactDetermined { :>> experimentCase = "C"; }
 
     // ---- Means of achievement (D-022, 2026-10-11) ----------------------------------------
-    // Three constituent system requirements can each be achieved four ways. The experiment
+    // Five constituent system requirements can each be achieved four ways. The experiment
     // runs each way as one case and one truth model scores them all, so each requirement
     // gets one verification case per means. Measured values come from
     // results/experiment_results.sysml.
@@ -240,14 +209,17 @@ package NasVerification {
 
     verification def VerifyLowestImpactByMeans :> VerifyMeansByExperimentCase {
         doc /* HLR-ATC-05: Verify that air traffic control chooses the viable option with the
-         * lowest impact. */
+         * lowest estimated impact. */
         objective {
             doc /* By analysis, one case per means (A to D): met if the option chosen has the
-             * lowest impact (fuel burned and airline cost, per aircraft and summed) among the
-             * viable options under the truth model; the four means are compared side by side. */
+             * lowest impact by the case's own estimate, among the options it treats as viable.
+             * In case A the estimate is the controller's rule of thumb; in cases B to D it is the
+             * decision support's fuel burned and airline cost, per aircraft and summed. The truth
+             * model's impact of each case's choice is reported side by side, not graded. */
             verify lowestImpactResolutionChosen;
         }
-        // A requirement since D-040 (was a goal).
+        // A requirement since D-040 (was a goal). Baseline since 2026-11-10 (owner, D-044): was
+        // met only if the choice was lowest under the truth model.
     }
     // This is a requirement that is expected to be met in all cases, as they provide the lowest impact solution based on the information they have available. This can also be viewed in the context of the maximal information, where Case C & D have the most information available, and should be able to provide the lowest impact solution. Here again, the pass/fail decision can change when viewing the requirement at different levels.
 
@@ -263,6 +235,60 @@ package NasVerification {
     }
     // This is a requirement that is expected to be met in all cases. It is an assumed condition of the scenario.
 
+    verification def VerifyViableOptionsByMeans :> VerifyMeansByExperimentCase {
+        doc /* HLR-ATC-10: Verify that air traffic control offers only resolution options it can
+         * confirm are safe and can be flown. */
+        objective {
+            doc /* By analysis, one case per means (A to D): met if every option the case treats as
+             * viable is one its own information confirms restores separation and can be flown by
+             * every aircraft moved. In cases A and B no climb above FL350 is offered, since
+             * neither has the weight; in cases C and D the climbs the shared weight shows each
+             * aircraft can hold are offered. The number of options each case finds is reported,
+             * not passed or failed. */
+            verify viableOptionsDetermined;
+        }
+        // Baseline since 2026-11-08 (owner, D-043): only options the controller can ensure are
+        // safe count. Whether the clearance issued can really be flown is HLR-ATC-04's, under
+        // the truth model. Was VerifyViableOptionsDetermined, case C only, met if the case's
+        // set matched the truth model's (D-040).
+    }
+    // This is a requirement that is expected to be met in all cases. It is the reason why Case A is limited to a descent only.
+
+    verification def VerifyOptionImpactByMeans :> VerifyMeansByExperimentCase {
+        doc /* HLR-ATC-11: Verify that air traffic control determines the impact of the
+         * resolution options it considers. */
+        objective {
+            doc /* By analysis, one case per means (A to D): met if the case compares the options
+             * it considers by an estimate of their impact, of any fidelity. In case A the
+             * estimate is the controller's rule of thumb, weighing a turn against a descent once
+             * the climb rule has removed the climbs; in cases B to D it is the decision support's
+             * fuel burned and airline cost, per aircraft and summed. */
+            verify optionImpactDetermined;
+        }
+        // Baseline since 2026-11-08 (owner, D-042): the controller does it today, poorly. No
+        // tolerance against the truth model: the requirement is that impact is estimated; how
+        // good the estimate is depends on the information behind it, which is what the study
+        // compares (HLR-ATC-05's side-by-side reading). Was VerifyOptionImpactDetermined, case C
+        // only, with a tolerance against the truth model (D-040).
+    }
+    // This is a requirement that is expected to be met in all cases.
+
+    verification def VerifyPerformanceShareUsed :> VerifyMeansByExperimentCase {
+        doc /* HLR-ATC-08: Verify that the decision support uses the best information it is given. */
+        objective {
+            doc /* By analysis, one case per means (A to D): met if the decision support uses the
+             * best information it receives about each flight. In cases A and B that is what air
+             * traffic control receives today (surveillance and the filed plans; case B adds the
+             * type's nominal mass and a typical cost index); in cases C and D it is the airline's
+             * share, used in place of the nominal values, so that the estimates change where the
+             * two differ. */
+            verify performanceShareUsedInResolution;
+        }
+        // Baseline since 2026-11-10 (owner, D-046): each means uses the best it receives. Was
+        // one case, C against B, met only where the shared values were used (D-040).
+    }
+    // This is a requirement that is expected to be met in all cases.
+
     verification flyableRuleOfThumb : VerifyFlyableClearanceByMeans { :>> experimentCase = "A"; :>> means = MeansOfAchievement::ruleOfThumb; }
     verification flyableLowFidelity : VerifyFlyableClearanceByMeans { :>> experimentCase = "B"; :>> means = MeansOfAchievement::lowFidelityModel; }
     verification flyableHighFidelity : VerifyFlyableClearanceByMeans { :>> experimentCase = "C"; :>> means = MeansOfAchievement::highFidelityModel; }
@@ -277,4 +303,19 @@ package NasVerification {
     verification workloadLowFidelity : VerifyWorkloadByMeans { :>> experimentCase = "B"; :>> means = MeansOfAchievement::lowFidelityModel; }
     verification workloadHighFidelity : VerifyWorkloadByMeans { :>> experimentCase = "C"; :>> means = MeansOfAchievement::highFidelityModel; }
     verification workloadHighFidelityWithConnections : VerifyWorkloadByMeans { :>> experimentCase = "D"; :>> means = MeansOfAchievement::highFidelityModelWithConnections; }
+
+    verification viableOptionsRuleOfThumb : VerifyViableOptionsByMeans { :>> experimentCase = "A"; :>> means = MeansOfAchievement::ruleOfThumb; }
+    verification viableOptionsLowFidelity : VerifyViableOptionsByMeans { :>> experimentCase = "B"; :>> means = MeansOfAchievement::lowFidelityModel; }
+    verification viableOptionsHighFidelity : VerifyViableOptionsByMeans { :>> experimentCase = "C"; :>> means = MeansOfAchievement::highFidelityModel; }
+    verification viableOptionsHighFidelityWithConnections : VerifyViableOptionsByMeans { :>> experimentCase = "D"; :>> means = MeansOfAchievement::highFidelityModelWithConnections; }
+
+    verification shareUsedRuleOfThumb : VerifyPerformanceShareUsed { :>> experimentCase = "A"; :>> means = MeansOfAchievement::ruleOfThumb; }
+    verification shareUsedLowFidelity : VerifyPerformanceShareUsed { :>> experimentCase = "B"; :>> means = MeansOfAchievement::lowFidelityModel; }
+    verification shareUsedHighFidelity : VerifyPerformanceShareUsed { :>> experimentCase = "C"; :>> means = MeansOfAchievement::highFidelityModel; }
+    verification shareUsedHighFidelityWithConnections : VerifyPerformanceShareUsed { :>> experimentCase = "D"; :>> means = MeansOfAchievement::highFidelityModelWithConnections; }
+
+    verification optionImpactRuleOfThumb :VerifyOptionImpactByMeans { :>> experimentCase = "A"; :>> means = MeansOfAchievement::ruleOfThumb; }
+    verification optionImpactLowFidelity : VerifyOptionImpactByMeans { :>> experimentCase = "B"; :>> means = MeansOfAchievement::lowFidelityModel; }
+    verification optionImpactHighFidelity : VerifyOptionImpactByMeans { :>> experimentCase = "C"; :>> means = MeansOfAchievement::highFidelityModel; }
+    verification optionImpactHighFidelityWithConnections : VerifyOptionImpactByMeans { :>> experimentCase = "D"; :>> means = MeansOfAchievement::highFidelityModelWithConnections; }
 }

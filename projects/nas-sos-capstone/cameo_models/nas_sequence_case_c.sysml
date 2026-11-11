@@ -20,8 +20,9 @@ package CaseCConflictResolve {
      * Other cases. A message whose name carries a case tag differs by case: the
      * performance share exists only in C and D (case B decides with one nominal performance
      * per type, case A with the rule); options are scored in B, C and D (case A applies the
-     * rule). The aircraft moved also differs: case A descends AC2 4,000 ft (O10), case B
-     * descends AC1 4,000 ft (O8). The shape of the exchange (clearance, read-back, entry,
+     * rule). The aircraft moved also differs: cases A and B descend AC2 4,000 ft (O10); no
+     * case may take AC1 through FL360, where AC3 is 2 NM behind it (D-047). The shape of the
+     * exchange (clearance, read-back, entry,
      * notice, resume) is the same in every case; only the lifeline and the level change.
      *
      * Abstraction: the lifeline atc is the sector controller, or the controller team (JO

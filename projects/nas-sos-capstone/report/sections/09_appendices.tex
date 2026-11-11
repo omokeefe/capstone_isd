@@ -48,6 +48,17 @@ and cite each one from it.}
 \end{landscape}
 % ---- end generated table
 
+\subsection{Thread Trace and Verification Results}
+\label{app:thread-trace}
+\plantodo{S13, S15 (2026-11-10)}{Introduce Table~\ref{tab:thread-trace} and cite it from Sections~\ref{sec:model-gap} and~\ref{sec:results}: how to read it (one row per verification definition; a verdict and what was measured in each case), what ``not exercised'' and ``not run'' mean, and that the stakeholder requirement is validated against the outcome table rather than verified. The verdict rules are Claude's draft (2026-11-10), applying the ``met if'' of each definition's objective in \texttt{nas\_verification.sysml}; owner to review them in \texttt{simulation/experiment\_scoring.py}, \texttt{verification\_verdicts}. The model has no link from a requirement to a sequence message, so the table has no sequence-step column; Section~\ref{sec:model-gap} walks that step in prose.}
+
+% ---- Generated table (tools/export_report_tables.py, from the model and the verdicts that
+% simulation/experiment_scoring.py writes). Do not edit the .tex file: rerun both scripts.
+\begin{landscape}
+\input{figures/tables/thread_trace}
+\end{landscape}
+% ---- end generated table
+
 \subsection{Full SysML Diagram Set}
 \label{app:architecture}
 \plantodo{S10}{Diagrams not embedded in the body: full BDD/IBD set, requirements model, and complete traceability matrices (needs $\rightarrow$ objectives $\rightarrow$ requirements $\rightarrow$ systems $\rightarrow$ activities $\rightarrow$ information exchanges $\rightarrow$ aircraft behavior). Not yet modeled as views: BDDs and the requirements model.}
@@ -58,7 +69,7 @@ and cite each one from it.}
 % by a body section from figures/sysml/fig-<viewName>.tex. Do not add SysML
 % figures here by hand: add the view to the model and rerun the script
 % (workflows/render-sysml-diagrams.md). Labels are fig:sysml-<viewName>.
-Every figure of the model in this report is a view defined in \texttt{nas\_package\_my\_views.sysml} and rendered from the SysML v2 text with Syside. Its caption names the view, the \texttt{.sysml} file that holds the content, and the date of the render. As of this draft all five views appear in the body: Figure~\ref{fig:sysml-systemContext} (Section~\ref{sec:soi}), Figure~\ref{fig:sysml-nominalOpsActivity} (Section~\ref{sec:conops-results}), and Figures~\ref{fig:sysml-aircraftIbdDetail}, \ref{fig:sysml-aircraftIbd} and~\ref{fig:sysml-airspaceManagementIbd} (Section~\ref{sec:architecture-results}). Views added to the model later appear below.
+Every figure of the model in this report is a view defined in \texttt{nas\_package\_my\_views.sysml} and rendered from the SysML v2 text with Syside. Its caption names the view, the \texttt{.sysml} file that holds the content, and the date of the render. Views placed in the body appear where Section~\ref{sec:system-model} discusses them, and the phase activities in Appendix~\ref{app:conops}; the rest follow here.
 
 \input{figures/sysml/sysml_figures}
 % ---- end generated figures

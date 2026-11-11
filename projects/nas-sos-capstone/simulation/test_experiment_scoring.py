@@ -55,6 +55,18 @@ def test_case_c_can_tell_the_pair_apart(base):
     assert o4.feasible  # light can
 
 
+def test_ac1_cannot_descend_through_the_in_trail_pair(base):
+    """D-047: AC3 is about 2 NM behind AC1 at FL360, so no case may take AC1 through FL360 (O8); AC2's descent (O10) stays open."""
+    sc, res = base
+    perf = es.PerformanceModel(sc.aircraftType)
+    o8 = next(o for o in sc.options if o.optionId == "O8")
+    o10 = next(o for o in sc.options if o.optionId == "O10")
+    for k in es.CASES:
+        assert es.option_feasible_for_decider(sc, o8, k, perf)[0] is False, k
+        assert es.option_feasible_for_decider(sc, o10, k, perf)[0] is True, k
+    assert res["cases"]["B"]["option"] == "O10"  # B cannot tell AC1 from AC2, and only AC2 can descend
+
+
 def test_climb_rule_closes_climbs_to_a_and_b(base):
     sc, _ = base
     perf = es.PerformanceModel(sc.aircraftType)
@@ -201,3 +213,48 @@ def test_a_climb_that_is_not_better_comes_back_and_the_descent_is_costed(monkeyp
     descent_back = (real(ac2.cruise.massKg, 0.80, 39000, perf.descent_rate_fpm) - real(ac2.cruise.massKg, 0.80, 38000)) * t_back_h * 3600
     assert descent_back < 0  # a descent burns less than cruise
     assert b.delta_fuel_kg == pytest.approx(a.delta_fuel_kg + descent_back)
+
+
+# --------------------------------------------------------------------------- verification verdicts (2026-11-10)
+def _verdicts(res):
+    return {(r["verification def"], r["case"]): r["verdict"] for r in es.verification_verdicts(res)}
+
+
+def test_verdicts_cover_every_def_and_case(base):
+    _, res = base
+    v = _verdicts(res)
+    assert set(v) == {(d, k) for d in es.VERDICT_DEFS for k in es.CASES}
+
+
+def test_information_requirements_fail_without_the_share_and_pass_with_it(base):
+    """The improved thread requirements (SLR-INF-02, HLR-OPS-05; D-046): not met in A and B, met in C and D."""
+    _, res = base
+    v = _verdicts(res)
+    for vdef in ("VerifyPerformanceToDecidingParty", "VerifyPerformanceShareProvided"):
+        assert [v[(vdef, k)] for k in es.CASES] == ["not met", "not met", "met", "met"], vdef
+
+
+def test_baseline_decision_requirements_met_by_every_case(base):
+    """D-042 to D-044, D-046: HLR-ATC-05, -08, -10, -11 and SLR-CLR-13 are met by every means, with what each receives."""
+    _, res = base
+    v = _verdicts(res)
+    for vdef in ("VerifyLowestImpactResolution", "VerifyLowestImpactByMeans", "VerifyViableOptionsByMeans", "VerifyOptionImpactByMeans",
+                 "VerifyPerformanceShareUsed"):
+        assert all(v[(vdef, k)] == "met" for k in es.CASES), vdef
+
+
+def test_decide_unchanged_by_the_helpers(base):
+    """decide() reads offered_options() and case_estimate(); each automated case's choice is the first lowest of its own estimates."""
+    sc, res = base
+    for k in ("B", "C", "D"):
+        est = {o: es.case_estimate(sc, k, res["perf"], res["scores"][es.known_mass(k)][o])
+               for o in es.offered_options(sc, k, res["perf"], res["scores"])}
+        lo = min(est.values())
+        assert res["cases"][k]["option"] == next(o for o, e in est.items() if e < lo + 1e-9)
+
+
+def test_verdicts_file(tmp_path, monkeypatch, base):
+    _, res = base
+    monkeypatch.setattr(es, "TABLE_DIR", tmp_path / "tables")
+    p = es.write_verdicts(res, "base_actualMass")
+    assert p.exists() and p.read_text(encoding="utf-8").startswith("verification def,case,verdict,measured")

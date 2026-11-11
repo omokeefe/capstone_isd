@@ -65,7 +65,7 @@ One row per resolution option, one column per aircraft, each cell the maneuver t
 | O5 | Turn to pass behind AC2 | – | – | – | 1 | 1 (resume own navigation), plus monitoring | Crossing times, to size the turn. |
 | O6 | – | Turn to pass behind AC1 | – | – | 1 | 1, plus monitoring | Same as O5. |
 | O7 | Change speed, within ±0.04 Mach | – | – | – | 1 | 1 (resume speed), plus monitoring | The aircraft's usable speed range. Built to fail in this scenario; see below. |
-| O8 | Descend 4,000 ft, below AC3 and AC4 | – | – | – | 1 | Same as O1 | Nothing about the aircraft. Larger fuel penalty. |
+| O8 | Descend 4,000 ft, below AC3 and AC4 | – | – | – | 1 | Same as O1 | Nothing about the aircraft. Larger fuel penalty. **Closed to every case since 2026-11-10 (D-047):** AC1 would pass through FL360 with AC3 2 NM behind. |
 | O9 | Descend 2,000 ft | – | Slow or turn, to open a gap | – | 2 | 2 | Used only if O1 is blocked. This is the one option that touches airline X twice. |
 
 **The re-climb is not guaranteed** (second review, notes 1.9 and 2.5). After a descent the aircraft is either cleared back up, which is a second instruction, or it stays low and pays a fuel penalty for the rest of the cruise. Which one happens depends on the traffic above it later. The scoring has to carry both outcomes for O1, O2 and O8.
@@ -103,7 +103,7 @@ A variation with the pair at or below FL350, where every case can climb, is left
 
 | Case | What it knows | Options open to it | How it chooses |
 |---|---|---|---|
-| A | Today's information: type, level, speed, route | O1, O2, O5, O6, O8 always. O3 and O4 only if the aircraft is at or below FL350. O7 closed: the usable speed range is unknown. | The baseline rule: one descent. Which of the two crossing aircraft descends, AC1 or AC2, is still open (`knowledge/models/experiment-definition.md` §5). |
+| A | Today's information: type, level, speed, route | O1, O2, O5, O6, O8 always (O8 closed to every case since D-047). O3 and O4 only if the aircraft is at or below FL350. O7 closed: the usable speed range is unknown. | The baseline rule: one descent. Which of the two crossing aircraft descends, AC1 or AC2, is still open (`knowledge/models/experiment-definition.md` §5). |
 | B | A nominal model: one weight per type | All nine, with O3 and O4 under the same FL350 rule. | Lowest estimated cost using the nominal model. Both aircraft are the same type, so the model gives them the same weight and cannot tell AC1 from AC2. |
 | C | Shared weight and cost index | All nine. O3 and O4 judged from the aircraft's own weight; the FL350 rule does not apply. | Lowest estimated cost using each aircraft's own weight and cost index. |
 | D | Case C plus the airline's connection information (§5) | Same as C | Lowest estimated cost including the connection term in §4.2. |
@@ -360,5 +360,22 @@ Rule: with `stay_at_new_level: if_better` (default `never`; `--stay-if-better` f
 | D | O4 | as C | as C | yes | 1+1 → 1+0 | as C |
 
 System fuel is unchanged in every case (41.2, 32.3, 12.4, 12.4 kg). Similar-weights variation: C and D choose O3 (AC1 at 67,000 kg to FL400, 4.59 / 4.52 kg/NM), which stays: calls 1+0, about −59 kg over 125 minutes after the hold. In this scenario every climb an aircraft can make is to a better level, because each aircraft's best level for fuel per mile at Mach 0.80 (FL410 for AC1, FL430 for AC2) lies above the highest level it can hold with 150 ft/min left; so the costed descent back never occurs here and is checked by a test with a made-worse level.
+
+### Sixth run (2026-11-10, D-047): AC1 cannot descend through FL360
+
+The owner confirmed that AC3, about 2 NM behind AC1 on its track at FL360, is too close for AC1 to descend through that level. `scenario_base.yaml` has a new setting, `no_transit_levels_ft: {AC1: [36000]}`, checked for every case in `option_feasible_for_decider`, so O8 is offered by no case. AC2's descent (O10) passes FL360 far from AC3 and AC4 and stays open. Nothing else changed.
+
+| Case | Option chosen | System fuel (kg) | Largest cost to one aircraft (fuel-equiv kg) | Fifth run |
+|---|---|---|---|---|
+| A | O10: AC2 descends 4,000 ft | +41.2 | 40.1 (AC2) | O10, +41.2 |
+| B | O10: AC2 descends 4,000 ft | +41.2 | 40.1 (AC2) | O8, +32.3 |
+| C | O4: AC2 climbs 2,000 ft | +12.4 | 12.4 (AC2) | O4, +12.4 |
+| D | O4 | +12.4 | 12.4 (AC2) | O4, +12.4 |
+
+B minus A is now 0, and C minus B is −28.8 kg, equal to C minus A (70 percent less fuel than case A). With today's information, automation chooses what the rule chooses; the whole gain comes from the shared information. Calls are 1+1 in every case (1+0 for C and D with `if_better`, as before).
+
+**The fifth run's B minus A was a tie broken by list order.** Case B estimates O8 and O10 at the same cost (33.5 kg fuel-equivalent each): one type, nominal mass, assumed CI 30, so it cannot tell AC1 from AC2. `decide()` keeps the first of equal estimates, and O8 is listed before O10. So the −8.9 kg came from the order of the options, not from B's judgment. The verdicts table had already noted the tie (D-045).
+
+**Sensitivity** is unchanged in shape: B picks O10 above about 9.9 kg/min (CI 13) and the vector O5 (+28.9 kg) below it, so at a low assumed cost index B minus A would be −12.3 kg and C minus B −16.5 kg. **Similar weights:** A and B O10 (+36.7 kg), C and D O3 (+16.0 kg); the numbers do not change, because at equal masses O8 and O10 cost the same. **Stay at the new level:** B now returns from FL340 like A. **Other outputs:** at `nominalMass`, B O10 (+36.7 kg); at `conceptual`, unchanged. 42 tests pass.
 
 A scope note: §4 is as far as the scoring should go as a capability inside the architecture. The owner's own note says the same: this is not an optimization paper, it is an exploration of what interchangeable models are worth. If the next step looks like tuning weights or searching a larger option space, that is the pull to flag.

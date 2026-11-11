@@ -12,18 +12,22 @@
 %   Architecture            <- 05_results_discussion.tex (now 06_)
 %   Proposed Airline-to-ATC Interface <- 03_assumptions_methodology.tex
 % The Introduction keeps a short summary (Stakeholders and Study Boundary) that
-% points here. The subsections run in order: who has a stake, what they want and
-% where they conflict, which systems act, the boundary studied, how it operates,
-% the architecture, and the interface the experiment tests.
+% points here. Reordered 2026-11-10 (D-046) to one subsection per step of the
+% throughline, in the order of the ISO/IEC/IEEE 15288 technical processes: who has a
+% stake and what they want (6.4.2), which systems act and the boundary studied
+% (6.4.1, 6.4.3), the requirements (6.4.2, 6.4.3), the architecture (6.4.4), how a
+% flight operates (6.4.4), the gap and the means to close it (6.4.4, 6.4.5), and the
+% interface the experiment tests (6.4.5).
 
-This section presents the identification and formulation of the model the experiment is built on, beginning with the stakeholders, their objectives and the conflict among them. It then identifies the constituent systems through which they act, and draws the boundary of the System of Interest. Finally, it describes how a flight operates within that boundary, the architecture that carries it, and the airline-to-ATC interface whose use informs the decisions that determine the value achieved by the experiment of Section~\ref{sec:experiment}.
+This section presents the identification and formulation of the model the experiment is built on, beginning with the stakeholders, their objectives and the conflict among them. It then identifies the constituent systems through which they act, draws the boundary of the System of Interest, and states the requirements on it. Next it describes the architecture, how a flight operates within it, and where the model shows a gap and the means to close it. Finally, it presents the airline-to-ATC interface whose use informs the decisions that determine the value achieved by the experiment of Section~\ref{sec:experiment}.
+% The two sentences above were revised for the reorder of 2026-11-10 (D-046), by Claude at the owner's request.
 
 \subsection{Stakeholders}
 \label{sec:stakeholders}
 
 \subsubsection{Identification}
 
-Informed by the literature survey and the author's experience in the aviation industry, a set of candidate stakeholders was identified and refined using a PESTLE analysis and stakeholder discovery process. The result is a diverse group of stakeholders that represent the various interests and perspectives affected by NAS operational decisions, and is shown in Figures~\ref{fig:stakeholders-exploration} 
+Informed by the literature survey and the author's experience in the aviation industry, a set of candidate stakeholders was identified and refined using a PESTLE analysis and stakeholder discovery process. The result is a diverse group of stakeholders that represent the various interests and perspectives affected by NAS operational decisions, and is shown in Figure~\ref{fig:stakeholders-exploration}.
 
 \begin{figure}[htbp]
 \centering
@@ -32,7 +36,7 @@ Informed by the literature survey and the author's experience in the aviation in
 \label{fig:stakeholders-exploration}
 \end{figure}
 
-The stakeholders are grouped by the six domains of a PESTLE analysis (political, economic, social, technological, legal, environmental) and scored for importance and impact on trajectory decisions in~\ref{fig:stakeholders-power-interest}. An initial assessment of each candidate stakeholder's objectives, candidate MOPs and MOEs, and whether the stakeholder has a direct or indirect effect on trajectory decisions is documented in the \texttt{capstone\_stakeholder\_assessment.xlsx} file. The assessment also considers whether the stakeholder should stand alone or be abstracted through consolidation with another, and the reason for that decision. An excerpt of the work is in Appendix~\ref{app:stakeholders}, Table~\ref{tab:stakeholder-assessment-excerpt}.
+The stakeholders are grouped by the six domains of a PESTLE analysis (political, economic, social, technological, legal, environmental) and scored for importance and impact on trajectory decisions in Figure~\ref{fig:stakeholders-power-interest}. An initial assessment of each candidate stakeholder's objectives, candidate MOPs and MOEs, and whether the stakeholder has a direct or indirect effect on trajectory decisions is documented in the \texttt{capstone\_stakeholder\_assessment.xlsx} file. The assessment also considers whether the stakeholder should stand alone or be abstracted through consolidation with another, and the reason for that decision. The full assessment is in Appendix~\ref{app:stakeholders}, Table~\ref{tab:stakeholder-assessment-excerpt}.
 
 \begin{figure}[htbp]
 \centering
@@ -81,7 +85,6 @@ Six stakeholder objectives remain: safety, efficiency, environmental impact, sch
 \item Maintenance and lifecycle cost are largely determined by the number of flight cycles, the chosen takeoff performance, the flight distance and the climb controls, so one air traffic control decision has a negligible effect on them.
 \item Security, resilience and regulatory compliance are not changed by the choice between resolution options in the scenario.
 \item Throughput and capacity were left for another study. They are also close to ongoing work by the author, and out of an abundance of caution that part of the problem space was avoided.
-\item 
 \end{itemize}
 
 \subsubsection{Objectives and Conflicts}
@@ -122,15 +125,39 @@ The System of Interest is drawn from the systems of Figure~\ref{fig:sos-explorat
 
 \input{figures/sysml/fig-systemContext}
 
-\plantodo{Track C (D-034)}{Owner, 2026-10-22: SN-AIR-05 is the throughline the claims are made around, and its decomposition with the improvement HLRs is the output of the report. Write the text that introduces Table~\ref{tab:thread-decomposition} (SN-AIR-05, the objectives it serves, SLR-INF-02 and SLR-CLR-13 and their HLRs) and Table~\ref{tab:improvement-hlrs} (the HLRs today's NAS does not meet), tie them to the context diagram above, and point to the full decomposition in Appendix~\ref{app:requirements}. Both tables are generated from the model by \texttt{tools/export\_report\_tables.py}. Owner's 2026-11-05 print: the ``done today, in part'' fact left Table~\ref{tab:thread-decomposition} and belongs in this text: before departure, in the FAA's Collaborative Trajectory Options Program, the airline gives each route option a relative cost, which the FAA's allocation uses \cite[p.~4]{kulkarni2019ctopSlotSubstitution}; not in tactical conflict resolution in cruise. Also from that print: SN-AIR-05 needs an interface into the decision mechanism (SLR-INF-02) and the use case itself (SLR-CLR-13).}
+\subsection{Requirements}
+\label{sec:requirements}
 
-% ---- Generated tables (tools/export_report_tables.py); do not edit the .tex files.
+\plantodo{Track C (D-034, D-046)}{Owner, 2026-10-22: SN-AIR-05 is the throughline the claims are made around, and its decomposition is the output of the report. Write the text that introduces Table~\ref{tab:thread-decomposition} (SN-AIR-05, the objectives it serves, SLR-INF-02 and SLR-CLR-13 and their HLRs), tie it to the context diagram (Figure~\ref{fig:sysml-systemContext}), and point to the full decomposition in Appendix~\ref{app:requirements}. The table is generated from the model by \texttt{tools/export\_report\_tables.py}. Table~\ref{tab:improvement-hlrs}, the requirement today's NAS does not meet, moved on 2026-11-10 to Section~\ref{sec:model-gap}, where the gap is found (D-046). Owner's 2026-11-05 print: the ``done today, in part'' fact left Table~\ref{tab:thread-decomposition} and belongs in this text: before departure, in the FAA's Collaborative Trajectory Options Program, the airline gives each route option a relative cost, which the FAA's allocation uses \cite[p.~4]{kulkarni2019ctopSlotSubstitution}; not in tactical conflict resolution in cruise. Also from that print: SN-AIR-05 needs an interface into the decision mechanism (SLR-INF-02) and the use case itself (SLR-CLR-13).}
+
+% ---- Generated table (tools/export_report_tables.py); do not edit the .tex file.
 \input{figures/tables/thread_decomposition}
-\input{figures/tables/improvement_hlrs}
-% ---- end generated tables
+% ---- end generated table
+
+\subsection{Architecture: Detailed and Abstracted}
+\label{sec:architecture-results}
+
+\plantodo{S10}{Present the SysML architecture: package structure, the context diagram (Figure~\ref{fig:sysml-systemContext}), the internal block diagrams below, the interface and item-flow model, and the requirements model with traceability. For the aircraft, the detailed diagram comes first and the abstracted one second (your note: ``Place detailed and abstracted''); say what the abstraction drops and why. The airspace management diagram is still a placeholder.}
+
+The aircraft is shown at two levels of detail. Figure~\ref{fig:sysml-aircraftIbdDetail} is the detailed internal block diagram, including propulsion, airframe, landing gear, utilities, and the fuel and power links. Figure~\ref{fig:sysml-aircraftIbd} is the abstraction used in the rest of the report: the crew, the flight deck controls, the avionics, the flight controls, the fuel system, and the information and command links among them, which are the parts the studied decision passes through. The internal block diagrams of the other systems are in Appendix~\ref{app:architecture}.
+
+
+\input{figures/sysml/fig-aircraftIbdDetail}
+\input{figures/sysml/fig-aircraftIbd}
 
 \subsection{Operational Concept}
 \label{sec:conops-results}
+
+\aidraft{The use-case figure, its caption and the paragraph introducing it, added with the reorder of Section~\ref{sec:system-model} (D-046). Drafted 2026-11-10 at the owner's request; the caption is a proposal.}
+The operational concept starts from the use cases of Figure~\ref{fig:use-cases}. A passenger's scheduled flight includes the resolution of an en-route conflict, because any flight in cruise may need one. That use case is the decision the study is about, and in the model it refines SN-AIR-05. The military's use of special use airspace is shown only to place the military, and is out of study.
+% ---- end AI draft
+
+\begin{figure}[htbp]
+\centering
+\figorbox[0.75\textwidth]{use-case-operate-scheduled-flight.drawio.png}{\texttt{report/figures/use-case-operate-scheduled-flight.drawio.png}}
+\caption{Use cases of the NAS: operating a scheduled flight includes resolving an en-route conflict. Drawn by hand from \texttt{nas\_use\_cases.sysml}, which is the source; Syside has no use case view.}
+\label{fig:use-cases}
+\end{figure}
 
 The operational concept was first written in full detail as a gate-to-gate thread for one nominal commercial flight, from the pilot's point of view. It runs through eleven phases: the airline's schedule, fleet and crew assignment; the pilot's preparation before duty; reporting and the dispatch release; aircraft preflight and initialization of the flight management system; boarding, loading and fueling; clearance, pushback and taxi; takeoff and initial climb; climb; cruise; arrival planning; and descent through to the gate. Each phase records its initial state, the interfaces in use, and the questions it raised. The full thread is in Appendix~\ref{app:conops}.
 
@@ -144,16 +171,34 @@ The example conflict sits inside the fly en route action. Two aircraft in cruise
 \input{figures/sysml/fig-flyEnrouteActivity}
 \input{figures/sysml/fig-resolveConflictActivity}
 
-\subsection{Architecture: Detailed and Abstracted}
-\label{sec:architecture-results}
+\subsection{The Gap in the Model and the Means to Close It}
+\label{sec:model-gap}
 
-\plantodo{S10}{Present the SysML architecture: package structure, the context diagram (Figure~\ref{fig:sysml-systemContext}), the internal block diagrams below, the interface and item-flow model, and the requirements model with traceability. For the aircraft, the detailed diagram comes first and the abstracted one second (your note: ``Place detailed and abstracted''); say what the abstraction drops and why. The airspace management diagram is still a placeholder.}
+\aidraft{New subsection: steps 7 and 8 of the throughline (the deficiency found in the model; the solution space the model sets out), following the owner's 2026-10-29 chain in \texttt{knowledge/models/experiment-definition.md} \S1 and the reading of D-044. Drafted 2026-11-10 at the owner's request; revised the same day for D-046 (HLR-ATC-08 is baseline) and the reorder.}
+This subsection follows one stakeholder need through the model, from the objectives it serves to the exchanges that would have to carry it, and shows where the model finds that it cannot be met. It then shows how the model's own breakdown of the decision sets out the ways to meet it. The gap is not new. The literature reviewed in Section~\ref{sec:litreview} documents it: controllers resolve conflicts by rule~\cite{rantanen2012conflictManeuvers,kirwan2001coraStrategies}, without the aircraft's weight or speed intent, which airlines treat as competitive and do not share~\cite{schultz2012adaptiveClimb}. What the model adds is that the gap can be found from the architecture alone, before any simulation is run, by tracing a written need to the interfaces that would have to carry it. A model of the NAS kept current could find a gap like this one proactively, instead of after studies of controller behavior have explained it.
 
-The aircraft is shown at two levels of detail. Figure~\ref{fig:sysml-aircraftIbdDetail} is the detailed internal block diagram, including propulsion, airframe, landing gear, utilities, and the fuel and power links. Figure~\ref{fig:sysml-aircraftIbd} is the abstraction used in the rest of the report: the crew, the flight deck controls, the avionics, the flight controls, the fuel system, and the information and command links among them, which are the parts the studied decision passes through. The internal block diagrams of the other systems are in Appendix~\ref{app:architecture}.
+The thread starts at the airline's objectives of fuel cost, schedule integrity and passenger connections. Stakeholder requirement SN-AIR-05 asks that the NAS take the airline's priorities for a flight into account when that flight's trajectory has to change (Table~\ref{tab:thread-decomposition}). In the model it is refined by the use case \texttt{ResolveEnRouteConflict} (Figure~\ref{fig:use-cases}), which every scheduled flight includes because any flight in cruise may need it. Two system requirements answer it. SLR-CLR-13 is the decision itself: the NAS shall choose, among the maneuvers it can confirm restore separation safely, the one with the lowest estimated impact on the aircraft involved. SLR-INF-02 is what the decision needs: the NAS shall give the party that decides the information needed to preserve safety and pursue optimality.
 
+The use case is carried out by the \texttt{ResolveConflict} activity (Figure~\ref{fig:sysml-resolveConflictActivity}), which sits in air traffic control's monitoring loop in the fly en route phase (Figure~\ref{fig:sysml-flyEnrouteActivity}). The activity names its inputs, which are what the decider can know. Two of them exist today: the surveillance picture, which gives each aircraft's type, level and speed, and the filed flight plans. The third, the airline's performance share, carries the aircraft's state and performance and the airline's priorities, and nothing in the baseline architecture supplies it. The requirements allocate the decision to air traffic control and its decision support, and the information to the airline operations center and the aircraft's flight management system (Appendix~\ref{app:thread-trace}). The party that decides and the parties that hold the data sit in different constituent systems.
 
-\input{figures/sysml/fig-aircraftIbdDetail}
-\input{figures/sysml/fig-aircraftIbd}
+The sequence of Figure~\ref{fig:sysml-caseCConflictResolve} lays out the exchanges that carry out the decision, message by message, from the conflict alert to the aircraft rejoining its plan. Every message rides a connection on the context diagram or on an internal block diagram, and all but one of those connections exist today: the clearance and its read-back ride the link between air traffic control and the crew, and the aircraft's state reaches the controller by surveillance. The first message, the performance share from the airline operations center to air traffic control's decision support, has no connection in the baseline. The model holds two exchanges from the airline to air traffic control: flight plan filing, and the traffic flow management link to the Command Center, through which the airline can rank its route options before departure~\cite[p.~4]{kulkarni2019ctopSlotSubstitution}. Neither reaches the sector's decision in cruise, and neither carries the aircraft's weight or the airline's cost of time. The share is drawn in the model as the interface \texttt{airlinePerformanceShare}, tagged as part of the improved architecture and left off the context diagram, which shows the baseline. SLR-INF-02, and HLR-OPS-05 under it, which has flight operations make the share available, are therefore the requirements today's NAS does not meet (Table~\ref{tab:improvement-hlrs}). HLR-ATC-08, which has the decision support use the best information it receives, is met today with what today's interfaces give it: what is missing is the share, not its use. That is the gap, and it is found by reading the model, not by running it.
+
+% ---- Generated table (tools/export_report_tables.py); do not edit the .tex file.
+\input{figures/tables/improvement_hlrs}
+% ---- end generated table
+
+\input{figures/sysml/fig-caseCConflictResolve}
+
+The model shows that the information does not reach the decider. It does not show what that costs. Case A's choice is worse than it needs to be only if a better option was available and could have been confirmed, and showing that takes the analysis of Section~\ref{sec:experiment}. The model flags the gap; the analysis confirms it and measures it.
+
+The model also sets out the ways to close the gap. SLR-CLR-13 breaks down into three HLRs for air traffic control: determine the resolution options it can confirm are safe and can be flown (HLR-ATC-10), determine the impact of each option it considers (HLR-ATC-11), and choose the one with the lowest estimated impact (HLR-ATC-05). Each states what has to be done, not how well. Today's controller meets all three by rule of thumb, so each is tagged as baseline. What changes the quality of the decision is the means used to meet them. The model records four means for these requirements: the controller's rule of thumb, decision support with a low-fidelity performance model, decision support with a high-fidelity model, and the high-fidelity model with the airline's connection priorities. SLR-INF-02 sets what each means needs from outside air traffic control. The rule and the low-fidelity model use only what air traffic control receives today; the high-fidelity means need the airline's share. The four means are the four cases of the experiment (Section~\ref{sec:experiment-method}), and the \texttt{ResolveConflict} activity carries them as its branch on what the controller knows.
+
+Figure~\ref{fig:sysml-analysisParametrics} shows where the model holds the fidelity. The calculations the decision depends on (fuel flow at a cruise condition, the rate of climb left, and whether a level can be held) are declared once, with fixed inputs and outputs. Two usages of the performance model realize them, \texttt{nominalPerformance} and \texttt{actualPerformance}, and they differ only in where the mass comes from: one weight per aircraft type, as today's ground automation assumes~\cite{coppenbarger1999climbPrediction}, or the aircraft's own weight, as the airline's share would carry it. The analysis \texttt{ConflictResolutionScoring} lets each case choose with its own information and scores every choice with one truth model, side by side for each aircraft, each airline, the sector and the system. Changing a case's means changes which usage it reads and what it receives; the architecture does not change. This is the second claim's swap of fidelity with the structure unchanged.
+
+\input{figures/sysml/fig-analysisParametrics}
+
+The choice among the means is therefore a choice of interface. The rule of thumb and the low-fidelity model need nothing new. The high-fidelity means need the airline's share delivered to the decision support and used there (HLR-OPS-05 and HLR-ATC-08). Section~\ref{sec:proposed-interface} sets out that interface, drawing on the literature and the author's experience. Every requirement on the thread is verified for every means in Appendix~\ref{app:thread-trace}.
+% ---- end AI draft
 
 \subsection{Proposed Airline-to-ATC Interface}
 \label{sec:proposed-interface}

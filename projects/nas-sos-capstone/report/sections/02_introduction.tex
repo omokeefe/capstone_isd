@@ -22,7 +22,7 @@ The pattern is visible even in work that improves on the status quo. The predict
 
 This report explores the value tradeoffs aviation stakeholders experience when a disruption occurs and the recovery decision is made with more or less myopia. A dispatcher or AOCC team member making a decision is often focused on its immediate effect -- for example, minimizing delay for one flight -- without visibility into what it means for the airline's wider operation or for the NAS as a whole. In this view, the aircraft is the top-level system of interest being considered. The cost models in use today are over simplifications that capture the factors easiest to quantify, such as fuel and crew cost. Factors that are harder to quantify -- maintenance cost, passenger satisfaction, dispatcher and controller workload, environmental impact -- are more often left out. The result can be congestion in particular airspace sectors, missed opportunities for more efficient routing, or lower profit driven by customer dissatisfaction. By modeling the NAS as a system of systems and tracing how operational intent propagates through it, the project aims to identify ways to improve these decisions and reduce the cost of disruptions to the air transportation system.
 
-Two claims are central to the project. The first, explored by experiment, is that replacing a low-fidelity rule of thumb with a higher-fidelity model fed by accurate aircraft performance and informed of the broader state of the airspace can and will lead to changes in how disruptions are mitigated. The second, shown by modeling, is that an MBSE architecture can locate that interface, name who owns the decision and the data, state the unmet requirement, and lets the scoring model's fidelity be swapped (conceptual, nominal mass, actual mass) with the structure unchanged. As such, the model contributes as a traceable representation of how strategic objectives become executable aircraft behavior.
+Two claims are central to the project. The first, explored by experiment, is that replacing a low-fidelity rule of thumb with a higher-fidelity model fed by accurate aircraft performance and informed of the broader state of the airspace can and will mitigate disruptions better, as measured against the stakeholder objectives the study keeps (Section~\ref{sec:scope}). The second, shown by modeling, is that an MBSE architecture can locate that interface, name who owns the decision and the data, state the unmet requirement, and lets the scoring model's fidelity be swapped (conceptual, nominal mass, actual mass) with the structure unchanged. As such, the model contributes as a traceable representation of how strategic objectives become executable aircraft behavior.
 
 \subsection{Overview of the Project}
 \label{sec:overview}
@@ -79,7 +79,7 @@ In the moments when the conflicts arise and disruption management must occur, to
 \subsection{Stakeholders and Study Boundary}
 \label{sec:stakeholders-summary}
 
-Informed by the literature survey and 16 years of experience in the aviation industry, a broad set of candidate stakeholders was identified with a PESTLE analysis (Section~ef{sec:stakeholders}). Four are kept: operators (the airline and its operations center), air traffic control, the airport authority, and the flight crew. The ommitted stakeholders supply rules, equipment, demand, and expectations to the decision but do not make it or execute it. As such, the governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations are not explicitly modelled. Section~\ref{sec:system-model} gives the full stakeholder analysis (Section~\ref{sec:stakeholders}), the reason for each choice (Section~\ref{sec:scope}), and the resulting System of Interest (Section~\ref{sec:soi}).
+Informed by the literature survey and 16 years of experience in the aviation industry, a broad set of candidate stakeholders was identified with a PESTLE analysis (Section~\ref{sec:stakeholders}). Four are kept: operators (the airline and its operations center), air traffic control, the airport authority, and the flight crew. The ommitted stakeholders supply rules, equipment, demand, and expectations to the decision but do not make it or execute it. As such, the governments and standards organizations, aircraft and engine manufacturers, passengers, and environmental and societal organizations are not explicitly modelled. Section~\ref{sec:system-model} gives the full stakeholder analysis (Section~\ref{sec:stakeholders}), the reason for each choice (Section~\ref{sec:scope}), and the resulting System of Interest (Section~\ref{sec:soi}).
 
 The study examines one tactical decision, the resolution of a conflict between aircraft in cruise, and keeps only the stakeholders and objectives that bear on it. Six objectives are kept: safety, efficiency, environmental impact, schedule reliability, cost, and workload. Throughput and capacity are left for another study, and the phases before departure enter only as the conditions the studied decision inherits. 
 
@@ -99,10 +99,10 @@ Context diagram & The systems kept in the System of Interest, the actors at its 
 Block definition diagrams & The NAS broken down into domains and constituent systems & Appendix~\ref{app:architecture} \\
 Internal block diagrams & The parts inside the aircraft and inside airspace management, and the links among them & Section~\ref{sec:architecture-results} \\
 Activity diagrams & One nominal flight from gate to gate, and the place of the conflict within it & Section~\ref{sec:conops-results} \\
-Requirements & Stakeholder requirements, system requirements and constituent-system requirements, each traced to the tier above & Appendix~\ref{app:architecture} \\
+Requirements & Stakeholder requirements, system requirements and constituent-system requirements, each traced to the tier above & Section~\ref{sec:requirements}; Appendix~\ref{app:requirements} \\
 Experiment & One conflict resolved four ways and scored for the aircraft, the airline, the sector and the system & Sections~\ref{sec:experiment} and~\ref{sec:experiment-results} \\
-Traceability chain & One thread from the airline's cost objective through the requirements and the airline-to-ATC interface to the experiment's outcome table & Section~\ref{sec:experiment-results}; Appendix~\ref{app:architecture} \\
-Gap analysis & The requirements that today's NAS does not meet, and what the experiment measures for each & Section~\ref{sec:results} \\
+Traceability chain & One thread from the airline's cost objective through the requirements and the airline-to-ATC interface to the experiment's outcome table & Section~\ref{sec:model-gap}; Appendix~\ref{app:thread-trace} \\
+Gap analysis & The requirements that today's NAS does not meet, and what the experiment measures for each & Sections~\ref{sec:model-gap} and~\ref{sec:results} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -142,7 +142,7 @@ Requirement Traceability & Requirements matrix & Owen & 10/29/2026 & Complete al
 \hline
 Activity Diagrams & Operational activities & Owen & 11/3/2026 & Scenario walkthrough & Draft \\
 \hline
-Sequence Diagrams & Information exchanges & Owen & 11/8/2026 & Message completeness & Not started \\
+Sequence Diagrams & Information exchanges & Owen & 11/8/2026 & Message completeness & Draft \\
 \hline
 State Machines & State behavior of key entities & Owen & 11/13/2026 & Executable state logic & Will not implement \\
 \hline

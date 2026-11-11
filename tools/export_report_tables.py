@@ -9,6 +9,12 @@ sections/09_appendices.tex inputs:
                                  requirements that serve it -> system requirements -> HLRs
     requirements_decomposition.tex  stakeholder requirement -> system requirements -> HLRs
                                  (landscape; the Decomposition sheet of the review workbook)
+    thread_trace.tex             SN-AIR-05 end to end: requirements -> satisfying parts ->
+                                 verification defs -> verdict per case (landscape; reads
+                                 verdicts_base_actualMass.csv from simulation/experiment_scoring.py,
+                                 so run that first)
+
+Two more go in the body (Section 3): thread_decomposition.tex and improvement_hlrs.tex.
 
 The requirement tables read the .sysml files through tools/export_requirements_xlsx.py,
 so they say what the model says (D-006). Do not edit the generated files: change the
@@ -279,6 +285,17 @@ def thread_table() -> str:
     return "\n".join(out)
 
 
+def improvement_caption(n: int) -> str:
+    """Singular when one HLR is improved (D-046: HLR-OPS-05 only)."""
+    if n == 1:
+        what, each, it = "the sub-system requirement (HLR)", "traced", "it is"
+    else:
+        what, each, it = f"the {n} sub-system requirements (HLRs)", "each traced", "each is"
+    return (rf"\caption{{The improvement: {what} that today's NAS does not meet, {each} to its system and stakeholder requirements and the objectives those serve, "
+            rf"with how {it} verified (the verification definition in \texttt{{nas\_verification.sysml}}). "
+            rf"The experiment's cases C and D, which receive the airline's share, are the means of meeting {'it' if n == 1 else 'them'}.}}")
+
+
 def improvement_table() -> str:
     """Body table: every HLR tagged improved, traced up to its stakeholder requirements and the objectives they serve."""
     sn, slr, hlr, slr_par, hlr_par = load_model()
@@ -288,8 +305,7 @@ def improvement_table() -> str:
     spec = "@{}" + col("4.4cm") + col("2.0cm") + col("4.0cm") + col("5.2cm") + "@{}"
     out = [header_note("cameo_models/requirements_*.sysml"),
            r"\begin{table}[htbp]", r"\centering", r"\footnotesize\setlength{\tabcolsep}{4pt}",
-           (rf"\caption{{The improvement: the {len(imp)} sub-system requirements (HLRs) that today's NAS does not meet, each traced to its system and stakeholder requirements and the objectives those serve, "
-            r"with how each is verified (the verification definition in \texttt{nas\_verification.sysml}). The experiment's cases B to D are the means of meeting them.}"),
+           improvement_caption(len(imp)),
            r"\label{tab:improvement-hlrs}",
            rf"\begin{{tabular}}{{{spec}}}", r"\toprule",
            r"\textbf{HLR} & \textbf{Traces to} & \textbf{Objectives served} & \textbf{Verification} \\", r"\midrule"]
@@ -309,10 +325,119 @@ def improvement_table() -> str:
     return "\n".join(out)
 
 
+# ------------------------------------------------------------------ the thread, end to end (2026-11-10)
+# to-do-list.md, Verification checklist: "The thread reads end to end in one appendix table."
+# Requirement -> parts that satisfy it -> verification defs -> verdict per case, with the stakeholder
+# requirement's objectives, its use case and its outcome-table reading on top. The verdicts are
+# written by simulation/experiment_scoring.py (verdicts_<tag>.csv). The model holds no link from a
+# requirement to a sequence message, so the table has no sequence-step column.
+
+TRACE_RUN = "base_actualMass"  # the run the report's outcome table shows
+USE_CASES = ex.MODEL / "nas_use_cases.sysml"
+REFINE_RE = re.compile(r"#refinement dependency \w+\s+from (?P<uc>\w+) to [\w:]+::(?P<req>\w+);")
+VERDICT_WORD = {"met": r"\textbf{met}", "not met": r"\textbf{not met}", "reported": "reported",
+                "not exercised": r"\textit{not exercised}", "not run": r"\textit{not run}",
+                "not applicable": r"\textit{n/a}"}
+
+
+def verification_defs() -> dict[str, list[str]]:
+    """Requirement name -> every verification def that verifies it, in file order."""
+    text = VERIFICATION.read_text(encoding="utf-8")
+    out: dict[str, list[str]] = {}
+    for chunk in re.split(r"(?=\n    verification def )", text):
+        m = STATEMENT_RE.search(chunk)
+        if m:
+            out.setdefault(m["req"], []).append(m["vdef"])
+    return out
+
+
+def read_csv(name: str) -> list[dict[str, str]]:
+    import csv
+    p = OUT / name
+    if not p.exists():
+        return []
+    with p.open(encoding="utf-8", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def tt_break(name: str) -> str:
+    """CamelCase in typewriter type, allowed to wrap between words."""
+    return r"\texttt{" + re.sub(r"(?<=[a-z])(?=[A-Z])", r"\\allowbreak{}", name) + "}"
+
+
+def trace_table() -> str:
+    sn, slr, hlr, slr_par, hlr_par = load_model()
+    s = next(r for r in sn if r["id"] == THREAD_SN)
+    vdefs = verification_defs()
+    verdicts = {(r["verification def"], r["case"]): r for r in read_csv(f"verdicts_{TRACE_RUN}.csv")}
+    outcome = {r["case"]: r for r in read_csv(f"cases_{TRACE_RUN}.csv")}
+    ucs = [m["uc"] for m in REFINE_RE.finditer(USE_CASES.read_text(encoding="utf-8")) if m["req"] == s["name"]]
+    cases = ("A", "B", "C", "D")
+    spec = "@{}" + col("5.6cm") + col("2.5cm") + col("3.4cm") + "".join(col("2.45cm") for _ in cases) + "@{}"
+    hdr = (r"\textbf{Requirement} & \textbf{Satisfied by} & \textbf{Verification definition} & "
+           + " & ".join(rf"\textbf{{Case {k}}}" for k in cases) + r" \\")
+
+    def state(r) -> str:
+        st = ex.one(r, "architectureState")
+        return rf"\textsc{{[{st}]}} " if st in ("improved", "baseline") else ""
+
+    def verdict_cell(vdef: str, k: str) -> str:
+        v = verdicts.get((vdef, k))
+        if not v:
+            return r"\textit{not run}"
+        return VERDICT_WORD.get(v["verdict"], tex(v["verdict"])) + r"\newline{\scriptsize " + tex(v["measured"]) + "}"
+
+    def req_rows(r, indent: bool) -> list[str]:
+        rows = []
+        lead = r"\hspace{0.8em}" if indent else ""
+        first = lead + rf"\textbf{{{r['id']}}} {state(r)}{tex(r['text'])}"
+        sat = tex(", ".join(r["allocated"])) or r"\textit{none}"
+        defs = vdefs.get(r["name"], [])
+        for j, vd in enumerate(defs or [None]):
+            c1, c2 = (first, sat) if j == 0 else ("", "")
+            if vd:
+                rows.append(f"{c1} & {c2} & {tt_break(vd)} & " + " & ".join(verdict_cell(vd, k) for k in cases) + r" \\")
+            else:
+                rows.append(f"{c1} & {c2} & " + r"\textit{(no verification definition)}" + " & " * len(cases) + r" \\")
+        return rows
+
+    sn_cells = []
+    for k in cases:
+        o = outcome.get(k)
+        sn_cells.append(rf"{tex(o['option'])}\newline{{\scriptsize system fuel {tex(o['system fuel kg (vs A)'].split(' ')[0])} kg}}" if o else r"\textit{not run}")
+    out = [header_note(f"cameo_models/requirements_*.sysml, nas_verification.sysml, nas_use_cases.sysml and "
+                       f"report/figures/tables/verdicts_{TRACE_RUN}.csv, cases_{TRACE_RUN}.csv"),
+           GROUP % "3pt",
+           rf"\begin{{longtable}}{{{spec}}}",
+           (rf"\caption{{The thread end to end: {THREAD_SN}, the objectives it serves and the use case that refines it; the system requirements that answer it and the HLRs under them, "
+            r"each with the parts that satisfy it, its verification definitions (\texttt{nas\_verification.sysml}) and the verdict of each in each case of the base scenario at the actual masses "
+            rf"(\texttt{{verdicts\_{TRACE_RUN.replace('_', chr(92) + '_')}.csv}}, written by \texttt{{experiment\_scoring.py}}). \textsc{{[improved]}}: not met by today's NAS; \textsc{{[baseline]}}: met by today's NAS. "
+            r"Where a definition judges a choice by the deciding party's own estimate, the truth model's impact (kg fuel-equivalent) is reported in the cell, not graded (D-044). "
+            r"The stakeholder requirement is validated against the outcome table (Table~\ref{tab:outcomes}), not verified.}"
+            r"\label{tab:thread-trace}\\"),
+           r"\toprule", hdr, r"\midrule", r"\endfirsthead",
+           rf"\multicolumn{{{3 + len(cases)}}}{{@{{}}l}}{{\textit{{Table \thetable{{}} continued}}}}\\", r"\toprule", hdr, r"\midrule", r"\endhead",
+           r"\bottomrule", r"\endlastfoot"]
+    sn_text = (rf"\textbf{{{s['id']}}} {tex(s['text'])}\newline{{\scriptsize Objectives served: {grouped(s['attrs'].get('objectiveRefs', []))}.}}")
+    sn_sat = tex(", ".join(s["allocated"])) or "--"  # a stakeholder requirement is refined, not allocated
+    out.append(f"{sn_text} & {sn_sat} & "
+               + (r"Refined by use case " + ", ".join(tt_break(u) for u in ucs) + r". " if ucs else "")
+               + r"Validated by the outcome table (Table~\ref{tab:outcomes}) & " + " & ".join(sn_cells) + r" \\")
+    for r in [r for r in slr if s["id"] in slr_par[r["id"]]]:
+        out.append(r"\midrule")
+        out += req_rows(r, indent=False)
+        for h in [h for h in hlr if r["id"] in hlr_par[h["id"]]]:
+            out.append(r"\cmidrule(l){1-" + str(3 + len(cases)) + "}")
+            out += req_rows(h, indent=True)
+    out += [r"\end{longtable}", r"\endgroup", ""]
+    return "\n".join(out)
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for name, fn in [("thread_decomposition.tex", thread_table),
                      ("improvement_hlrs.tex", improvement_table),
+                     ("thread_trace.tex", trace_table),
                      ("stakeholder_assessment.tex", stakeholder_table),
                      ("requirements_objectives.tex", objectives_table),
                      ("requirements_decomposition.tex", decomposition_table)]:

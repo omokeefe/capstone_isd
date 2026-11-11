@@ -23,6 +23,7 @@ type:
 geometry:
   crossing_level_ft: 38000          # FL380, westbound even level (D-014 item 3)
   blocked_levels_ft: [36000]        # AC3 and AC4 under the crossing point at FL360
+  no_transit_levels_ft: {AC1: [36000]}  # levels an aircraft may not pass through on a level change. AC3 is about 2 NM behind AC1 on its track at FL360, which is insufficient, so AC1 cannot descend through FL360 (owner 2026-11-10, D-047). AC2 passes FL360 far from AC3 and AC4.
   time_to_crossing_min: 12          # decision made this far ahead of the crossing
   maneuver_hold_min: 15             # an altitude or vector change is held this long before the conflict has cleared
   reclimb_available: true           # a descended aircraft is cleared back up afterwards (second instruction)

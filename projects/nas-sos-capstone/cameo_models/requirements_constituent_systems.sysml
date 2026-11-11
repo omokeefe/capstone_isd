@@ -305,27 +305,27 @@ package ConstituentSystemRequirements {
             :>> unitOfMeasure = "yes or no";
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("coppenbarger1999climbPrediction", "engility2014tasarAlaska");
-            :>> rationale = "Four means of knowing what an aircraft can fly, scored in the experiment. Rule of thumb: descend, and offer a climb only at or below FL350 (D-013, from engility2014tasarAlaska page 8; the joint release in HLR-OPS-04 is why a descent is safe to assume). Low-fidelity model: one nominal weight per aircraft type (coppenbarger1999climbPrediction). High-fidelity model: each aircraft's own weight, shared under HLR-OPS-05. The fourth adds connection priority, which does not change what can be flown. The truth model's thrust check (NasAnalysis::CanHoldLevel) says whether the option each means chose was flyable. Baseline since 2026-11-05 (owner's hand review, D-040: 'This is currently met today w/ auto-Descent assumption'): the rule's descent is a clearance every aircraft can fly. What today's NAS does not do is find every viable option (HLR-ATC-10).";
+            :>> rationale = "Four means of knowing what an aircraft can fly, scored in the experiment. Rule of thumb: descend, and offer a climb only at or below FL350 (D-013, from engility2014tasarAlaska page 8; the joint release in HLR-OPS-04 is why a descent is safe to assume). Low-fidelity model: one nominal weight per aircraft type (coppenbarger1999climbPrediction). High-fidelity model: each aircraft's own weight, shared under HLR-OPS-05. The fourth adds connection priority, which does not change what can be flown. The truth model's thrust check (NasAnalysis::CanHoldLevel) says whether the option each means chose was flyable. Baseline since 2026-11-05 (owner's hand review, D-040: 'This is currently met today w/ auto-Descent assumption'): the rule's descent is a clearance every aircraft can fly. What today's NAS cannot do is confirm a climb above FL350 without the aircraft's weight (SLR-INF-02; HLR-ATC-10 since D-043).";
         }
 
         requirement <'HLR-ATC-05'> lowestImpactResolutionChosen : ConstituentSystemRequirement {
             doc /* Air traffic control shall choose, among the viable resolution options, the one
-             * with the lowest impact on the systems involved.
+             * with the lowest estimated impact on the systems involved.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::performance;
-            :>> architectureState = ArchitectureState::improved; // D-018
+            :>> architectureState = ArchitectureState::baseline; // D-018; baseline since D-044
             :>> constituentSystem = "Air traffic control";
-            :>> objectiveStatement = "The option issued is the one with the lowest impact on the systems involved.";
+            :>> objectiveStatement = "The option issued is the one the deciding party estimates has the lowest impact on the systems involved.";
             :>> parentRequirements = SystemLevelRequirements::ClearanceAndSeparation::lowestImpactResolution;
             :>> candidateMeans = (MeansOfAchievement::ruleOfThumb, MeansOfAchievement::lowFidelityModel, MeansOfAchievement::highFidelityModel, MeansOfAchievement::highFidelityModelWithConnections);
             :>> meansScoredInExperiment = true;
             :>> verificationMethod = VerificationMethod::byAnalysis;
-            :>> measureOfPerformance = "the impact of the option chosen against the lowest impact among the viable options, under the truth model";
-            :>> unitOfMeasure = "kg and USD per conflict";
+            :>> measureOfPerformance = "whether the option chosen has the lowest impact by the case's own estimate; the truth model's impact of the choice is reported, not graded";
+            :>> unitOfMeasure = "yes or no; kg and USD per conflict reported";
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "mori2022massCruise", "kirwan2001coraStrategies");
-            :>> rationale = "The last of the three HLRs SLR-CLR-13 decomposes into (owner's hand review 2026-11-05, D-040): determine the viable options (HLR-ATC-10), determine the impact of each (HLR-ATC-11), choose the lowest. 'Shall', as its parent, since the same review. Still improved: in the owner's words it 'is not truly met, but an approximation is pursued, at least conceptually.' Four means of choosing, scored in the experiment. Rule of thumb: one descent, by the controller's rule (rantanen2012conflictManeuvers: 23 of 36 observed cases). Low-fidelity model: lowest estimated impact with one nominal performance per type, which cannot tell two aircraft of one type apart. High-fidelity model: lowest estimated impact with each aircraft's shared state, performance and priorities. High-fidelity model plus connections: the same, with the airline's connection priority. One truth model scores what each means chose. Owner (hand review 2026-10-20) circled 'aircraft': 'systems?' The parent SLR-CLR-13 still says 'the aircraft involved'.";
+            :>> rationale = "The last of the three HLRs SLR-CLR-13 decomposes into (owner's hand review 2026-11-05, D-040): determine the viable options (HLR-ATC-10), determine the impact of each (HLR-ATC-11), choose the lowest. 'Shall', as its parent, since the same review. Kept improved then: in the owner's words it 'is not truly met, but an approximation is pursued, at least conceptually.' Baseline since 2026-11-10 (owner, D-044): 'lowest estimated impact', so each means meets it by its own estimate; the truth model's impact of each means' choice is reported side by side, not graded. Four means of choosing, scored in the experiment. Rule of thumb: one descent, by the controller's rule (rantanen2012conflictManeuvers: 23 of 36 observed cases). Low-fidelity model: lowest estimated impact with one nominal performance per type, which cannot tell two aircraft of one type apart. High-fidelity model: lowest estimated impact with each aircraft's shared state, performance and priorities. High-fidelity model plus connections: the same, with the airline's connection priority. One truth model scores what each means chose. Owner (hand review 2026-10-20) circled 'aircraft': 'systems?' The parent SLR-CLR-13 still says 'the aircraft involved'.";
         }
 
         requirement <'HLR-ATC-06'> conflictResolvedWithinWorkload : ConstituentSystemRequirement {
@@ -368,14 +368,15 @@ package ConstituentSystemRequirements {
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> architectureState = ArchitectureState::improved; // D-018
+            :>> architectureState = ArchitectureState::baseline; // D-018; baseline since D-046
             :>> constituentSystem = "Air traffic control";
+            :>> candidateMeans = (MeansOfAchievement::ruleOfThumb, MeansOfAchievement::lowFidelityModel, MeansOfAchievement::highFidelityModel, MeansOfAchievement::highFidelityModelWithConnections);
             :>> objectiveStatement = "The shared information changes the decision and does not only arrive.";
             :>> parentRequirements = SystemLevelRequirements::InformationForTrajectoryDecisions::decisionInformationToDecidingParty;
             :>> verificationMethod = VerificationMethod::byAnalysis;
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "coppenbarger1999climbPrediction");
-            :>> rationale = "The receiving end of HLR-OPS-05 (D-019: decision support is owned by the system that decides, D-012). Not done today. In the study: the difference between case B and cases C and D. Owner (hand review 2026-10-20): 'Why not use the best information available to them?' Narrowed in the owner's hand review of 2026-11-05 (D-040): the list of items is struck, and what the information is used for (which options can be flown, what each costs) is now HLR-ATC-10 and HLR-ATC-11, so the three do not overlap. This one states the input only.";
+            :>> rationale = "The receiving end of HLR-OPS-05 (D-019: decision support is owned by the system that decides, D-012). Tagged improved until 2026-11-10 ('not done today'). Baseline since then (owner, D-046): 'It uses the best info available, right? That's what it has with the limited info interface.' Each means meets it with what it receives: the rule of thumb and the low-fidelity model use what air traffic control receives today; the high-fidelity means use the airline's share. What today's NAS lacks is the share itself (HLR-OPS-05). In the study: the difference between case B and cases C and D. Owner (hand review 2026-10-20): 'Why not use the best information available to them?' Narrowed in the owner's hand review of 2026-11-05 (D-040): the list of items is struck, and what the information is used for (which options can be flown, what each costs) is now HLR-ATC-10 and HLR-ATC-11, so the three do not overlap. This one states the input only.";
         }
 
         requirement <'HLR-ATC-09'> clearancesRecorded : ConstituentSystemRequirement {
@@ -394,40 +395,44 @@ package ConstituentSystemRequirements {
         }
 
         requirement <'HLR-ATC-10'> viableOptionsDetermined : ConstituentSystemRequirement {
-            doc /* ATC decision support shall determine, for each predicted conflict, every
-             * resolution option that restores separation and that each aircraft it moves can
-             * fly.
+            doc /* Air traffic control shall determine, for each predicted conflict, the resolution
+             * options it can confirm restore separation safely and can be flown by each aircraft
+             * it moves.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> architectureState = ArchitectureState::improved; // D-040
+            :>> architectureState = ArchitectureState::baseline; // D-040; baseline since D-043
             :>> constituentSystem = "Air traffic control";
-            :>> objectiveStatement = "No resolution that restores separation and can be flown is left out of the choice.";
+            :>> objectiveStatement = "Every option that reaches the choice is one ATC can confirm is safe and can be flown.";
             :>> parentRequirements = SystemLevelRequirements::ClearanceAndSeparation::lowestImpactResolution;
+            :>> candidateMeans = (MeansOfAchievement::ruleOfThumb, MeansOfAchievement::lowFidelityModel, MeansOfAchievement::highFidelityModel, MeansOfAchievement::highFidelityModelWithConnections);
+            :>> meansScoredInExperiment = true;
             :>> verificationMethod = VerificationMethod::byAnalysis;
-            :>> measureOfPerformance = "the options found viable against those the truth model finds viable";
-            :>> unitOfMeasure = "options missed or wrongly included";
+            :>> measureOfPerformance = "options treated as viable that the case's own information does not confirm; the number of options found is reported";
+            :>> unitOfMeasure = "count (met at zero)";
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("engility2014tasarAlaska", "coppenbarger1999climbPrediction");
-            :>> rationale = "The first of the three HLRs SLR-CLR-13 decomposes into (owner's hand review 2026-11-05, D-040: 'Determine options that are viable, determine cost of each, choose lowest impact'). Viable means it restores separation and every aircraft moved can fly it. Distinct from HLR-ATC-04, which asks for one clearance the aircraft can fly and is met today by the rule's descent: this asks for every viable option, which the rule does not produce (it offers a climb only at or below FL350, D-013). In the study: cases B to D generate the options (O1 to O10); case A applies the rule; the truth model's thrust check (NasAnalysis::CanHoldLevel) says which can be flown.";
+            :>> rationale = "The first of the three HLRs SLR-CLR-13 decomposes into (owner's hand review 2026-11-05, D-040: 'Determine options that are viable, determine cost of each, choose lowest impact'). Baseline since 2026-11-08 (owner, D-043): not every option has to be considered, only those the controller can confirm are safe, which is why a climb above FL350 is not offered without the aircraft's weight (D-013, engility2014tasarAlaska page 8). Today's controller meets it by the rule of thumb. Four means, scored in the experiment. Rule of thumb (case A): descents only. Low-fidelity model (case B): adds vectors and speed changes, and climbs only at or below FL350, checked with one nominal performance per type. High-fidelity model (case C) and with connections (case D): adds the climbs each aircraft's shared weight shows it can hold. The requirement asks that only confirmed options are offered; how many each means can confirm depends on its information (SLR-INF-02, HLR-ATC-08) and is reported, not passed or failed. Distinct from HLR-ATC-04, which checks the clearance issued against the truth model. Was 'ATC decision support shall determine, for each predicted conflict, every resolution option that restores separation and that each aircraft it moves can fly', tagged improved, verified against the truth model's set (D-040).";
         }
 
         requirement <'HLR-ATC-11'> optionImpactDetermined : ConstituentSystemRequirement {
-            doc /* ATC decision support shall determine the impact of each viable resolution option
-             * on the systems involved.
+            doc /* Air traffic control shall determine the impact of each resolution option it
+             * considers on the systems involved.
              */
             :>> status = RequirementStatus::draft;
             :>> kind = RequirementKind::functional;
-            :>> architectureState = ArchitectureState::improved; // D-040
+            :>> architectureState = ArchitectureState::baseline; // D-040; baseline since D-042
             :>> constituentSystem = "Air traffic control";
-            :>> objectiveStatement = "The choice between viable options rests on each option's impact, not on a rule.";
+            :>> objectiveStatement = "The options considered are weighed by their impact, at whatever fidelity the information allows.";
             :>> parentRequirements = SystemLevelRequirements::ClearanceAndSeparation::lowestImpactResolution;
+            :>> candidateMeans = (MeansOfAchievement::ruleOfThumb, MeansOfAchievement::lowFidelityModel, MeansOfAchievement::highFidelityModel, MeansOfAchievement::highFidelityModelWithConnections);
+            :>> meansScoredInExperiment = true;
             :>> verificationMethod = VerificationMethod::byAnalysis;
-            :>> measureOfPerformance = "each viable option's estimated fuel burned and airline cost against the truth model's, per aircraft and summed";
-            :>> unitOfMeasure = "kg and USD per option";
+            :>> measureOfPerformance = "whether the options considered are compared by an estimate of their impact";
+            :>> unitOfMeasure = "yes or no";
             :>> basis = EvidenceGrade::literature;
             :>> evidenceRefs = ("schultz2012adaptiveClimb", "mori2022massCruise");
-            :>> rationale = "The second of the three HLRs SLR-CLR-13 decomposes into (owner's hand review 2026-11-05, D-040). Not done today: the controller weighs impact in their own reasoning, without the aircraft's performance (SLR-INF-02). In the study: cases B to D estimate each option's impact. The experiment's measure (fuel burned, and airline cost as fuel cost plus cost index times time, per aircraft and summed) is its representation of impact, not part of the requirement; it moved here from HLR-ATC-05. What counts as impact stays open in the parent's measure (TBD, owner).";
+            :>> rationale = "The second of the three HLRs SLR-CLR-13 decomposes into (owner's hand review 2026-11-05, D-040). Baseline since 2026-11-08 (owner [SME], D-042): the controller does it today, poorly. Rules of thumb remove the climbs before any assessment is made, and the controller then weighs the impact of what is left (a turn against a descent) without the aircraft's performance (SLR-INF-02). The requirement asks that impact be estimated, not how accurately, so no tolerance is set: how much the estimate is worth depends on how close the information it rests on is to reality, and that is what the study compares. Four means, scored in the experiment. Rule of thumb (case A): the controller's judgment, after the climb rule (D-013). Low-fidelity model (case B): fuel and airline cost from one nominal performance per type. High-fidelity model (case C): the same from each aircraft's shared performance. High-fidelity model plus connections (case D): adds the airline's connection priority. Which options are considered is HLR-ATC-10's, and whether the one chosen has the lowest impact is HLR-ATC-05's, so the three do not overlap. The experiment's measure (fuel burned, and airline cost as fuel cost plus cost index times time, per aircraft and summed) is its representation of impact, not part of the requirement; what counts as impact stays open in the parent's measure (TBD, owner). Was 'ATC decision support shall determine the impact of each viable resolution option', tagged improved, verified against the truth model within a tolerance (D-040).";
         }
     }
 
@@ -599,8 +604,10 @@ package ConstituentSystemRequirements {
             satisfy requirement conflictResolvedWithinWorkload_atc :> ConstituentSystemRequirements::AirspaceManagementRequirements::conflictResolvedWithinWorkload by airspaceManagement.atc;
             satisfy requirement crewRequestAnsweredByController_atc :> ConstituentSystemRequirements::AirspaceManagementRequirements::crewRequestAnsweredByController by airspaceManagement.atc;
             satisfy requirement performanceShareUsedInResolution_atcDs :> ConstituentSystemRequirements::AirspaceManagementRequirements::performanceShareUsedInResolution by airspaceManagement.atc.decisionSupport;
+            satisfy requirement viableOptionsDetermined_atc :> ConstituentSystemRequirements::AirspaceManagementRequirements::viableOptionsDetermined by airspaceManagement.atc;
             satisfy requirement viableOptionsDetermined_atcDs :> ConstituentSystemRequirements::AirspaceManagementRequirements::viableOptionsDetermined by airspaceManagement.atc.decisionSupport;
-            satisfy requirement optionImpactDetermined_atcDs :> ConstituentSystemRequirements::AirspaceManagementRequirements::optionImpactDetermined by airspaceManagement.atc.decisionSupport;
+            satisfy requirement optionImpactDetermined_atc :> ConstituentSystemRequirements::AirspaceManagementRequirements::optionImpactDetermined by airspaceManagement.atc;
+            satisfy requirement optionImpactDetermined_atcDs :>ConstituentSystemRequirements::AirspaceManagementRequirements::optionImpactDetermined by airspaceManagement.atc.decisionSupport;
             satisfy requirement clearancesRecorded_atc :> ConstituentSystemRequirements::AirspaceManagementRequirements::clearancesRecorded by airspaceManagement.atc;
 
             // Aircraft

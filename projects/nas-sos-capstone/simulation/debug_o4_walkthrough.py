@@ -243,7 +243,8 @@ def main() -> None:
     assert chosen == OPTION, (chosen, reason)
     show("10. Case C's choice", chosen=chosen, reason=reason, **case_c_estimates)
     # STOP 10 - Case C adds fuel + CI x time over all four aircraft for every option it can offer and picks the
-    # lowest: O4. Compare O8 (AC1 down 4,000 ft, case B's pick) and O10 (AC2 down 4,000 ft, case A's).
+    # lowest: O4. Compare O10 (AC2 down 4,000 ft, the pick of cases A and B). O8 (AC1 down 4,000 ft) is
+    # offered by no case since D-047: AC1 would pass through FL360 with AC3 2 NM behind.
     breakpoint()
 
     print("\nAll steps match experiment_scoring.py.")

@@ -1,0 +1,53 @@
+verification def,case,verdict,measured
+VerifyPerformanceToDecidingParty,A,not met,flyable climbs offered: none of O4
+VerifyCostOfTimeToDecidingParty,A,not run,needs the cost-index variation
+VerifyConnectionPriorityToDecidingParty,A,not exercised,case C's choice keeps every connection
+VerifyClearanceWithinCapability,A,met,O10: flyable
+VerifyFlyableClearanceByMeans,A,met,O10: flyable
+VerifyInstructionsWithinWorkload,A,reported,1+1 calls
+VerifyWorkloadByMeans,A,reported,1+1 calls
+VerifyLowestImpactResolution,A,met,rule chose O10; truth 40.1
+VerifyLowestImpactByMeans,A,met,rule chose O10; truth 40.1
+VerifyViableOptionsByMeans,A,met,"4 options: O5, O6, O9, O10"
+VerifyOptionImpactByMeans,A,met,rule of thumb
+VerifyPerformanceShareProvided,A,not met,share for 0 of 4 aircraft
+VerifyPerformanceShareUsed,A,met,surveillance and flight plans (no share); the rule decides
+VerifyPerformanceToDecidingParty,B,not met,flyable climbs offered: none of O4
+VerifyCostOfTimeToDecidingParty,B,not run,needs the cost-index variation
+VerifyConnectionPriorityToDecidingParty,B,not exercised,case C's choice keeps every connection
+VerifyClearanceWithinCapability,B,met,O10: flyable
+VerifyFlyableClearanceByMeans,B,met,O10: flyable
+VerifyInstructionsWithinWorkload,B,reported,1+1 calls
+VerifyWorkloadByMeans,B,reported,1+1 calls
+VerifyLowestImpactResolution,B,met,O10 own estimate 33.5; truth 40.1
+VerifyLowestImpactByMeans,B,met,O10 own estimate 33.5; truth 40.1
+VerifyViableOptionsByMeans,B,met,"4 options: O5, O6, O9, O10"
+VerifyOptionImpactByMeans,B,met,"decision support, nominal mass, typical cost index"
+VerifyPerformanceShareProvided,B,not met,share for 0 of 4 aircraft
+VerifyPerformanceShareUsed,B,met,nominal mass and typical cost index (no share)
+VerifyPerformanceToDecidingParty,C,met,flyable climbs offered: O4 of O4
+VerifyCostOfTimeToDecidingParty,C,not run,needs the cost-index variation
+VerifyConnectionPriorityToDecidingParty,C,not exercised,case C's choice keeps every connection
+VerifyClearanceWithinCapability,C,met,O4: flyable
+VerifyFlyableClearanceByMeans,C,met,O4: flyable
+VerifyInstructionsWithinWorkload,C,reported,1+1 calls
+VerifyWorkloadByMeans,C,reported,1+1 calls
+VerifyLowestImpactResolution,C,met,O4 own estimate 12.4; truth 12.4
+VerifyLowestImpactByMeans,C,met,O4 own estimate 12.4; truth 12.4
+VerifyViableOptionsByMeans,C,met,"5 options: O4, O5, O6, O9, O10"
+VerifyOptionImpactByMeans,C,met,"decision support, shared mass and cost index"
+VerifyPerformanceShareProvided,C,met,share for 4 of 4 aircraft
+VerifyPerformanceShareUsed,C,met,estimates differ from B on 5 options; adds O4; chose O4 (B O10)
+VerifyPerformanceToDecidingParty,D,met,flyable climbs offered: O4 of O4
+VerifyCostOfTimeToDecidingParty,D,not run,needs the cost-index variation
+VerifyConnectionPriorityToDecidingParty,D,not exercised,case C's choice keeps every connection
+VerifyClearanceWithinCapability,D,met,O4: flyable
+VerifyFlyableClearanceByMeans,D,met,O4: flyable
+VerifyInstructionsWithinWorkload,D,reported,1+1 calls
+VerifyWorkloadByMeans,D,reported,1+1 calls
+VerifyLowestImpactResolution,D,met,O4 own estimate 12.4; truth 12.4
+VerifyLowestImpactByMeans,D,met,O4 own estimate 12.4; truth 12.4
+VerifyViableOptionsByMeans,D,met,"5 options: O4, O5, O6, O9, O10"
+VerifyOptionImpactByMeans,D,met,"as C, plus delay margin"
+VerifyPerformanceShareProvided,D,met,share for 4 of 4 aircraft
+VerifyPerformanceShareUsed,D,met,estimates differ from B on 5 options; adds O4; chose O4 (B O10)

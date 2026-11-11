@@ -10,6 +10,9 @@ The project uses a model-based systems engineering (MBSE) approach to define the
     \item identify the gaps in the current system that the proposed interface and decision-making process can address.
 \end{enumerate}
 The contextual information captured in the literature review enabled the execution of the systems engineering approach.
+\aidraft{Two sentences on what the literature found and what the model shows (owner, 2026-11-10: the literature did identify the gap; the point is that modeling could have identified it proactively). Drafted 2026-11-10 at the owner's request.}
+The gaps the literature identified are not presented as new findings. The model is built from the same objectives, requirements and interfaces, and Section~\ref{sec:model-gap} shows that tracing them through the architecture finds the same gap without any simulation, which is how a model kept current could find such gaps proactively.
+% ---- end AI draft
 
 \subsection{Systems Engineering Approach}
 \label{sec:se-approach}
@@ -22,24 +25,31 @@ The emphasis is on structure, behavior, interfaces, and traceability, not on opt
 
 Table~\ref{tab:se-processes} summarizes the systems engineering processes and the artifacts that realize them.
 
-\begin{table}[h]
+\aidraft{Table~\ref{tab:se-processes} redrafted as the project's ten steps (the throughline of the presentation), each with the process it realizes and where its artifacts are. Drafted 2026-11-10 at the owner's request; process names and clause numbers from the standard's fourteen technical processes, as the owner listed them (2026-11-10).}
+\begin{table}[htbp]
 \centering
-\small
-\caption{Systems engineering processes and the artifacts that realize them.}
+\footnotesize
+\renewcommand{\arraystretch}{1.25}
+\caption{The project's ten steps, the systems engineering process each realizes (ISO/IEC/IEEE 15288, tailored), and the artifacts that carry them.}
 \label{tab:se-processes}
-\begin{tabular}{@{}p{4.2cm}p{6.2cm}p{4.6cm}@{}}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{5.3cm}>{\raggedright\arraybackslash}p{3.3cm}@{}}
 \toprule
-Process (15288 / INCOSE) & Artifact in this project & Where \\
+Step & 15288 technical process (clause) & Artifact in this project & Where \\
 \midrule
-Stakeholder needs and requirements & 30 stakeholder requirements (11 in the study), each traced to an objective row & \texttt{requirements\_stakeholders.sysml}; Appendix~\ref{app:architecture} \\
-System requirements & 42 system requirements (23 in the study), allocated to constituent systems; 31 constituent-system requirements one tier down & \texttt{requirements\_nas\_system.sysml}; \texttt{requirements\_constituent\_systems.sysml} \\
-Architecture definition & Context diagram, internal block diagrams, typed interfaces on the thread, activity and sequence views & \texttt{cameo\_models/}; Section~\ref{sec:architecture-results} \\
-System analysis & Experiment at three fidelities, outcome table & \texttt{simulation/}; Sections~\ref{sec:experiment} and~\ref{sec:experiment-results} \\
-Verification & Verification cases for the improved requirements, run by the experiment & \texttt{nas\_verification.sysml} \\
-Validation & Stakeholder-level reading of the outcome table (who pays) with MoEs or MoPs & Section~\ref{sec:results} \\
+1. Identify the stakeholders & Stakeholder needs and requirements definition (6.4.2) & PESTLE board, power and interest grid, assessment of 48 candidate stakeholders; four kept & Section~\ref{sec:stakeholders}; Appendix~\ref{app:stakeholders} \\
+2. Define their objectives & Stakeholder needs and requirements definition (6.4.2) & Twelve candidate objectives, six kept, and the conflicts among them & Sections~\ref{sec:scope} and~\ref{sec:objectives-results} \\
+3. Define the system & Business or mission analysis (6.4.1); system requirements definition (6.4.3), the boundary & Constituent systems, the System of Interest and its context diagram & Sections~\ref{sec:systems-selection} and~\ref{sec:soi} \\
+4. Write the requirements & Stakeholder needs and requirements definition (6.4.2); system requirements definition (6.4.3) & 30 stakeholder requirements (11 in the study), 42 system requirements (23 in the study) and 31 constituent-system requirements, each traced to the tier above & Section~\ref{sec:requirements}; Appendix~\ref{app:requirements} \\
+5. Model the systems & Architecture definition (6.4.4) & Block definition and internal block diagrams, typed interfaces & Section~\ref{sec:architecture-results}; Appendix~\ref{app:architecture} \\
+6. Model the use case and its activities & Architecture definition (6.4.4), behavior & The use case, the nominal flight and its phases, the conflict-resolution activity and sequence & Section~\ref{sec:conops-results}; Appendix~\ref{app:conops} \\
+7. Find the gap in the model & Architecture definition (6.4.4), the architecture assessed against the requirements & The trace from SN-AIR-05 to an exchange the baseline lacks; the requirements tagged \texttt{improved} & Section~\ref{sec:model-gap} \\
+8. Set out the ways to close it & Design definition (6.4.5), the alternatives & The means of achievement of the decision requirements; the two fidelity usages of the analysis & Section~\ref{sec:model-gap} \\
+9. Choose the solution, from the literature and experience & Design definition (6.4.5) & The airline-to-ATC interface, positioned against prior work & Section~\ref{sec:proposed-interface} \\
+10. Verify at every level and validate against the objectives & System analysis (6.4.6); verification (6.4.9); validation (6.4.11) & The experiment at three fidelities; a verification case per requirement and means, with a verdict per case; the outcome table at four levels, read back to the objectives & Sections~\ref{sec:experiment} and~\ref{sec:results}; Appendix~\ref{app:thread-trace} \\
 \bottomrule
 \end{tabular}
 \end{table}
+% ---- end AI draft
 
 
 \subsection{Working Assumptions}
