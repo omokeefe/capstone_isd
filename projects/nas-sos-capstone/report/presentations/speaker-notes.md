@@ -60,7 +60,7 @@ This slide walks through what the work has produced so far, in order.
 
 **[click 7]** *(envelope chart)* — Why the information matters. This is the heavier 737 MAX 9 at 38,000 feet. It cannot climb 2,000 feet or speed up; both fall outside its envelope. Only a descent or a slowdown is left for it.
 
-**[click 8]** *(results table)* — Today's rule, case A, descends AC2 4,000 feet: 41 kg of extra fuel. Case B, automation without the real numbers, can't tell the two aircraft apart and makes the same choice: 41 kg. AC1 can't descend, because AC3 is right behind it at FL360. With the airline's data, case C sees that the lighter AC2 can climb 2,000 feet: 12 kg. Case D, with connection information, makes the same choice, because no connection was at risk in this example. Every case takes the same number of radio calls; what changes is the controller's effort, a rule from memory in A against reviewing an automated proposal in B to D.
+**[click 8]** *(results table)* — Today's rule, case A, descends AC2 4,000 feet: 41 kg of extra fuel. Case B, automation without the real numbers, can't tell the two aircraft apart and makes the same choice: 41 kg. AC1 can't descend, because AC3 is right behind it at FL360. With the airline's data, case C sees that the lighter AC2 can climb 2,000 feet: 12 kg. Case D, with connection information, makes the same choice, because no connection was at risk in this example. Cases A and B take two radio calls, down and back up. In C and D the aircraft stays at its better level, so one call does it. The controller's effort also changes: a rule from memory in A against reviewing an automated proposal in B to D.
 
 ## Slide 6 — Project Benefits (1:30)
 
@@ -74,7 +74,7 @@ That is claim one: better information, better decision. Automation with generic 
 
 *(chart)* This is one conflict. On the right are the FAA's counts of losses of standard separation by en-route center: 679 in fiscal 2024, over a thousand the year before. Those are only the conflicts that ended in a loss of separation. The conflicts controllers resolve in time are far more common, so a per-conflict saving like this one recurs many times a year.
 
-It is not free. The controller reviews a proposal from decision support instead of applying a rule from memory: the same number of radio calls, more effort per decision. And airlines have to share data specific to each aircraft (its weight, its performance, the airline's priorities), which they treat as competitive. The project assumes that exchange can be secured with existing infrastructure such as the FAA's System Wide Information Management (SWIM) network; securing it is outside this study.
+It is not free. The controller reviews a proposal from decision support instead of applying a rule from memory: one radio call fewer here, since the aircraft stays at its better level, but more effort per decision. And airlines have to share data specific to each aircraft (its weight, its performance, the airline's priorities), which they treat as competitive. The project assumes that exchange can be secured with existing infrastructure such as the FAA's System Wide Information Management (SWIM) network; securing it is outside this study.
 
 *If asked "how much would this save nationally?"* The FAA source counts losses of separation, not conflicts resolved, so the 70% cannot be multiplied by 679. The chart shows how often the problem reaches the point of failure; it is a floor, not a total.
 

@@ -30,8 +30,8 @@ VerifyCostOfTimeToDecidingParty,C,not run,needs the cost-index variation
 VerifyConnectionPriorityToDecidingParty,C,not exercised,case C's choice keeps every connection
 VerifyClearanceWithinCapability,C,met,O3: flyable
 VerifyFlyableClearanceByMeans,C,met,O3: flyable
-VerifyInstructionsWithinWorkload,C,reported,1+1 calls
-VerifyWorkloadByMeans,C,reported,1+1 calls
+VerifyInstructionsWithinWorkload,C,reported,1+0 calls
+VerifyWorkloadByMeans,C,reported,1+0 calls
 VerifyLowestImpactResolution,C,met,"O3 own estimate 16.0, tied with O4; truth 16.0"
 VerifyLowestImpactByMeans,C,met,"O3 own estimate 16.0, tied with O4; truth 16.0"
 VerifyViableOptionsByMeans,C,met,"6 options: O3, O4, O5, O6, O9, O10"
@@ -43,8 +43,8 @@ VerifyCostOfTimeToDecidingParty,D,not run,needs the cost-index variation
 VerifyConnectionPriorityToDecidingParty,D,not exercised,case C's choice keeps every connection
 VerifyClearanceWithinCapability,D,met,O3: flyable
 VerifyFlyableClearanceByMeans,D,met,O3: flyable
-VerifyInstructionsWithinWorkload,D,reported,1+1 calls
-VerifyWorkloadByMeans,D,reported,1+1 calls
+VerifyInstructionsWithinWorkload,D,reported,1+0 calls
+VerifyWorkloadByMeans,D,reported,1+0 calls
 VerifyLowestImpactResolution,D,met,"O3 own estimate 16.0, tied with O4; truth 16.0"
 VerifyLowestImpactByMeans,D,met,"O3 own estimate 16.0, tied with O4; truth 16.0"
 VerifyViableOptionsByMeans,D,met,"6 options: O3, O4, O5, O6, O9, O10"

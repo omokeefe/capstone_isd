@@ -350,7 +350,7 @@ B minus A is −8.9 kg of system fuel; C minus B is −19.9 kg. B no longer pick
 
 ### Stay at the new level (2026-11-07, D-041): an optional rule, same fuel, fewer calls
 
-Rule: with `stay_at_new_level: if_better` (default `never`; `--stay-if-better` for one run), an aircraft whose new level burns less fuel per nautical mile than its planned one (OpenAP, at its mass) stays there and is not called back; one whose new level is worse returns, and a climb's descent back is then costed. The window is the climb or descent plus the 15-minute hold in both settings; the rest of the flight is reported in the level-check table (`report/figures/tables/level_check_<tag>`), never counted.
+Rule: with `stay_at_new_level: if_better` (default `never` until 2026-11-14; since then `if_better`, the setting Table 8 uses, at the owner's markup, D-048; `--stay-if-better` still tags a run `-stay`), an aircraft whose new level burns less fuel per nautical mile than its planned one (OpenAP, at its mass) stays there and is not called back; one whose new level is worse returns, and a climb's descent back is then costed. The window is the climb or descent plus the 15-minute hold in both settings; the rest of the flight is reported in the level-check table (`report/figures/tables/level_check_<tag>`), never counted.
 
 | Case | Option | Level change | kg/NM planned / new | Better? | Calls (never → if_better) | After the hold, if it stays |
 |---|---|---|---|---|---|---|

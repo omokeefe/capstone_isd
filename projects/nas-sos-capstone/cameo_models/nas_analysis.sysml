@@ -23,7 +23,9 @@ package NasAnalysis {
     enum def FidelityLevel {
         doc /* How the truth model scores an option. The decider's case (A to D) says what
          * information the decision used; this says what the scoring used. They are set
-         * independently (D-017 item 3). */
+         * independently. */
+        // D-017 item 3. Doc text trimmed 2026-11-14 (owner's markup of Figure 12): decision
+        // numbers, file paths and implementation notes moved out of the docs the views print.
         enum conceptual;  // feasibility and instruction counts only; no fuel numbers
         enum nominalMass; // OpenAP at the type's one nominal mass (coppenbarger1999climbPrediction p. 4)
         enum actualMass;  // OpenAP at each aircraft's actual mass
@@ -31,12 +33,12 @@ package NasAnalysis {
 
     attribute def CruiseCondition {
         doc /* One aircraft's steady cruise point: the three inputs every performance
-         * function below takes (D-025). Flight levels, Mach and kilograms, because that is
+         * function below takes. Flight levels, Mach and kilograms, because that is
          * what a clearance and the performance model work in and the experiment compares
-         * levels exactly. AircraftSystems::AircraftState stays in SI (metres, metres per
-         * second); the experiment does not use it (the kinematic vehicle_dynamics.py that
-         * steps it is kept but unused, D-017 item 4). The two are not converted into each
-         * other anywhere. */
+         * levels exactly. */
+        // D-025. AircraftSystems::AircraftState stays in SI (metres, metres per second); the
+        // experiment does not use it (the kinematic vehicle_dynamics.py that steps it is kept
+        // but unused, D-017 item 4). The two are not converted into each other anywhere.
         attribute massKg : Real;
         attribute machNumber : Real;
         attribute altitudeFt : Real;
@@ -44,9 +46,10 @@ package NasAnalysis {
 
     calc def CruiseFuelFlow {
         doc /* Fuel flow for one aircraft at a cruise condition, level or with a vertical
-         * speed. Implemented by PerformanceModel.cruise_fuel_flow in experiment_scoring.py,
-         * which calls openap.FuelFlow(type).enroute(mass, tas, altitude, vs). Units in the
-         * names. The first three inputs are a CruiseCondition. */
+         * speed. */
+        // Implemented by PerformanceModel.cruise_fuel_flow in experiment_scoring.py, which
+        // calls openap.FuelFlow(type).enroute(mass, tas, altitude, vs). Units in the names.
+        // The first three inputs are a CruiseCondition.
         in massKg : Real;
         in machNumber : Real;
         in altitudeFt : Real;
@@ -55,11 +58,12 @@ package NasAnalysis {
     }
 
     calc def AvailableClimbRate {
-        doc /* Rate of climb left in level flight at this mass, Mach and level: excess thrust
-         * (maximum cruise thrust minus clean drag) times speed over weight. Implemented by
-         * PerformanceModel.available_climb_rate (openap Thrust.cruise and Drag.clean).
+        doc /* Residual rate of climb (ROC) in level flight at this mass, Mach and level.
          * A climb between two levels is costed at this rate at the mid-altitude, capped at
-         * 1,500 ft/min (D-024). */
+         * 1,500 ft/min. */
+        // Excess thrust (maximum cruise thrust minus clean drag) times speed over weight.
+        // Implemented by PerformanceModel.available_climb_rate (openap Thrust.cruise and
+        // Drag.clean). D-024.
         in massKg : Real;
         in machNumber : Real;
         in altitudeFt : Real;
@@ -68,11 +72,12 @@ package NasAnalysis {
 
     calc def CanHoldLevel {
         doc /* Whether at least minClimbRateFtPerMin of climb is left at this mass, Mach and
-         * level (AvailableClimbRate >= the minimum). 100 ft/min defines the service ceiling
-         * (faa2015ac61107b para. 1-4r); the experiment asks for 150 [SME] (D-023). Until
-         * D-023 the test was "thrust meets drag", which is this with a minimum of 0.
-         * Implemented by PerformanceModel.can_hold_level. This is the limit that closes the
-         * climb to the heavy aircraft. */
+         * level (AvailableClimbRate >= the minimum). 100 ft/min defines the service ceiling;
+         * the experiment asks for 150. This is the limit that closes the climb to the heavy
+         * aircraft. */
+        // Service ceiling: faa2015ac61107b para. 1-4r. 150 ft/min is [SME] (D-023). Until
+        // D-023 the test was "thrust meets drag", which is this with a minimum of 0.
+        // Implemented by PerformanceModel.can_hold_level.
         in massKg : Real;
         in machNumber : Real;
         in altitudeFt : Real;
@@ -101,8 +106,9 @@ package NasAnalysis {
 
     part actualPerformance : PerformanceModel {
         doc /* The aircraft's own weight, as the FMS holds it and as
-         * FlightOperations::AirlinePerformanceShare would carry it (D-019); what cases C
+         * FlightOperations::AirlinePerformanceShare would carry it; what cases C
          * and D decide with, and what the truth model scores with by default. */
+        // D-019.
         :>> fidelity = FidelityLevel::actualMass;
         :>> aircraftType = "B39M";
     }
@@ -129,20 +135,21 @@ package NasAnalysis {
 
     item def ResolutionOption {
         doc /* One way to resolve the conflict: one or more maneuvers issued together. The
-         * nine options of the experiment are O1 to O9 in the scenario file
-         * (knowledge/models/experiment-options-and-scoring.md section 2). */
+         * ten options of the experiment are O1 to O10 in the scenario file. */
+        // knowledge/models/experiment-options-and-scoring.md section 2. "nine ... O1 to O9"
+        // corrected to ten 2026-11-14 (O10 added 2026-10-29, D-037).
         attribute optionId : String;
         attribute instructionsNow : Integer; // instructions issued at the decision; follow-ups are counted by the scoring
         attribute maneuvers : Maneuver[1..*];
     }
 
     item def ExperimentPerformanceShare :> NationalAirspaceSystem::FlightOperations::AirlinePerformanceShare {
-        doc /* How the experiment represents the airline's share (D-040). The aircraft's state
-         * is its gross weight; the airline's priorities are its cost index (the cost of time,
-         * kg of fuel per minute) and, in case D, its delay margin. The aircraft's performance
-         * is not carried: the decider applies the type's performance model
-         * (actualPerformance) at the shared weight. Section 5 of the report gives this
-         * detail; the architecture names only the abstract item. */
+        doc /* How the experiment represents the airline's share: the aircraft's state and
+         * the airline's priorities, which are its cost index (the cost of time, kg of fuel
+         * per minute) and, in case D, its delay margin. */
+        // D-040. In the experiment the state is the gross weight, and the decider applies the
+        // type's performance model (actualPerformance) at the shared weight; the architecture
+        // names only the abstract item. Struck from the doc at the owner's markup, 2026-11-14.
         attribute grossWeightKg : Real :> aircraftState;              // the FMS's current gross weight
         attribute costIndex : Real :> airlinePriorities;              // kg of fuel per minute
         attribute delayMarginMin : Real[0..1] :> airlinePriorities;   // minutes of further delay before connections are lost; absent = no connection constraint
@@ -167,20 +174,21 @@ package NasAnalysis {
     }
 
     analysis def ConflictResolutionScoring {
-        doc /* The experiment (knowledge/models/experiment-definition.md,
-         * experiment-options-and-scoring.md). Implemented end to end by
-         * experiment_scoring.py: nine options for four aircraft, each case choosing with
-         * its own information, one truth model scoring all. Inputs are the scenario file
-         * simulation/scenario_base.yaml; outputs are the two outcome tables and
-         * results/experiment_results.sysml. */
+        doc /* The experiment: ten options for four aircraft, each case choosing with its
+         * own information, one truth model scoring all. */
+        // knowledge/models/experiment-definition.md, experiment-options-and-scoring.md.
+        // Implemented end to end by experiment_scoring.py. Inputs are the scenario file
+        // simulation/scenario_base.yaml; outputs are the outcome tables and
+        // results/experiment_results.sysml.
         attribute truthFidelity : FidelityLevel default FidelityLevel::actualMass;
-        attribute scenarioFile : String default "projects/nas-sos-capstone/simulation/scenario_base.yaml";
+        attribute scenarioFile : String default "scenario_base.yaml"; // in projects/nas-sos-capstone/simulation/
         ref part flights : ScenarioFlight[*];     // the scenario file's `flights`
         ref item options : ResolutionOption[*];   // the scenario file's `options`
         objective scoringObjective {
             doc /* For each case A to D: which option it chose, and the cost of that option
              * to each aircraft, each airline, the sector and the system, stated side by
-             * side with no weighted sum (D-013 item 2). */
+             * side with no weighted sum. */
+            // D-013 item 2.
         }
     }
 

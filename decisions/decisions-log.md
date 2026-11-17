@@ -6,6 +6,27 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-048 — Owner's markup of the 2026-11-10 print: Table 8 scored with the aircraft staying at a better level; Table 3 as eight steps without clause numbers; Section 2 restructured
+
+**Date:** 2026-11-14
+**Status:** active. Owner's handwritten markup of the 87-page 2026-11-10 build (`projects/nas-sos-capstone/handwritten/2026-11-14_main.pdf`, transcribed in `2026-11-14_main.md` beside it), applied at the owner's request ("Update the report per my markup"). Amends D-041 (the default stay setting), D-045 item 4 and D-046 item 3 (Table 3), and D-047 (the report no longer says why O8 is never chosen).
+
+**Decision:**
+
+1. **Table 8 uses `stay_at_new_level: if_better`** ("Run with stay @ new level, if better"). It is now the default in `scenario_base.yaml`. An aircraft moved to a level where it burns less fuel per nautical mile stays there with no second call; any other is cleared back and its return costed. Effect on the base run: cases C and D need 1+0 calls instead of 1+1; every fuel, time and dollar figure is unchanged (A and B +41.2 kg, C and D +12.4 kg, C − A = −28.8 kg, 70 percent). The flight-path-angle note is not added ("Don't add FPA note"), and the one-way costing of a climb no longer arises.
+2. **Table 3 has eight steps and no clause numbers.** Steps 1 and 2 (stakeholders, objectives) are combined at the owner's mark; steps 8 and 9 (set out the ways, choose the solution) are combined on Claude's answer to the owner's "Combine?", since both are design definition and the owner struck step 8's artifact cell. Artifact cells shortened as marked. Each subsection of Sections 3 to 5 now names its step ("Downstream sections should cite the step from Table 3 that they elucidate").
+3. **Section 2.1's first paragraph walks the eight steps in the order of ISO/IEC/IEEE 15288** ("The table contains too much info and the paragraph too little"); the separate "tailored" sentence is struck. Section 2.2 is restructured as the margin asked: the systems engineering assumptions in the owner's words, the abstraction paragraph resting on them (models began from first principles, abstracted afterwards), the snapshot assumption struck ("OBE. Now dynamic"), the communication assumption moved into the list, and the paragraphs after the list limited to detail on it. Both are `\aidraft`.
+4. **Struck text:** the paragraph saying no case offers O8, the residual-risk term of the sector's cost ("I don't factor this in anywhere"), the Jet-A price range, the OpenAP lift-coefficient reasoning in simplification 5 (replaced by the owner's sentence that the model underestimates the cost of climbing), and two plan boxes marked done.
+5. **Model:** the doc text Figure 12 prints (`nas_analysis.sysml`) loses decision numbers, file paths and implementation notes, kept as `//` comments; "Rate of climb left" becomes "Residual rate of climb (ROC)"; the option count is corrected from nine to ten.
+
+**Rationale:** the owner's markup. Item 1 matches what a crew would ask for and what Table 9 already showed; items 2 and 3 make the report's method read as one sequence that later sections can point back to; item 5 keeps the printed views about the system, not the project's bookkeeping.
+
+**Alternatives considered:** keeping ten steps and leaving step 8's artifact cell empty (rejected: the owner's strike left it with no artifact of its own); writing "D-007" into the report as the margin note did (rejected: D-027 keeps decision numbers out of the report's text, so the text points at Section 2.2, which states the criterion).
+
+**Consequences:** `scenario_base.yaml` and two tests (43 pass); every variant rerun and `export_report_tables.py` rerun (only the call counts changed); `cameo_models/results/experiment_results.sysml` regenerated; `syside check` passes. Figure 12 was not re-rendered: Syside's drawer is still blocked by Windows Application Control. `speaker-notes.md` slides 5 and 6 updated for the call counts; the deck itself is not edited (slide 5's results table shows 1+1 for C and D; the slides' throughline still says ten steps). Report 87 pages, no undefined references. Open for the owner: listed at the end of the transcription.
+
+---
+
 ## D-047 — AC1 cannot descend through FL360: option O8 is closed to every case; case B now chooses what case A chooses
 
 **Date:** 2026-11-10

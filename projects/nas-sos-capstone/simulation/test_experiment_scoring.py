@@ -161,19 +161,33 @@ def _stay(sc):
     return sc
 
 
-def test_stay_rule_is_off_by_default():
-    """Table 8 is the 'never' run: O4's climb is followed by a call back, and the level check is only reported."""
+def _never(sc):
+    sc.geometry = {**sc.geometry, "stay_at_new_level": "never"}
+    return sc
+
+
+def test_stay_rule_is_if_better_by_default():
+    """Table 8 is the 'if_better' run since 2026-11-14 (D-048): O4's climb to a better level stays, with no call back."""
     sc = es.Scenario.load(SCENARIO)
-    assert sc.geometry["stay_at_new_level"] == "never"
+    assert sc.geometry["stay_at_new_level"] == "if_better"
+    perf = es.PerformanceModel(sc.aircraftType)
+    actual = {a.flightNumber: a.cruise.massKg for a in sc.flights}
+    c = es.score_option(sc, _o(sc, "O4"), perf, actual).per_aircraft["AC2"]
+    assert c.follow_ups == 0 and c.stays
+    assert c.new_level_better is True and c.beyond_hold_fuel_kg < 0
+
+
+def test_never_rule_calls_the_climb_back():
+    """With 'never', O4's climb is followed by a call back, and the level check is only reported."""
+    sc = _never(es.Scenario.load(SCENARIO))
     perf = es.PerformanceModel(sc.aircraftType)
     actual = {a.flightNumber: a.cruise.massKg for a in sc.flights}
     c = es.score_option(sc, _o(sc, "O4"), perf, actual).per_aircraft["AC2"]
     assert c.follow_ups == 1 and not c.stays
-    assert c.new_level_better is True and c.beyond_hold_fuel_kg < 0
 
 
 def test_stay_if_better_keeps_the_fuel_and_drops_the_return_call():
-    never = es.Scenario.load(SCENARIO)
+    never = _never(es.Scenario.load(SCENARIO))
     stay = _stay(es.Scenario.load(SCENARIO))
     perf = es.PerformanceModel(never.aircraftType)
     actual = {a.flightNumber: a.cruise.massKg for a in never.flights}
@@ -198,7 +212,7 @@ def test_after_the_hold_is_the_rest_of_the_flight_at_the_new_level():
 
 def test_a_climb_that_is_not_better_comes_back_and_the_descent_is_costed(monkeypatch):
     """Make FL400 worse for AC2 (10% more fuel there): under if_better it returns, and the descent back is costed."""
-    never = es.Scenario.load(SCENARIO)
+    never = _never(es.Scenario.load(SCENARIO))
     stay = _stay(es.Scenario.load(SCENARIO))
     perf = es.PerformanceModel(never.aircraftType)
     real = perf.cruise_fuel_flow
