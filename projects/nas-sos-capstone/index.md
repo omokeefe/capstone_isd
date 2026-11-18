@@ -83,6 +83,7 @@ information-flow, and decision-authority decompositions before committing.
 Latest first — full rationale and history in
 [[decisions-log]] (`../../decisions/decisions-log.md`):
 
+- **D-049** — Effort to devise measures how much the controller re-checks: A 1 (rule from memory), B 3 (re-checks a generic model's proposal), C and D 2 (routine review of a proposal from the airline's data). Reported only; no option or fuel number changes (2026-11-17).
 - **D-047** — AC1 cannot descend through FL360 (AC3 2 NM behind; owner): O8 offered by no case. B now chooses what A chooses: B − A = 0, C − B = −28.8 kg, 70 percent unchanged. The fifth run's −8.9 kg was a tie broken by list order; corrects D-044 item 4 (2026-11-10).
 - **D-046** — HLR-ATC-08 is baseline (each means uses the best information it receives), verified once per means; Table 5 lists HLR-OPS-05 only. Report Table 3 uses the 15288 technical-process names and clauses. Section 3 reordered to one subsection per step: requirements get their own subsection, architecture before the operational concept (now with the use-case figure), the improvement table moved into the gap subsection.
 - **D-045** — Report: new subsection on the gap in the model and the means to close it (steps 7 and 8); generated thread trace table with a verdict per case (Appendix A.4); claim 1 measured against the kept objectives; Table 3 as the ten steps; step-10 placeholders.

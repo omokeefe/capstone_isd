@@ -49,6 +49,7 @@ To show a diagram in the main body as well as the appendix, include the generate
 - **`syside viz failed`.** Syside draws nothing if any included file has a model error. The script then stops and leaves the report's figures as they were. Run `syside check projects/nas-sos-capstone/cameo_models/` and report the errors. Do not exclude more files or edit the model to get a picture out without asking.
 - **`Failed to load license key`.** The CLI cannot read the VS Code extension's key. The owner fixes this once per machine: [sysml-diagram-rendering.md](../knowledge/models/sysml-diagram-rendering.md) §1.
 - **A diagram that cannot be read at page size.** The two aircraft IBDs are five to six times wider than tall. Splitting a view or changing what it shows is a modeling decision for the owner.
+- **`DLL load failed while importing … An Application Control policy has blocked this file`.** The drawer could not load one of its own modules. It happened from 2026-11-10 to 2026-11-17 and was caused by a broken Java install, which the owner repaired (not Windows Smart App Control, as first suspected). If it comes back, ask the owner to check the Java install first. It is a fix outside the repo, so do not attempt it.
 - **`raster downscaled to fit memory budget`.** Syside lowered the resolution of a very large diagram. It is a warning, the image is still written. Mention it.
 
 ## Notes

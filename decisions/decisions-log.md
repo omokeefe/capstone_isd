@@ -6,6 +6,24 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-049 — Effort to devise measures how much the controller re-checks: case B 3, cases C and D 2
+
+**Date:** 2026-11-17
+**Status:** active. Owner direction in session: "I think a 3 makes sense for B. The controller would know it's a poor model, so they should perform mental checks in order to ensure the aircraft won't reject the resolution clearance. I don't think 3 makes sense for C & D, as the controller will have the confidence of being informed with a high-fidelity model". Value 2 for C and D and applying it before the presentation chosen by the owner from Claude's options. Amends the effort scale in `knowledge/models/experiment-options-and-scoring.md` §4.3 and the reading of D-014 item 6 (automation proposes, the controller checks), which stands.
+
+**Decision:**
+
+1. **The effort scale measures the checking the controller does before issuing, not who proposes.** 1: a rule applied from memory (case A). 2: a routine review of a proposal from a model the controller trusts, because it uses the airline's shared weight and cost index (cases C and D). 3: a re-check, by mental estimate, of a proposal from a model the controller knows is generic, to be sure the crew will not answer "unable" (case B).
+2. **`EFFORT` in `simulation/experiment_scoring.py` is A 1, B 3, C 2, D 2** (was 1, 3, 3, 3). Effort is reported only; no option, fuel, cost or call count changes, and C − A = −28.8 kg (70 percent) stands.
+
+**Rationale:** the owner's reasoning. How much the controller re-checks depends on how far the proposal's model can be trusted, so effort now follows the information given to the decider, which is the variable the study changes. It still costs C and D something over today's rule, since the controller stays responsible for separation and reviews the proposal.
+
+**Alternatives considered:** C and D at 1, equal to today's rule (offered; the owner chose 2); keeping 1/3/3/3 for the presentation and applying the change in Turn 7 (offered; the owner chose to apply it now).
+
+**Consequences:** every variant the report uses was rerun; only C and D's effort and the run dates changed in the generated tables and `cameo_models/results/experiment_results.sysml`. 39 tests in `test_experiment_scoring.py` and `test_model_conformance.py` pass. `speaker-notes.md` slides 5 and 6 updated. The deck is the owner's to update: slide 5's results table shows effort 3 for C and D, and slide 6's "Increases controller workload" now holds for case B and, on effort only, slightly for C and D (fewer calls, a review in place of a rule). Open: the ordering of levels 2 and 3 rests on the owner's stated assumption; no source on trust in automation is held, and over-trust (a wrong shared weight not caught on review) is the expected counter-argument.
+
+---
+
 ## D-048 — Owner's markup of the 2026-11-10 print: Table 8 scored with the aircraft staying at a better level; Table 3 as eight steps without clause numbers; Section 2 restructured
 
 **Date:** 2026-11-14

@@ -101,7 +101,10 @@ CASE_LABEL = {
 }
 CLIMB_RATE_FPM = 1500.0  # cap; a climb is flown at the rate maximum thrust allows when that is less (D-024)
 M_S_TO_FPM = 196.850394
-EFFORT = {"A": 1, "B": 3, "C": 3, "D": 3}  # 1 rule from memory, 2 mental estimate, 3 automation proposes
+# Effort to devise = how much checking the controller does before issuing (D-049): 1 a rule applied from
+# memory; 2 a routine review of a proposal from a model the controller trusts (shared weight and cost index);
+# 3 a re-check, by mental estimate, of a proposal from a model the controller knows is generic.
+EFFORT = {"A": 1, "B": 3, "C": 2, "D": 2}
 GIVEN_SHARE = {"A": False, "B": False, "C": True, "D": True}  # cases A and B are not given the airline's share (D-019)
 RISK = {"altitude": "low", "vector": "medium", "speed": "high", "slow": "medium"}
 

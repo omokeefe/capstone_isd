@@ -11,6 +11,8 @@ Run from `projects/nas-sos-capstone/report/`:
 latexmk -pdf -interaction=nonstopmode -outdir=. -auxdir=build_artifacts main.tex
 ```
 
+In PowerShell, quote the two directory options: `latexmk -pdf -interaction=nonstopmode '-outdir=.' '-auxdir=build_artifacts' main.tex`. Unquoted, PowerShell also passes a stray `.` argument; latexmk builds the PDF but then exits 11 with "Could not find file '.'".
+
 This matches the VSCode LaTeX Workshop settings in `.vscode/settings.json` (which also builds on save with this same command and opens the PDF in a tab, added 2026-10-11) and in `capstone.code-workspace`
 (`outDir=%DIR%`, `auxDir=%DIR%/build_artifacts` — `%DIR%` resolves to wherever
 `main.tex` actually lives, so this setting needed no change when the report moved) — the
