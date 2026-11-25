@@ -28,6 +28,8 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Backlog / ideas
 
+- **After 2026-12-13 (owner, outside the repo): turn Windows Smart App Control back on.** It was turned off 11-24 so Syside could render (see journal 2026-11-24). Turning it on will likely block Syside rendering again.
+
 - Extract today's `assistant/` additions (personas, `session-tagup`, the journal) into a
   reusable `project-ai-interaction/` template folder for other projects — see
   `journal/2026-08-29.md` ("Idea / TODO" entry, 17:48) for the full writeup and open
