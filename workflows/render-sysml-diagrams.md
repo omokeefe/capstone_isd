@@ -31,6 +31,10 @@ The appendix "Full SysML Diagram Set" (`report/sections/09_appendices.tex`) cont
    ```
 
    Caption wording in a graded report is the owner's. Propose a plain label and say that it is a proposal.
+
+   To explain a diagram to a report reader (what the diagram can't say, such as which real system a block stands for), add `// note:` lines in the same comment block. They follow the caption in the figure, several lines joining into one paragraph, and the list of figures keeps the caption alone (added 2026-11-24; first used to say that ATC's decision support is EDST). Note wording, like caption wording, is the owner's.
+
+   If Syside can't run, `--tex-only` rewrites the figure `.tex` files (captions, notes, placement) around the images already rendered and draws nothing. A view with no image yet is left out, and an image rendered before a model change still shows the old diagram.
 5. Log the run in today's journal: which views changed and which were added or removed.
 
 ## How to refer to a figure from the report body
@@ -49,7 +53,7 @@ To show a diagram in the main body as well as the appendix, include the generate
 - **`syside viz failed`.** Syside draws nothing if any included file has a model error. The script then stops and leaves the report's figures as they were. Run `syside check projects/nas-sos-capstone/cameo_models/` and report the errors. Do not exclude more files or edit the model to get a picture out without asking.
 - **`Failed to load license key`.** The CLI cannot read the VS Code extension's key. The owner fixes this once per machine: [sysml-diagram-rendering.md](../knowledge/models/sysml-diagram-rendering.md) §1.
 - **A diagram that cannot be read at page size.** The two aircraft IBDs are five to six times wider than tall. Splitting a view or changing what it shows is a modeling decision for the owner.
-- **`DLL load failed while importing … An Application Control policy has blocked this file`.** The drawer could not load one of its own modules. It happened from 2026-11-10 to 2026-11-17 and was caused by a broken Java install, which the owner repaired (not Windows Smart App Control, as first suspected). If it comes back, ask the owner to check the Java install first. It is a fix outside the repo, so do not attempt it.
+- **`DLL load failed while importing … An Application Control policy has blocked this file`.** Windows Smart App Control refused one of the drawer's own files. Confirmed 2026-11-24 from Event Viewer (Microsoft → Windows → CodeIntegrity → Operational, event 3077, policy `VerifiedAndReputableDesktop`): 115 of the 118 DLL and `.pyd` files under `Syside\drawer` are unsigned, and Smart App Control blocks unsigned files that Microsoft's cloud does not rate as safe. The log shows blocks on 2026-10-06, 10-29, 11-10, 11-14, 11-17, 11-23 and 11-24, a different module each time, with good renders in between. The 11-17 recovery credited to a Java repair was not the fix: Java plays no part, and the same policy blocked a drawer file that day. The fix is outside the repo and the owner's call ([sysml-diagram-rendering.md](../knowledge/models/sysml-diagram-rendering.md) §5), so do not attempt it. Until it is fixed, `--tex-only` keeps the figure files consistent.
 - **`raster downscaled to fit memory budget`.** Syside lowered the resolution of a very large diagram. It is a warning, the image is still written. Mention it.
 
 ## Notes

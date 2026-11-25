@@ -236,7 +236,7 @@ package ConstituentSystemRequirements {
     }
 
     package AirspaceManagementRequirements {
-        doc /* Airspace Management (D-007 modeled system; parts airspaceManagement.atc, its decision support, and the en-route center). */
+        doc /* Airspace Management (D-007 modeled system; parts airspaceManagement.atc and its decision support, D-051). */
 
         public import RequirementDefinitions::*;
 
@@ -595,9 +595,11 @@ package ConstituentSystemRequirements {
 
             // Air traffic control
             satisfy requirement separationKeptWithConformanceMargin_atc :> ConstituentSystemRequirements::AirspaceManagementRequirements::separationKeptWithConformanceMargin by airspaceManagement.atc;
-            satisfy requirement separationKeptWithConformanceMargin_artcc :> ConstituentSystemRequirements::AirspaceManagementRequirements::separationKeptWithConformanceMargin by airspaceManagement.artcc;
+            // D-051: HLR-ATC-01 no longer also allocated to airspaceManagement.artcc; HLR-ATC-03
+            // moved from artcc to ATC's automation, EDST, whose aircraft list is "the sector
+            // team's primary source of flight data" (JO 7110.65BB 13-1-5).
             satisfy requirement controllerAlertedToPredictedConflict_atcDs :> ConstituentSystemRequirements::AirspaceManagementRequirements::controllerAlertedToPredictedConflict by airspaceManagement.atc.decisionSupport;
-            satisfy requirement filedIntentShownToController_artcc :> ConstituentSystemRequirements::AirspaceManagementRequirements::filedIntentShownToController by airspaceManagement.artcc;
+            satisfy requirement filedIntentShownToController_atcDs :> ConstituentSystemRequirements::AirspaceManagementRequirements::filedIntentShownToController by airspaceManagement.atc.decisionSupport;
             satisfy requirement conflictResolvedWithFlyableClearance_atc :> ConstituentSystemRequirements::AirspaceManagementRequirements::conflictResolvedWithFlyableClearance by airspaceManagement.atc;
             satisfy requirement conflictResolvedWithFlyableClearance_atcDs :> ConstituentSystemRequirements::AirspaceManagementRequirements::conflictResolvedWithFlyableClearance by airspaceManagement.atc.decisionSupport;
             satisfy requirement lowestImpactResolutionChosen_atc :> ConstituentSystemRequirements::AirspaceManagementRequirements::lowestImpactResolutionChosen by airspaceManagement.atc;

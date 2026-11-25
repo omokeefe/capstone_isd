@@ -6,6 +6,70 @@ supersedes it and link back with `[[decisions-log]]`-style references or a direc
 
 ---
 
+## D-052 — A sector team inside ATC; traffic flow management off the abstracted diagrams; SLR-CLR-01 and SLR-INF-01 follow their HLRs
+
+**Date:** 2026-11-24
+**Status:** active. Owner's answers to the three open items of D-051. Reverses D-038 item 4.
+
+**Decision:**
+
+1. **`atc` gets one `sectorTeam` part** (owner: "Yes"). New `AirspaceManagement::SectorTeam`: the controllers who work one sector, as one box, with no positions (R, RA or D-side, RC, FD) and no supervision above the team, because JO 7110.65BB 2-10-1 makes the team "as a whole" responsible. `controllerPosition` moves from `AirTrafficControlSystem` onto `SectorTeam`. On `atc`'s own edge it had read as an exit from ATC with nothing connected on the far side. On the Airspace Management IBD, `advisoriesToController` now ends on `atc.sectorTeam.controllerPosition`, and `requestsToAtc` and `clearancesFromAtc` end on `atc.sectorTeam`. The case C sequence keeps its `atc` lifeline, which its doc now says stands for the sector team. Sequence gap G3 is closed.
+2. **Traffic flow management is off the abstracted diagrams** (owner: "Correct"). On the context diagram, `atcscc` (with its weather input) and the `aocTfm` link are no longer tagged `#ContextVisible`. On the flight operations IBD, `atcCoordinator` and `tfmRelay` are no longer tagged (owner: "Remove the tfmRelay and coordinator"). The BDD loses `atcscc` too, by its own rule (it draws the context diagram's systems; Claude applied it). All of them stay in the model unrendered, with their comments and out-of-study allocations; the ATCSCC is drawn only on the detailed Airspace Management IBD (D-051).
+3. **SLRs follow their HLRs** (owner). SLR-CLR-01 (separation) is allocated to `atc` alone; its `artcc` and `tracon` allocations are removed, as HLR-ATC-01's was. SLR-INF-01 (filed intent to the sector controller) moves from `artcc` to `atc.decisionSupport`, as HLR-ATC-03 did. `tracon` keeps two out-of-study allocations (runway capacity, noise abatement procedures).
+
+**Rationale:** the decider has to be a box the decision's information can reach (the project's question is where the information sits and who decides). Flow management is not in the experiment, so it belongs only on the detailed view.
+
+**Alternatives considered:** an Airspace Management BDD drawing TRACON and ARTCC as specializations (kinds) of `AirTrafficControlSystem`, with specific facilities such as ZFW as instances in the scenario model. Rejected (owner, 2026-11-24: "Leave TRACON & ARTCC off"). They stay in the definitions, undrawn, and `AtcDecisionSupport` stays documented as EDST.
+
+**Consequences:** the model loads with no diagnostics. `print/requirements-review.xlsx` regenerated (30 SN, 42 SLR, 31 HLR; no trace gaps). `requirements-and-traceability.md` and `open-questions.md` updated. Report text not changed: Section 6 (`06_results_discussion.tex`, first paragraph) describes the ATCSCC as shown on the context diagram, which is no longer true (owner's prose). Views still not re-rendered (Syside drawer blocked, D-050, D-051).
+
+---
+
+## D-051 — Airspace Management IBD in two levels: flow management on the detailed view only, TRACON and ARTCC not drawn, HLR-ATC-01 and HLR-ATC-03 reallocated
+
+**Date:** 2026-11-24
+**Status:** active. Owner's answers in session to a critical review (professor persona) of the Airspace Management IBD against the aircraft IBD. Item 4's placement is Claude's, for the owner to confirm. Builds on D-050; amends how D-038's option (c) is drawn.
+
+**Decision:**
+
+1. **Two levels, like the aircraft IBD.** Tags `#IBDVisible` (both views) and `#IBDDetail` (detailed view only). New view `airspaceManagementIbdDetail`; the default view `airspaceManagementIbd` is captioned "default level of detail". The file's header now states the levels and the D-040 rule, and no longer calls the diagram a placeholder.
+2. **Traffic flow management is on the detailed view only.** Owner: "the highly detailed versions should keep it and the interconnections, but the abstracted diagrams shouldn't have it"; flow management through TMIs is not in the experiment. `atcscc`, `tmu`, `tfmAutomation` and the links `tfmTools`, `trafficManagementInitiatives` and `sectorFlowRestrictions` are tagged `#IBDDetail`. Definitions, their requirement allocations (out of study, D-031) and the grade A comments are kept.
+3. **TRACON and ARTCC are drawn in neither view.** They had no connections, but carried requirement allocations. A facility is where a sector sits, a fact about the scenario (Fort Worth Center), not a separate party to the exchange; `atc` stands for the controllers of every facility (D-038). The definitions stay for the BDD and the scenario instance.
+4. **HLR allocations (owner approved).** HLR-ATC-01 (separation) is no longer also allocated to `artcc`; it stays with `atc` alone. HLR-ATC-03 (filed intent to the sector controller) moves from `artcc` to `atc.decisionSupport`. The owner approved moving it to "the new ATC automation box". Claude placed it on EDST instead of adding an ERAM box, because D-050 already wires track data and the current plan straight into EDST and chose not to draw ERAM separately (EDST is "an integrated function of ERAM", JO 7110.65BB 13-1-1). EDST's aircraft list is also "the sector team's primary source of flight data" (13-1-5). The `advisoriesToController` comment now names the aircraft list.
+5. **Sector handoffs are not modeled** (owner: "Don't worry about sector handoffs"). The TODO for controller-to-controller links is removed and the header says each maneuver stays inside one sector. The report already has the matching assumption (Section 3, working assumptions: "the complications introduced by sector boundaries can be ignored"), so no report text was added.
+
+**Open (owner):** all three answered the same day in D-052.
+
+- Whether `atc` gets one `sectorTeam` part for the controllers, which would reverse D-038 item 4. `controllerPosition` would then move from `atc`'s edge onto that part.
+- Whether "the abstracted diagrams shouldn't have it" also covers the context diagram (`atcscc`, `aocTfm`, the weather input on `atcscc`) and the flight operations IBD (`atcCoordinator`, `tfmRelay`). Not changed.
+- The parent system requirements are still allocated to the facilities: SLR-CLR-01 (separation) to `artcc` and `tracon`, and SLR-INF-01 (filed intent) to `artcc` (`requirements_nas_system.sysml`). Not changed; only the HLR allocations were approved.
+
+**Rationale:** the review found that the facility boxes carried requirements without carrying any exchange, and that flow management fails the D-040 rule for the default view, since no initiative is active in the scenario. The two levels give the owner's requested "detailed and abstracted version similar to the aircraft".
+
+**Consequences:** the model loads with no diagnostics (syside Python library, the 16 files in `cameo_models/`). `print/requirements-review.xlsx` regenerated (30 SN, 42 SLR, 31 HLR; no trace gaps). `requirements-and-traceability.md` §11 updated by hand. **Views not re-rendered:** the Syside drawer still fails with "An Application Control policy has blocked this file" (as in D-050), so Appendix A still shows the old airspace figure, and the new detailed view will appear once the render works.
+
+---
+
+## D-050 — Context diagram ports: ADS-B drawn aircraft → ATC, rules inputs on the flight deck crew and the airport, EDST's inputs on the Airspace Management IBD
+
+**Date:** 2026-11-24
+**Status:** active. Owner direction in session: added ports for "ADS-B data going from the aircraft to the ATC and flight ops" and "the flight crew is subject to the environmental rules"; then "airports should get rulesIn", and on EDST: "That's the system that informs controllers of the conflict. I need to show that!" The owner placed EDST "within the ATCSCCs"; it is placed in ATC instead, per the source (item 2). For the owner to confirm. Wording is Claude's.
+
+**Decision:**
+
+1. **`atcSurveillance` runs port to port:** `aircraft.adsbOut` → `atc.surveillanceIn`, so the context view shows the direction. `AirTrafficControlSystem` gets `surveillanceIn` and `flightPlansIn`, matching the Airspace Management domain's boundary ports. The owner's draft ports did not load: `:>>` redefines a port the type already has and cannot create one, and the `;` after `part :>> aircraft` and `part :>> cabinCrew` put the next line on the domain.
+2. **EDST is ATC's decision support (`atc.decisionSupport`), not an ATCSCC tool.** JO 7110.65BB 13-1-1: EDST is "an integrated function of ERAM used by the sector team" at the en route centers; 2-10-1 puts EDST planning with the D-side. The Airspace Management IBD now draws two of its four 13-1-1 inputs into it: track data (`surveillanceIn` → `trackDataIn`) and the current plan (`flightPlansIn` → `currentPlanIn`; ERAM builds it from the filed plan and amendments). Aircraft performance characteristics are EDST's generic models today and the airline's share in the improved architecture (`performanceShareIn`, D-019). Forecast winds are not drawn: the experiment assumes no wind. The alert path to the controller (`advisoriesOut` → `controllerPosition`) is unchanged from D-040.
+3. **`rulesIn` on the flight deck crew and the airport,** with `rulesToCrew` and `rulesToAirport` from Governance (drawn as ports only, per D-012). The crew: 14 CFR 91.3 (final authority) and 91.123 (comply with a clearance unless in an emergency) bound the accept/decline step in case C; Parts 121 and 117 [C, not registered]. The airport: FAA Order 5190.6C sponsor obligations [A] and 14 CFR 139 [C, not registered]. Not on the cabin crew (absorbed, not rendered, D-009) or the aircraft (rules reach it through certification and equipment mandates, which are requirements, not a live input).
+4. **No ADS-B link to the AOC or the ATCSCC.** D-010 item 3 stands: ADS-B is surveillance, not a datalink to the AOC. The AOC already gets positions over ACARS (`aocAircraftDatalink`). Airlines can also buy ADS-B-derived tracking (FlightAware and Aireon's GlobalBeacon, aimed at operations centers) or subscribe to the FAA's TFMData feed over SWIM, which replaced ASDI. Those are Information Services, absorbed by D-007, and they don't feed the studied decision (ADS-B carries no weight or cost index) [C: vendor and FAA web pages, not registered]. The ATCSCC's TFMS gets positions from ATC's own automation [C], so that exchange is inside Airspace Management (D-010).
+
+**Rationale:** the owner's direction, placed where the sources put each function. Showing EDST's inputs makes the thesis visible on the IBD: of the four things EDST predicts from, aircraft performance is the one the improved architecture changes.
+
+**Alternatives considered:** EDST under the ATCSCC (the owner's first placement; contradicted by 13-1-1); ending `atcSurveillance` on the domain's boundary port instead of `atc` (the other context links end on sub-parts); an Information Services input on the AOC for third-party tracks (not drawn; nothing in the study uses it).
+
+**Consequences:** the model loads with no errors (syside 0.11.0 Python library, 2026-11-24). Views not re-rendered yet: the Syside program in `.venv` is blocked by Windows Application Control. Run the render-sysml-diagrams workflow to refresh the context diagram and Airspace Management IBD figures.
+
+---
+
 ## D-049 — Effort to devise measures how much the controller re-checks: case B 3, cases C and D 2
 
 **Date:** 2026-11-17

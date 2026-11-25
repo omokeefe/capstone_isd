@@ -707,9 +707,8 @@ package SystemLevelRequirements {
             satisfy requirement preDepartureInformationToCrew_loadPlanner :> SystemLevelRequirements::FlightPlanningAndRelease::preDepartureInformationToCrew by flightOperations.airlineOperationsCenter.loadPlanner;
 
             // Clearance, separation and tactical trajectory change
+            // D-052: no longer also allocated to artcc and tracon; follows HLR-ATC-01 (D-051).
             satisfy requirement separationMinimaMaintained_atc :> SystemLevelRequirements::ClearanceAndSeparation::separationMinimaMaintained by airspaceManagement.atc;
-            satisfy requirement separationMinimaMaintained_artcc :> SystemLevelRequirements::ClearanceAndSeparation::separationMinimaMaintained by airspaceManagement.artcc;
-            satisfy requirement separationMinimaMaintained_tracon :> SystemLevelRequirements::ClearanceAndSeparation::separationMinimaMaintained by airspaceManagement.tracon;
             satisfy requirement conflictsPredicted_atcDs :> SystemLevelRequirements::ClearanceAndSeparation::conflictsPredicted by airspaceManagement.atc.decisionSupport;
             satisfy requirement controllerCrewCommunicationPath_comms :> SystemLevelRequirements::ClearanceAndSeparation::controllerCrewCommunicationPath by aircraftSystems.aircraft.avionics.communicationSystem;
             satisfy requirement controllerCrewCommunicationPath_atc :> SystemLevelRequirements::ClearanceAndSeparation::controllerCrewCommunicationPath by airspaceManagement.atc;
@@ -724,7 +723,8 @@ package SystemLevelRequirements {
 
             // Information for trajectory decisions
             satisfy requirement filedIntentToSectorController_atc :> SystemLevelRequirements::InformationForTrajectoryDecisions::filedIntentToSectorController by airspaceManagement.atc;
-            satisfy requirement filedIntentToSectorController_artcc :> SystemLevelRequirements::InformationForTrajectoryDecisions::filedIntentToSectorController by airspaceManagement.artcc;
+            // D-052: moved from artcc to ATC decision support (EDST), following HLR-ATC-03 (D-051).
+            satisfy requirement filedIntentToSectorController_atcDs :> SystemLevelRequirements::InformationForTrajectoryDecisions::filedIntentToSectorController by airspaceManagement.atc.decisionSupport;
             satisfy requirement decisionInformationToDecidingParty_fms :> SystemLevelRequirements::InformationForTrajectoryDecisions::decisionInformationToDecidingParty by aircraftSystems.aircraft.avionics.flightManagementSystem;
             satisfy requirement decisionInformationToDecidingParty_aoc :> SystemLevelRequirements::InformationForTrajectoryDecisions::decisionInformationToDecidingParty by flightOperations.airlineOperationsCenter;
             satisfy requirement decisionInformationToDecidingParty_atcDs :> SystemLevelRequirements::InformationForTrajectoryDecisions::decisionInformationToDecidingParty by airspaceManagement.atc.decisionSupport;

@@ -24,7 +24,7 @@ terse and current-state-only — narrative reasoning belongs in the daily
 
 ## Blocked
 
-- None. The diagram renderer was blocked from 11-10 to 11-17 ("An Application Control policy has blocked this file"); the owner fixed it on 11-17 by repairing the Java install. All 18 views render; the report is current with the model. See journal 2026-11-17.
+- None. The diagram renderer was blocked by Windows Smart App Control (not Java; confirmed 2026-11-24). The owner turned Smart App Control off on 11-24. All 19 views render, and the report is current with the model through D-052. See journal 2026-11-24.
 
 ## Backlog / ideas
 

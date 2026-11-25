@@ -25,9 +25,9 @@ package CaseCConflictResolve {
      * exchange (clearance, read-back, entry,
      * notice, resume) is the same in every case; only the lifeline and the level change.
      *
-     * Abstraction: the lifeline atc is the sector controller, or the controller team (JO
-     * 7110.65BB 2-10 makes the team responsible); atc stays one box (D-038). Its decision
-     * support has a lifeline of its own, so atc here is ATC without it.
+     * Abstraction: the lifeline atc is ATC's sector team (JO 7110.65BB 2-10 makes the team
+     * responsible), drawn since 2026-11-24 as atc.sectorTeam on the airspace IBD (D-052). Its
+     * decision support has a lifeline of its own, so atc here is ATC without it.
      *
      * Rule (lessons-learned 2026-10-28): every lifeline is a part from the context diagram
      * or an IBD, and every message rides an existing connection or interface. Each message
@@ -35,12 +35,13 @@ package CaseCConflictResolve {
      *
      * GAPS this draft shows (for the model map and open-questions.md):
      *  G1  Closed 2026-11-05 (D-040): the alert and the scored options ride
-     *      advisoriesToController (atc.decisionSupport.advisoriesOut to atc.controllerPosition,
-     *      nas_ibd_airspace_management.sysml).
+     *      advisoriesToController (atc.decisionSupport.advisoriesOut to
+     *      atc.sectorTeam.controllerPosition since D-052, nas_ibd_airspace_management.sysml).
      *  G2  Closed 2026-11-05 (D-040): the share arrives at atc.performanceShareIn
      *      (nas_context_diagram.sysml, airlinePerformanceShare) and rides
      *      shareToDecisionSupport on to atc.decisionSupport, which uses it.
      *  G3  Withdrawn 2026-10-28 (owner): the controller is a stated abstraction, above.
+     *      Closed 2026-11-24 (D-052): the sector team is now a part, atc.sectorTeam.
      *  G4  Three item defs are new in this file (ClearanceReadback, FmsEntry,
      *      TrajectoryChangeNotice): the exchanges existed only as activity steps. The fourth,
      *      ConflictAlert, moved to the definitions with the advisory port (D-040).

@@ -151,7 +151,7 @@ package NationalAirspaceSystem {
 
         port def DecisionSupportAdvisoryPort {
             doc /* Supplier side: ATC decision support to the controller (D-040). The controller's
-             * side is the conjugate, AirTrafficControlSystem::controllerPosition. */
+             * side is the conjugate, SectorTeam::controllerPosition (D-052). */
             out item alert: ConflictAlert;
             out item options: ResolutionAdvisory;
         }
@@ -160,25 +160,53 @@ package NationalAirspaceSystem {
             doc /* ATC's own decision support (D-012): the conflict probe, the trajectory
              * predictor and, in the improved architecture, the option generator and scorer.
              * It receives the airline's performance share passed on from atc's boundary port,
-             * and gives its alerts and scored options to the controller (D-040). Its own type,
-             * so these two ports stay off the other actors' decision support. */
+             * and gives its alerts and scored options to the sector team (D-040, D-052). Its own type,
+             * so these ports stay off the other actors' decision support.
+             * Today this is EDST, "an integrated function of ERAM used by the sector team"
+             * at the en route centers (JO 7110.65BB 13-1-1, 2-10-1), not an ATCSCC tool
+             * (D-050). EDST predicts conflicts from four inputs (13-1-1): track data
+             * (trackDataIn), the current plan (currentPlanIn), aircraft performance
+             * characteristics (generic models inside EDST today; the airline's share in the
+             * improved architecture, performanceShareIn) and forecast winds (not drawn: the
+             * experiment assumes no wind). [A] */
             port performanceShareIn: ~FlightOperations::AirlinePerformanceSharePort;
             port advisoriesOut: DecisionSupportAdvisoryPort;
+            in port trackDataIn;     // track data: ADS-B Out and radar, through atc.surveillanceIn
+            in port currentPlanIn;   // ERAM's current plan: filed plan plus amendments, through atc.flightPlansIn
         }
 
         part def AirTrafficControlSystem {
             doc /* Top-level ATC system node per candidate-systems-inventory.md. */
             // ATC's own decision support (D-012), e.g. conflict probes and trajectory predictors.
             part decisionSupport: AtcDecisionSupport;
+            // The people who decide (D-052): one sector team, the box the decision support's
+            // alerts and scored options reach. Replaces D-038's reading of atc as the controller.
+            part sectorTeam: SectorTeam;
             // Inputs from outside the SoI (D-012). Drawn as ports; the sender is not drawn.
             in port rulesIn;   // Governance: 14 CFR, JO 7110.65 / 7210.3
+            // Inputs from other domains (D-050). Mirror the Airspace Management domain's
+            // boundary ports, so the context diagram and the IBD end on the same port.
+            in port surveillanceIn;   // ADS-B Out and secondary radar replies (atcSurveillance)
+            in port flightPlansIn;    // filed flight plans and amendments (aocFlightPlanFiling)
             // IMPROVED ARCHITECTURE (D-019): receives the airline's performance share for the
             // flights it decides about (SLR-INF-02). That it discloses it to no one else is an
             // assumption, not a requirement (D-020). Conjugate of the AOC's supplier port.
             port performanceShareIn: ~FlightOperations::AirlinePerformanceSharePort;
-            // Where the decision support's alerts and scored options reach the controller
-            // (D-040). atc stands for the sector controller or team and stays one box (D-038),
-            // so the controller's position is a port on atc, not a part of its own.
+            // controllerPosition moved to SectorTeam (D-052): a port on atc's own edge read as
+            // an exit from ATC with nothing connected on the far side.
+        }
+
+        part def SectorTeam {
+            doc /* The controllers who work one sector, as one box (D-052): the people in ATC who
+             * decide. They receive EDST's conflict alerts, scored options and aircraft list at
+             * controllerPosition, answer crew requests and issue clearances. JO 7110.65BB
+             * 2-10-1 makes the team "as a whole" responsible and lets one controller fill
+             * several positions, so the positions (R, RA or D-side, RC, FD) and the facility
+             * supervision above the team are not modeled (interaction-catalog-flight-
+             * execution.md). Which facility the sector belongs to (tower, TRACON, ARTCC) is a
+             * fact about the scenario: the experiment's sector is in Fort Worth Center. [A] */
+            // Where the decision support's alerts, scored options and aircraft list reach the
+            // controllers (D-040; moved here from AirTrafficControlSystem, D-052).
             port controllerPosition: ~DecisionSupportAdvisoryPort;
         }
 
@@ -561,6 +589,10 @@ package NationalAirspaceSystem {
             // fuelDistributionSystem.tanks / .intoPlaneFueler and groundHandling.marshaller.
             // The parts that remain still need evidence for their internal structure.
             attribute operators: Common::Operator[*];
+            // Input from outside the SoI (D-012, D-050). The sponsor's federal obligations
+            // (FAA Order 5190.6C: grant assurances, access, leases) [A]; airport certification
+            // (14 CFR 139) [C], not registered.
+            in port rulesIn;
         }
 
         part def Runway {
@@ -1120,6 +1152,10 @@ package NationalAirspaceSystem {
             // The crew's own decision support (D-012): the electronic flight bag (EFB).
             part electronicFlightBag: DecisionSupport::DecisionSupportSystem;
             perform action preflightCrossCheck: PreflightCrossCheck;
+            // Input from outside the SoI (D-012, D-050). The rules that bound the crew's
+            // decisions: final authority (14 CFR 91.3), complying with a clearance unless in
+            // an emergency (91.123), Part 121, duty limits (Part 117). [C]: not registered.
+            in port rulesIn;
         }
 
         part def Captain {

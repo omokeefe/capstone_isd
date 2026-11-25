@@ -42,9 +42,9 @@ package NASBlockDiagrams {
     // 1. BDD: the NAS and its systems, composition only
     // ==================================================================
     // Same systems as the context diagram (NASContextDiagram's #ContextVisible parts):
-    // the five modeled domains, and inside them atc/atcscc, airlineOperationsCenter,
+    // the five modeled domains, and inside them atc, airlineOperationsCenter,
     // airport, aircraft and flightDeckCrew. Systems the context diagram does not draw
-    // (tracon, artcc, tmu, tfmAutomation, ticketingSystem, cabinCrew) are left untagged,
+    // (atcscc since D-052, tracon, artcc, tmu, tfmAutomation, ticketingSystem, cabinCrew) are left untagged,
     // so they stay in the model and off this view. The Environment block is not drawn
     // either (D-012: what comes from outside is an input port, not a box).
     part def NASStructure {
@@ -60,7 +60,6 @@ package NASBlockDiagrams {
         #BDDVisible part nas: NationalAirspaceSystem::NationalAirspaceSystem {
             #BDDVisible part :>> airspaceManagement: AirspaceManagementDomain {
                 #BDDVisible part :>> atc: AirTrafficControlSystem;
-                #BDDVisible part :>> atcscc: ATCSCC;
             }
             #BDDVisible part :>> flightOperations: FlightOperationsDomain {
                 #BDDVisible part :>> airlineOperationsCenter: AirlineOperationsCenter;
@@ -93,7 +92,9 @@ package NASBlockDiagrams {
             #IBDVisible part :>> airlineOperationsCenter {
                 #IBDVisible part :>> dispatcher;
                 #IBDVisible part :>> flightFollower;
-                #IBDVisible part :>> atcCoordinator;
+                // Not drawn since D-052: the ATC coordinator and tfmRelay carry only traffic
+                // flow management (aocTfm), which the abstracted diagrams do not show.
+                part :>> atcCoordinator;
                 #IBDVisible part :>> loadPlanner;
                 #IBDVisible part :>> maintenanceController;
                 #IBDVisible part :>> crewScheduler;
@@ -107,7 +108,7 @@ package NASBlockDiagrams {
                 #IBDVisible connection weatherToDispatch connect weatherIn to dispatcher;
                 #IBDVisible connection planningSystem connect dispatcher to decisionSupport;
                 #IBDVisible connection releaseHandover connect dispatcher to flightFollower;
-                #IBDVisible connection tfmRelay connect atcCoordinator to dispatcher;
+                connection tfmRelay connect atcCoordinator to dispatcher;   // not drawn, D-052
                 #IBDVisible connection weightNegotiation connect loadPlanner to dispatcher;
                 #IBDVisible connection melDeferrals connect maintenanceController to dispatcher;
                 #IBDVisible connection iropsDispatch connect dutyManager to dispatcher;

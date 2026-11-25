@@ -47,7 +47,8 @@ package ContextDiagram {
         // D-012 (2026-10-08): the environment is in the model but NOT drawn. "Environment"
         // misleads when the thing outside is a passenger or a military airspace schedule
         // rather than law or weather (owner). What comes from outside is drawn as an
-        // input port on the system that receives it (rulesIn, weatherIn, tagged below;
+        // input port on the system that receives it (rulesIn on ATC, the AOC, the airport and
+        // the flight deck crew since D-050; weatherIn; tagged below;
         // specialUseAirspaceIn was removed 2026-11-05, D-040). The links from the environment parts to
         // those ports are at the bottom ("ENVIRONMENT"), untagged.
         part environment: EnvironmentDomain;
@@ -59,19 +60,26 @@ package ContextDiagram {
             // baggage, cargo, maintenance) are ABSORBED: they carry out decisions made
             // elsewhere (owner 2026-09-27), so they appear only as ends of the unrendered
             // aircraft <-> airport and crew <-> airport sets.
-            #ContextVisible part :>> airport;
+            #ContextVisible part :>> airport {
+                in #ContextVisible port :>> rulesIn;
+            }
         }
         #ContextVisible part airspaceMgmt: AirspaceManagementDomain {
             // D-007: MODELED. Tactical control authority (clearances, separation; JO 7110.65BB)
             // directly shapes the flown trajectory; safety + schedule. Rendered.
             #ContextVisible part :>> atc {
                 in #ContextVisible port :>> rulesIn;
+                // D-050: where atcSurveillance arrives. Inside atc it feeds EDST
+                // (decisionSupport.trackDataIn), drawn on the Airspace Management IBD.
+                in #ContextVisible port :>> surveillanceIn;
             }
             // D-007: MODELED. "Final approving authority" for interfacility TMIs (7210.3EE
             // 18-2-3i); EDCT/CTOP/reroutes couple straight to airline decisions; delay cost and
-            // schedule reliability. Rendered (cross-domain link: aocTfm).
-            #ContextVisible part :>> atcscc {
-                in #ContextVisible port :>> weatherIn;
+            // schedule reliability. NOT rendered since D-052 (owner, 2026-11-24): traffic flow
+            // management is not in the experiment, so only the detailed Airspace Management IBD
+            // draws it. Its links (aocTfm, weatherToTfm) stay in the model, unrendered.
+            part :>> atcscc {
+                in port :>> weatherIn;
             }
             // tmu: D-007 MODELED (local TM latitude; 18-2-3 NOTE), but every tmu exchange is
             // inside Airspace Management (ATCSCC <-> TMU <-> controllers), so per D-010 it is
@@ -82,7 +90,10 @@ package ContextDiagram {
         #ContextVisible part aircraftSys: AircraftSystemsDomain {
             // D-007: MODELED. No decision authority, but its execution behavior (FMS intent ->
             // guidance -> motion) IS the end of the intent chain; fuel burn, safety. Rendered.
-            #ContextVisible part :>> aircraft;
+            #ContextVisible part :>> aircraft {
+                // D-050: the start of atcSurveillance (ADS-B Out).
+                out #ContextVisible port :>> adsbOut;
+            }
         }
         #ContextVisible part flightOps: FlightOperationsDomain {
             // D-007: MODELED. Operational control; the dispatcher and captain are jointly
@@ -103,12 +114,15 @@ package ContextDiagram {
             // PIC (14 CFR 91.3) and turns the plan + clearances into FMS intent; safety,
             // workload, fuel. The captain / FO split is not a separate authority at context
             // level, so the two roles live inside flightDeckCrew and aren't rendered.
-            #ContextVisible part :>> flightDeckCrew;
+            #ContextVisible part :>> flightDeckCrew {
+                in #ContextVisible port :>> rulesIn;
+            }
             // cabinCrew: inside the MODELED Flight Crew domain but ABSORBED at context level.
             // No authority over in-scope decisions. They ARE the primary passenger interface
             // and the go-between for passengers and the flight deck, so they carry most of the
             // passenger-satisfaction effect (with gate agents); that belongs in the §7-§9
             // objective work, not on this view (owner, 2026-09-27). Not rendered.
+            // No rulesIn on the cabin crew (D-050): absorbed, and not rendered.
             part :>> cabinCrew;
         }
 
@@ -323,7 +337,10 @@ package ContextDiagram {
         //   (journal 2026-09-27 recommendation).
         //   - Flight plan filing: moved off this view, see aocFlightPlanFiling below.
 
-        #ContextVisible connection aocTfm connect flightOps.airlineOperationsCenter to airspaceMgmt.atcscc;
+        // Not rendered since D-052: the ATCSCC is drawn only on the detailed Airspace
+        // Management IBD. The exchange stays in the model (report Section 4 cites it as the one
+        // place the airline's relative cost reaches an FAA allocation today, CTOP).
+        connection aocTfm connect flightOps.airlineOperationsCenter to airspaceMgmt.atcscc;
         comment about aocTfm /* [A] Traffic flow management / Collaborative Decision Making link.
              * ATCSCC -> operator: EDCTs, TMI advisories (GDP/GS/AFP/CTOP/reroute/diversion
              *   recovery), FEA/FCA publication, CTOP assignments, hotline/telcon content (weather,
@@ -701,7 +718,8 @@ package ContextDiagram {
              * Evidence: owner's professional FMS experience; candidate citations ARINC 702A,
              * FCOM, FAA AC 120-71B (not registered); GreAT D5.1, Mhenni 2016 (registered). */
 
-        #ContextVisible connection atcSurveillance connect airspaceMgmt.atc to aircraftSys.aircraft;
+        // D-050: port to port, so the direction (aircraft out, ATC in) shows on the view.
+        #ContextVisible connection atcSurveillance connect aircraftSys.aircraft.adsbOut to airspaceMgmt.atc.surveillanceIn;
         comment about atcSurveillance /* [A] Surveillance, not command. Aircraft -> ATC: secondary-radar replies with
              * the ATC-assigned beacon code (Mode 3/A) and pressure altitude (Mode C/S), and
              * ADS-B Out broadcasts. ADS-B still requires an operable transponder, and "the
@@ -720,8 +738,10 @@ package ContextDiagram {
              * between the aircraft's true state and ATC's tracked picture is the cyber-physical
              * gap (Mordecai 2018); Mode C validation and CSMM alerts are the order's own checks
              * on that gap.
-             * Sources: JO 7110.65BB 5-1-2, 5-2-1, 5-2-10..5-2-23, 5-3-3; 09-20 lecture capture;
-             * Mordecai 2018. */
+             * Inside ATC the track data feeds EDST's conflict prediction (13-1-1), which alerts
+             * the controller (Airspace Management IBD; D-050).
+             * Sources: JO 7110.65BB 5-1-2, 5-2-1, 5-2-10..5-2-23, 5-3-3, 13-1-1; 09-20 lecture
+             * capture; Mordecai 2018. */
 
         #ContextVisible connection atcAircraftDatalink connect airspaceMgmt.atc to aircraftSys.aircraft;
         comment about atcAircraftDatalink /* [A/B/C] ATS datalink: ATC <-> aircraft through the aircraft's communication
@@ -756,6 +776,10 @@ package ContextDiagram {
         // Rules [A]: 14 CFR 91/121, JO 7110.65BB / 7210.3EE bind the operator and ATC.
         connection rulesToAoc connect environment.governance to flightOps.airlineOperationsCenter.rulesIn;
         connection rulesToAtc connect environment.governance to airspaceMgmt.atc.rulesIn;
+        // D-050. The crew: 14 CFR 91.3, 91.123, Part 121, Part 117 [C]. The airport: FAA
+        // Order 5190.6C sponsor obligations [A], 14 CFR 139 [C].
+        connection rulesToCrew connect environment.governance to flightCrew.flightDeckCrew.rulesIn;
+        connection rulesToAirport connect environment.governance to airportOps.airport.rulesIn;
         // Disturbance [A]: weather drives TMIs and SWAP (7210.3EE 18-15/16), ATIS (BB 2-9) and dispatch planning.
         // TODO(owner, 2026-10-08): why weather ends on the ATCSCC
         // and not the TMU or the controllers needs a rationale (open-questions.md).

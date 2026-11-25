@@ -1,10 +1,23 @@
 % !TEX root = ../main.tex
-\section{Results and Discussion (Preliminary)}
+\section{Results and Discussion}
 \label{sec:results}
 
-\irtwo{Results and Discussion (preliminary). For Interim Report \#2 this section needs: (1) the architecture as it stands (context diagram, aircraft IBD, the three requirements tagged \texttt{improved} as the measured gap) --- the figures are now in Section~\ref{sec:system-model}; (2) the two hand checks from \texttt{experiment-definition.md} \S9 written up as preliminary results; (3) the first OpenAP numbers --- Figure~\ref{fig:fuelflow-altitude} and Table~\ref{tab:outcomes} are in place, the discussion is not; (4) one paragraph on what is not yet done.}
+The following sections describe the results of the model and the experiment, and discuss their implications. 
 
 \subsection{Model Results}
+
+Models of the system were developed in SysML, including a context diagram, a block definition diagram, and a parametric diagram. 
+
+\aidraft{First paragraph corrected 2026-11-24 at the owner's request (D-052): the context diagram no longer draws the ATCSCC. The owner's sentences are kept where still true.}
+The context diagram in Figure~\ref{fig:sysml-systemContext} shows the architecture of the system, composed of the aircraft and its flight crew, the operations center within airline flight operations, and air traffic control within airspace management. The Air Traffic Control System Command Center (ATCSCC), the national-level air traffic control center that manages the overall flow of air traffic in the NAS using traffic management initiatives (TMIs), is not drawn: no initiative is active in the conflict studied, so the ATCSCC and its links appear only on the detailed airspace management internal block diagram (Appendix~\ref{app:architecture}). Within air traffic control, automated decision support helps the controllers identify conflicts between aircraft before they occur; it is drawn on the airspace management internal block diagram (Figure~\ref{fig:sysml-airspaceManagementIbd}). The context diagram shows the system's boundaries and its interactions with external entities. The block definition diagram defines the system's components and their relationships. The parametric diagram captures the constraints and performance measures of the system.
+% ---- end AI draft
+
+Block definition diagrams for each of the constituent systems. Detailed internal block diagrams were developed for the aicraft and its flight crew, the airline operations center, and air traffic control. These diagrams show the internal structure of each system, including the components and their relationships.
+
+Parametric diagrams capture the constraints and performance measures of the system, including fuel consumption, emissions, and delay. 
+
+
+
 \plantodo{S10, S13 (D-028)}{\textbf{Model results.} With the architecture now presented in Section~\ref{sec:system-model}, report its measures here, against the measures named in Section~\ref{sec:deliverables}: for example, how many stakeholder requirements trace to a kept objective, how many system requirements are allocated to a constituent system, and which requirements are tagged \texttt{improved} because today's NAS does not meet them. Without this, the systems engineering work is described but never assessed.}
 
 \plantodo{S13, S15 (step 10, 2026-11-10)}{\textbf{Verification at every level.} Report the verdicts of Table~\ref{tab:thread-trace}, tier by tier. The information requirements, SLR-INF-02 and its HLR HLR-OPS-05 (tagged \texttt{improved}), are not met in cases A and B and are met in cases C and D: the fix sits at the lowest tier, in what flight operations shares. HLR-ATC-08 is met in every case, since the decision support uses the best information it receives (D-046). The decision requirements, SLR-CLR-13 and HLR-ATC-05, -10 and -11 (tagged \texttt{baseline}), are met by every case by its own estimate (D-042 to D-044), with the truth model's impact of each choice reported alongside and not graded. Say what ``not exercised'' (connection priority: no connection at risk in this scenario) and ``not run'' (cost of time: the cost-index variation) leave open. Then state the stakeholder-level reading (validation of SN-AIR-05) from Section~\ref{sec:experiment-results}.}
